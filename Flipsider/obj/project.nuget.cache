@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZrPa/HEOpW7bRc60HA9NbMIerlfoRYQPIDzaq1ZvJddfYZmS27CF6WRBK0o4vD99eefOHDzL/An/PbqJ8/ObGw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\Flipsider\\Flipsider.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tafid\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\tafid\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+  ],
+  "logs": []
+}
