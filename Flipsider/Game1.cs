@@ -6,9 +6,13 @@ namespace Flipsider
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
+        public GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        Texture2D ANN;
+        Vector2 ballPos;
+        float vel;
+        float accell = 0.1f;
+        public static Game1 instance;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -25,8 +29,9 @@ namespace Flipsider
 
         protected override void LoadContent()
         {
+            instance = this;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            ANN = Content.Load<Texture2D>("GF");
             // TODO: use this.Content to load your game content here
         }
 
@@ -34,7 +39,8 @@ namespace Flipsider
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            vel += accell;
+            ballPos.Y += vel;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -44,6 +50,10 @@ namespace Flipsider
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(ANN, ballPos, Color.White);
+            _spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
