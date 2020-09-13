@@ -253,7 +253,7 @@ namespace EEMod
             {
                 if (i == 0)
                 {
-                   // Draw method
+                    DrawMethods.DrawPixel(points[i].point, Color.Black);
                 }
                 else
                 {
@@ -276,7 +276,8 @@ namespace EEMod
                     {
                         Vector2 Lerped = p1 + j * (p2 - p1);
 
-                       // draw method
+                        // draw method
+                        DrawMethods.DrawPixel(Lerped, stickPoints[i].color);
                     }
                 }
             }
@@ -288,7 +289,7 @@ namespace EEMod
         {
             for (int i = 0; i < points.Count; i++)
             {
-                Vector2 size = new Vector2(Game1.instance._graphics.PreferredBackBufferWidth, Game1.instance._graphics.PreferredBackBufferHeight);
+                Vector2 size = new Vector2(Main._graphics.PreferredBackBufferWidth, Main._graphics.PreferredBackBufferHeight);
                 if (!points[i].isStatic)
                 {
                     points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;

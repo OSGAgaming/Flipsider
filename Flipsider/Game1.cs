@@ -1,29 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EEMod;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Flipsider
 {
-    public class Game1 : Game
+    public class Main : Game
     {
-        public GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        Texture2D ANN;
+        public static GraphicsDeviceManager _graphics;
+        public static SpriteBatch _spriteBatch;
         Vector2 ballPos;
         float vel;
         float accell = 0.1f;
-        public static Game1 instance;
-        public Game1()
+        public static Main instance;
+        public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
+        private Verlet verlet;
         protected override void Initialize()
         {
+            verlet = new Verlet();
             // TODO: Add your initialization logic here
-
+            verlet.CreateStickMan(new Vector2(100, 100));
             base.Initialize();
         }
 
@@ -31,7 +33,6 @@ namespace Flipsider
         {
             instance = this;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            ANN = Content.Load<Texture2D>("GF");
             // TODO: use this.Content to load your game content here
         }
 
@@ -39,8 +40,7 @@ namespace Flipsider
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            vel += accell;
-            ballPos.Y += vel;
+            verlet.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -52,7 +52,7 @@ namespace Flipsider
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(ANN, ballPos, Color.White);
+            verlet.GlobalRenderPoints();
             _spriteBatch.End();
             // TODO: Add your drawing code here
 
