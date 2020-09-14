@@ -22,12 +22,20 @@ namespace Flipsider
             IsMouseVisible = true;
         }
 
-        private Verlet verlet;
+        private Verlet verletEngine;
         protected override void Initialize()
         {
-            verlet = new Verlet();
-            // TODO: Add your initialization logic here
-            verlet.CreateStickMan(new Vector2(100, 100));
+            verletEngine = new Verlet();
+            // Verlet examples
+            verletEngine.CreateStickMan(new Vector2(100, 100));
+            verletEngine.CreateVerletSquare(new Vector2(150, 150), 30);
+            int firstPoint = verletEngine.CreateVerletPoint(new Vector2(100, 100),true);
+            int secondPoint = verletEngine.CreateVerletPoint(new Vector2(100, 120));
+            int thirdPoint = verletEngine.CreateVerletPoint(new Vector2(100, 140));
+            int fourthPoint = verletEngine.CreateVerletPoint(new Vector2(100, 160));
+            verletEngine.BindPoints(firstPoint, secondPoint);
+            verletEngine.BindPoints(secondPoint, thirdPoint);
+            verletEngine.BindPoints(thirdPoint, fourthPoint);
             base.Initialize();
         }
 
@@ -35,20 +43,18 @@ namespace Flipsider
         {
             instance = this;
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            verlet.Update();
+            verletEngine.Update();
             if (pixel == null)
             {
                 pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
                 pixel.SetData(new Color[] { Color.White });
             }
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -61,11 +67,9 @@ namespace Flipsider
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
-            verlet.GlobalRenderPoints();
+            verletEngine.GlobalRenderPoints();
             spriteBatch.End();
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
