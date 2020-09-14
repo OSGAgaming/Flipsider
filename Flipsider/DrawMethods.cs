@@ -27,5 +27,13 @@ namespace Flipsider
             DrawLine(point, new Vector2(point.X, point.Y + size), color);
             DrawLine(point, new Vector2(point.X + size, point.Y), color);
         }
+
+        public static void DrawRectangle(Vector2 point, float sizeX, float sizeY, Color color)
+        {
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color);
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color);
+            DrawLine(point, new Vector2(point.X, point.Y + sizeY), color);
+            DrawLine(point, new Vector2(point.X + sizeX, point.Y), color);
+        }
     }
 }

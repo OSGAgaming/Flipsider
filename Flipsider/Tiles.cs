@@ -26,9 +26,16 @@ namespace Flipsider
         {
             if(Main.EditorMode)
             {
-                MouseState state = Mouse.GetState();
-                Point tilePoint = new Point(state.Position.X / tileRes, state.Position.Y / tileRes);
-                Main.tiles[tilePoint.X, tilePoint.Y] = 1;
+                try
+                {
+                    MouseState state = Mouse.GetState();
+                    Point tilePoint = new Point(state.Position.X / tileRes, state.Position.Y / tileRes);
+                    Main.tiles[tilePoint.X, tilePoint.Y] = 1;
+                }
+                catch
+                {
+                    Debug.Write("Just put the cursor in your ass next time eh?");
+                }
             }
         }
 
