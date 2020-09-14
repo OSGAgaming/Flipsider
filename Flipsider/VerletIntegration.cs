@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace EEMod
+namespace Flipsider
 {
     public class Verlet
     {
@@ -16,11 +16,9 @@ namespace EEMod
         float bounce = 0.9f;
         public static List<Stick> stickPoints = new List<Stick>();
         public static List<Point> points = new List<Point>();
-
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
         {
-            var rand = new Random();
-            points.Add(new Point(pos, pos - new Vector2(rand.Next(-10, 10), rand.Next(-10, 10)), isStatic));
+            points.Add(new Point(pos, pos - new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), isStatic));
 
             return points.Count - 1;
         }
@@ -270,15 +268,7 @@ namespace EEMod
                 {
                     Vector2 p1 = points[stickPoints[i].a].point;
                     Vector2 p2 = points[stickPoints[i].b].point;
-                    float Dist = Vector2.Distance(p1, p2);
-
-                    for (float j = 0; j < 1; j += 1 / Dist)
-                    {
-                        Vector2 Lerped = p1 + j * (p2 - p1);
-
-                        // draw method
-                        DrawMethods.DrawPixel(Lerped, stickPoints[i].color);
-                    }
+                    DrawMethods.DrawLine(p1, p2, stickPoints[i].color);
                 }
             }
         }
@@ -289,7 +279,7 @@ namespace EEMod
         {
             for (int i = 0; i < points.Count; i++)
             {
-                Vector2 size = new Vector2(Main._graphics.PreferredBackBufferWidth, Main._graphics.PreferredBackBufferHeight);
+                Vector2 size = new Vector2(Main.graphics.PreferredBackBufferWidth, Main.graphics.PreferredBackBufferHeight);
                 if (!points[i].isStatic)
                 {
                     points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;
