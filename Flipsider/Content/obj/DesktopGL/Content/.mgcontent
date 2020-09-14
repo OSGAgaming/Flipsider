@@ -4,9 +4,11 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png</File>
     <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

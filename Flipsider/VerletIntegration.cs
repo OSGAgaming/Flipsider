@@ -279,7 +279,7 @@ namespace Flipsider
         {
             for (int i = 0; i < points.Count; i++)
             {
-                Vector2 size = new Vector2(Main.graphics.PreferredBackBufferWidth, Main.graphics.PreferredBackBufferHeight);
+                Vector2 size = Main.screenSize;
                 if (!points[i].isStatic)
                 {
                     points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;

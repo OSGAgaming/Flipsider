@@ -19,5 +19,13 @@ namespace Flipsider
                 DrawPixel(Lerped, tint);
             }
         }
+
+        public static void DrawSquare(Vector2 point, float size, Color color)
+        {
+            DrawLine(new Vector2(point.X + size, point.Y + size), new Vector2(point.X, point.Y + size), color);
+            DrawLine(new Vector2(point.X + size, point.Y + size), new Vector2(point.X + size, point.Y ), color);
+            DrawLine(point, new Vector2(point.X, point.Y + size), color);
+            DrawLine(point, new Vector2(point.X + size, point.Y), color);
+        }
     }
 }
