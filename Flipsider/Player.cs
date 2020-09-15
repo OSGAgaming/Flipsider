@@ -165,16 +165,19 @@ namespace Flipsider
 
             friction = 0.91f;
 
-            if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+            if (onGround)
             {
-                velocity.X += acceleration;
-                friction = 0.99f;
-            }
+                if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+                {
+                    velocity.X += acceleration;
+                    friction = 0.99f;
+                }
 
-            if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
-            {
-                velocity.X -= acceleration;
-                friction = 0.99f;
+                if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+                {
+                    velocity.X -= acceleration;
+                    friction = 0.99f;
+                }
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
