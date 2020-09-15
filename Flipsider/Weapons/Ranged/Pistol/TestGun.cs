@@ -13,4 +13,9 @@ namespace Flipsider.Weapons.Ranged.Pistol
             Camera.screenShake += 10;
         }
     }
+
+    class TestBullet : Entity
+    {
+        
+    }
 }

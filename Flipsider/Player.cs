@@ -38,7 +38,6 @@ namespace Flipsider
 
         public void Update()
         {
-
             ResetVars();
             CoreUpdates();
             PlayerInputs();
@@ -165,7 +164,7 @@ namespace Flipsider
 
             friction = 0.91f;
 
-            if (onGround)
+            if (!onGround)
             {
                 if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
                 {

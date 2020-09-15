@@ -21,10 +21,13 @@ namespace Flipsider.GUI
             }
         }
 
+        protected virtual void OnUpdate() { }
+
         public void Update()
         {
             if (active)
             {
+                OnUpdate();
                 foreach (UIElement element in elements)
                 {
                     element.Update();

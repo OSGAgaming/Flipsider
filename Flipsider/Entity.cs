@@ -21,6 +21,7 @@ namespace Flipsider
 		public Vector2 oldPosition;
 
 		public Vector2 oldVelocity;
+
 		public Vector2 Center
 		{
 			get

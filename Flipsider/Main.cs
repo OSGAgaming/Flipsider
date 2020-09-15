@@ -12,7 +12,7 @@ namespace Flipsider
 {
     public class Main : Game
     {
-        private Hud hud = new Hud();
+        private Hud hud;
 
         //Terraria PTSD
         public static GraphicsDeviceManager graphics;
@@ -42,7 +42,7 @@ namespace Flipsider
             get => 1000;
         }
 
-        public static Vector2 ScreenSize => graphics == null ? Vector2.Zero : new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => Mouse.GetState().Position;
         public static int[,] tiles;
 
@@ -52,6 +52,8 @@ namespace Flipsider
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
+
+            hud = new Hud();
         }
 
         private Verlet verletEngine;
@@ -155,8 +157,10 @@ namespace Flipsider
             }
             ControlEditorScreen();
             scrollBuffer = mouseState.ScrollWheelValue;
+            hud.Update();
             base.Update(gameTime);
         }
+
         void SwitchModes()
         {
             delay = 30;
@@ -170,6 +174,7 @@ namespace Flipsider
                 targetScale = 1.2f;
             }
         }
+
         void ControlEditorScreen()
         {
             mainCamera.FixateOnPlayer(player);
