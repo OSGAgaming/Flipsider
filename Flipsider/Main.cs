@@ -5,11 +5,15 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
+using Flipsider.GUI;
+using Flipsider.GUI.HUD;
 
 namespace Flipsider
 {
     public class Main : Game
     {
+        private Hud hud = new Hud();
+
         //Terraria PTSD
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
@@ -38,8 +42,8 @@ namespace Flipsider
             get => 1000;
         }
 
-        public static Vector2 screenSize => new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-        public static Point mouseScreen => Mouse.GetState().Position;
+        public static Vector2 ScreenSize => new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        public static Point MouseScreen => Mouse.GetState().Position;
         public static int[,] tiles;
 
         public Main()
@@ -207,18 +211,31 @@ namespace Flipsider
             }
             mainCamera.scale += (targetScale - mainCamera.scale) / 16f;
         }
+
         protected override void UnloadContent()
         {
             pixel.Dispose();
             base.UnloadContent();
         }
+
         void Render()
         {
             player.RenderPlayer();
             verletEngine.GlobalRenderPoints();
             TileManager.ShowTileCursor();
             TileManager.RenderTiles();
+
+            RenderUI();
         }
+
+        void RenderUI()
+        {
+            spriteBatch.End();
+            spriteBatch.Begin();
+            hud.Draw(spriteBatch);
+            spriteBatch.End();
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

@@ -14,7 +14,7 @@ namespace Flipsider
         public Vector2 Center => position + new Vector2(width / 2f, height / 2f);
         public float acceleration = 0.15f;
         public float gravity = 0.2f;
-        public Vector2 airResistance = new Vector2(0.97f);
+        public Vector2 airResistance = new Vector2(0.97f, 0.995f);
         public int width = 40;
         public int height = 72;
         float jumpheight = 10;
@@ -23,8 +23,8 @@ namespace Flipsider
         public int spriteDirection;
         bool isColliding;
 
-        Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
-        Weapon rightWeapon;
+        public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
+        public Weapon rightWeapon;
 
         public Player(Vector2 position)
         {
@@ -39,7 +39,6 @@ namespace Flipsider
 
         public void Update()
         {
-            airResistance = 0.995f;
 
             ResetVars();
             CoreUpdates();
@@ -185,9 +184,9 @@ namespace Flipsider
 
         void Constraints()
         {
-            position.Y = MathHelper.Clamp(position.Y,0,Main.screenSize.Y - height);
+            position.Y = MathHelper.Clamp(position.Y,0,Main.ScreenSize.Y - height);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if(position.Y >= Main.screenSize.Y - height)
+            if(position.Y >= Main.ScreenSize.Y - height)
             {
                 onGround = true;
                 velocity.Y = 0;

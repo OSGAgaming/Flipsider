@@ -174,19 +174,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tafid\\.nuget\\packages\\": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tafid\\source\\repos\\Flipsider\\Flipsider\\Flipsider.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Desktop\\Flipsider\\Flipsider\\Flipsider.csproj",
       "projectName": "Flipsider",
-      "projectPath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\Flipsider\\Flipsider.csproj",
-      "packagesPath": "C:\\Users\\tafid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\Flipsider\\obj\\",
+      "projectPath": "C:\\Users\\Alex\\Desktop\\Flipsider\\Flipsider\\Flipsider.csproj",
+      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alex\\Desktop\\Flipsider\\Flipsider\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\tafid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

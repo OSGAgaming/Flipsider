@@ -35,8 +35,8 @@ namespace Flipsider
             var shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
 
             playerpos += (player.Center - playerpos) / 32f;
-            int width = (int)Main.screenSize.X;
-            int height = (int)Main.screenSize.Y;
+            int width = (int)Main.ScreenSize.X;
+            int height = (int)Main.ScreenSize.Y;
 
             playerpos += offset;
 
@@ -56,7 +56,7 @@ namespace Flipsider
                  Matrix.CreateTranslation(new Vector3(-playerpos + shake, 0)) *
                  Matrix.CreateScale(GetScreenScale()) *
                  Matrix.CreateRotationZ(rotation) *
-                 Matrix.CreateTranslation(Main.screenSize.X / 2, Main.screenSize.Y / 2, 0);
+                 Matrix.CreateTranslation(Main.ScreenSize.X / 2, Main.ScreenSize.Y / 2, 0);
         }
 
     }

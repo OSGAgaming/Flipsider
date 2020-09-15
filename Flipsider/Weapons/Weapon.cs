@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Weapons
 {
-    class Weapon
+    public class Weapon
     {
         Texture2D inventoryIcon;
 

@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/char.xnb","TextureProcessor","Texture2DContent",980,14485,0.1231582
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb","FontDescriptionProcessor","SpriteFontContent",2008,37922,0.0898201
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GF.xnb","TextureProcessor","Texture2DContent",21477,375061,0.0098038
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/char.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/char.xnb","TextureProcessor","Texture2DContent",980,14485,0.12926
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/FlipFont.spritefont","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,37922,0.0836142
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GF.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GF.xnb","TextureProcessor","Texture2DContent",21477,375061,0.0102005
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/HudSlot.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb","TextureProcessor","Texture2DContent",225,2389,0.1512575
