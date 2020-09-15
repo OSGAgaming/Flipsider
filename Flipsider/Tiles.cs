@@ -29,7 +29,8 @@ namespace Flipsider
                 try
                 {
                     MouseState state = Mouse.GetState();
-                    Point tilePoint = new Point(state.Position.X / tileRes, state.Position.Y / tileRes);
+                    Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
+                    Point tilePoint = new Point((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
                     Main.tiles[tilePoint.X, tilePoint.Y] = 1;
                 }
                 catch
@@ -41,9 +42,9 @@ namespace Flipsider
 
         public static void RenderTiles()
         {
-            for(int i = 0; i< Main.tiles.GetLength(0); i++)
+            for(int i = 0; i< Main.MaxTilesX; i++)
             {
-                for(int j = 0; j< Main.tiles.GetLength(1);j++)
+                for(int j = 0; j< Main.MaxTilesY; j++)
                 {
                     if(Main.tiles[i,j] == 1)
                     {
@@ -57,7 +58,8 @@ namespace Flipsider
             if (Main.EditorMode)
             {
                 MouseState state = Mouse.GetState();
-                Vector2 tilePoint = new Vector2(state.Position.X / tileRes * tileRes, state.Position.Y / tileRes * tileRes);
+                Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
+                Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds*6);
                 DrawMethods.DrawSquare(tilePoint, tileRes, Color.White * Math.Abs(sine));
             }

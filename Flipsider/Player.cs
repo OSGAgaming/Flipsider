@@ -70,15 +70,15 @@ namespace Flipsider
         void TileCollisions()
         {
             float up = -1;
-            float down = Main.tiles.GetLength(1);
+            float down = Main.MaxTilesX;
             float left = -1;
-            float right = Main.tiles.GetLength(0);
+            float right = Main.MaxTilesY;
 
 
             int res = TileManager.tileRes;
-            for (int i = 0; i < Main.tiles.GetLength(0); i++)
+            for (int i = 0; i < Main.MaxTilesX; i++)
             {
-                for (int j = 0; j < Main.tiles.GetLength(1); j++)
+                for (int j = 0; j < Main.MaxTilesY; j++)
                 {
                     if (Main.tiles[i,j] == 1)
                     {
@@ -163,7 +163,7 @@ namespace Flipsider
         void Constraints()
         {
             position.Y = MathHelper.Clamp(position.Y,0,Main.screenSize.Y - height);
-            position.X = MathHelper.Clamp(position.X, 0, Main.screenSize.X - width);
+            position.X = MathHelper.Clamp(position.X, 0, 100000);
             if(position.Y >= Main.screenSize.Y - height)
             {
                 onGround = true;
