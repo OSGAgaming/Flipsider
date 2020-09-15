@@ -18,5 +18,10 @@ Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
 *.ide-wal
 *.cache
 *.cache
+.vs/Flipsider/v16/Server/sqlite3/storage.ide
+.vs/Flipsider/v16/.suo
 *.dll
 *.pdb
+*.ide
+*.cache
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.pdb

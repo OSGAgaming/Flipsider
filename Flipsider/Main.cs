@@ -27,16 +27,21 @@ namespace Flipsider
         public float targetScale = 1;
         private int scrollBuffer;
         int delay;
+
         public static int MaxTilesX
         {
             get => 1000;
         }
+
         public static int MaxTilesY
         {
             get => 1000;
         }
+
         public static Vector2 screenSize => new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        public static Point mouseScreen => Mouse.GetState().Position;
         public static int[,] tiles;
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -104,9 +109,7 @@ namespace Flipsider
             TextureCache.LoadTextures();
             instance = this;
             
-
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            spriteBatch = new SpriteBatch(GraphicsDevice);         
         }
 
         protected override void Update(GameTime gameTime)
