@@ -42,7 +42,7 @@ namespace Flipsider
             get => 1000;
         }
 
-        public static Vector2 ScreenSize => new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        public static Vector2 ScreenSize => graphics == null ? Vector2.Zero : new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         public static Point MouseScreen => Mouse.GetState().Position;
         public static int[,] tiles;
 
@@ -232,8 +232,9 @@ namespace Flipsider
         {
             spriteBatch.End();
             spriteBatch.Begin();
+            hud.active = true;
             hud.Draw(spriteBatch);
-            spriteBatch.End();
+            //spriteBatch.End();
         }
 
         protected override void Draw(GameTime gameTime)

@@ -33,7 +33,7 @@ namespace Flipsider.GUI
             dimensions = new Rectangle(x, y, width, height);
         }
 
-        public void SetDimensions(float x, float y, int width, int height)
+        public void SetDimensionsPercentage(float x, float y, int width, int height)
         {
             dimensions = new Rectangle((int)(x * Main.ScreenSize.X), (int)(y * Main.ScreenSize.Y), width, height);
         }
