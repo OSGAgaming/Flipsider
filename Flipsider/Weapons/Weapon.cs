@@ -8,7 +8,7 @@ namespace Flipsider.Weapons
 {
     public class Weapon
     {
-        Texture2D inventoryIcon;
+        public Texture2D inventoryIcon;
 
         public int damage;
         public int delay;
@@ -35,7 +35,7 @@ namespace Flipsider.Weapons
 
         public virtual void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
         {
-            spriteBatch.Draw(inventoryIcon, pos, Color.White);
+            if(inventoryIcon != null) spriteBatch.Draw(inventoryIcon, pos, Color.White);
         }
 
         public virtual void Activate()

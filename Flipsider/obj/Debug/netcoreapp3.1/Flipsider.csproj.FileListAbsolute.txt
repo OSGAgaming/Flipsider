@@ -55,3 +55,5 @@ C:\Users\Alex\Desktop\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.dll
 C:\Users\Alex\Desktop\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.pdb
 C:\Users\Alex\Desktop\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.genruntimeconfig.cache
 C:\Users\Alex\Desktop\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\MagicPixel.xnb
+C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\TestGun.xnb

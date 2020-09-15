@@ -6,13 +6,17 @@ namespace Flipsider.Weapons
 {
     class RangedWeapon : Weapon
     {
+        public int maxAmmo;
         public int ammo;
-        private int reload;
+        protected int reload;
         public int reloadTime;
 
         public bool reloading => reload > 0;
 
-        public RangedWeapon(int damage, int delay, int maxCombo) : base(damage, delay, maxCombo) { }
+        public RangedWeapon(int damage, int delay, int maxCombo) : base(damage, delay, maxCombo)
+        {
+            ammo = maxAmmo;
+        }
 
         public sealed override void Activate()
         {
@@ -42,7 +46,11 @@ namespace Flipsider.Weapons
             }
 
             if (reloading)
+            {
                 reload--;
+                if (reload <= 0)
+                    ammo = maxAmmo;
+            }
         }
     }
 }

@@ -2,4 +2,6 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/char.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/char.xnb","TextureProcessor","Texture2DContent",980,14485,0.1296112
 "C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/FlipFont.spritefont","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,37922,0.0846298
 "C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GF.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GF.xnb","TextureProcessor","Texture2DContent",21477,375061,0.0109755
-"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/HudSlot.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb","TextureProcessor","Texture2DContent",225,2389,0.0013444
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/HudSlot.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb","TextureProcessor","Texture2DContent",381,9301,0.1312678
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/MagicPixel.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/MagicPixel.xnb","TextureProcessor","Texture2DContent",78,101,0.1336348
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/TestGun.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/TestGun.xnb","TextureProcessor","Texture2DContent",417,9301,0.1502632
