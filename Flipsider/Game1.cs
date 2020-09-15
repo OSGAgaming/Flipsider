@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using Microsoft.Xna.Framework.Content;
+using System.Diagnostics;
+
 namespace Flipsider
 {
     public class Main : Game
@@ -19,6 +21,8 @@ namespace Flipsider
         public static bool EditorMode;
         public static GameTime gameTime;
         public static  ContentManager Contents;
+        public static Camera mainCamera;
+        public static float Scale;
         public static Vector2 screenSize => new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         public static int[,] tiles;
         public Main()
@@ -26,11 +30,15 @@ namespace Flipsider
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Scale = graphics.PreferredBackBufferWidth / 320;
         }
 
         private Verlet verletEngine;
         protected override void Initialize()
         {
+            graphics.PreferredBackBufferWidth = 640;
+            graphics.PreferredBackBufferHeight = 500;
+            graphics.PreferMultiSampling = false;
             tiles = new int[(int)screenSize.X / TileManager.tileRes, (int)screenSize.Y / TileManager.tileRes];
             verletEngine = new Verlet();
             // Verlet examples
@@ -51,6 +59,7 @@ namespace Flipsider
         protected override void LoadContent()
         {
             Contents = Content;
+            mainCamera = new Camera();
             TextureCache.LoadTextures();
             instance = this;
             player = new Player(new Vector2(100, 100));
@@ -83,7 +92,18 @@ namespace Flipsider
 
             verletEngine.Update();
             player.Update();
+            mainCamera.FixateOnPlayer(player);
 
+            if(EditorMode)
+            {
+                mainCamera.scale += (0.7f - mainCamera.scale)/16f;
+            }
+            else
+            {
+                mainCamera.scale += (1 - mainCamera.scale) / 16f;
+            }
+            mainCamera.rotation = 0;
+            Debug.Write(screenSize);
             base.Update(gameTime);
         }
         protected override void UnloadContent()
@@ -101,7 +121,7 @@ namespace Flipsider
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: mainCamera.Transform);
             Render();
             spriteBatch.End();
 

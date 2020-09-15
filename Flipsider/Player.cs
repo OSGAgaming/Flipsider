@@ -14,9 +14,9 @@ namespace Flipsider
         public float acceleration = 0.1f;
         public float gravity = 0.2f;
         public float airResistance = 0.97f;
-        private int width = 40;
+        public int width = 40;
         private int offsetX = 5;
-        private int height = 72;
+        public int height = 72;
         float jumpheight = 10;
         public bool onGround;
         public float friction = 0.96f;
