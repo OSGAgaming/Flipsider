@@ -20,8 +20,15 @@ namespace Flipsider
         public int spriteDirection;
         bool isColliding;
 
+        public int life = 90;
+        public int maxLife = 100;
+        public float percentLife => life / (float)maxLife;
+
         public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
         public Weapon rightWeapon = new Weapons.Ranged.Pistol.TestGun2(); //Temporary
+
+        public Weapon leftWeaponStore;
+        public Weapon rightWeaponStore;
 
         public bool usingWeapon => leftWeapon.active || rightWeapon.active;
 
@@ -30,6 +37,31 @@ namespace Flipsider
             this.position = position;
             width = 40;
             height = 72;
+        }
+
+        //TODO: Move this somewhere else later
+        public int swapTimer;
+        public bool Swapping => swapTimer > 0;
+
+        void SwapWeapons()
+        {
+            swapTimer++;
+
+            if(swapTimer == 15)
+            {
+                SwapWeapon(ref leftWeapon, ref leftWeaponStore);
+                SwapWeapon(ref rightWeapon, ref rightWeaponStore);
+            }
+
+            if (swapTimer >= 30)
+                swapTimer = 0;
+        }
+
+        void SwapWeapon(ref Weapon first, ref Weapon second)
+        {
+            var temp = first;
+            first = second;
+            second = temp;
         }
 
         void ResetVars()
@@ -47,8 +79,10 @@ namespace Flipsider
             TileCollisions();
             PostUpdates();
 
-            leftWeapon.UpdatePassive();
-            rightWeapon.UpdatePassive();
+            leftWeapon?.UpdatePassive();
+            rightWeapon?.UpdatePassive();
+
+            if (Swapping) SwapWeapons(); //TODO: move this
         }
 
         void CoreUpdates()
@@ -165,7 +199,7 @@ namespace Flipsider
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
-            friction = 0.91f;
+            friction = 0.89f;
             if (!onGround) airResistance.X = 0.97f;
             else airResistance.X = 0.985f;
 
@@ -181,11 +215,16 @@ namespace Flipsider
                 friction = 0.99f;
             }
 
+            if (state.IsKeyDown(Keys.X) && !Swapping)
+            {
+                swapTimer = 1;
+            }
+
             if (mouseState.LeftButton == ButtonState.Pressed)
-                leftWeapon.Activate(this);
+                leftWeapon?.Activate(this);
 
             if (mouseState.RightButton == ButtonState.Pressed)
-                rightWeapon.Activate(this);
+                rightWeapon?.Activate(this);
         }
 
         void Constraints()

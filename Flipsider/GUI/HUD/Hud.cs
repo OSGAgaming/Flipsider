@@ -12,6 +12,8 @@ namespace Flipsider.GUI.HUD
         WeaponIcon leftIcon = new WeaponIcon();
         WeaponIcon rightIcon = new WeaponIcon();
 
+        ResourceBar healthBar = new ResourceBar();
+
         public Hud()
         {
             leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 64, 48, 48);
@@ -21,6 +23,9 @@ namespace Flipsider.GUI.HUD
             rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
             //rightIcon.weapon = Main.player.rightWeapon;
             elements.Add(rightIcon);
+
+            healthBar.SetDimensions(10, 10, 100, 16);
+            elements.Add(healthBar);
         }
 
         protected override void OnUpdate()
@@ -30,6 +35,9 @@ namespace Flipsider.GUI.HUD
 
             rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
             rightIcon.weapon = Main.player.rightWeapon;
+
+            healthBar.SetDimensions(10, 10, 200, 24);
+            healthBar.amount = Main.player.percentLife;
         }
     }
 
@@ -39,8 +47,35 @@ namespace Flipsider.GUI.HUD
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureCache.hudSlot, dimensions, Color.White);
-            weapon?.DrawInventory(spriteBatch, dimensions.Location.ToVector2());
+            float progress = Main.player.swapTimer < 15 ? Main.player.swapTimer / 30f : 1 - Main.player.swapTimer / 30f;
+            Vector2 off = Vector2.SmoothStep(new Vector2(0, 0), new Vector2(8, -8), progress);
+            Vector2 off2 = Vector2.SmoothStep(new Vector2(8, -8), new Vector2(0, 0), progress);
+
+            Rectangle target = new Rectangle(dimensions.X + (int)off.X, dimensions.Y + (int)off.Y, 48, 48);
+            Rectangle target2 = new Rectangle(dimensions.X + (int)off2.X, dimensions.Y + (int)off2.Y, 48, 48);
+
+            Color color = Color.Lerp(Color.White, Color.Gray, progress);
+            Color color2 = Color.Lerp(Color.Gray, Color.White, progress);
+
+            spriteBatch.Draw(TextureCache.hudSlot, target2, color2);
+            spriteBatch.Draw(TextureCache.hudSlot, target, color);
+
+            weapon?.DrawInventory(spriteBatch, dimensions.Location.ToVector2() + off);
+        }
+    }
+
+    class ResourceBar : UIElement
+    {
+        public float amount;
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Rectangle target = new Rectangle(dimensions.X + 2, dimensions.Y + 2, (int)((dimensions.Width - 4) * amount), dimensions.Height - 4);
+
+            Color color = Color.Lerp(Color.Red, Color.LimeGreen, amount);
+
+            spriteBatch.Draw(TextureCache.magicPixel, dimensions, Color.Black);
+            spriteBatch.Draw(TextureCache.magicPixel, target, color);
         }
     }
 }

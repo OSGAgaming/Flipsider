@@ -17,7 +17,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
 
         protected override void OnActivate()
         {
-            Camera.screenShake += 2;
+            Camera.screenShake += 4;
             inventoryIcon = TextureCache.testGun;
         }
 

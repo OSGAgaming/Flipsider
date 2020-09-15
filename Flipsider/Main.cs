@@ -7,12 +7,16 @@ using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
 using Flipsider.GUI;
 using Flipsider.GUI.HUD;
+using System.Collections.Generic;
 
 namespace Flipsider
 {
     public class Main : Game
     {
         private Hud hud;
+
+        //Terraria PTSD 2
+        public static List<Entity> entities = new List<Entity>();
 
         //Terraria PTSD
         public static GraphicsDeviceManager graphics;
@@ -120,6 +124,13 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
+            //TODO: Move this later
+            for(int k = 0; k < entities.Count; k++)
+            {
+                Entity entity = entities[k];
+                entity.Update();
+            }
+
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30);
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30);
             if (delay > 0)
@@ -225,6 +236,13 @@ namespace Flipsider
 
         void Render()
         {
+            //TODO: Move this later
+            for (int k = 0; k < entities.Count; k++)
+            {
+                Entity entity = entities[k];
+                entity.Draw(spriteBatch);
+            }
+
             player.RenderPlayer();
             verletEngine.GlobalRenderPoints();
             TileManager.ShowTileCursor();
