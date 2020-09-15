@@ -39,6 +39,8 @@ namespace Flipsider
 
         public void Update()
         {
+            airResistance = 0.995f;
+
             ResetVars();
             CoreUpdates();
             PlayerInputs();
@@ -163,18 +165,18 @@ namespace Flipsider
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
-            friction = 0.95f;
+            friction = 0.92f;
 
             if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
                 velocity.X += acceleration;
-                friction = 1;
+                friction = 0.98f;
             }
 
             if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
             {
                 velocity.X -= acceleration;
-                friction = 1;
+                friction = 0.98f;
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
