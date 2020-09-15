@@ -18,9 +18,9 @@ namespace Flipsider.Weapons
             ammo = maxAmmo;
         }
 
-        public sealed override void Activate()
+        public sealed override void Activate(Player player)
         {
-            if (!CanUse() || reloading) return;
+            if (!CanUse(player) || reloading) return;
 
             activeTimeLeft = delay;
             comboState++;

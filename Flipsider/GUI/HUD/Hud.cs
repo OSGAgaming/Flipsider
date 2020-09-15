@@ -29,7 +29,7 @@ namespace Flipsider.GUI.HUD
             leftIcon.weapon = Main.player.leftWeapon;
 
             rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
-            //rightIcon.weapon = Main.player.rightWeapon;
+            rightIcon.weapon = Main.player.rightWeapon;
         }
     }
 

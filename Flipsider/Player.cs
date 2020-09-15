@@ -21,7 +21,9 @@ namespace Flipsider
         bool isColliding;
 
         public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
-        public Weapon rightWeapon;
+        public Weapon rightWeapon = new Weapons.Ranged.Pistol.TestGun2(); //Temporary
+
+        public bool usingWeapon => leftWeapon.active || rightWeapon.active;
 
         public Player(Vector2 position)
         {
@@ -46,6 +48,7 @@ namespace Flipsider
             PostUpdates();
 
             leftWeapon.UpdatePassive();
+            rightWeapon.UpdatePassive();
         }
 
         void CoreUpdates()
@@ -62,7 +65,7 @@ namespace Flipsider
             {
                 velocity.X *= friction;
             }
-            if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W))
+            if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space))
             {
                 Jump();
             }
@@ -179,7 +182,10 @@ namespace Flipsider
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
-                leftWeapon.Activate();
+                leftWeapon.Activate(this);
+
+            if (mouseState.RightButton == ButtonState.Pressed)
+                rightWeapon.Activate(this);
         }
 
         void Constraints()

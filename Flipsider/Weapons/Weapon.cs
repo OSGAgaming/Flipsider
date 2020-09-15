@@ -18,7 +18,7 @@ namespace Flipsider.Weapons
         protected readonly int maxCombo;
 
         public bool active => activeTimeLeft > 0;
-        public int activeTime => delay = activeTimeLeft;
+        public int activeTime => delay - activeTimeLeft;
 
         public Weapon(int damage, int delay, int maxCombo)
         {
@@ -31,16 +31,16 @@ namespace Flipsider.Weapons
 
         public virtual void UpdateActive() { }
 
-        public virtual bool CanUse() => !active;
+        public virtual bool CanUse(Player player) => !player.usingWeapon;
 
         public virtual void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
         {
             if(inventoryIcon != null) spriteBatch.Draw(inventoryIcon, pos, Color.White);
         }
 
-        public virtual void Activate()
+        public virtual void Activate(Player player)
         {
-            if (!CanUse()) return;
+            if (!CanUse(player)) return;
 
             activeTimeLeft = delay;
             comboState++;
