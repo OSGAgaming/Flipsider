@@ -128,6 +128,10 @@ namespace Flipsider
             {
                 TileManager.AddTile();
             }
+            if (mouseState.RightButton == ButtonState.Pressed)
+            {
+                TileManager.RemoveTile();
+            }
             //I was lazy to make another instance variable, so I just calculated my average press time lol
             if (state.IsKeyDown(Keys.Z) && delay == 0)
             {
