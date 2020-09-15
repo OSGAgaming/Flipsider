@@ -12,13 +12,14 @@ namespace Flipsider
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
         struct Tile
         {
-            public int type;
-            public int style;
-            public Tile(int type, int style)
+            public Texture2D atlas;
+            public Rectangle frame;
+            public Tile(Texture2D atlas, Rectangle frame)
             {
-                this.type = type;
-                this.style = style;
+                this.atlas = atlas;
+                this.frame = frame;
             }
+            public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
         
 

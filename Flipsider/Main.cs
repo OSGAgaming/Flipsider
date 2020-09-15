@@ -155,8 +155,11 @@ namespace Flipsider
             verletEngine.Update();
             if (!EditorMode)
             {
-                foreach (var entity in entities)
-                    entity.Update();
+                for(int i = 0; i<entities.Count; i++)
+                {
+                    entities[i].Update();
+                    entities[i].UpdateTrailCache();
+                }
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
             ControlEditorScreen();
@@ -243,7 +246,6 @@ namespace Flipsider
             spriteBatch.Begin();
             hud.active = true;
             hud.Draw(spriteBatch);
-            
             //debuganthinghere
             spriteBatch.DrawString(font, player.onGround.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
             fps.DrawFps(spriteBatch, font, new Vector2(650, 100).ToScreen(), Color.BlanchedAlmond);
