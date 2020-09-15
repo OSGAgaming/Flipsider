@@ -15,11 +15,10 @@ namespace Flipsider
         public float gravity = 0.2f;
         public float airResistance = 0.97f;
         public int width = 40;
-        private int offsetX = 5;
         public int height = 72;
         float jumpheight = 10;
         public bool onGround;
-        public float friction = 0.96f;
+        public float friction = 0.982f;
         public int spriteDirection;
         bool isColliding;
 
