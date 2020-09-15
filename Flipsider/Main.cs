@@ -124,13 +124,6 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
-            //TODO: Move this later
-            for(int k = 0; k < entities.Count; k++)
-            {
-                Entity entity = entities[k];
-                entity.Update();
-            }
-
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30) + player.velocity;
 
@@ -164,8 +157,12 @@ namespace Flipsider
             verletEngine.Update();
             if (!EditorMode)
             {
-                foreach (var entity in entities)
+                for (int k = 0; k < entities.Count; k++)
+                {
+                    Entity entity = entities[k];
                     entity.Update();
+                }
+
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
             ControlEditorScreen();
@@ -245,7 +242,6 @@ namespace Flipsider
                 entity.Draw(spriteBatch);
             }
 
-            player.RenderPlayer();
             verletEngine.GlobalRenderPoints();
             TileManager.ShowTileCursor();
             TileManager.RenderTiles();

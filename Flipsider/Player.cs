@@ -69,11 +69,14 @@ namespace Flipsider
             onGround = false;
             isColliding = false;
         }
+
         protected internal override void Initialize()
         {
             Main.entities.Add(this);
+            texture = TextureCache.player;
         }
-        protected internal override void Update()
+
+        protected override void OnUpdate()
         {
             PlayerInputs();
             ResetVars();
@@ -249,10 +252,16 @@ namespace Flipsider
             }
         }
 
-        public void RenderPlayer()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            Main.spriteBatch.Draw(TextureCache.player, Center, new Rectangle(0, 0, width, height), Color.White, 0f, new Vector2(width / 2f, height / 2f), 1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position, width, height, isColliding ? Color.Green : Color.Red);
+            texture = TextureCache.player;
+            FindFrame();
+            spriteBatch.Draw(texture, Center, frame, Color.White, 0f, new Vector2(width / 2f, height / 2f), 1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+        }
+
+        private void FindFrame()
+        {
+            frame = new Rectangle(0, 0, width, height);
         }
     }
 }
