@@ -27,6 +27,7 @@ namespace Flipsider
             playerpos += (player.Center - playerpos)/32f;
             int width = (int)Main.screenSize.X;
             int height = (int)Main.screenSize.Y;
+            playerpos += offset;
             if (scale >= 1)
             {
                 playerpos.X = Math.Clamp(playerpos.X, width / (2 * scale), 100000);
@@ -37,7 +38,7 @@ namespace Flipsider
                 playerpos.X = width / 2;
                 playerpos.Y = height / 2;
             }
-            playerpos += offset;
+            
             Transform = 
                  Matrix.CreateTranslation(new Vector3(-playerpos, 0))*
                  Matrix.CreateScale(GetScreenScale()) *
