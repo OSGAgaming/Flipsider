@@ -30,7 +30,7 @@ namespace Flipsider
 			}
 			set
 			{
-				position = new Vector2(value.X - width *0.5f, value.Y - height * 0.5f);
+				position = new Vector2(value.X - width * 0.5f, value.Y - height * 0.5f);
 			}
 		}
 	}

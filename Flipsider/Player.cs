@@ -13,10 +13,8 @@ namespace Flipsider
         public float gravity = 0.2f;
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
-        public int width = 40;
-        public int height = 72;
 
-        float jumpheight = 10;
+        float jumpheight = 7;
         public bool onGround;
         public float friction = 0.982f;
         public int spriteDirection;
@@ -28,6 +26,8 @@ namespace Flipsider
         public Player(Vector2 position)
         {
             this.position = position;
+            width = 40;
+            height = 72;
         }
 
         void ResetVars()
@@ -38,9 +38,9 @@ namespace Flipsider
 
         public void Update()
         {
-            ResetVars();
-            CoreUpdates();
             PlayerInputs();
+            ResetVars();
+            CoreUpdates();       
             Constraints();
             TileCollisions();
             PostUpdates();
@@ -163,20 +163,19 @@ namespace Flipsider
             MouseState mouseState = Mouse.GetState();
 
             friction = 0.91f;
+            if (!onGround) airResistance.X = 0.97f;
+            else airResistance.X = 0.985f;
 
-            if (!onGround)
+            if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
-                if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
-                {
-                    velocity.X += acceleration;
-                    friction = 0.99f;
-                }
+                velocity.X += acceleration;
+                friction = 0.99f;
+            }
 
-                if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
-                {
-                    velocity.X -= acceleration;
-                    friction = 0.99f;
-                }
+            if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+            {
+                velocity.X -= acceleration;
+                friction = 0.99f;
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -204,7 +203,7 @@ namespace Flipsider
 
         public void RenderPlayer()
         {
-            Main.spriteBatch.Draw(TextureCache.player, Center, new Rectangle(0, 0, width, height), Color.White, 0f, new Vector2(width / 2, height / 2), 1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Main.spriteBatch.Draw(TextureCache.player, Center, new Rectangle(0, 0, width, height), Color.White, 0f, new Vector2(width / 2f, height / 2f), 1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             DrawMethods.DrawRectangle(position, width, height, isColliding ? Color.Green : Color.Red);
         }
     }
