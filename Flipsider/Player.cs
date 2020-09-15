@@ -9,7 +9,7 @@ namespace Flipsider
 {
     public class Player : Entity
     {
-        public float acceleration = 0.15f;
+        public float acceleration = 0.08f;
         public float gravity = 0.2f;
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
@@ -256,12 +256,22 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             FindFrame();
-            spriteBatch.Draw(texture, Center, frame, Color.White, 0f, new Vector2(width / 2f, height / 2f), 1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(texture, Center + new Vector2(-10, 12), frame, Color.White, 0f, new Vector2(width / 2f, height / 2f), 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            DrawMethods.DrawRectangle(position, width, height, Color.Green);
         }
 
         private void FindFrame()
         {
-            frame = new Rectangle(0, 0, width, height);
+            if (friction != 0.99f)
+            {
+                int frameY = (int)(Main.gameTime.TotalGameTime.TotalMilliseconds / 100) % 11 * 48;
+                frame = new Rectangle(0, frameY, 48, 48);
+            }
+            else
+            {
+                int frameY = (int)(Main.gameTime.TotalGameTime.TotalMilliseconds / (Math.Abs(velocity.X) > 2 ? 60 : 80)) % 8 * 48;
+                frame = new Rectangle(48, frameY, 48, 48);
+            }
         }
     }
 }

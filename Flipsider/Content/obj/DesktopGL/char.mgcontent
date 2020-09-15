@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/char.png</SourceFile>
-  <SourceTime>2020-09-15T11:11:04.7013401-04:00</SourceTime>
+  <SourceTime>2020-09-15T19:00:05.5704157-04:00</SourceTime>
   <DestFile>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/char.xnb</DestFile>
-  <DestTime>2020-09-15T14:35:40.0869939-04:00</DestTime>
+  <DestTime>2020-09-15T19:00:22.0775452-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T11:35:54-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

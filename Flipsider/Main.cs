@@ -67,8 +67,10 @@ namespace Flipsider
             verletEngine = new Verlet();
             rand = new Random();
             player = new Player(new Vector2(100, 100));
+
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
+
             for (int i = 0; i < 3; i++)
              {
                  verletEngine.CreateVerletPoint(player.position + new Vector2(10, i * 2 + 20));
@@ -81,6 +83,7 @@ namespace Flipsider
                      verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
                  }
              }
+
              for (int i = 0; i < 3; i++)
              {
                  verletEngine.CreateVerletPoint(player.position + new Vector2(20, i * 2 + 20));
@@ -155,6 +158,7 @@ namespace Flipsider
                 Exit();
 
             verletEngine.Update();
+
             if (!EditorMode)
             {
                 for (int k = 0; k < entities.Count; k++)
@@ -165,6 +169,7 @@ namespace Flipsider
 
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
+
             ControlEditorScreen();
             scrollBuffer = mouseState.ScrollWheelValue;
             hud.Update();
@@ -257,7 +262,7 @@ namespace Flipsider
             hud.Draw(spriteBatch);
             
             //debuganthinghere
-            spriteBatch.DrawString(font, player.onGround.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
+            spriteBatch.DrawString(font, (80 - Math.Abs(player.velocity.X) * 5).ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
             fps.DrawFps(spriteBatch, font, new Vector2(650, 100).ToScreen(), Color.BlanchedAlmond);
             
             //spriteBatch.End();
@@ -267,7 +272,7 @@ namespace Flipsider
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             fps.Update(gameTime);
-            spriteBatch.Begin(transformMatrix: mainCamera.Transform);
+            spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Render();
             
             spriteBatch.End();
