@@ -50,9 +50,37 @@ namespace Flipsider
         {
             tiles = new int[MaxTilesX, MaxTilesY];
             verletEngine = new Verlet();
+            rand = new Random();
+            player = new Player(new Vector2(100, 100));
+            int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
+            int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
+            for (int i = 0; i < 3; i++)
+             {
+                 verletEngine.CreateVerletPoint(player.position + new Vector2(10, i * 2 + 20));
+                 if (i == 0)
+                 {
+                     verletEngine.BindPoints(verletEngine.points.Count - 1, connectionOne,true,Color.White);
+                 }
+                 else
+                 {
+                     verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
+                 }
+             }
+             for (int i = 0; i < 3; i++)
+             {
+                 verletEngine.CreateVerletPoint(player.position + new Vector2(20, i * 2 + 20));
+                 if (i == 0)
+                 {
+                     verletEngine.BindPoints(verletEngine.points.Count - 1, connectionTwo, true, Color.White);
+                 }
+                 else
+                 {
+                     verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
+                 }
+             }
             // Verlet examples
-            /*
-            verletEngine.CreateStickMan(new Vector2(100, 100));
+
+           /* verletEngine.CreateStickMan(new Vector2(100, 100));
             verletEngine.CreateVerletSquare(new Vector2(150, 150), 30);
             int firstPoint = verletEngine.CreateVerletPoint(new Vector2(150, 100),true);
             int secondPoint = verletEngine.CreateVerletPoint(new Vector2(100, 120));
@@ -62,6 +90,7 @@ namespace Flipsider
             verletEngine.BindPoints(secondPoint, thirdPoint);
             verletEngine.BindPoints(thirdPoint, fourthPoint);
             */
+
             MouseState mouseState = Mouse.GetState();
             scrollBuffer = mouseState.ScrollWheelValue;
             base.Initialize();
@@ -74,13 +103,16 @@ namespace Flipsider
             mainCamera = new Camera();
             TextureCache.LoadTextures();
             instance = this;
-            player = new Player(new Vector2(100, 100));
+            
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            rand = new Random();
+            
         }
 
         protected override void Update(GameTime gameTime)
         {
+            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30);
+            verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30);
             if (delay > 0)
                 delay--;
             //this is vile, please change, cause I dont know whats being passed
@@ -96,19 +128,14 @@ namespace Flipsider
             {
                 TileManager.AddTile();
             }
+            if (mouseState.RightButton == ButtonState.Pressed)
+            {
+                TileManager.RemoveTile();
+            }
             //I was lazy to make another instance variable, so I just calculated my average press time lol
             if (state.IsKeyDown(Keys.Z) && delay == 0)
             {
-                delay = 30;
-                EditorMode = !EditorMode;
-                if(EditorMode)
-                {
-                    targetScale = 0.8f;
-                }
-                else
-                {
-                    targetScale = 1.2f;
-                }
+                SwitchModes();
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || state.IsKeyDown(Keys.Escape))
                 Exit();
@@ -119,15 +146,27 @@ namespace Flipsider
                 player.Update();
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
-            mainCamera.FixateOnPlayer(player);
-            mainCamera.rotation = 0;
             ControlEditorScreen();
-            Debug.Write(screenSize);
             scrollBuffer = mouseState.ScrollWheelValue;
             base.Update(gameTime);
         }
+        void SwitchModes()
+        {
+            delay = 30;
+            EditorMode = !EditorMode;
+            if (EditorMode)
+            {
+                targetScale = 0.8f;
+            }
+            else
+            {
+                targetScale = 1.2f;
+            }
+        }
         void ControlEditorScreen()
         {
+            mainCamera.FixateOnPlayer(player);
+            mainCamera.rotation = 0;
             MouseState mouseState = Mouse.GetState();
             KeyboardState state = Keyboard.GetState();
             float scrollSpeed = 0.02f;
@@ -172,8 +211,8 @@ namespace Flipsider
         }
         void Render()
         {
-            verletEngine.GlobalRenderPoints();
             player.RenderPlayer();
+            verletEngine.GlobalRenderPoints();
             TileManager.ShowTileCursor();
             TileManager.RenderTiles();
         }

@@ -38,6 +38,8 @@ namespace Flipsider
             int width = (int)Main.screenSize.X;
             int height = (int)Main.screenSize.Y;
 
+            playerpos += offset;
+
             if (scale >= 1)
             {
                 playerpos.X = Math.Clamp(playerpos.X, width / (2 * scale), 100000);

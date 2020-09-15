@@ -40,6 +40,24 @@ namespace Flipsider
             }
         }
 
+        public static void RemoveTile()
+        {
+            if (Main.EditorMode)
+            {
+                try
+                {
+                    MouseState state = Mouse.GetState();
+                    Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
+                    Point tilePoint = new Point((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
+                    Main.tiles[tilePoint.X, tilePoint.Y] = 0;
+                }
+                catch
+                {
+                    Debug.Write("Just put the cursor in your ass next time eh?");
+                }
+            }
+        }
+
         public static void RenderTiles()
         {
             for(int i = 0; i< Main.MaxTilesX; i++)

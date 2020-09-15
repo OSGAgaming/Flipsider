@@ -9,6 +9,6 @@ namespace Flipsider
 {
     public static class Extensions
     {
-        public static Vector2 ToScreen(this Vector2 v) => v + Main.mainCamera.CamPos;
+        public static Vector2 ToScreen(this Vector2 v) => (v + Main.mainCamera.camPos) / Main.mainCamera.scale - Main.screenSize/8f;
     }
 }

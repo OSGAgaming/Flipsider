@@ -14,8 +14,8 @@ namespace Flipsider
         private readonly float _AR = 0.99f;
         private readonly int _fluff = 1;
         float bounce = 0.9f;
-        public static List<Stick> stickPoints = new List<Stick>();
-        public static List<Point> points = new List<Point>();
+        public List<Stick> stickPoints = new List<Stick>();
+        public List<Point> points = new List<Point>();
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
         {
             points.Add(new Point(pos, pos - new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), isStatic));
@@ -86,7 +86,7 @@ namespace Flipsider
         {
             try
             {
-                stickPoints.Add(new Stick(a, b, isVisible, color));
+                stickPoints.Add(new Stick(this,a, b, isVisible, color));
             }
             catch
             {
@@ -166,24 +166,24 @@ namespace Flipsider
             public int b;
             public bool isVisible;
 
-            public Stick(int a, int b, bool isVisible = true, Color color = default)
+            public Stick(Verlet verlet, int a, int b, bool isVisible = true, Color color = default)
             {
                 this.a = a;
                 this.b = b;
                 isStatic = new bool[2];
-                p1 = points[a].point;
-                p2 = points[b].point;
-                oldP1 = points[a].oldPoint;
-                oldP2 = points[b].oldPoint;
-                vel1 = points[a].vel;
-                vel2 = points[b].vel;
+                p1 = verlet.points[a].point;
+                p2 = verlet.points[b].point;
+                oldP1 = verlet.points[a].oldPoint;
+                oldP2 = verlet.points[b].oldPoint;
+                vel1 = verlet.points[a].vel;
+                vel2 = verlet.points[b].vel;
 
-                float disX = points[b].point.X - points[a].point.X;
-                float disY = points[b].point.Y - points[a].point.Y;
+                float disX = verlet.points[b].point.X - verlet.points[a].point.X;
+                float disY = verlet.points[b].point.Y - verlet.points[a].point.Y;
 
                 Length = (float)Math.Sqrt(disX * disX + disY * disY);
-                isStatic[0] = points[a].isStatic;
-                isStatic[1] = points[b].isStatic;
+                isStatic[0] = verlet.points[a].isStatic;
+                isStatic[1] = verlet.points[b].isStatic;
 
                 if (color == default)
                 {
