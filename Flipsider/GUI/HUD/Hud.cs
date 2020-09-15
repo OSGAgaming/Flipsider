@@ -9,29 +9,29 @@ namespace Flipsider.GUI.HUD
 {
     class Hud : UIScreen
     {
-        WeaponIcon leftIcon;
-        WeaponIcon rightIcon;
+        WeaponIcon leftIcon = new WeaponIcon();
+        WeaponIcon rightIcon = new WeaponIcon();
 
         public Hud()
         {
-            leftIcon.SetDimensions(10, Main.ScreenSize.Y - 10, 24, 24);
-            leftIcon.weapon = Main.player.leftWeapon;
+            leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 10, 48, 48);
+            //leftIcon.weapon = Main.player.leftWeapon;
             elements.Add(leftIcon);
 
-            rightIcon.SetDimensions(38, Main.ScreenSize.Y - 10, 24, 24);
-            rightIcon.weapon = Main.player.rightWeapon;
+            rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 10, 48, 48);
+            //rightIcon.weapon = Main.player.rightWeapon;
             elements.Add(rightIcon);
         }
     }
 
     class WeaponIcon : UIElement
     {
-        public Weapon weapon { get; set; }
+        public Weapon weapon;
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(TextureCache.hudSlot, dimensions, Color.White);
-            weapon.DrawInventory(spriteBatch, dimensions.Location.ToVector2());
+            weapon?.DrawInventory(spriteBatch, dimensions.Location.ToVector2());
         }
     }
 }

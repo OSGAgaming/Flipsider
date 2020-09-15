@@ -12,7 +12,7 @@ namespace Flipsider
         public float acceleration = 0.15f;
         public float gravity = 0.2f;
 
-        public Vector2 airResistance = new Vector2(0.97f, 0.995f);
+        public Vector2 airResistance = new Vector2(0.985f, 0.999f);
         public int width = 40;
         public int height = 72;
 
@@ -163,18 +163,21 @@ namespace Flipsider
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
-            friction = 0.92f;
+            friction = 0.91f;
 
-            if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+            if (onGround)
             {
-                velocity.X += acceleration;
-                friction = 0.98f;
-            }
+                if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+                {
+                    velocity.X += acceleration;
+                    friction = 0.99f;
+                }
 
-            if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
-            {
-                velocity.X -= acceleration;
-                friction = 0.98f;
+                if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+                {
+                    velocity.X -= acceleration;
+                    friction = 0.99f;
+                }
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed)

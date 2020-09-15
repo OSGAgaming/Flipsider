@@ -7,7 +7,7 @@ namespace Flipsider.GUI
 {
     class UIScreen
     {
-        protected List<UIElement> elements;
+        protected List<UIElement> elements = new List<UIElement>();
         public bool active;
 
         public void Draw(SpriteBatch spriteBatch)
