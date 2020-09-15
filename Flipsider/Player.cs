@@ -7,16 +7,11 @@ using Flipsider.Weapons;
 
 namespace Flipsider
 {
-    public class Player
+    public class Player : Entity
     {
-        public Vector2 position;
-        public Vector2 velocity;
-        public Vector2 Center => position + new Vector2(width / 2f, height / 2f);
         public float acceleration = 0.15f;
         public float gravity = 0.2f;
-        public Vector2 airResistance = new Vector2(0.97f);
-        public int width = 40;
-        public int height = 72;
+        public float airResistance = 0.97f;
         float jumpheight = 10;
         public bool onGround;
         public float friction = 0.982f;
