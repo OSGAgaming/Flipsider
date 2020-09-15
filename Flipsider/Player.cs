@@ -69,8 +69,11 @@ namespace Flipsider
             onGround = false;
             isColliding = false;
         }
-
-        public void Update()
+        protected internal override void Initialize()
+        {
+            Main.entities.Add(this);
+        }
+        protected internal override void Update()
         {
             PlayerInputs();
             ResetVars();

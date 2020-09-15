@@ -285,16 +285,6 @@ namespace Flipsider
                     points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;
                     points[i].vel.Y = (points[i].point.Y - points[i].oldPoint.Y) * _AR;
 
-                    if (points[i].point.X > size.X)
-                    {
-                        points[i].oldPoint.X = size.X + points[i].vel.X * bounce;
-                        points[i].point.X = size.X;
-                    }
-                    if (points[i].point.X < 0)
-                    {
-                        points[i].oldPoint.X = points[i].vel.X * bounce;
-                        points[i].point.X = 0;
-                    }
                     if (points[i].point.Y > size.Y)
                     {
                         points[i].oldPoint.Y = size.Y + points[i].vel.Y * bounce;

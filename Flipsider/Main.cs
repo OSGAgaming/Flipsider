@@ -35,6 +35,7 @@ namespace Flipsider
         public float targetScale = 1;
         private int scrollBuffer;
         int delay;
+        public static List<Entity> entities = new List<Entity>();
 
         public static int MaxTilesX
         {
@@ -131,8 +132,9 @@ namespace Flipsider
                 entity.Update();
             }
 
-            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30);
-            verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30);
+            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30) + player.velocity;
+            verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30) + player.velocity;
+
             if (delay > 0)
                 delay--;
             //this is vile, please change, cause I dont know whats being passed
@@ -163,7 +165,8 @@ namespace Flipsider
             verletEngine.Update();
             if (!EditorMode)
             {
-                player.Update();
+                foreach (var entity in entities)
+                    entity.Update();
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
             ControlEditorScreen();
@@ -257,16 +260,21 @@ namespace Flipsider
             spriteBatch.Begin();
             hud.active = true;
             hud.Draw(spriteBatch);
+            
+            //debuganthinghere
+            spriteBatch.DrawString(font, player.onGround.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
+            fps.DrawFps(spriteBatch, font, new Vector2(650, 100).ToScreen(), Color.BlanchedAlmond);
+            
             //spriteBatch.End();
         }
-
+        FPS fps = new FPS();
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            fps.Update(gameTime);
             spriteBatch.Begin(transformMatrix: mainCamera.Transform);
             Render();
-            //debuganthinghere
-            spriteBatch.DrawString(font, player.onGround.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

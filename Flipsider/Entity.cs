@@ -21,6 +21,15 @@ namespace Flipsider
 		public Vector2 oldPosition;
 		public Vector2 oldVelocity;
 
+		protected internal virtual void Update() { }
+
+		protected internal virtual void Initialize() { }
+
+		public Entity()
+        {
+			Initialize();
+		}
+
 		public Vector2 Center
 		{
 			get
