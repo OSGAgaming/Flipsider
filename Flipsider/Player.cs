@@ -14,7 +14,7 @@ namespace Flipsider
         public Vector2 Center => position + new Vector2(width / 2f, height / 2f);
         public float acceleration = 0.15f;
         public float gravity = 0.2f;
-        public float airResistance = 0.97f;
+        public Vector2 airResistance = new Vector2(0.97f);
         public int width = 40;
         public int height = 72;
         float jumpheight = 10;
