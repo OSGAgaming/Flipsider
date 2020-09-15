@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
+using Flipsider.Weapons;
 
 namespace Flipsider
 {
@@ -11,7 +12,7 @@ namespace Flipsider
         public Vector2 position;
         public Vector2 velocity;
         public Vector2 Center => position + new Vector2(width / 2f, height / 2f);
-        public float acceleration = 0.1f;
+        public float acceleration = 0.15f;
         public float gravity = 0.2f;
         public float airResistance = 0.97f;
         public int width = 40;
@@ -23,15 +24,20 @@ namespace Flipsider
         public int spriteDirection;
         bool isColliding;
 
+        Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
+        Weapon rightWeapon;
+
         public Player(Vector2 position)
         {
             this.position = position;
         }
+
         void ResetVars()
         {
             onGround = false;
             isColliding = false;
         }
+
         public void Update()
         {
             ResetVars();
@@ -40,13 +46,17 @@ namespace Flipsider
             Constraints();
             TileCollisions();
             PostUpdates();
+
+            leftWeapon.UpdatePassive();
         }
+
         void CoreUpdates()
         {
             velocity.Y += gravity;
             velocity *= airResistance;
             position += velocity;
         }
+
         void PostUpdates()
         {
             KeyboardState state = Keyboard.GetState();
@@ -67,6 +77,7 @@ namespace Flipsider
                 spriteDirection = -1;
             }
         }
+
         void TileCollisions()
         {
             float up = -1;
@@ -147,17 +158,28 @@ namespace Flipsider
                 spriteDirection = 1;
             }
         }
+
         void PlayerInputs()
         {
             KeyboardState state = Keyboard.GetState();
+            MouseState mouseState = Mouse.GetState();
+
+            friction = 0.95f;
+
             if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
                 velocity.X += acceleration;
+                friction = 1;
             }
+
             if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
             {
                 velocity.X -= acceleration;
+                friction = 1;
             }
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+                leftWeapon.Activate();
         }
 
         void Constraints()
@@ -178,10 +200,11 @@ namespace Flipsider
                 velocity.Y -= jumpheight;
             }
         }
+
         public void RenderPlayer()
         {
-            Main.spriteBatch.Draw(TextureCache.player,Center, new Rectangle(0,0,width,height),Color.White,0f,new Vector2(width / 2, height / 2),1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,0f);
-            DrawMethods.DrawRectangle(position,width,height,isColliding ? Color.Green : Color.Red);
+            Main.spriteBatch.Draw(TextureCache.player, Center, new Rectangle(0, 0, width, height), Color.White, 0f, new Vector2(width / 2, height / 2), 1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            DrawMethods.DrawRectangle(position, width, height, isColliding ? Color.Green : Color.Red);
         }
     }
 }

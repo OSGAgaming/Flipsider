@@ -4,9 +4,9 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/char.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/FlipFont.spritefont</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GF.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

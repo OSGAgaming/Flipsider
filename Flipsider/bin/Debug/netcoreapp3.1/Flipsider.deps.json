@@ -9,7 +9,8 @@
       "Flipsider/1.0.0": {
         "dependencies": {
           "MonoGame.Content.Builder.Task": "3.8.0.1641",
-          "MonoGame.Framework.DesktopGL": "3.8.0.1641"
+          "MonoGame.Framework.DesktopGL": "3.8.0.1641",
+          "MonoGame.Framework.Net": "3.7.1.189"
         },
         "runtime": {
           "Flipsider.dll": {}
@@ -65,6 +66,22 @@
             "fileVersion": "0.0.0.0"
           }
         }
+      },
+      "MonoGame.Framework.Net/3.7.1.189": {
+        "runtime": {
+          "MonoGame.Framework.Net.dll": {
+            "assemblyVersion": "3.7.1.189",
+            "fileVersion": "3.7.1.189"
+          }
+        }
+      },
+      "Lidgren.Network/3.7.1.189": {
+        "runtime": {
+          "Lidgren.Network.dll": {
+            "assemblyVersion": "3.7.1.189",
+            "fileVersion": "3.7.1.189"
+          }
+        }
       }
     }
   },
@@ -87,6 +104,16 @@
       "sha512": "sha512-rJQlrlHQbnOECYV6EcQ8GlGRQ2lzPTroXQcyyOZ0ki+BQRSJEN2zVBm9skqLiXya348aGAfTSSGTaSKjAy9NaA==",
       "path": "monogame.framework.desktopgl/3.8.0.1641",
       "hashPath": "monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+    },
+    "MonoGame.Framework.Net/3.7.1.189": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Lidgren.Network/3.7.1.189": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
