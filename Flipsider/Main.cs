@@ -35,7 +35,6 @@ namespace Flipsider
         public float targetScale = 1;
         private int scrollBuffer;
         int delay;
-        public static List<Entity> entities = new List<Entity>();
 
         public static int MaxTilesX
         {
