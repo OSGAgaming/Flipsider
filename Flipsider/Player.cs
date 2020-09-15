@@ -181,7 +181,7 @@ namespace Flipsider
         public void RenderPlayer()
         {
             Main.spriteBatch.Draw(TextureCache.player,Center, new Rectangle(0,0,width,height),Color.White,0f,new Vector2(width / 2, height / 2),1f, spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,0f);
-            DrawMethods.DrawRectangle(position,width,height,isColliding ? Color.Green : Color.Red);
+            //DrawMethods.DrawRectangle(position,width,height,isColliding ? Color.Green : Color.Red);
         }
     }
 }

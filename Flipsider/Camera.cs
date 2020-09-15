@@ -30,7 +30,7 @@ namespace Flipsider
             if (scale >= 1)
             {
                 playerpos.X = Math.Clamp(playerpos.X, width / (2 * scale), 100000);
-                playerpos.Y = Math.Clamp(playerpos.Y, height / (2 * scale), height - (height / (2 * scale)));
+                playerpos.Y = Math.Clamp(playerpos.Y, height / (2 * scale), 100000);
             }
             else
             {
