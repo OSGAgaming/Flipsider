@@ -248,7 +248,7 @@ namespace Flipsider
             spriteBatch.Begin(transformMatrix: mainCamera.Transform);
             Render();
             //debuganthinghere
-            //spriteBatch.DrawString(font, player.position.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
+            spriteBatch.DrawString(font, player.onGround.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
