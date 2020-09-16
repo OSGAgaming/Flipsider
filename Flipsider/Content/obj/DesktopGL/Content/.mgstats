@@ -6,3 +6,4 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/MagicPixel.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/MagicPixel.xnb","TextureProcessor","Texture2DContent",78,101,0.0012355
 "C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/TestGun.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/TestGun.xnb","TextureProcessor","Texture2DContent",417,9301,0.0014351
 "C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/skybox.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/skybox.xnb","TextureProcessor","Texture2DContent",131484,14745685,0.2959038
+"C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/TileSet1.png","C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/bin/DesktopGL/Content/TileSet1.xnb","TextureProcessor","Texture2DContent",12383,139349,0.1359194

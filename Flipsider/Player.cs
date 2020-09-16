@@ -143,48 +143,51 @@ namespace Flipsider
             float down = Main.MaxTilesX;
             float left = -1;
             float right = Main.MaxTilesY;
-
-
             int res = TileManager.tileRes;
-            for (int i = 0; i < Main.MaxTilesX; i++)
+            int tileHeight = height / res + 2;
+            int tileWidth = width / res + 2;
+            for (int i = (int)position.X/res - tileHeight; i < (int)position.X / res + tileHeight; i++)
             {
-                for (int j = 0; j < Main.MaxTilesY; j++)
+                for (int j = (int)position.Y / res - tileHeight; j < (int)position.Y / res + tileHeight; j++)
                 {
-                    if (Main.tiles[i,j] == 1)
+                    if (i > 0 && j > 0)
                     {
-                        bool case1 = (feetPos - height - velocity.Y >= j * res - 1 && feetPos - velocity.Y + 1 >= j * res) &&
-                                     (feetPos - height - velocity.Y >= j * res + res - 1 && feetPos - velocity.Y + 1 >= j * res + res);
-                        bool case2 = (feetPos - height - velocity.Y <= j * res + 1 && feetPos - velocity.Y - 1 <= j * res) &&
-                                     (feetPos - height - velocity.Y <= j * res + res + 1 && feetPos - velocity.Y - 1 <= j * res + res);
-                        bool hasSideCollision = !(case1 || case2);
-                        bool case3 = (position.X - velocity.X >= i * res - 1 && position.X + width - velocity.X + 1 >= i * res) &&
-                                     (position.X - velocity.X >= i * res + res - 1 && position.X + width - velocity.X + 1 >= i * res + res);
-                        bool case4 = (position.X - velocity.X <= i * res + 1 && position.X + width - velocity.X - 1 <= i * res) &&
-                                     (position.X - velocity.X <= i * res + res + 1 && position.X + width - velocity.X - 1 <= i * res + res);
-                        bool hasVertCollision = !(case3 || case4);
-                        if (hasVertCollision)
+                        if (Main.tiles[i, j] == 1)
                         {
-                            if (j > up - 1 && j * res < position.Y && velocity.Y < 0)
+                            bool case1 = (feetPos - height - velocity.Y >= j * res - 1 && feetPos - velocity.Y + 1 >= j * res) &&
+                                         (feetPos - height - velocity.Y >= j * res + res - 1 && feetPos - velocity.Y + 1 >= j * res + res);
+                            bool case2 = (feetPos - height - velocity.Y <= j * res + 1 && feetPos - velocity.Y - 1 <= j * res) &&
+                                         (feetPos - height - velocity.Y <= j * res + res + 1 && feetPos - velocity.Y - 1 <= j * res + res);
+                            bool hasSideCollision = !(case1 || case2);
+                            bool case3 = (position.X - velocity.X >= i * res - 1 && position.X + width - velocity.X + 1 >= i * res) &&
+                                         (position.X - velocity.X >= i * res + res - 1 && position.X + width - velocity.X + 1 >= i * res + res);
+                            bool case4 = (position.X - velocity.X <= i * res + 1 && position.X + width - velocity.X - 1 <= i * res) &&
+                                         (position.X - velocity.X <= i * res + res + 1 && position.X + width - velocity.X - 1 <= i * res + res);
+                            bool hasVertCollision = !(case3 || case4);
+                            if (hasVertCollision)
                             {
-                                up = j + 1;
+                                if (j > up - 1 && j * res < position.Y && velocity.Y < 0)
+                                {
+                                    up = j + 1;
+                                }
+                                if (j < down && j * res + res / 2 > feetPos && velocity.Y > 0)
+                                {
+                                    down = j;
+                                }
                             }
-                            if (j < down && j * res + res / 2 > feetPos && velocity.Y > 0)
+                            if (hasSideCollision)
                             {
-                                down = j;
+                                if (i > left - 1 && i * res < position.X && velocity.X < 0)
+                                {
+                                    left = i + 1;
+                                }
+                                if (i < right && i * res + res / 2 > position.X + width && velocity.X > 0)
+                                {
+                                    right = i;
+                                }
                             }
-                        }
-                        if (hasSideCollision)
-                        {
-                            if (i > left - 1 && i* res < position.X && velocity.X < 0)
-                            {
-                                left = i + 1;
-                            }
-                            if (i < right && i * res + res/2 > position.X + width && velocity.X > 0)
-                            {
-                                right = i;
-                            }
-                        }
 
+                        }
                     }
                 }
             }

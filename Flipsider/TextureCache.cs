@@ -15,9 +15,11 @@ namespace Flipsider
         public static Texture2D testGun;
         public static Texture2D magicPixel;
         public static Texture2D skybox;
+        public static Texture2D TileSet1;
 
         public static void LoadTextures()
         {
+            TileSet1 = Main.Contents.Load<Texture2D>("TileSet1");
             player = Main.Contents.Load<Texture2D>("char");
             hudSlot = Main.Contents.Load<Texture2D>("GUI/HudSlot");
             testGun = Main.Contents.Load<Texture2D>("GUI/TestGun");

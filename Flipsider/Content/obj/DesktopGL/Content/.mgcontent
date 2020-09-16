@@ -11,8 +11,10 @@
     <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/MagicPixel.png</File>
     <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/TestGun.png</File>
     <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/skybox.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/TileSet1.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

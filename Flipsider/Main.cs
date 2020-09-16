@@ -8,13 +8,14 @@ using System.Diagnostics;
 using Flipsider.GUI;
 using Flipsider.GUI.HUD;
 using System.Collections.Generic;
+using Flipsider.GUI.TilePlacementGUI;
 
 namespace Flipsider
 {
     public class Main : Game
     {
         private Hud hud;
-
+        private TileGUI tileGUI;
         //Terraria PTSD
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
@@ -54,7 +55,8 @@ namespace Flipsider
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
-
+            TileManager.AddTileType(TextureCache.TileSet1, "TileSet1");
+            tileGUI = new TileGUI();
             hud = new Hud();
         }
 
@@ -106,7 +108,6 @@ namespace Flipsider
              verletEngine.BindPoints(secondPoint, thirdPoint);
              verletEngine.BindPoints(thirdPoint, fourthPoint);
              */
-
             targetScale = 1.2f;
              MouseState mouseState = Mouse.GetState();
             scrollBuffer = mouseState.ScrollWheelValue;
@@ -171,6 +172,7 @@ namespace Flipsider
             ControlEditorScreen();
             scrollBuffer = mouseState.ScrollWheelValue;
             hud.Update();
+            tileGUI.Update();
             base.Update(gameTime);
         }
 
@@ -269,6 +271,8 @@ namespace Flipsider
             spriteBatch.Begin();
             hud.active = true;
             hud.Draw(spriteBatch);
+            tileGUI.active = true;
+            tileGUI.Draw(spriteBatch);
             //debuganthinghere
             fps.DrawFps(spriteBatch, font, new Vector2(10, 36), Color.Black);
         }
