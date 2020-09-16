@@ -12,8 +12,6 @@ namespace Flipsider.GUI.HUD
         WeaponIcon leftIcon = new WeaponIcon();
         WeaponIcon rightIcon = new WeaponIcon();
 
-        ResourceBar healthBar = new ResourceBar();
-
         public Hud()
         {
             leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 64, 48, 48);
@@ -23,9 +21,6 @@ namespace Flipsider.GUI.HUD
             rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
             //rightIcon.weapon = Main.player.rightWeapon;
             elements.Add(rightIcon);
-
-            healthBar.SetDimensions(10, 10, 100, 16);
-            elements.Add(healthBar);
         }
 
         protected override void OnUpdate()
@@ -35,9 +30,6 @@ namespace Flipsider.GUI.HUD
 
             rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
             rightIcon.weapon = Main.player.rightWeapon;
-
-            healthBar.SetDimensions(10, 10, 200, 24);
-            healthBar.amount = Main.player.percentLife;
         }
     }
 

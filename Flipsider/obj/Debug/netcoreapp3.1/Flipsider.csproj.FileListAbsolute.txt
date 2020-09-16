@@ -2,6 +2,8 @@ C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\FlipFont.xnb
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GF.xnb
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\HudSlot.xnb
+C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\MagicPixel.xnb
+C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\TestGun.xnb
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Flipsider.exe
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Flipsider.deps.json
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Flipsider.runtimeconfig.json
@@ -17,6 +19,7 @@ C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\runtimes
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\soft_oal.dll
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\SDL2.dll
 C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\soft_oal.dll
+C:\Users\tafid\source\repos\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.csprojAssemblyReference.cache
 C:\Users\tafid\source\repos\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.AssemblyInfoInputs.cache
 C:\Users\tafid\source\repos\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.AssemblyInfo.cs
 C:\Users\tafid\source\repos\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.csproj.CoreCompileInputs.cache
@@ -58,3 +61,4 @@ C:\Users\Alex\Desktop\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.cspr
 C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\MagicPixel.xnb
 C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\TestGun.xnb
 C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\skybox.xnb
+C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\skybox.xnb

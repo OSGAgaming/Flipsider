@@ -17,11 +17,6 @@ namespace Flipsider.Weapons.Ranged.Pistol
 
         protected override void OnActivate()
         {
-            TestBullet bullet = new TestBullet();
-            bullet.position = Main.player.Center;
-            bullet.velocity = Vector2.Normalize(Main.MouseScreen.ToVector2() - Main.player.Center) * 10;
-            bullet.Spawn();
-
             Camera.screenShake += 10;
             inventoryIcon = TextureCache.testGun;
         }
@@ -51,7 +46,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
         public TestBullet()
         {
             texture = TextureCache.magicPixel;
-            frame = new Rectangle(0, 0, 2, 2);         
+            frame = new Rectangle(0, 0, 2, 2);
         }
     }
 }
