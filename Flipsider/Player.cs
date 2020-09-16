@@ -21,9 +21,16 @@ namespace Flipsider
         bool isColliding;
         bool crouching;
 
+        public int life = 90;
+        public int maxLife = 100;
+        public float percentLife => life / (float)maxLife;
+
+
         public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
         public Weapon rightWeapon = new Weapons.Ranged.Pistol.TestGun2(); //Temporary
 
+        public Weapon leftWeaponStore;
+        public Weapon rightWeaponStore;
         public bool usingWeapon => leftWeapon.active || rightWeapon.active;
 
         public Player(Vector2 position)
@@ -33,17 +40,44 @@ namespace Flipsider
             height = 72;
         }
 
+        public int swapTimer;
+        public bool Swapping => swapTimer > 0;
 
+        void SwapWeapons()
+        {
+            swapTimer++;
+
+            if (swapTimer == 15)
+            {
+                SwapWeapon(ref leftWeapon, ref leftWeaponStore);
+                SwapWeapon(ref rightWeapon, ref rightWeaponStore);
+            }
+
+            if (swapTimer >= 30)
+                swapTimer = 0;
+        }
+
+        void SwapWeapon(ref Weapon first, ref Weapon second)
+        {
+            var temp = first;
+            first = second;
+            second = temp;
+        }
         void ResetVars()
         {
             onGround = false;
             isColliding = false;
+
+            leftWeapon?.UpdatePassive();
+            rightWeapon?.UpdatePassive();
+
+            if (Swapping) SwapWeapons(); //TODO: move this
         }
         protected internal override void Initialize()
         {
             Main.entities.Add(this);
         }
-        protected internal override void Update()
+        protected override void OnUpdate()
         {
             PlayerInputs();
             ResetVars();
@@ -58,9 +92,23 @@ namespace Flipsider
 
         void CoreUpdates()
         {
+            KeyboardState state = Keyboard.GetState();
+            MouseState mouseState = Mouse.GetState();
+
             velocity.Y += gravity;
             velocity *= airResistance;
             position += velocity;
+
+            if (state.IsKeyDown(Keys.X) && !Swapping)
+            {
+                swapTimer = 1;
+            }
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            leftWeapon?.Activate(this);
+
+            if (mouseState.RightButton == ButtonState.Pressed)
+            rightWeapon?.Activate(this);
+
         }
 
         void PostUpdates()
@@ -232,7 +280,6 @@ namespace Flipsider
                 velocity.Y -= jumpheight;
             }
         }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             texture = TextureCache.player;

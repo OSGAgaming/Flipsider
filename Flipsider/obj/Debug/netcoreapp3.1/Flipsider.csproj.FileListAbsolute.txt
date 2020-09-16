@@ -61,3 +61,4 @@ C:\Users\Alex\Desktop\Flipsider\Flipsider\obj\Debug\netcoreapp3.1\Flipsider.cspr
 C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\MagicPixel.xnb
 C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\GUI\TestGun.xnb
 C:\Users\Alex\Desktop\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\skybox.xnb
+C:\Users\tafid\source\repos\Flipsider\Flipsider\bin\Debug\netcoreapp3.1\Content\skybox.xnb

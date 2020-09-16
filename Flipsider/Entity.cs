@@ -11,7 +11,8 @@ namespace Flipsider
 	{
 
 		public int width;
-
+		public Texture2D texture;
+		public Rectangle frame;
 		public int height;
 
 		public Vector2 position;
@@ -23,8 +24,6 @@ namespace Flipsider
 		public Vector2 oldVelocity;
 
 		public Vector2[] oldPositions;
-
-		protected internal virtual void Update() { }
 
 		protected internal virtual int TrailLength => 5;
 		int a;
@@ -42,6 +41,29 @@ namespace Flipsider
         {
 			oldPositions = new Vector2[TrailLength];
 			Initialize();
+		}
+
+		public void Kill()
+		{
+			Main.entities.Remove(this);
+		}
+
+		public void Spawn()
+		{
+			Main.entities.Add(this);
+		}
+
+		public void Update()
+		{
+			position += velocity;
+			OnUpdate();
+		}
+
+		protected virtual void OnUpdate() { }
+
+		public virtual void Draw(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(texture, position, frame, Color.White);
 		}
 
 		public Vector2 Center
