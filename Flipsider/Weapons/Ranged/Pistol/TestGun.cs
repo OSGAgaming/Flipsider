@@ -51,7 +51,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
         public TestBullet()
         {
             texture = TextureCache.magicPixel;
-            frame = new Rectangle(0, 0, 2, 2);
+            frame = new Rectangle(0, 0, 2, 2);         
         }
     }
 }

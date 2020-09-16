@@ -19,6 +19,7 @@ namespace Flipsider
         public float friction = 0.982f;
         public int spriteDirection;
         bool isColliding;
+        bool crouching;
 
         public int life = 90;
         public int maxLife = 100;
@@ -105,7 +106,7 @@ namespace Flipsider
             {
                 velocity.X *= friction;
             }
-            if (state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space))
+            if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !crouching)
             {
                 Jump();
             }
@@ -206,19 +207,40 @@ namespace Flipsider
             MouseState mouseState = Mouse.GetState();
 
             friction = 0.89f;
-            if (!onGround) airResistance.X = 0.97f;
+
+            if (crouching) airResistance.X = 0.99f;
+            else if (!onGround) airResistance.X = 0.97f;
             else airResistance.X = 0.985f;
 
-            if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+            crouching = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
+
+            if (!(crouching && onGround))
             {
-                velocity.X += acceleration;
-                friction = 0.99f;
+                if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+                {
+                    velocity.X += acceleration;
+                    friction = 0.99f;
+                }
+
+                if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+                {
+                    velocity.X -= acceleration;
+                    friction = 0.99f;
+                }
             }
 
-            if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+            if(crouching)
             {
-                velocity.X -= acceleration;
-                friction = 0.99f;
+                height = 48;
+                friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
+            }
+            else
+            {
+                if (height != 72)
+                {
+                    height = 72;
+                    position.Y -= (72 - 48);
+                }
             }
 
             if (state.IsKeyDown(Keys.X) && !Swapping)
@@ -235,7 +257,7 @@ namespace Flipsider
 
         void Constraints()
         {
-            position.Y = MathHelper.Clamp(position.Y,0,Main.ScreenSize.Y - height);
+            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - height);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
             if(position.Y >= Main.ScreenSize.Y - height)
             {
@@ -271,6 +293,12 @@ namespace Flipsider
             {
                 int frameY = (int)(Main.gameTime.TotalGameTime.TotalMilliseconds / (Math.Abs(velocity.X) > 2 ? 60 : 80)) % 8 * 48;
                 frame = new Rectangle(48, frameY, 48, 48);
+            }
+
+            if (!onGround)
+            {
+                int frameY = velocity.Y < 0 ? 0 : 48;
+                frame = new Rectangle(48 * 2, frameY, 48, 48);
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Flipsider
                 elapsed = now - last;
                 if (elapsed > msgFrequency)
                 {
-                    msg = " Fps: " + (frames / elapsed).ToString();
+                    msg = " Fps: " + ((int)(frames / elapsed)).ToString();
                     elapsed = 0;
                     frames = 0;
                     updates = 0;
@@ -32,7 +32,7 @@ namespace Flipsider
 
             public void DrawFps(SpriteBatch spriteBatch, SpriteFont font, Vector2 fpsDisplayPosition, Color fpsTextColor)
             {
-                spriteBatch.DrawString(font, msg, fpsDisplayPosition, fpsTextColor);
+                spriteBatch.DrawString(font, msg, fpsDisplayPosition, fpsTextColor, 0, Vector2.Zero, 0.6f, 0, 0);
                 frames++;
             }
         }

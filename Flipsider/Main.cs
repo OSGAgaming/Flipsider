@@ -31,7 +31,7 @@ namespace Flipsider
         public static  ContentManager Contents;
         public static Camera mainCamera;
         public static float Scale;
-        private SpriteFont font;
+        public static SpriteFont font;
         public float targetScale = 1;
         private int scrollBuffer;
         int delay;
@@ -47,7 +47,7 @@ namespace Flipsider
         }
 
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-        public static Point MouseScreen => Mouse.GetState().Position;
+        public static Point MouseScreen => Mouse.GetState().Position + mainCamera.CamPos.ToPoint();
         public static int[,] tiles;
 
         public Main()
@@ -240,6 +240,8 @@ namespace Flipsider
 
         void Render()
         {
+            RenderSkybox();
+
             //TODO: Move this later
             for (int k = 0; k < entities.Count; k++)
             {
@@ -254,6 +256,11 @@ namespace Flipsider
             RenderUI();
         }
 
+        void RenderSkybox()
+        {
+            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero, Color.White);
+        }
+
         void RenderUI()
         {
             spriteBatch.End();
@@ -262,11 +269,9 @@ namespace Flipsider
             hud.Draw(spriteBatch);
             
             //debuganthinghere
-            spriteBatch.DrawString(font, (80 - Math.Abs(player.velocity.X) * 5).ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
-            fps.DrawFps(spriteBatch, font, new Vector2(650, 100).ToScreen(), Color.BlanchedAlmond);
-            
-            //spriteBatch.End();
+            fps.DrawFps(spriteBatch, font, new Vector2(10, 36), Color.Black);          
         }
+
         FPS fps = new FPS();
         protected override void Draw(GameTime gameTime)
         {
