@@ -258,7 +258,7 @@ namespace Flipsider
 
         void RenderSkybox()
         {
-            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero, Color.White);
+            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero + DrawMethods.GetParallaxOffset(Vector2.Zero, 0.15f), Color.White);
         }
 
         void RenderUI()
