@@ -43,6 +43,10 @@ namespace Flipsider.Weapons.Ranged.Pistol
 
     class TestBullet : Entity
     {
-        
+        public TestBullet()
+        {
+            texture = TextureCache.magicPixel;
+            frame = new Rectangle(0, 0, 2, 2);
+        }
     }
 }

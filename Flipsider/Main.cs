@@ -28,7 +28,7 @@ namespace Flipsider
         public static  ContentManager Contents;
         public static Camera mainCamera;
         public static float Scale;
-        private SpriteFont font;
+        public static SpriteFont font;
         public float targetScale = 1;
         private int scrollBuffer;
         int delay;
@@ -45,7 +45,7 @@ namespace Flipsider
         }
 
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-        public static Point MouseScreen => Mouse.GetState().Position;
+        public static Point MouseScreen => Mouse.GetState().Position + mainCamera.CamPos.ToPoint();
         public static int[,] tiles;
 
         public Main()
@@ -65,8 +65,10 @@ namespace Flipsider
             verletEngine = new Verlet();
             rand = new Random();
             player = new Player(new Vector2(100, 100));
+
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
+
             for (int i = 0; i < 3; i++)
              {
                  verletEngine.CreateVerletPoint(player.position + new Vector2(10, i * 2 + 20));
@@ -79,6 +81,7 @@ namespace Flipsider
                      verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
                  }
              }
+
              for (int i = 0; i < 3; i++)
              {
                  verletEngine.CreateVerletPoint(player.position + new Vector2(20, i * 2 + 20));
@@ -116,13 +119,13 @@ namespace Flipsider
             mainCamera = new Camera();
             TextureCache.LoadTextures();
             instance = this;
-            
-            spriteBatch = new SpriteBatch(GraphicsDevice);         
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            
+
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30) + player.velocity;
             if (delay > 0)
@@ -153,6 +156,7 @@ namespace Flipsider
                 Exit();
 
             verletEngine.Update();
+
             if (!EditorMode)
             {
                 for(int i = 0; i<entities.Count; i++)
@@ -162,6 +166,7 @@ namespace Flipsider
                 }
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
+
             ControlEditorScreen();
             scrollBuffer = mouseState.ScrollWheelValue;
             hud.Update();
@@ -232,12 +237,25 @@ namespace Flipsider
 
         void Render()
         {
-            player.RenderPlayer();
+            RenderSkybox();
+
+            //TODO: Move this later
+            for (int k = 0; k < entities.Count; k++)
+            {
+                Entity entity = entities[k];
+                entity.Draw(spriteBatch);
+            }
+
             verletEngine.GlobalRenderPoints();
             TileManager.ShowTileCursor();
             TileManager.RenderTiles();
 
             RenderUI();
+        }
+
+        void RenderSkybox()
+        {
+            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero, Color.White);
         }
 
         void RenderUI()
@@ -247,19 +265,17 @@ namespace Flipsider
             hud.active = true;
             hud.Draw(spriteBatch);
             //debuganthinghere
-            spriteBatch.DrawString(font, player.onGround.ToString(), new Vector2(100, 100).ToScreen(), Color.Black);
-            fps.DrawFps(spriteBatch, font, new Vector2(650, 100).ToScreen(), Color.BlanchedAlmond);
-            
-            //spriteBatch.End();
+            fps.DrawFps(spriteBatch, font, new Vector2(10, 36), Color.Black);
         }
+
         FPS fps = new FPS();
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             fps.Update(gameTime);
-            spriteBatch.Begin(transformMatrix: mainCamera.Transform);
+            spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Render();
-            
+
             spriteBatch.End();
 
             base.Draw(gameTime);

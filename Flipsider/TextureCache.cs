@@ -14,6 +14,7 @@ namespace Flipsider
         public static Texture2D hudSlot;
         public static Texture2D testGun;
         public static Texture2D magicPixel;
+        public static Texture2D skybox;
 
         public static void LoadTextures()
         {
@@ -21,6 +22,7 @@ namespace Flipsider
             hudSlot = Main.Contents.Load<Texture2D>("GUI/HudSlot");
             testGun = Main.Contents.Load<Texture2D>("GUI/TestGun");
             magicPixel = Main.Contents.Load<Texture2D>("GUI/MagicPixel");
+            skybox = Main.Contents.Load<Texture2D>("skybox");
         }
     }
 }
