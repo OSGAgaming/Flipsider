@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Flipsider
@@ -9,8 +10,10 @@ namespace Flipsider
     public class TileManager
     {
         public static int tileRes = 32;
+        public static List<Tile> tileTypes = new List<Tile>();
+
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
-        struct Tile
+        public struct Tile
         {
             public Texture2D atlas;
             public Rectangle frame;
@@ -39,6 +42,11 @@ namespace Flipsider
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
             }
+        }
+
+        public static void AddTileType(Texture2D Atlas,string Name)
+        {
+            tileTypes.Add(new Tile(Atlas, new Rectangle(0, 0, 32, 32)));
         }
 
         public static void RemoveTile()
