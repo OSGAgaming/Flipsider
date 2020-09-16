@@ -26,6 +26,7 @@ namespace Flipsider
 
         Vector2 playerpos;
         public Vector2 offset;
+        public float LeftBound => Main.ScreenSize.X / (2 * scale);
 
         public void FixateOnPlayer(Player player)
         {
@@ -34,7 +35,7 @@ namespace Flipsider
 
             var shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
 
-            playerpos += (player.Center - playerpos) / 32f;
+            playerpos += (player.Center - playerpos) / 16f;
             int width = (int)Main.ScreenSize.X;
             int height = (int)Main.ScreenSize.Y;
 
@@ -42,7 +43,7 @@ namespace Flipsider
 
             if (scale >= 1)
             {
-                playerpos.X = Math.Clamp(playerpos.X, width / (2 * scale), 100000);
+                playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
                 playerpos.Y = Math.Clamp(playerpos.Y, height / (2 * scale) - 200, height - (height / (2 * scale)));
             }
             else

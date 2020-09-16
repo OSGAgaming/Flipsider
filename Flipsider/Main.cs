@@ -96,18 +96,19 @@ namespace Flipsider
              }
             // Verlet examples
 
-           /* verletEngine.CreateStickMan(new Vector2(100, 100));
-            verletEngine.CreateVerletSquare(new Vector2(150, 150), 30);
-            int firstPoint = verletEngine.CreateVerletPoint(new Vector2(150, 100),true);
-            int secondPoint = verletEngine.CreateVerletPoint(new Vector2(100, 120));
-            int thirdPoint = verletEngine.CreateVerletPoint(new Vector2(100, 140));
-            int fourthPoint = verletEngine.CreateVerletPoint(new Vector2(100, 160));
-            verletEngine.BindPoints(firstPoint, secondPoint);
-            verletEngine.BindPoints(secondPoint, thirdPoint);
-            verletEngine.BindPoints(thirdPoint, fourthPoint);
-            */
+            /* verletEngine.CreateStickMan(new Vector2(100, 100));
+             verletEngine.CreateVerletSquare(new Vector2(150, 150), 30);
+             int firstPoint = verletEngine.CreateVerletPoint(new Vector2(150, 100),true);
+             int secondPoint = verletEngine.CreateVerletPoint(new Vector2(100, 120));
+             int thirdPoint = verletEngine.CreateVerletPoint(new Vector2(100, 140));
+             int fourthPoint = verletEngine.CreateVerletPoint(new Vector2(100, 160));
+             verletEngine.BindPoints(firstPoint, secondPoint);
+             verletEngine.BindPoints(secondPoint, thirdPoint);
+             verletEngine.BindPoints(thirdPoint, fourthPoint);
+             */
 
-            MouseState mouseState = Mouse.GetState();
+            targetScale = 1.2f;
+             MouseState mouseState = Mouse.GetState();
             scrollBuffer = mouseState.ScrollWheelValue;
             base.Initialize();
         }
@@ -249,13 +250,17 @@ namespace Flipsider
             verletEngine.GlobalRenderPoints();
             TileManager.ShowTileCursor();
             TileManager.RenderTiles();
-
+            
             RenderUI();
         }
 
         void RenderSkybox()
         {
-            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            spriteBatch.Begin();
+            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(5), Color.White);
+            spriteBatch.End();
+            spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
         }
 
         void RenderUI()

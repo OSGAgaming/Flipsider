@@ -25,6 +25,10 @@ namespace Flipsider
         public int maxLife = 100;
         public float percentLife => life / (float)maxLife;
 
+        public float feetPos {
+            get => position.Y + maxHeight;
+            set => position.Y = value - maxHeight;
+        }
 
         public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
         public Weapon rightWeapon = new Weapons.Ranged.Pistol.TestGun2(); //Temporary
@@ -37,6 +41,7 @@ namespace Flipsider
         {
             this.position = position;
             width = 40;
+            maxHeight = 72;
             height = 72;
         }
 
@@ -147,10 +152,10 @@ namespace Flipsider
                 {
                     if (Main.tiles[i,j] == 1)
                     {
-                        bool case1 = (position.Y - velocity.Y >= j * res - 1 && position.Y + height - velocity.Y + 1 >= j * res) &&
-                                     (position.Y - velocity.Y >= j * res + res - 1 && position.Y + height - velocity.Y + 1 >= j * res + res);
-                        bool case2 = (position.Y - velocity.Y <= j * res + 1 && position.Y + height - velocity.Y - 1 <= j * res) &&
-                                     (position.Y - velocity.Y <= j * res + res + 1 && position.Y + height - velocity.Y - 1 <= j * res + res);
+                        bool case1 = (feetPos - height - velocity.Y >= j * res - 1 && feetPos - velocity.Y + 1 >= j * res) &&
+                                     (feetPos - height - velocity.Y >= j * res + res - 1 && feetPos - velocity.Y + 1 >= j * res + res);
+                        bool case2 = (feetPos - height - velocity.Y <= j * res + 1 && feetPos - velocity.Y - 1 <= j * res) &&
+                                     (feetPos - height - velocity.Y <= j * res + res + 1 && feetPos - velocity.Y - 1 <= j * res + res);
                         bool hasSideCollision = !(case1 || case2);
                         bool case3 = (position.X - velocity.X >= i * res - 1 && position.X + width - velocity.X + 1 >= i * res) &&
                                      (position.X - velocity.X >= i * res + res - 1 && position.X + width - velocity.X + 1 >= i * res + res);
@@ -163,7 +168,7 @@ namespace Flipsider
                             {
                                 up = j + 1;
                             }
-                            if (j < down && j * res + res / 2 > position.Y + height && velocity.Y > 0)
+                            if (j < down && j * res + res / 2 > feetPos && velocity.Y > 0)
                             {
                                 down = j;
                             }
@@ -264,9 +269,9 @@ namespace Flipsider
 
         void Constraints()
         {
-            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - height);
+            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if(position.Y >= Main.ScreenSize.Y - height)
+            if(feetPos >= Main.ScreenSize.Y)
             {
                 onGround = true;
                 velocity.Y = 0;
@@ -285,7 +290,7 @@ namespace Flipsider
             texture = TextureCache.player;
             FindFrame();
             spriteBatch.Draw(texture, Center + new Vector2(-10, 12), frame, Color.White, 0f, new Vector2(width / 2f, height / 2f), 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position, width, height, Color.Green);
+            DrawMethods.DrawRectangle(position + new Vector2(0,maxHeight - height), width, height, Color.Green);
         }
 
         private void FindFrame()

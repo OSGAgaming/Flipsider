@@ -14,6 +14,7 @@ namespace Flipsider
 		public Texture2D texture;
 		public Rectangle frame;
 		public int height;
+		public int maxHeight;
 
 		public Vector2 position;
 
