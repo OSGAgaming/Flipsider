@@ -9,6 +9,8 @@ namespace Flipsider
 {
     public static class DrawMethods
     {
+        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.mainCamera.CamPos - center) * strenght;
+
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(Main.pixel, pos, tint);
         public static void DrawLine(Vector2 p1, Vector2 p2, Color tint)
         {
