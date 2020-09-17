@@ -1,4 +1,5 @@
-
+Flipsider/Content/obj/
+Flipsider/obj/
 Flipsider/obj/Debug/netcoreapp3.1/Flipsider.csprojAssemblyReference.cache
 Flipsider/obj/Debug/netcoreapp3.1/Flipsider.dll
 Flipsider/obj/Debug/netcoreapp3.1/Flipsider.pdb
@@ -26,3 +27,17 @@ Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
 *.cache
 Flipsider/obj/Debug/netcoreapp3.1/Flipsider.pdb
 Flipsider/Content/obj/DesktopGL/Content/.mgcontent
+*.mgcontent
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.csproj.CoreCompileInputs.cache
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.csproj.FileListAbsolute.txt
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.dll
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.exe
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.pdb
+Flipsider/obj/Flipsider.csproj.nuget.dgspec.json
+Flipsider/obj/Debug/netcoreapp3.1/Flipsider.pdb
+Flipsider/obj/Flipsider.csproj.nuget.dgspec.json
+Flipsider/obj/Flipsider.csproj.nuget.g.props
+Flipsider/obj/project.assets.json
+Flipsider/obj/project.nuget.cache
+*.mgcontent
+*.cache
