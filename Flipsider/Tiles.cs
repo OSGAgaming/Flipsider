@@ -83,12 +83,18 @@ namespace Flipsider
                 {
                     if (i > 0 && j > 0 && i < Main.MaxTilesX && j < Main.MaxTilesY)
                     {
-                        //  DrawMethods.DrawSquare(new Vector2(i*tileRes, j * tileRes), tileRes, Color.White);
-                    }
-                    else if (Main.tiles[i, j].atlas != null)
-                    {
-                        Main.tiles[i, j].frame = GetTileFrame(i, j);
-                        Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
+                        if (Main.tiles[i, j].active)
+                        {
+                            if (Main.tiles[i, j].atlas == null)
+                            {
+                                DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
+                            }
+                            else
+                            {
+                                Main.tiles[i, j].frame = GetTileFrame(i, j);
+                                Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
+                            }
+                        }
                     }
                 }
             }
