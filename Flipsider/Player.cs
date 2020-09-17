@@ -91,8 +91,8 @@ namespace Flipsider
             TileCollisions();
             PostUpdates();
 
-            leftWeapon.UpdatePassive();
-            rightWeapon.UpdatePassive();
+            leftWeapon?.UpdatePassive();
+            rightWeapon?.UpdatePassive();
         }
 
         void CoreUpdates()

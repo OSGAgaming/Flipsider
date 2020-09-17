@@ -4,14 +4,14 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/HudSlot.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/MagicPixel.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/TestGun.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/skybox.png</File>
-    <File>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/TileSet1.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/char.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/FlipFont.spritefont</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GF.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/HudSlot.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/MagicPixel.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/GUI/TestGun.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/skybox.png</File>
+    <File>C:/Users/Alex/Desktop/Flipsider/Flipsider/Content/TileSet1.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
