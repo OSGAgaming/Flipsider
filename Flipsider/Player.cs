@@ -102,7 +102,7 @@ namespace Flipsider
 
             velocity.Y += gravity;
             velocity *= airResistance;
-            position += velocity;
+            position += velocity * Time.DeltaVar(60);
 
             if (state.IsKeyDown(Keys.X) && !Swapping)
             {

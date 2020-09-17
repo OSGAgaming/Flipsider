@@ -32,7 +32,7 @@ namespace Flipsider
 
             public void DrawFps(SpriteBatch spriteBatch, SpriteFont font, Vector2 fpsDisplayPosition, Color fpsTextColor)
             {
-                spriteBatch.DrawString(font,Main.mainCamera.CamPos.ToString(), fpsDisplayPosition, fpsTextColor, 0, Vector2.Zero, 0.6f, 0, 0);
+                spriteBatch.DrawString(font,msg, fpsDisplayPosition, fpsTextColor, 0, Vector2.Zero, 0.6f, 0, 0);
                 frames++;
             }
         }

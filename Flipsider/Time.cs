@@ -7,5 +7,11 @@ namespace Flipsider
     public static class Time
     {
         public static double DeltaTime(this GameTime gt) => gt.ElapsedGameTime.TotalSeconds;
+
+        public static float DeltaT => (float)Main.gameTime.DeltaTime();
+
+        public static float DeltaVar(float mult) => (float)Main.gameTime.DeltaTime() * mult;
+
+        public static float QuickDelta => (float)Main.gameTime.DeltaTime() * 60;
     }
 }

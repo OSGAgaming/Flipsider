@@ -48,7 +48,7 @@ namespace Flipsider
         {
             get => 1000;
         }
-
+        public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => (Mouse.GetState().Position.ToVector2()/mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
         public static Tile[,] tiles;
