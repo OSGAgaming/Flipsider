@@ -9,12 +9,12 @@ namespace Flipsider
 {
     public class Player : Entity
     {
-        public float acceleration = 0.08f;
-        public float gravity = 0.15f;
+        public float acceleration = 0.07f;
+        public float gravity = 0.08f;
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
 
-        float jumpheight = 5;
+        float jumpheight = 3.9f;
         public bool onGround;
         public float friction = 0.982f;
         public int spriteDirection;
