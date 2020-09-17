@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
+
+using Flipsider.Engine.Input;
 using Flipsider.Weapons;
 
 namespace Flipsider
@@ -235,15 +237,17 @@ namespace Flipsider
 
             if (!(crouching && onGround))
             {
-                if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+                if (GameInput.Instance["MoveRight"].IsDown())
                 {
-                    velocity.X += acceleration;
+                    float amount = GameInput.Instance["MoveRight"].GetPressValue();
+                    velocity.X += acceleration * amount;
                     friction = 0.99f;
                 }
 
-                if (state.IsKeyDown(Keys.Left) || state.IsKeyDown(Keys.A))
+                if (GameInput.Instance["MoveLeft"].IsDown())
                 {
-                    velocity.X -= acceleration;
+                    float amount = GameInput.Instance["MoveLeft"].GetPressValue();
+                    velocity.X -= acceleration * amount;
                     friction = 0.99f;
                 }
             }
