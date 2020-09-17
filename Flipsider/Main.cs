@@ -131,8 +131,8 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
-            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30) + player.velocity;
-            verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30) + player.velocity;
+            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? -8 : 0) + 18, 30) + player.velocity;
+            verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
             if (delay > 0)
                 delay--;
             //this is vile, please change, cause I dont know whats being passed

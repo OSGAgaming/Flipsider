@@ -10,11 +10,11 @@ namespace Flipsider
     public class Player : Entity
     {
         public float acceleration = 0.08f;
-        public float gravity = 0.2f;
+        public float gravity = 0.15f;
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
 
-        float jumpheight = 7;
+        float jumpheight = 5;
         public bool onGround;
         public float friction = 0.982f;
         public int spriteDirection;
@@ -102,7 +102,7 @@ namespace Flipsider
 
             velocity.Y += gravity;
             velocity *= airResistance;
-            position += velocity * Time.DeltaVar(60);
+            position += velocity * Time.QuickDelta;
 
             if (state.IsKeyDown(Keys.X) && !Swapping)
             {
@@ -186,7 +186,6 @@ namespace Flipsider
                                     right = i;
                                 }
                             }
-
                         }
                     }
                 }
