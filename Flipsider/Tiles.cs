@@ -74,17 +74,24 @@ namespace Flipsider
 
         public static void RenderTiles()
         {
-            for(int i = 0; i< Main.MaxTilesX; i++)
+            int SafeLowerBoundX = (int)(Main.player.Center.X - Main.ScreenSize.X) / 16;
+            int SafeUpperBoundX = (int)(Main.player.Center.X + Main.ScreenSize.X) / 16;
+            int SafeLowerBoundY = (int)(Main.player.Center.Y - Main.ScreenSize.Y) / 16;
+            int SafeUpperBoundY = (int)(Main.player.Center.Y + Main.ScreenSize.Y) / 16;
+            for (int i = SafeLowerBoundX; i< SafeUpperBoundX; i++)
             {
-                for(int j = 0; j< Main.MaxTilesY; j++)
+                for(int j = SafeLowerBoundY; j < SafeUpperBoundY; j++)
                 {
-                    if (!Main.tiles[i, j].active)
+                    if (i > 0 && j > 0 && i < Main.MaxTilesX && j < Main.MaxTilesY)
                     {
-                        //  DrawMethods.DrawSquare(new Vector2(i*tileRes, j * tileRes), tileRes, Color.White);
-                    }
-                    else if (Main.tiles[i, j].atlas != null)
-                    {
-                        Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
+                        if (Main.tiles[i, j].active && Main.tiles[i, j].atlas == null)
+                        {
+                            DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
+                        }
+                        else if (Main.tiles[i, j].atlas != null)
+                        {
+                            Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
+                        }
                     }
                 }
             }
