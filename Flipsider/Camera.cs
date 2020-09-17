@@ -14,7 +14,7 @@ namespace Flipsider
         public float rotation { get; set; }
         public static int screenShake;
 
-        public Vector2 CamPos => playerpos - new Vector2(Main.graphics.GraphicsDevice.Viewport.Width / 2, Main.graphics.GraphicsDevice.Viewport.Height / 2);
+        public Vector2 CamPos => playerpos - new Vector2(Main.ScreenSize.X / 2, Main.ScreenSize.Y / 2)/scale;
             
 
         public Vector3 GetScreenScale()
@@ -40,19 +40,19 @@ namespace Flipsider
             int height = (int)Main.ScreenSize.Y;
 
             playerpos += offset;
-
-            if (scale >= 1)
+            if (!Main.EditorMode)
             {
-                playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
-                playerpos.Y = Math.Clamp(playerpos.Y, height / (2 * scale) - 200, height - (height / (2 * scale)));
+                if (scale >= 1)
+                {
+                    playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
+                    playerpos.Y = Math.Clamp(playerpos.Y, height / (2 * scale) - 200, height - (height / (2 * scale)));
+                }
+                else
+                {
+                    playerpos.X = width / 2;
+                    playerpos.Y = height / 2;
+                }
             }
-            else
-            {
-                playerpos.X = width / 2;
-                playerpos.Y = height / 2;
-            }
-
-            playerpos += offset;
             Transform =
                  Matrix.CreateTranslation(new Vector3(-playerpos + shake, 0)) *
                  Matrix.CreateScale(GetScreenScale()) *

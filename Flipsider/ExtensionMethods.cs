@@ -9,8 +9,7 @@ namespace Flipsider
 {
     public static class Extensions
     {
-        public static Vector2 ToScreen(this Vector2 v) => (v + Main.mainCamera.CamPos) / Main.mainCamera.scale - Main.ScreenSize / 8f;
-
+        public static Vector2 ToScreen(this Vector2 v) => (v / Main.mainCamera.scale + Main.mainCamera.CamPos);
         public static Vector2 AddParralaxAcross(this Vector2 v, float traversingPixels)
             {
 

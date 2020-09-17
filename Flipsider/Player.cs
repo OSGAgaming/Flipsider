@@ -146,13 +146,13 @@ namespace Flipsider
             int res = TileManager.tileRes;
             int tileHeight = height / res + 2;
             int tileWidth = width / res + 2;
-            for (int i = (int)position.X/res - tileHeight; i < (int)position.X / res + tileHeight; i++)
+            for (int i = (int)position.X/res - tileWidth; i < (int)position.X / res + tileWidth; i++)
             {
                 for (int j = (int)position.Y / res - tileHeight; j < (int)position.Y / res + tileHeight; j++)
                 {
                     if (i > 0 && j > 0)
                     {
-                        if (Main.tiles[i, j] == 1)
+                        if (Main.tiles[i, j].active)
                         {
                             bool case1 = (feetPos - height - velocity.Y >= j * res - 1 && feetPos - velocity.Y + 1 >= j * res) &&
                                          (feetPos - height - velocity.Y >= j * res + res - 1 && feetPos - velocity.Y + 1 >= j * res + res);

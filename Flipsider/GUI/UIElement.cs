@@ -17,15 +17,19 @@ namespace Flipsider.GUI
 
         protected virtual void OnHover() { }
 
+        protected virtual void NotOnHover() { }
+
         protected virtual void OnLeftClick() { }
 
         protected virtual void OnRightClick() { }
 
         public void Update()
         {
-            if (dimensions.Contains(Main.MouseScreen)) OnHover();
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed) OnLeftClick();
-            if (Mouse.GetState().RightButton == ButtonState.Pressed) OnRightClick();
+            MouseState state = Mouse.GetState();
+            if (dimensions.Contains(state.Position)) OnHover();
+            if (!dimensions.Contains(state.Position)) NotOnHover();
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnLeftClick();
+            if (Mouse.GetState().RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
         }
 
         public void SetDimensions(int x, int y, int width, int height)

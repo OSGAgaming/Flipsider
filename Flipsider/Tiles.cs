@@ -17,10 +17,12 @@ namespace Flipsider
         {
             public Texture2D atlas;
             public Rectangle frame;
+            public bool active;
             public Tile(Texture2D atlas, Rectangle frame)
             {
                 this.atlas = atlas;
                 this.frame = frame;
+                active = false;
             }
             public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
@@ -28,14 +30,17 @@ namespace Flipsider
 
         public static void AddTile()
         {
-            if(Main.EditorMode)
+            if(Main.EditorMode && !Main.TileEditorMode)
             {
                 try
                 {
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                     Point tilePoint = new Point((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                    Main.tiles[tilePoint.X, tilePoint.Y] = 1;
+                    Main.tiles[tilePoint.X, tilePoint.Y] = new Tile(Main.currentAtlas, Main.currentFrame)
+                    {
+                        active = true
+                    };
                 }
                 catch
                 {
@@ -57,8 +62,8 @@ namespace Flipsider
                 {
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
-                    Point tilePoint = new Point((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                    Main.tiles[tilePoint.X, tilePoint.Y] = 0;
+                    Point tilePoint = new Point(Main.MouseScreen.X / tileRes, Main.MouseScreen.Y / tileRes);
+                    Main.tiles[tilePoint.X, tilePoint.Y].active = false;
                 }
                 catch
                 {
@@ -73,22 +78,35 @@ namespace Flipsider
             {
                 for(int j = 0; j< Main.MaxTilesY; j++)
                 {
-                    if(Main.tiles[i,j] == 1)
+                    if (!Main.tiles[i, j].active)
                     {
-                        DrawMethods.DrawSquare(new Vector2(i*tileRes, j * tileRes), tileRes, Color.White);
+                        //  DrawMethods.DrawSquare(new Vector2(i*tileRes, j * tileRes), tileRes, Color.White);
+                    }
+                    else if (Main.tiles[i, j].atlas != null)
+                    {
+                        Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
                     }
                 }
             }
         }
         public static void ShowTileCursor()
         {
-            if (Main.EditorMode)
+            if (Main.EditorMode && !Main.TileEditorMode)
             {
+                int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 MouseState state = Mouse.GetState();
-                Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
-                Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
+                Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y);
+                Vector2 tilePoint = new Vector2((int)mousePos.X / modifiedRes * modifiedRes, (int)mousePos.Y / modifiedRes * modifiedRes);
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds*6);
-                DrawMethods.DrawSquare(tilePoint, tileRes, Color.White * Math.Abs(sine));
+                Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
+                if (Main.currentAtlas == null)
+                {
+                    DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
+                }
+                else
+                {
+                    Main.spriteBatch.Draw(Main.currentAtlas, tilePoint - offsetSnap, Main.currentFrame, Color.White * Math.Abs(sine),0f,new Vector2(modifiedRes / 2, modifiedRes / 2),Main.mainCamera.scale,SpriteEffects.None,0f);
+                }
             }
         }
     }

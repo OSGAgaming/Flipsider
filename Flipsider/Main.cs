@@ -9,6 +9,7 @@ using Flipsider.GUI;
 using Flipsider.GUI.HUD;
 using System.Collections.Generic;
 using Flipsider.GUI.TilePlacementGUI;
+using static Flipsider.TileManager;
 
 namespace Flipsider
 {
@@ -32,8 +33,11 @@ namespace Flipsider
         public static SpriteFont font;
         public float targetScale = 1;
         private int scrollBuffer;
+        public static Texture2D currentAtlas;
+        public static Rectangle currentFrame;
         int delay;
         public static List<Entity> entities = new List<Entity>();
+        public static bool TileEditorMode;
 
         public static int MaxTilesX
         {
@@ -46,8 +50,8 @@ namespace Flipsider
         }
 
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-        public static Point MouseScreen => Mouse.GetState().Position + mainCamera.CamPos.ToPoint();
-        public static int[,] tiles;
+        public static Point MouseScreen => (Mouse.GetState().Position.ToVector2()/mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
+        public static Tile[,] tiles;
 
         public Main()
         {
@@ -55,19 +59,16 @@ namespace Flipsider
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
-            TileManager.AddTileType(TextureCache.TileSet1, "TileSet1");
-            tileGUI = new TileGUI();
-            hud = new Hud();
         }
 
         private Verlet verletEngine;
         protected override void Initialize()
         {
-            tiles = new int[MaxTilesX, MaxTilesY];
+            tiles = new Tile[MaxTilesX, MaxTilesY];
             verletEngine = new Verlet();
             rand = new Random();
             player = new Player(new Vector2(100, 100));
-
+            
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
 
@@ -111,6 +112,7 @@ namespace Flipsider
             targetScale = 1.2f;
              MouseState mouseState = Mouse.GetState();
             scrollBuffer = mouseState.ScrollWheelValue;
+            
             base.Initialize();
         }
 
@@ -120,14 +122,15 @@ namespace Flipsider
             font = Content.Load<SpriteFont>("FlipFont");
             mainCamera = new Camera();
             TextureCache.LoadTextures();
+            AddTileType(TextureCache.TileSet1, "TileSet1");
+            tileGUI = new TileGUI();
+            hud = new Hud();
             instance = this;
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
         {
-
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? 5 : 0) + 12, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? 5 : 0) + 22, 30) + player.velocity;
             if (delay > 0)
@@ -143,21 +146,30 @@ namespace Flipsider
             MouseState mouseState = Mouse.GetState();
             if(mouseState.LeftButton == ButtonState.Pressed)
             {
-                TileManager.AddTile();
+                AddTile();
             }
             if (mouseState.RightButton == ButtonState.Pressed)
             {
-                TileManager.RemoveTile();
+                RemoveTile();
             }
             //I was lazy to make another instance variable, so I just calculated my average press time lol
             if (state.IsKeyDown(Keys.Z) && delay == 0)
             {
                 SwitchModes();
             }
+            if(EditorMode)
+            {
+                if(state.IsKeyDown(Keys.T) && delay == 0)
+                {
+                    SwitchToTileEditorMode();
+                }
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || state.IsKeyDown(Keys.Escape))
                 Exit();
 
             verletEngine.Update();
+
+            tileGUI.active = TileEditorMode;
 
             if (!EditorMode)
             {
@@ -175,7 +187,11 @@ namespace Flipsider
             tileGUI.Update();
             base.Update(gameTime);
         }
-
+        void SwitchToTileEditorMode()
+        {
+            delay = 30;
+            TileEditorMode = !TileEditorMode;
+        }
         void SwitchModes()
         {
             delay = 30;
@@ -197,7 +213,7 @@ namespace Flipsider
             MouseState mouseState = Mouse.GetState();
             KeyboardState state = Keyboard.GetState();
             float scrollSpeed = 0.02f;
-            float camMoveSpeed = 2;
+            float camMoveSpeed = 0.2f;
             if (EditorMode)
             {
                 if (scrollBuffer < mouseState.ScrollWheelValue)
@@ -250,8 +266,8 @@ namespace Flipsider
             }
 
             verletEngine.GlobalRenderPoints();
-            TileManager.ShowTileCursor();
-            TileManager.RenderTiles();
+            
+           RenderTiles();
             
             RenderUI();
         }
@@ -269,6 +285,7 @@ namespace Flipsider
         {
             spriteBatch.End();
             spriteBatch.Begin();
+            ShowTileCursor();
             hud.active = true;
             hud.Draw(spriteBatch);
             tileGUI.active = true;
