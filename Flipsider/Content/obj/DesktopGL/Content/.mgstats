@@ -1,8 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/char.xnb","TextureProcessor","Texture2DContent",18194,1179733,0.2780809
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb","FontDescriptionProcessor","SpriteFontContent",2008,37922,0.1979689
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GF.xnb","TextureProcessor","Texture2DContent",21477,375061,0.0101217
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/HudSlot.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb","TextureProcessor","Texture2DContent",381,9301,0.0017964
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/MagicPixel.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/MagicPixel.xnb","TextureProcessor","Texture2DContent",78,101,0.0010855
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/TestGun.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/TestGun.xnb","TextureProcessor","Texture2DContent",417,9301,0.0016664
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/skybox.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/skybox.xnb","TextureProcessor","Texture2DContent",131484,14745685,0.2965997
