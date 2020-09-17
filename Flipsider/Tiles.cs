@@ -95,8 +95,8 @@ namespace Flipsider
             {
                 int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 MouseState state = Mouse.GetState();
-                Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y);
-                Vector2 tilePoint = new Vector2((int)mousePos.X / modifiedRes * modifiedRes, (int)mousePos.Y / modifiedRes * modifiedRes);
+                Vector2 mousePos = Main.MouseScreen.ToVector2();
+                Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds*6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 if (Main.currentAtlas == null)
@@ -105,7 +105,7 @@ namespace Flipsider
                 }
                 else
                 {
-                    Main.spriteBatch.Draw(Main.currentAtlas, tilePoint - offsetSnap, Main.currentFrame, Color.White * Math.Abs(sine),0f,new Vector2(modifiedRes / 2, modifiedRes / 2),Main.mainCamera.scale,SpriteEffects.None,0f);
+                    Main.spriteBatch.Draw(Main.currentAtlas, tilePoint + new Vector2(tileRes / 2, tileRes / 2), Main.currentFrame, Color.White * Math.Abs(sine),0f,new Vector2(tileRes / 2, tileRes / 2),1f,SpriteEffects.None,0f);
                 }
             }
         }

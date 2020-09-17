@@ -268,7 +268,7 @@ namespace Flipsider
             verletEngine.GlobalRenderPoints();
             
            RenderTiles();
-            
+            ShowTileCursor();
             RenderUI();
         }
 
@@ -285,7 +285,7 @@ namespace Flipsider
         {
             spriteBatch.End();
             spriteBatch.Begin();
-            ShowTileCursor();
+            
             hud.active = true;
             hud.Draw(spriteBatch);
             tileGUI.active = true;
