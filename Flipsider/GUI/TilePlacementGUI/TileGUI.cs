@@ -73,6 +73,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (tile.atlas != null)
             {
+
                 if (!chosen)
                 {
                     spriteBatch.Draw(tile.atlas, dimensions, Color.Lerp(Color.White, Color.Black, lerpage)* alpha);
@@ -87,7 +88,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                         Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
                         Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes) + new Vector2(dimensions.X % tileRes, dimensions.Y % tileRes);
                         float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                        DrawMethods.DrawSquare(tilePoint, tileRes, Color.Yellow * Math.Abs(sine));
+                        DrawMethods.DrawSquare(tilePoint, tileRes, Color.Yellow * Math.Abs(sine)*alpha);
                     }
                 }
             }
@@ -102,7 +103,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             Main.currentAtlas = tile.atlas;
             if(chosen)
             {
-                
                 Rectangle chooseArea = new Rectangle(goToPoint, (int)startingPoint.Y, 128, 272);
                 MouseState mousestate = Mouse.GetState();
                 if (chooseArea.Contains(mousestate.Position))
