@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 namespace Flipsider
 {
     public class TileManager
@@ -84,11 +83,164 @@ namespace Flipsider
                     }
                     else if (Main.tiles[i, j].atlas != null)
                     {
+                        Main.tiles[i, j].frame = GetTileFrame(i, j);
                         Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
                     }
                 }
             }
         }
+        public static Rectangle GetTileFrame(int i, int j)
+        {
+            //fuck this is gonna be messy:
+
+            bool upLeft = Main.tiles[i - 1, j - 1].active;
+            bool upMid = Main.tiles[i, j - 1].active;
+            bool upRight = Main.tiles[i + 1, j - 1].active;
+
+            bool left = Main.tiles[i - 1, j].active;
+            bool right = Main.tiles[i + 1, j].active;
+
+            bool downLeft = Main.tiles[i - 1, j + 1].active;
+            bool downMid = Main.tiles[i, j + 1].active;
+            bool downRight = Main.tiles[i + 1, j + 1].active;
+
+            //non sloped for now
+
+            //This is for non diagonal relative ones
+            if (!upMid && !left && right && !downMid)
+            {
+                return new Rectangle(0, 0, 32, 32);
+            }
+            if (!upMid && left && right && !downMid)
+            {
+                return new Rectangle(32, 0, 32, 32);
+            }
+            if (!upMid && left && !right && !downMid)
+            {
+                return new Rectangle(64, 0, 32, 32);
+            }
+            if (!upMid && !left && !right && downMid)
+            {
+                return new Rectangle(96, 0, 32, 32);
+            }
+
+            if (!upMid && !left && right && downMid)
+            {
+                return new Rectangle(0, 32, 32, 32);
+            }
+            if (!upMid && left && right && downMid)
+            {
+                return new Rectangle(32, 32, 32, 32);
+            }
+            if (!upMid && left && !right && downMid)
+            {
+                return new Rectangle(64, 32, 32, 32);
+            }
+            if (upMid && !left && !right && downMid)
+            {
+                return new Rectangle(96, 32, 32, 32);
+            }
+
+            if (upMid && !left && right && downMid)
+            {
+                return new Rectangle(0, 64, 32, 32);
+            }
+            if (upMid && left && right && downMid)
+            {
+                if (!upLeft && upRight && downLeft && !downRight)
+                {
+                    return new Rectangle(0, 128, 32, 32);
+                }
+                if (upLeft && !upRight && !downLeft && downRight)
+                {
+                    return new Rectangle(32, 128, 32, 32);
+                }
+                if (!upLeft && !upRight && !downLeft && downRight)
+                {
+                    return new Rectangle(64, 128, 32, 32);
+                }
+                if (!upLeft && !upRight && downLeft && !downRight)
+                {
+                    return new Rectangle(96, 128, 32, 32);
+                }
+                if (!upLeft && upRight && downLeft && downRight)
+                {
+                    return new Rectangle(128, 128, 32, 32);
+                }
+                if (upLeft && !upRight && downLeft && downRight)
+                {
+                    return new Rectangle(160, 128, 32, 32);
+                }
+
+                if (!upLeft && upRight && !downLeft && !downRight)
+                {
+                    return new Rectangle(64, 160, 32, 32);
+                }
+                if (upLeft && !upRight && !downLeft && !downRight)
+                {
+                    return new Rectangle(96, 160, 32, 32);
+                }
+                if (upLeft && upRight && !downLeft && downRight)
+                {
+                    return new Rectangle(128, 160, 32, 32);
+                }
+                if (upLeft && upRight && downLeft && !downRight)
+                {
+                    return new Rectangle(160, 160, 32, 32);
+                }
+                if (!upLeft && !upRight && !downLeft && !downRight)
+                {
+                    return new Rectangle(0, 192, 32, 32);
+                }
+                if (!upLeft && !upRight && downLeft && downRight)
+                {
+                    return new Rectangle(32, 192, 32, 32);
+                }
+                if (upLeft && upRight && !downLeft && !downRight)
+                {
+                    return new Rectangle(64, 192, 32, 32);
+                }
+                if (!upLeft && upRight && !downLeft && downRight)
+                {
+                    return new Rectangle(96, 192, 32, 32);
+                }
+                if (upLeft && !upRight && downLeft && !downRight)
+                {
+                    return new Rectangle(128, 192, 32, 32);
+                }
+
+                return new Rectangle(32, 64, 32, 32);
+            }
+            if (upMid && left && !right && downMid)
+            {
+                return new Rectangle(64, 64, 32, 32);
+            }
+            if (upMid && !left && !right && !downMid)
+            {
+                return new Rectangle(96, 64, 32, 32);
+            }
+
+            if (upMid && !left && right && !downMid)
+            {
+                return new Rectangle(0, 96, 32, 32);
+            }
+            if (upMid && left && right && !downMid)
+            {
+                return new Rectangle(32, 96, 32, 32);
+            }
+            if (upMid && left && !right && !downMid)
+            {
+                return new Rectangle(64, 96, 32, 32);
+            }
+            if (!upMid && !left && !right && !downMid)
+            {
+                return new Rectangle(96, 96, 32, 32);
+            }
+
+
+            return new Rectangle(0, 0, 32, 32);
+        }
+
         public static void ShowTileCursor()
         {
             if (Main.EditorMode && !Main.TileEditorMode)
