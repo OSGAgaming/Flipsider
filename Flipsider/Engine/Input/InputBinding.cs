@@ -88,9 +88,9 @@ namespace Flipsider.Engine.Input
                 case MouseInput.MouseButton2:
                     return mouse.XButton2 == ButtonState.Pressed;
                 case MouseInput.ScrollDown:
-                    return GameInput.Instance.DeltaScroll > 0;
+                    return GameInput.Instance.DeltaScroll < 0;
                 case MouseInput.ScrollUp:
-                    return GameInput.Instance.DeltaScroll < 0; // TODO: Check these comparisons are actually correct, was a total guess.
+                    return GameInput.Instance.DeltaScroll > 0; // TODO: Check these comparisons are actually correct, was a total guess.
             }
         }
 
@@ -128,9 +128,9 @@ namespace Flipsider.Engine.Input
                 case MouseInput.MouseButton2:
                     return mouse.XButton2 == ButtonState.Released;
                 case MouseInput.ScrollDown:
-                    return GameInput.Instance.DeltaScroll < 0;
-                case MouseInput.ScrollUp:
                     return GameInput.Instance.DeltaScroll > 0;
+                case MouseInput.ScrollUp:
+                    return GameInput.Instance.DeltaScroll < 0;
             }
         }
 

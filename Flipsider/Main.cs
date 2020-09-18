@@ -9,6 +9,7 @@ using Flipsider.GUI;
 using Flipsider.GUI.HUD;
 using System.Collections.Generic;
 
+using Flipsider.Engine;
 using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
 using static Flipsider.TileManager;
@@ -17,21 +18,21 @@ namespace Flipsider
 {
     public class Main : Game
     {
+        public SceneManager sceneManager;
+
+        public static Random rand;
+        public static SpriteBatch spriteBatch;
+        public static GraphicsDeviceManager graphics;
+        public static Main instance;
+
         private Hud hud;
         private TileGUI tileGUI;
         //Terraria PTSD
-        public static GraphicsDeviceManager graphics;
-        public static SpriteBatch spriteBatch;
-        public static Main instance;
-        public static Random rand;
-        public static Texture2D pixel;
         public static Texture2D character;
         public static Player player;
         public static bool EditorMode;
         public static GameTime gameTime;
-        public static  ContentManager Contents;
         public static Camera mainCamera;
-        public static float Scale;
         public static SpriteFont font;
         public float targetScale = 1;
         private int scrollBuffer;
@@ -58,6 +59,9 @@ namespace Flipsider
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics.ApplyChanges();
+
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -69,6 +73,14 @@ namespace Flipsider
         {
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
             GameInput.Instance.RegisterControl("MoveRight", Keys.D, Buttons.LeftThumbstickRight);
+            GameInput.Instance.RegisterControl("Jump", Keys.Space, Buttons.A);
+
+            GameInput.Instance.RegisterControl("EditorPlaceTile", MouseInput.Left, Buttons.RightTrigger);
+            GameInput.Instance.RegisterControl("EdtiorRemoveTile", MouseInput.Right, Buttons.RightShoulder);
+            GameInput.Instance.RegisterControl("EditorSwitchModes", Keys.Z, Buttons.RightStick);
+            GameInput.Instance.RegisterControl("EditorTileEditor", Keys.T, Buttons.LeftStick);
+            GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
+            GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
 
             tiles = new Tile[MaxTilesX, MaxTilesY];
             verletEngine = new Verlet();
@@ -116,18 +128,15 @@ namespace Flipsider
              verletEngine.BindPoints(thirdPoint, fourthPoint);
              */
             targetScale = 1.2f;
-             MouseState mouseState = Mouse.GetState();
-            scrollBuffer = mouseState.ScrollWheelValue;
             
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            Contents = Content;
             font = Content.Load<SpriteFont>("FlipFont");
             mainCamera = new Camera();
-            TextureCache.LoadTextures();
+            TextureCache.LoadTextures(Content);
             AddTileType(TextureCache.TileSet1, "TileSet1");
             AddTileType(TextureCache.TileSet2, "TileSet2");
             AddTileType(TextureCache.TileSet2, "TileSet2");
@@ -142,41 +151,33 @@ namespace Flipsider
         protected override void Update(GameTime gameTime)
         {
             GameInput.Instance.UpdateInput();
+
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
-            if (delay > 0)
-                delay--;
+
             //this is vile, please change, cause I dont know whats being passed
             Main.gameTime = gameTime;
-            if (pixel == null)
-            {
-                pixel = new Texture2D(graphics.GraphicsDevice, 1, 1);
-                pixel.SetData(new Color[] { Color.White });
-            }
-            KeyboardState state = Keyboard.GetState();
-            MouseState mouseState = Mouse.GetState();
-            if(mouseState.LeftButton == ButtonState.Pressed)
+            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed())
             {
                 AddTile();
             }
-            if (mouseState.RightButton == ButtonState.Pressed)
+            if (GameInput.Instance["EdtiorRemoveTile"].IsJustPressed())
             {
                 RemoveTile();
             }
             //I was lazy to make another instance variable, so I just calculated my average press time lol
-            if (state.IsKeyDown(Keys.Z) && delay == 0)
+            if (GameInput.Instance["EditorSwitchModes"].IsJustPressed())
             {
                 SwitchModes();
             }
-            if(EditorMode)
+
+            if (EditorMode)
             {
-                if(state.IsKeyDown(Keys.T) && delay == 0)
+                if (GameInput.Instance["EditorTileEditor"].IsJustPressed())
                 {
                     SwitchToTileEditorMode();
                 }
             }
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || state.IsKeyDown(Keys.Escape))
-                Exit();
 
             verletEngine.Update();
 
@@ -193,7 +194,6 @@ namespace Flipsider
             }
 
             ControlEditorScreen();
-            scrollBuffer = mouseState.ScrollWheelValue;
             hud.Update();
             tileGUI.Update();
             base.Update(gameTime);
@@ -227,11 +227,11 @@ namespace Flipsider
             float camMoveSpeed = 0.2f;
             if (EditorMode)
             {
-                if (scrollBuffer < mouseState.ScrollWheelValue)
+                if (GameInput.Instance["EditorZoomIn"].IsDown())
                 {
                     targetScale += scrollSpeed;
                 }
-                if (scrollBuffer > mouseState.ScrollWheelValue)
+                if (GameInput.Instance["EditorZoomOut"].IsDown())
                 {
                     targetScale -= scrollSpeed;
                 }
@@ -261,7 +261,6 @@ namespace Flipsider
 
         protected override void UnloadContent()
         {
-            pixel.Dispose();
             base.UnloadContent();
         }
 
