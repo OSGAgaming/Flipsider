@@ -264,7 +264,7 @@ namespace Flipsider
                     {
                         return new Rectangle(96, 352, 32, 32);
                     }
-                    if (!upRight)
+                    if (!downLeft)
                     {
                         return new Rectangle(96, 384, 32, 32);
                     }
@@ -297,6 +297,7 @@ namespace Flipsider
                     {
                         return new Rectangle(32, 384, 32, 32);
                     }
+                    return new Rectangle(32, 96, 32, 32);
                 }
                 if (upMid && left && !right && !downMid)
                 {
