@@ -40,9 +40,9 @@ namespace Flipsider
         public Player(Vector2 position)
         {
             this.position = position;
-            width = 40;
-            maxHeight = 72;
-            height = 72;
+            width = 30;
+            maxHeight = 60;
+            height = 60;
         }
 
         public int swapTimer;
@@ -250,15 +250,15 @@ namespace Flipsider
 
             if(crouching)
             {
-                height = 48;
+              //  height = 48;
                 friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
             }
             else
             {
                 if (height != 72)
                 {
-                    height = 72;
-                    position.Y -= (72 - 48);
+                  //  height = 72;
+                   // position.Y -= (72 - 48);
                 }
             }
 
@@ -291,8 +291,8 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             FindFrame();
-            spriteBatch.Draw(texture, Center + new Vector2(-10, 12), frame, Color.White, 0f, new Vector2(width / 2f, height / 2f), 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position + new Vector2(0,maxHeight - height), width, height, Color.Green);
+            spriteBatch.Draw(texture, Center- new Vector2(0,18), frame, Color.White, 0f, frame.Size.ToVector2()/2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            DrawMethods.DrawRectangle(position + new Vector2(0,maxHeight-height), width, height, Color.Green);
         }
 
         private void FindFrame()

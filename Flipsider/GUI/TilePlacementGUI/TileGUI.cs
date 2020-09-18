@@ -15,9 +15,10 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         TilePanel[] tilePanel;
         int rows = 5;
-        int widthOfPanel = 128/4;
-        int heightOfPanel = 272/4;
-        int padding = 20;
+        int widthOfPanel = 128/2;
+        int heightOfPanel = 272/2;
+        int paddingX = 5;
+        int paddingY = 20;
         public TileGUI()
         {
             tilePanel = new TilePanel[tileTypes.Count];
@@ -25,10 +26,10 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for(int i = 0; i< tilePanel.Length;i++)
                 {
-                    Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel * (i + 1) + (i % rows) * widthOfPanel - padding, padding + (i / rows) * heightOfPanel);
+                    Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * heightOfPanel);
                     tilePanel[i] = new TilePanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
-                    tilePanel[i].startingPoint = panelPoint;
+                    tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].tile = tileTypes[i];
                     elements.Add(tilePanel[i]);
                 }
@@ -37,6 +38,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         protected override void OnUpdate()
         {
+            
         }
     }
 
@@ -44,25 +46,28 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         public Tile tile;
         float lerpage = 0;
+        public Rectangle startingDimensions;
         bool chosen;
-        public Vector2 startingPoint;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
         Vector2 sizeOfAtlas = new Vector2(128, 272);
         float alpha = 0;
+        float progression = 0;
+        
         public override void Draw(SpriteBatch spriteBatch)
         {
+
             if (chosen)
             {
-                dimensions.X += (goToPoint - dimensions.X) / 16;
-                dimensions.Width += ((int)sizeOfAtlas.X - dimensions.Width) / 16;
-                dimensions.Height += ((int)sizeOfAtlas.Y - dimensions.Height) / (int)(16 * (sizeOfAtlas.X/ sizeOfAtlas.Y));
+                progression += (1 - progression) / 16f;
             }
             else
             {
-                dimensions.X += (int)(startingPoint.X - dimensions.X) / 16;
-                dimensions.Width += ((int)sizeOfAtlas.X / 4 - dimensions.Width) / 16;
-                dimensions.Height+= ((int)sizeOfAtlas.Y / 4 - dimensions.Height) / 16;
+                progression -= progression / 16f;
+                
             }
+            dimensions.X = (int)MathHelper.Lerp(startingDimensions.X,goToPoint,progression);
+            dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
+            dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
             if (Main.TileEditorMode)
             {
                 alpha += (1 - alpha) / 16f;
@@ -73,7 +78,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (tile.atlas != null)
             {
-
                 if (!chosen)
                 {
                     spriteBatch.Draw(tile.atlas, dimensions, Color.Lerp(Color.White, Color.Black, lerpage)* alpha);
@@ -81,7 +85,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 else
                 {
                     spriteBatch.Draw(tile.atlas, dimensions, Color.White* alpha);
-                    Rectangle chooseArea = new Rectangle(goToPoint, (int)startingPoint.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
+                    Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
                     MouseState mousestate = Mouse.GetState();
                     int DimTileRes = tileRes / 2;
                     if (chooseArea.Contains(mousestate.Position))
@@ -104,7 +108,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             Main.currentAtlas = tile.atlas;
             if(chosen)
             {
-                Rectangle chooseArea = new Rectangle(goToPoint, (int)startingPoint.Y, 128, 272);
+                Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, 128, 272);
                 MouseState mousestate = Mouse.GetState();
                 int DimTileRes = tileRes / 2;
                 if (chooseArea.Contains(mousestate.Position))

@@ -12,6 +12,7 @@ namespace Flipsider
         public Matrix Transform { get; set; }
         public float scale { get; set; }
         public float rotation { get; set; }
+
         public static int screenShake;
 
         public Vector2 CamPos => playerpos - new Vector2(Main.ScreenSize.X / 2, Main.ScreenSize.Y / 2)/scale;

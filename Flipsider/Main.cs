@@ -123,6 +123,10 @@ namespace Flipsider
             mainCamera = new Camera();
             TextureCache.LoadTextures();
             AddTileType(TextureCache.TileSet1, "TileSet1");
+            AddTileType(TextureCache.TileSet2, "TileSet2");
+            AddTileType(TextureCache.TileSet2, "TileSet2");
+            AddTileType(TextureCache.TileSet2, "TileSet2");
+            AddTileType(TextureCache.TileSet2, "TileSet2");
             tileGUI = new TileGUI();
             hud = new Hud();
             instance = this;
