@@ -118,7 +118,6 @@ namespace Flipsider
 
                 //non sloped for now
 
-                //This is for non diagonal relative ones
                 if (!upMid && !left && right && !downMid)
                 {
                     return new Rectangle(0, 0, 32, 32);
@@ -138,14 +137,34 @@ namespace Flipsider
 
                 if (!upMid && !left && right && downMid)
                 {
+                    if (!downRight)
+                    {
+                        return new Rectangle(192, 128, 32, 32);
+                    }
                     return new Rectangle(0, 32, 32, 32);
                 }
                 if (!upMid && left && right && downMid)
                 {
+                    if (!downLeft && !downRight)
+                    {
+                        return new Rectangle(224, 192, 32, 32);
+                    }
+                    if (!downLeft)
+                    {
+                        return new Rectangle(0, 352, 32, 32);
+                    }
+                    if (!downRight)
+                    {
+                        return new Rectangle(32, 352, 32, 32);
+                    }
                     return new Rectangle(32, 32, 32, 32);
                 }
                 if (!upMid && left && !right && downMid)
                 {
+                    if (!downLeft)
+                    {
+                        return new Rectangle(224, 128, 32, 32);
+                    }
                     return new Rectangle(64, 32, 32, 32);
                 }
                 if (upMid && !left && !right && downMid)
@@ -155,6 +174,18 @@ namespace Flipsider
 
                 if (upMid && !left && right && downMid)
                 {
+                    if (!upRight && !downRight)
+                    {
+                        return new Rectangle(160, 192, 32, 32);
+                    }
+                    if (!upRight)
+                    {
+                        return new Rectangle(64, 352, 32, 32);
+                    }
+                    if (!downRight)
+                    {
+                        return new Rectangle(64, 384, 32, 32);
+                    }
                     return new Rectangle(0, 64, 32, 32);
                 }
                 if (upMid && left && right && downMid)
@@ -225,6 +256,18 @@ namespace Flipsider
                 }
                 if (upMid && left && !right && downMid)
                 {
+                    if (!upLeft && !downLeft)
+                    {
+                        return new Rectangle(192, 192, 32, 32);
+                    }
+                    if (!upLeft)
+                    {
+                        return new Rectangle(96, 352, 32, 32);
+                    }
+                    if (!downLeft)
+                    {
+                        return new Rectangle(96, 384, 32, 32);
+                    }
                     return new Rectangle(64, 64, 32, 32);
                 }
                 if (upMid && !left && !right && !downMid)
@@ -234,14 +277,34 @@ namespace Flipsider
 
                 if (upMid && !left && right && !downMid)
                 {
+                    if (!upRight)
+                    {
+                        return new Rectangle(192, 160, 32, 32);
+                    }
                     return new Rectangle(0, 96, 32, 32);
                 }
                 if (upMid && left && right && !downMid)
                 {
+                    if (!upLeft && !upRight)
+                    {
+                        return new Rectangle(224, 224, 32, 32);
+                    }
+                    if (!upLeft)
+                    {
+                        return new Rectangle(0, 384, 32, 32);
+                    }
+                    if (!upRight)
+                    {
+                        return new Rectangle(32, 384, 32, 32);
+                    }
                     return new Rectangle(32, 96, 32, 32);
                 }
                 if (upMid && left && !right && !downMid)
                 {
+                    if (!upLeft)
+                    {
+                        return new Rectangle(224, 160, 32, 32);
+                    }
                     return new Rectangle(64, 96, 32, 32);
                 }
                 if (!upMid && !left && !right && !downMid)

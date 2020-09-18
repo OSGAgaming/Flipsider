@@ -8,6 +8,8 @@ using System.Diagnostics;
 using Flipsider.GUI;
 using Flipsider.GUI.HUD;
 using System.Collections.Generic;
+
+using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
 using static Flipsider.TileManager;
 
@@ -56,6 +58,7 @@ namespace Flipsider
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
+            Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
@@ -64,6 +67,9 @@ namespace Flipsider
         private Verlet verletEngine;
         protected override void Initialize()
         {
+            GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
+            GameInput.Instance.RegisterControl("MoveRight", Keys.D, Buttons.LeftThumbstickRight);
+
             tiles = new Tile[MaxTilesX, MaxTilesY];
             verletEngine = new Verlet();
             rand = new Random();
@@ -135,6 +141,7 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
+            GameInput.Instance.UpdateInput();
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
             if (delay > 0)
