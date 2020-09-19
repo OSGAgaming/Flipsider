@@ -16,7 +16,7 @@ namespace Flipsider.Engine
         private float _transitionProgress;
         private bool _transitioning;
         private bool _transitionSwitchedScene;
-        
+
         public Scene Scene
         {
             get

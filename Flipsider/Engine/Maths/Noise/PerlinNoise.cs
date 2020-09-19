@@ -57,8 +57,8 @@ namespace Flipsider.Maths.Noise
 
             //returns value from 0 to 1
             return (1f + MathHelper.Lerp(
-                MathHelper.Lerp(Grad(_permutation[permA], x, y), Grad(_permutation[permB], x - 1, y), u), 
-                MathHelper.Lerp(Grad(_permutation[permA + 1], x, y - 1), Grad(_permutation[permB + 1], x - 1, y - 1), u), 
+                MathHelper.Lerp(Grad(_permutation[permA], x, y), Grad(_permutation[permB], x - 1, y), u),
+                MathHelper.Lerp(Grad(_permutation[permA + 1], x, y - 1), Grad(_permutation[permB + 1], x - 1, y - 1), u),
                 v)) * 0.5f;
         }
 

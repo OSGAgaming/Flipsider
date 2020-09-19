@@ -36,7 +36,7 @@ namespace Flipsider.Engine.Maths
         {
             throw new NotImplementedException();
         }
-        
+
         /*
         public  void DrawDebug(SpriteBatch spriteBatch, int x, int y) 
         {
@@ -85,20 +85,22 @@ namespace Flipsider.Engine.Maths
         /// </summary>
         public static EaseFunction Generate(int factor, int type)
         {
-            switch(type)
+            switch (type)
             {
                 default:
                 case 0: //in
-                    return new PolynomialEase((float x) => {
+                    return new PolynomialEase((float x) =>
+                    {
                         float y = x;
-                        for (int i = 1; i < factor; i++) 
+                        for (int i = 1; i < factor; i++)
                         {
                             x *= y;
                         }
                         return x;
                     });
                 case 1: //out
-                    return new PolynomialEase((float x) => {
+                    return new PolynomialEase((float x) =>
+                    {
                         float y = 1f - x;
                         float z = y;
                         for (int i = 1; i < factor; i++)
@@ -108,7 +110,8 @@ namespace Flipsider.Engine.Maths
                         return 1f - y;
                     });
                 case 2: //in out
-                    return new PolynomialEase((float x) => {
+                    return new PolynomialEase((float x) =>
+                    {
                         double pow = FlipsiderMaths.IntPow(2f, factor - 1);
                         if (x < 0.5f)
                         {

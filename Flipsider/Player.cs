@@ -11,7 +11,7 @@ namespace Flipsider
 {
     public class Player : Entity
     {
-        
+
 
         float jumpheight = 3.9f;
 
@@ -34,6 +34,7 @@ namespace Flipsider
             width = 30;
             maxHeight = 60;
             height = 60;
+            framewidth = 48;
             Collides = true;
         }
 
@@ -78,7 +79,7 @@ namespace Flipsider
             CoreUpdates();
             Constraints();
             if (Collides)
-            TileCollisions();
+                TileCollisions();
             PostUpdates();
 
             leftWeapon?.UpdatePassive();
@@ -95,10 +96,10 @@ namespace Flipsider
                 swapTimer = 1;
             }
             if (mouseState.LeftButton == ButtonState.Pressed)
-            leftWeapon?.Activate(this);
+                leftWeapon?.Activate(this);
 
             if (mouseState.RightButton == ButtonState.Pressed)
-            rightWeapon?.Activate(this);
+                rightWeapon?.Activate(this);
 
         }
 
@@ -123,7 +124,7 @@ namespace Flipsider
             }
         }
 
-      
+
         void PlayerInputs()
         {
             KeyboardState state = Keyboard.GetState();
@@ -154,17 +155,17 @@ namespace Flipsider
                 }
             }
 
-            if(crouching)
+            if (crouching)
             {
-              //  height = 48;
-               // friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
+                //  height = 48;
+                // friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
             }
             else
             {
                 if (height != 72)
                 {
-                  //  height = 72;
-                   // position.Y -= (72 - 48);
+                    //  height = 72;
+                    // position.Y -= (72 - 48);
                 }
             }
 
@@ -179,7 +180,7 @@ namespace Flipsider
         {
             position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if(Bottom >= Main.ScreenSize.Y)
+            if (Bottom >= Main.ScreenSize.Y)
             {
                 onGround = true;
                 velocity.Y = 0;
@@ -197,27 +198,25 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             FindFrame();
-            spriteBatch.Draw(texture, Center- new Vector2(0,18), frame, Color.White, 0f, frame.Size.ToVector2()/2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position + new Vector2(0,maxHeight-height), width, height, Color.Green);
+            spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            DrawMethods.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
         }
 
         private void FindFrame()
         {
             if (friction != 0.99f)
             {
-                int frameY = (int)(Main.gameTime.TotalGameTime.TotalMilliseconds / 100) % 11 * 48;
-                frame = new Rectangle(0, frameY, 48, 48);
+                Animate(6, 11, 48);
             }
             else
             {
-                int frameY = (int)(Main.gameTime.TotalGameTime.TotalMilliseconds / (Math.Abs(velocity.X) > 2 ? 60 : 80)) % 8 * 48;
-                frame = new Rectangle(48, frameY, 48, 48);
+                float vel = MathHelper.Clamp(velocity.X, 1, 10);
+                Animate(5 / (int)Math.Abs(vel), 8, 48, 1);
             }
 
             if (!onGround)
             {
-                int frameY = velocity.Y < 0 ? 0 : 48;
-                frame = new Rectangle(48 * 2, frameY, 48, 48);
+                frame = new Rectangle(48 * 2, velocity.Y > 0 ? 48 : 0, framewidth, 48);
             }
         }
     }

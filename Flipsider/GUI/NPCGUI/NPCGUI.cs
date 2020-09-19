@@ -16,53 +16,23 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         NPCPanel[] tilePanel;
         int rows = 5;
-        int widthOfPanel = 128/2;
-        int heightOfPanel = 272/2;
+        int widthOfPanel = 64;
+        int heightOfPanel = 64;
         int paddingX = 5;
         int paddingY = 20;
         public int chosen = -1;
-        public void HideExcept(int index)
-        {
-             if (index != -1)
-             {
-                 for (int i = 0; i < tilePanel.Length; i++)
-                 {
-                    if (index != i)
-                    {
-                         tilePanel[i].alpha -= tilePanel[i].alpha / 16f;
-                         tilePanel[i].dimensions.Y += (-200 - tilePanel[i].dimensions.Y) / 16;
-                         tilePanel[i].active = false;
-                    }
-                 } 
-             }
-             else
-            {
-                for (int i = 0; i < tilePanel.Length; i++)
-                {
-                    if (index != i)
-                    {
-                        int start = paddingY + (i / rows) * heightOfPanel;
-                        tilePanel[i].dimensions.Y += ((start + 16) - tilePanel[i].dimensions.Y) / 16;
-                        tilePanel[i].alpha += (1 - tilePanel[i].alpha) / 16f;
-                        tilePanel[i].active = true;
-                    }
-                }
-            }
-        }
         public NPCGUI()
         {
             tilePanel = new NPCPanel[NPCTypes.Length];
             if (tilePanel.Length != 0)
             {
-                for(int i = 0; i< tilePanel.Length;i++)
+                for (int i = 0; i < tilePanel.Length; i++)
                 {
                     Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * heightOfPanel);
                     tilePanel[i] = new NPCPanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].npc = NPCTypes[i];
-                    tilePanel[i].parent = this;
-                    tilePanel[i].index = i;
                     elements.Add(tilePanel[i]);
                 }
             }
@@ -70,11 +40,10 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         protected override void OnUpdate()
         {
-            HideExcept(chosen);
         }
         protected override void OnDraw()
         {
-         //   DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
+
         }
     }
 
@@ -85,14 +54,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         public Rectangle startingDimensions;
         bool chosen;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
-        Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         float progression = 0;
-        public NPCGUI parent;
-        public int index;
         public bool active = true;
+        Texture2D tex;
         public override void Draw(SpriteBatch spriteBatch)
         {
+            tex ??= npc.type.GetField("icon").GetValue(null) as Texture2D;
             if (chosen)
             {
                 progression += (1 - progression) / 16f;
@@ -100,11 +68,8 @@ namespace Flipsider.GUI.TilePlacementGUI
             else
             {
                 progression -= progression / 16f;
-                
+
             }
-            dimensions.X = (int)MathHelper.Lerp(startingDimensions.X,goToPoint,progression);
-            dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
-            dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
             if (Main.NPCSpawnerMode)
             {
                 alpha += (1 - alpha) / 16f;
@@ -113,62 +78,18 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 alpha -= alpha / 16f;
             }
-          //  if (tile.atlas != null)
-          //  {
-                int fluff = 2;
-                Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff, dimensions.Height + fluff);
-                if (!chosen)
-                {
-                DrawMethods.DrawText(npc.type.Name, Color.BlanchedAlmond * alpha, panelDims.Location.ToVector2());
-                  //  spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-                 //   spriteBatch.Draw(tile.atlas, dimensions, Color.Lerp(Color.White, Color.Black, lerpage)* alpha);  
-                }
-                else
-                {
-                DrawMethods.DrawText(npc.type.Name, Color.BlanchedAlmond * alpha, panelDims.Location.ToVector2());
-                //spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.White * alpha);
-                    //spriteBatch.Draw(tile.atlas, dimensions, Color.White* alpha);
-                    Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
-                    MouseState mousestate = Mouse.GetState();
-                    int DimTileRes = tileRes / 2;
-                    if (chooseArea.Contains(mousestate.Position))
-                    {
-                        Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
-                        Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                        DrawMethods.DrawSquare(tilePoint, DimTileRes, Color.Yellow * Math.Abs(sine)*alpha);
-                    }
-                }
-          //  }
+            int fluff  = 1;
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
+            spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(tex, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {
-            
+
         }
         protected override void OnLeftClick()
         {
-            if (active)
-            {
-                SpawnNPC(Main.player.position, npc.type);
-                chosen = true;
-                if (chosen)
-                {
-                    parent.chosen = index;
-                    Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, 128, 272);
-                    MouseState mousestate = Mouse.GetState();
-                    int DimTileRes = tileRes / 2;
-                    if (chooseArea.Contains(mousestate.Position))
-                    {
-                        Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
-                        Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                    }
-                }
-            }
-        }
-        protected override void OnRightClick()
-        {
-            chosen = false;
-            parent.chosen = -1;
+            SpawnNPC(Main.player.position + new Vector2(0,-200), npc.type);
         }
         protected override void OnHover()
         {

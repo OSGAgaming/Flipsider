@@ -53,7 +53,7 @@ namespace Flipsider
         }
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-        public static Point MouseScreen => (Mouse.GetState().Position.ToVector2()/mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
+        public static Point MouseScreen => (Mouse.GetState().Position.ToVector2() / mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
         public static Tile[,] tiles;
 
         public Main()
@@ -86,42 +86,42 @@ namespace Flipsider
             verletEngine = new Verlet();
             rand = new Random();
             player = new Player(new Vector2(100, 100));
-            
+
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
 
             for (int i = 0; i < 3; i++)
-             {
-                 verletEngine.CreateVerletPoint(player.position + new Vector2(10, i * 2 + 20));
-                 if (i == 0)
-                 {
-                     verletEngine.BindPoints(verletEngine.points.Count - 1, connectionOne,true,Color.White);
-                 }
-                 else
-                 {
-                     verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
-                 }
-             }
+            {
+                verletEngine.CreateVerletPoint(player.position + new Vector2(10, i * 2 + 20));
+                if (i == 0)
+                {
+                    verletEngine.BindPoints(verletEngine.points.Count - 1, connectionOne, true, Color.White);
+                }
+                else
+                {
+                    verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2, true, Color.White);
+                }
+            }
 
-             for (int i = 0; i < 3; i++)
-             {
-                 verletEngine.CreateVerletPoint(player.position + new Vector2(20, i * 2 + 20));
-                 if (i == 0)
-                 {
-                     verletEngine.BindPoints(verletEngine.points.Count - 1, connectionTwo, true, Color.White);
-                 }
-                 else
-                 {
-                     verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
-                 }
-             }
+            for (int i = 0; i < 3; i++)
+            {
+                verletEngine.CreateVerletPoint(player.position + new Vector2(20, i * 2 + 20));
+                if (i == 0)
+                {
+                    verletEngine.BindPoints(verletEngine.points.Count - 1, connectionTwo, true, Color.White);
+                }
+                else
+                {
+                    verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2, true, Color.White);
+                }
+            }
             Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
             NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
-            for (int i = 0; i<NPCTypes.Length; i++)
+            for (int i = 0; i < NPCTypes.Length; i++)
             {
                 NPC.NPCTypes[i].type = NPCTypes[i];
             }
- 
+
             // Verlet examples
 
             /* verletEngine.CreateStickMan(new Vector2(100, 100));
@@ -135,7 +135,7 @@ namespace Flipsider
              verletEngine.BindPoints(thirdPoint, fourthPoint);
              */
             targetScale = 1.2f;
-          //  NPC.SpawnNPC<Blob>(player.position);
+            //  NPC.SpawnNPC<Blob>(player.position);
             base.Initialize();
         }
 
@@ -157,7 +157,7 @@ namespace Flipsider
         {
             GameInput.Instance.UpdateInput();
 
-            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == - 1 ? -8 : 0) + 18, 30) + player.velocity;
+            verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
 
             //this is vile, please change, cause I dont know whats being passed
@@ -194,7 +194,7 @@ namespace Flipsider
 
             if (!EditorMode)
             {
-                for(int i = 0; i<entities.Count; i++)
+                for (int i = 0; i < entities.Count; i++)
                 {
                     entities[i].Update();
                     entities[i].UpdateTrailCache();
@@ -288,8 +288,8 @@ namespace Flipsider
             }
 
             verletEngine.GlobalRenderPoints();
-            
-           RenderTiles();
+
+            RenderTiles();
             ShowTileCursor();
             RenderUI();
         }
@@ -307,7 +307,7 @@ namespace Flipsider
         {
             spriteBatch.End();
             spriteBatch.Begin();
-            
+
             hud.active = true;
             hud.Draw(spriteBatch);
             tileGUI.active = true;

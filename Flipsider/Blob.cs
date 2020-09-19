@@ -11,20 +11,22 @@ namespace Flipsider
 {
     public class Blob : NPC
     {
+        public static Texture2D icon = TextureCache.Blob;
         protected override void SetDefaults()
         {
             life = 100;
             maxLife = 100;
-            width = 185;
-            height = 165;
-            maxHeight = 50;
+            width = 145;
+            framewidth = width;
+            maxHeight = 185;
+            height = maxHeight;
             position = Main.player.position;
             texture = TextureCache.Blob;
         }
 
         protected override void AI()
         {
-
+            Animate(5, 1, 185, 0);
         }
 
     }

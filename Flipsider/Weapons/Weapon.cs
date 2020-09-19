@@ -35,7 +35,7 @@ namespace Flipsider.Weapons
 
         public virtual void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
         {
-            if(inventoryIcon != null) spriteBatch.Draw(inventoryIcon, pos, Color.White);
+            if (inventoryIcon != null) spriteBatch.Draw(inventoryIcon, pos, Color.White);
         }
 
         public virtual void Activate(Player player)

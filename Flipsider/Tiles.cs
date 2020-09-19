@@ -25,11 +25,11 @@ namespace Flipsider
             }
             public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
-        
+
 
         public static void AddTile()
         {
-            if(Main.EditorMode && !Main.TileEditorMode)
+            if (Main.EditorMode && !Main.TileEditorMode)
             {
                 try
                 {
@@ -48,7 +48,7 @@ namespace Flipsider
             }
         }
 
-        public static void AddTileType(Texture2D Atlas,string Name)
+        public static void AddTileType(Texture2D Atlas, string Name)
         {
             tileTypes.Add(new Tile(Atlas, new Rectangle(0, 0, 32, 32)));
         }
@@ -74,13 +74,13 @@ namespace Flipsider
         public static void RenderTiles()
         {
             float scale = Main.mainCamera.scale;
-            scale = Math.Clamp(scale,0.5f,1);
+            scale = Math.Clamp(scale, 0.5f, 1);
             int fluff = 10;
-            Vector2 SafeBoundX = new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X/Main.ScreenScale)/32;
-            Vector2 SafeBoundY = new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) /32;
-            for (int i = (int)SafeBoundX.X - fluff; i< (int)SafeBoundX.Y + fluff; i++)
+            Vector2 SafeBoundX = new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.ScreenScale) / 32;
+            Vector2 SafeBoundY = new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) / 32;
+            for (int i = (int)SafeBoundX.X - fluff; i < (int)SafeBoundX.Y + fluff; i++)
             {
-                for(int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
+                for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
                 {
                     if (i > 0 && j > 0 && i < Main.MaxTilesX && j < Main.MaxTilesY)
                     {
@@ -324,7 +324,7 @@ namespace Flipsider
                 int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
                 Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
-                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds*6);
+                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 Rectangle TileFrame = GetTileFrame((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
                 if (Main.currentAtlas == null)
@@ -333,7 +333,7 @@ namespace Flipsider
                 }
                 else
                 {
-                    Main.spriteBatch.Draw(Main.currentAtlas, tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine),0f,new Vector2(tileRes / 2, tileRes / 2),1f,SpriteEffects.None,0f);
+                    Main.spriteBatch.Draw(Main.currentAtlas, tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                 }
             }
         }

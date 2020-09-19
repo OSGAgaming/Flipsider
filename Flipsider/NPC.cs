@@ -14,7 +14,7 @@ namespace Flipsider
 
         public int life;
         public int maxLife;
-        
+
         public struct NPCInfo
         {
             public Texture2D icon;
@@ -30,7 +30,7 @@ namespace Flipsider
 
         public bool hostile;
 
-        public static void SpawnNPC(Vector2 position,Type type)
+        public static void SpawnNPC(Vector2 position, Type type)
         {
             NPC NPC = Activator.CreateInstance(type) as NPC;
             NPC.SetDefaults();
@@ -56,7 +56,7 @@ namespace Flipsider
         {
             position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if(Bottom >= Main.ScreenSize.Y)
+            if (Bottom >= Main.ScreenSize.Y)
             {
                 onGround = true;
                 velocity.Y = 0;
@@ -65,9 +65,8 @@ namespace Flipsider
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            texture = TextureCache.TileGUIPanels;
-            spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2()/2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position + new Vector2(0,maxHeight-height), width, height, Color.Green);
+            spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            DrawMethods.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
         }
 
     }

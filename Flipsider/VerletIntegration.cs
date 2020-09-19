@@ -86,11 +86,11 @@ namespace Flipsider
         {
             try
             {
-                stickPoints.Add(new Stick(this,a, b, isVisible, color));
+                stickPoints.Add(new Stick(this, a, b, isVisible, color));
             }
             catch
             {
-                
+
             }
         }
 
@@ -273,7 +273,7 @@ namespace Flipsider
             }
         }
 
-       
+
 
         private void ConstrainPoints()
         {
