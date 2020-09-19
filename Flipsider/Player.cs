@@ -210,7 +210,7 @@ namespace Flipsider
             }
             else
             {
-                float vel = MathHelper.Clamp(velocity.X, 1, 10);
+                float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 10);
                 Animate(5 / (int)Math.Abs(vel), 8, 48, 1);
             }
 
