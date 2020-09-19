@@ -16,6 +16,11 @@ namespace Flipsider
             onGround = false;
             isColliding = false;
         }
+
+        protected virtual void AI() {  }
+        protected virtual void PreAI() {  }
+        protected virtual void PostAI() {  }
+        protected virtual void PreDraw() {  }
         public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y + maxHeight - height, width, height);
 
 		public int height;
@@ -67,7 +72,7 @@ namespace Flipsider
                     {
                         if (Main.tiles[i, j].active)
                         {
-                            Rectangle tileRect = new Rectangle(i * res - fluff, j * res - fluff, res + fluff, res + fluff);
+                            Rectangle tileRect = new Rectangle(i * res - fluff, j * res - fluff, res + fluff*2, res + fluff*2);
                             if(CollisionFrame.Intersects(tileRect))
                             {
                                 Vector2 positionPreCollision = position - velocity * Time.DeltaVar(120);
@@ -76,9 +81,9 @@ namespace Flipsider
                                 {
                                     if (positionPreCollision.Y + height - fluff > tileRect.Y)
                                     {
-                                        if (positionPreCollision.X >= tileRect.X + res - fluff)
-                                            position.X = tileRect.X + res + fluff;
-                                        else if (positionPreCollision.X + width <= tileRect.X + fluff)
+                                        if (positionPreCollision.X >= tileRect.X + res*.5f - fluff)
+                                            position.X -= position.X - (tileRect.X + res + fluff);
+                                        else if (positionPreCollision.X + width < tileRect.X + fluff + res*.5f)
                                             position.X -= (position.X + width) - tileRect.X - fluff;
                                         velocity.X = 0;
                                     }
@@ -87,16 +92,15 @@ namespace Flipsider
                                 {
                                     if (positionPreCollision.X + width - fluff > tileRect.X + fluff)
                                     {
-                                        if (positionPreCollision.Y >= tileRect.Y + res)
-                                            position.Y = tileRect.Y + res + fluff;
-                                        else if (positionPreCollision.Y + height <= tileRect.Y + fluff)
+                                        if (positionPreCollision.Y >= tileRect.Y + res*.5f)
+                                            position.Y -= position.Y - (tileRect.Y + res + fluff);
+                                        else if (positionPreCollision.Y + height < tileRect.Y + fluff + res*.5f)
                                         {
                                             position.Y -= (position.Y + height) - tileRect.Y - fluff;
                                             onGround = true;
                                         }
                                         velocity.Y = 0;
-                                    }
-                                    
+                                    } 
                                 }
                             }
                         }
@@ -109,7 +113,7 @@ namespace Flipsider
         public Entity()
         {
 			oldPositions = new Vector2[TrailLength];
-			Initialize();
+			Init();
 		}
 
 		public void Kill()
@@ -125,16 +129,26 @@ namespace Flipsider
 		public void Update()
 		{
             ResetVars();
-            velocity.Y += gravity * Time.DeltaVar(120);
+            velocity.Y += gravity*Time.DeltaVar(120);
             velocity *= airResistance;
             position += velocity*Time.DeltaVar(120);
 			OnUpdate();
+            PreAI();
+            AI();
+            PostAI();
+        }
+
+        public void Init()
+        {
+            Main.entities.Add(this);
+            Initialize();
         }
 
 		protected virtual void OnUpdate() { }
 
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{
+            PreDraw();
 			spriteBatch.Draw(texture, position, frame, Color.White);
 		}
 

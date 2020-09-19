@@ -12,26 +12,46 @@ namespace Flipsider
     public class NPC : Entity
     {
 
-        public int life = 90;
-        public int maxLife = 100;
+        public int life;
+        public int maxLife;
+        
+        public struct NPCInfo
+        {
+            public Texture2D icon;
+            public Type type;
+            public NPCInfo(Texture2D icon, Type type)
+            {
+                this.icon = icon;
+                this.type = type;
+            }
+        }
+        public static NPCInfo[] NPCTypes;
         public float percentLife => life / (float)maxLife;
 
+        public bool hostile;
 
-        public NPC(Vector2 position)
+        public static void SpawnNPC(Vector2 position,Type type)
         {
-            this.position = position;
+            NPC NPC = Activator.CreateInstance(type) as NPC;
+            NPC.SetDefaults();
+            NPC.position = position;
         }
-        
-        protected internal override void Initialize()
+
+        public static void SpawnNPC<T>(Vector2 position) where T : NPC, new()
         {
-            Main.entities.Add(this);
+            T NPC = new T();
+            NPC.SetDefaults();
+            NPC.position = position;
         }
         protected override void OnUpdate()
         {
-            ResetVars();
             Constraints();
         }
 
+        protected virtual void SetDefaults()
+        {
+
+        }
         void Constraints()
         {
             position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
@@ -45,6 +65,7 @@ namespace Flipsider
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            texture = TextureCache.TileGUIPanels;
             spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2()/2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             DrawMethods.DrawRectangle(position + new Vector2(0,maxHeight-height), width, height, Color.Green);
         }

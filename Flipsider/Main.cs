@@ -13,6 +13,8 @@ using Flipsider.Engine;
 using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
 using static Flipsider.TileManager;
+using System.Reflection;
+using System.Linq;
 
 namespace Flipsider
 {
@@ -24,9 +26,9 @@ namespace Flipsider
         public static SpriteBatch spriteBatch;
         public static GraphicsDeviceManager graphics;
         public static Main instance;
-
         private Hud hud;
         private TileGUI tileGUI;
+        private NPCGUI npcGUI;
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
@@ -35,13 +37,11 @@ namespace Flipsider
         public static Camera mainCamera;
         public static SpriteFont font;
         public float targetScale = 1;
-        private int scrollBuffer;
         public static Texture2D currentAtlas;
         public static Rectangle currentFrame;
-        int delay;
         public static List<Entity> entities = new List<Entity>();
         public static bool TileEditorMode;
-
+        public static bool NPCSpawnerMode;
         public static int MaxTilesX
         {
             get => 1000;
@@ -74,7 +74,7 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
             GameInput.Instance.RegisterControl("MoveRight", Keys.D, Buttons.LeftThumbstickRight);
             GameInput.Instance.RegisterControl("Jump", Keys.Space, Buttons.A);
-
+            GameInput.Instance.RegisterControl("NPCEditor", Keys.N, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorPlaceTile", MouseInput.Left, Buttons.RightTrigger);
             GameInput.Instance.RegisterControl("EdtiorRemoveTile", MouseInput.Right, Buttons.RightShoulder);
             GameInput.Instance.RegisterControl("EditorSwitchModes", Keys.Z, Buttons.RightStick);
@@ -115,6 +115,13 @@ namespace Flipsider
                      verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2,true, Color.White);
                  }
              }
+            Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
+            NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
+            for (int i = 0; i<NPCTypes.Length; i++)
+            {
+                NPC.NPCTypes[i].type = NPCTypes[i];
+            }
+ 
             // Verlet examples
 
             /* verletEngine.CreateStickMan(new Vector2(100, 100));
@@ -128,7 +135,7 @@ namespace Flipsider
              verletEngine.BindPoints(thirdPoint, fourthPoint);
              */
             targetScale = 1.2f;
-            
+          //  NPC.SpawnNPC<Blob>(player.position);
             base.Initialize();
         }
 
@@ -139,10 +146,8 @@ namespace Flipsider
             TextureCache.LoadTextures(Content);
             AddTileType(TextureCache.TileSet1, "TileSet1");
             AddTileType(TextureCache.TileSet2, "TileSet2");
-            AddTileType(TextureCache.TileSet2, "TileSet2");
-            AddTileType(TextureCache.TileSet2, "TileSet2");
-            AddTileType(TextureCache.TileSet2, "TileSet2");
             tileGUI = new TileGUI();
+            npcGUI = new NPCGUI();
             hud = new Hud();
             instance = this;
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -177,6 +182,10 @@ namespace Flipsider
                 {
                     SwitchToTileEditorMode();
                 }
+                if (GameInput.Instance["NPCEditor"].IsJustPressed())
+                {
+                    SwitchToNPCEditorMode();
+                }
             }
 
             verletEngine.Update();
@@ -196,16 +205,19 @@ namespace Flipsider
             ControlEditorScreen();
             hud.Update();
             tileGUI.Update();
+            npcGUI.Update();
             base.Update(gameTime);
         }
         void SwitchToTileEditorMode()
         {
-            delay = 30;
             TileEditorMode = !TileEditorMode;
+        }
+        void SwitchToNPCEditorMode()
+        {
+            NPCSpawnerMode = !NPCSpawnerMode;
         }
         void SwitchModes()
         {
-            delay = 30;
             EditorMode = !EditorMode;
             if (EditorMode)
             {
@@ -300,6 +312,8 @@ namespace Flipsider
             hud.Draw(spriteBatch);
             tileGUI.active = true;
             tileGUI.Draw(spriteBatch);
+            npcGUI.active = true;
+            npcGUI.Draw(spriteBatch);
             //debuganthinghere
             fps.DrawFps(spriteBatch, font, new Vector2(10, 36), Color.Black);
         }

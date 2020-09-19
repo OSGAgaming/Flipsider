@@ -19,11 +19,13 @@ namespace Flipsider
         public static Texture2D skybox;
         public static Texture2D TileSet1;
         public static Texture2D TileSet2;
+        public static Texture2D TileGUIPanels;
+        public static Texture2D Blob;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
-
+            TileGUIPanels = content.Load<Texture2D>("TileGUIPanels");
             TileSet2 = content.Load<Texture2D>("TileSet2");
             TileSet1 = content.Load<Texture2D>("TileSet1");
             player = content.Load<Texture2D>("char");
@@ -31,6 +33,7 @@ namespace Flipsider
             testGun = content.Load<Texture2D>("GUI/TestGun");
             magicPixel = content.Load<Texture2D>("GUI/MagicPixel");
             skybox = content.Load<Texture2D>("skybox");
+            Blob = content.Load<Texture2D>("Blob");
         }
     }
 }

@@ -60,7 +60,8 @@ namespace Flipsider
             first = second;
             second = temp;
         }
-        void ResetVars()
+
+        new void ResetVars()
         {
             onGround = false;
             isColliding = false;
@@ -69,10 +70,6 @@ namespace Flipsider
             rightWeapon?.UpdatePassive();
 
             if (Swapping) SwapWeapons(); //TODO: move this
-        }
-        protected internal override void Initialize()
-        {
-            Main.entities.Add(this);
         }
         protected override void OnUpdate()
         {
@@ -160,7 +157,7 @@ namespace Flipsider
             if(crouching)
             {
               //  height = 48;
-                friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
+               // friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
             }
             else
             {

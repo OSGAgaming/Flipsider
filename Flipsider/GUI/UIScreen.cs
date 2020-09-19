@@ -19,9 +19,12 @@ namespace Flipsider.GUI
                     element.Draw(spriteBatch);
                 }
             }
+            OnDraw();
         }
 
         protected virtual void OnUpdate() { }
+
+        protected virtual void OnDraw() { }
 
         public void Update()
         {
