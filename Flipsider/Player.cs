@@ -11,26 +11,15 @@ namespace Flipsider
 {
     public class Player : Entity
     {
-        public float acceleration = 0.07f;
-        public float gravity = 0.08f;
-
-        public Vector2 airResistance = new Vector2(0.985f, 0.999f);
+        
 
         float jumpheight = 3.9f;
-        public bool onGround;
-        public float friction = 0.982f;
-        public int spriteDirection;
-        bool isColliding;
+
         bool crouching;
 
         public int life = 90;
         public int maxLife = 100;
         public float percentLife => life / (float)maxLife;
-
-        public float feetPos {
-            get => position.Y + maxHeight;
-            set => position.Y = value - maxHeight;
-        }
 
         public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
         public Weapon rightWeapon = new Weapons.Ranged.Pistol.TestGun2(); //Temporary
@@ -45,6 +34,7 @@ namespace Flipsider
             width = 30;
             maxHeight = 60;
             height = 60;
+            Collides = true;
         }
 
         public int swapTimer;
@@ -90,6 +80,7 @@ namespace Flipsider
             ResetVars();
             CoreUpdates();
             Constraints();
+            if (Collides)
             TileCollisions();
             PostUpdates();
 
@@ -101,10 +92,6 @@ namespace Flipsider
         {
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
-
-            velocity.Y += gravity;
-            velocity *= airResistance;
-            position += velocity * Time.QuickDelta;
 
             if (state.IsKeyDown(Keys.X) && !Swapping)
             {
@@ -139,89 +126,7 @@ namespace Flipsider
             }
         }
 
-        void TileCollisions()
-        {
-            float up = -1;
-            float down = Main.MaxTilesX;
-            float left = -1;
-            float right = Main.MaxTilesY;
-            int res = TileManager.tileRes;
-            int tileHeight = height / res + 2;
-            int tileWidth = width / res + 2;
-            for (int i = (int)position.X/res - tileWidth; i < (int)position.X / res + tileWidth; i++)
-            {
-                for (int j = (int)position.Y / res - tileHeight; j < (int)position.Y / res + tileHeight; j++)
-                {
-                    if (i > 0 && j > 0)
-                    {
-                        if (Main.tiles[i, j].active)
-                        {
-                            bool case1 = (feetPos - height - velocity.Y >= j * res - 1 && feetPos - velocity.Y + 1 >= j * res) &&
-                                         (feetPos - height - velocity.Y >= j * res + res - 1 && feetPos - velocity.Y + 1 >= j * res + res);
-                            bool case2 = (feetPos - height - velocity.Y <= j * res + 1 && feetPos - velocity.Y - 1 <= j * res) &&
-                                         (feetPos - height - velocity.Y <= j * res + res + 1 && feetPos - velocity.Y - 1 <= j * res + res);
-                            bool hasSideCollision = !(case1 || case2);
-                            bool case3 = (position.X - velocity.X >= i * res - 1 && position.X + width - velocity.X + 1 >= i * res) &&
-                                         (position.X - velocity.X >= i * res + res - 1 && position.X + width - velocity.X + 1 >= i * res + res);
-                            bool case4 = (position.X - velocity.X <= i * res + 1 && position.X + width - velocity.X - 1 <= i * res) &&
-                                         (position.X - velocity.X <= i * res + res + 1 && position.X + width - velocity.X - 1 <= i * res + res);
-                            bool hasVertCollision = !(case3 || case4);
-                            if (hasVertCollision)
-                            {
-                                if (j > up - 1 && j * res < position.Y && velocity.Y < 0)
-                                {
-                                    up = j + 1;
-                                }
-                                if (j < down && j * res + res / 2 > feetPos && velocity.Y > 0)
-                                {
-                                    down = j;
-                                }
-                            }
-                            if (hasSideCollision)
-                            {
-                                if (i > left - 1 && i * res < position.X && velocity.X < 0)
-                                {
-                                    left = i + 1;
-                                }
-                                if (i < right && i * res + res / 2 > position.X + width && velocity.X > 0)
-                                {
-                                    right = i;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (position.Y < up * res && up != -1)
-            {
-                position.Y = up * res;
-                velocity.Y = 0;
-                isColliding = true;
-            }
-            if (position.Y > down * res - height && down != Main.tiles.GetLength(1))
-            {
-                position.Y = down * res - height;
-                velocity.Y = 0;
-                onGround = true;
-                isColliding = true;
-            }
-            if (position.X < left * res + 1 && left != -1)
-            {
-                position.X = left * res;
-                velocity.X = 0;
-                isColliding = true;
-                spriteDirection = -1;
-            }
-            if (position.X > right * res - width - 1 && right != Main.tiles.GetLength(0))
-            {
-                position.X = right * res - width;
-                velocity.X = 0;
-                isColliding = true;
-                spriteDirection = 1;
-            }
-        }
-
+      
         void PlayerInputs()
         {
             KeyboardState state = Keyboard.GetState();
@@ -277,7 +182,7 @@ namespace Flipsider
         {
             position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if(feetPos >= Main.ScreenSize.Y)
+            if(Bottom >= Main.ScreenSize.Y)
             {
                 onGround = true;
                 velocity.Y = 0;
