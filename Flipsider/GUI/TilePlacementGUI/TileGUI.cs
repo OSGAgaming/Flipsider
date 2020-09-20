@@ -63,6 +63,8 @@ namespace Flipsider.GUI.TilePlacementGUI
                     tilePanel[i].parent = this;
                     tilePanel[i].index = i;
                     elements.Add(tilePanel[i]);
+
+                    
                 }
             }
         }
@@ -76,8 +78,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             //   DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
         }
     }
-
-    class TilePanel : UIElement
+        class TilePanel : UIElement
     {
         public Tile tile;
         float lerpage = 0;
@@ -113,29 +114,26 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 alpha -= alpha / 16f;
             }
-            if (tile.atlas != null)
+            int fluff = 2;
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff, dimensions.Height + fluff);
+            if (!chosen)
             {
-                int fluff = 2;
-                Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff, dimensions.Height + fluff);
-                if (!chosen)
+                spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+                spriteBatch.Draw(tileDict[tile.type], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            }
+            else
+            {
+                spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.White * alpha);
+                spriteBatch.Draw(tileDict[tile.type], dimensions, Color.White * alpha);
+                Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
+                MouseState mousestate = Mouse.GetState();
+                int DimTileRes = tileRes / 2;
+                if (chooseArea.Contains(mousestate.Position))
                 {
-                    spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-                    spriteBatch.Draw(tile.atlas, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-                }
-                else
-                {
-                    spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.White * alpha);
-                    spriteBatch.Draw(tile.atlas, dimensions, Color.White * alpha);
-                    Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
-                    MouseState mousestate = Mouse.GetState();
-                    int DimTileRes = tileRes / 2;
-                    if (chooseArea.Contains(mousestate.Position))
-                    {
-                        Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
-                        Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                        DrawMethods.DrawSquare(tilePoint, DimTileRes, Color.Yellow * Math.Abs(sine) * alpha);
-                    }
+                    Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
+                    Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
+                    float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
+                    DrawMethods.DrawSquare(tilePoint, DimTileRes, Color.Yellow * Math.Abs(sine) * alpha);
                 }
             }
         }
@@ -148,7 +146,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (active)
             {
                 chosen = true;
-                Main.currentAtlas = tile.atlas;
+                Main.currentType = tile.type;
                 if (chosen)
                 {
                     parent.chosen = index;

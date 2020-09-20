@@ -18,6 +18,7 @@ using static Flipsider.TileManager;
 
 using System.Reflection;
 using System.Linq;
+using System.Threading;
 
 namespace Flipsider
 {
@@ -32,6 +33,8 @@ namespace Flipsider
         private Hud hud;
         private TileGUI tileGUI;
         private NPCGUI npcGUI;
+        private WorldCreationGUI WCGUI;
+
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
@@ -40,11 +43,15 @@ namespace Flipsider
         public static Camera mainCamera;
         public static SpriteFont font;
         public float targetScale = 1;
-        public static Texture2D currentAtlas;
+        public static int currentType;
         public static Rectangle currentFrame;
         public static List<Entity> entities = new List<Entity>();
+        public static List<UIScreen> UIScreens = new List<UIScreen>();
         public static bool TileEditorMode;
         public static bool NPCSpawnerMode;
+        public static bool WorldSaverMode;
+
+        private Serializers ser = new Serializers();
         public static int MaxTilesX
         {
             get => 1000;
@@ -89,7 +96,7 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("EditorTileEditor", Keys.T, Buttons.LeftStick);
             GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
-
+            GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
             sceneManager = new SceneManager();
             sceneManager.SetNextScene(new DebugScene(), null);
 
@@ -168,25 +175,34 @@ namespace Flipsider
             TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
             TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
-            var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) => 
+            var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
             {
                 return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
             });
             TestParticleSystem.UpdateModules.Add(condition);
 
-            AddTileType(TextureCache.TileSet1, "TileSet1");
-            AddTileType(TextureCache.TileSet2, "TileSet2");
+            AddTileType(0, TextureCache.TileSet1);
+            AddTileType(1, TextureCache.TileSet2);
+            AddTileType(2, TextureCache.TileSet3);
             tileGUI = new TileGUI();
             npcGUI = new NPCGUI();
+            WCGUI = new WorldCreationGUI();
             hud = new Hud();
             instance = this;
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
+        public static string MainPath = @"C:\Users\tafid\source\repos\Flipsider\Flipsider\";
 
+        public void SaveCurrentWorldAs(string Name)
+        {
+            //SAME NAME WORLDS WILL OVERRIDE
+            ser.Serialize(tiles, MainPath + Name + ".txt");
+        }
         protected override void Update(GameTime gameTime)
         {
             GameInput.Instance.UpdateInput();
-
+              //  Thread thr1 = new Thread(() => );
+              //  thr1.Start();
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
 
@@ -218,6 +234,10 @@ namespace Flipsider
                 {
                     SwitchToNPCEditorMode();
                 }
+                if (GameInput.Instance["WorldSaverMode"].IsJustPressed())
+                {
+                    SwitchToWorldSaverMode();
+                }
             }
 
             verletEngine.Update();
@@ -232,6 +252,10 @@ namespace Flipsider
                     entities[i].UpdateTrailCache();
                 }
                 mainCamera.offset -= mainCamera.offset / 16f;
+            }
+            for(int i = 0; i< UIScreens.Count; i++)
+            {
+                UIScreens[i].Update();
             }
 
             ControlEditorScreen();
@@ -251,6 +275,10 @@ namespace Flipsider
         void SwitchToNPCEditorMode()
         {
             NPCSpawnerMode = !NPCSpawnerMode;
+        }
+        void SwitchToWorldSaverMode()
+        {
+            WorldSaverMode = !WorldSaverMode;
         }
         void SwitchModes()
         {
@@ -350,6 +378,12 @@ namespace Flipsider
             tileGUI.Draw(spriteBatch);
             npcGUI.active = true;
             npcGUI.Draw(spriteBatch);
+
+            for (int i = 0; i < UIScreens.Count; i++)
+            {
+                UIScreens[i].active = true;
+                UIScreens[i].Draw(spriteBatch);
+            }
             //debuganthinghere
             fps.DrawFps(spriteBatch, font, new Vector2(10, 36), Color.Black);
         }
@@ -360,9 +394,9 @@ namespace Flipsider
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             fps.Update(gameTime);
-            
+
             spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
-            
+
             Render();
 
             spriteBatch.End();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
@@ -11,9 +12,9 @@ using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
+
     class NPCGUI : UIScreen
     {
-
         NPCPanel[] tilePanel;
         int rows = 5;
         int widthOfPanel = 64;
@@ -46,7 +47,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         }
     }
-
+   
     class NPCPanel : UIElement
     {
         public NPCInfo npc;

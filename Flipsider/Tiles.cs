@@ -12,20 +12,23 @@ namespace Flipsider
         public static List<Tile> tileTypes = new List<Tile>();
 
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
+        [Serializable]
         public struct Tile
         {
-            public Texture2D atlas;
+            public int type;
+            [NonSerialized]
             public Rectangle frame;
             public bool active;
-            public Tile(Texture2D atlas, Rectangle frame)
+            public Tile(int type, Rectangle frame)
             {
-                this.atlas = atlas;
+                this.type = type;
                 this.frame = frame;
                 active = false;
             }
-            public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
+            //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
 
+        public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
 
         public static void AddTile()
         {
@@ -36,7 +39,7 @@ namespace Flipsider
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                     Point tilePoint = new Point((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                    Main.tiles[tilePoint.X, tilePoint.Y] = new Tile(Main.currentAtlas, Main.currentFrame)
+                    Main.tiles[tilePoint.X, tilePoint.Y] = new Tile(Main.currentType, Main.currentFrame)
                     {
                         active = true
                     };
@@ -48,9 +51,10 @@ namespace Flipsider
             }
         }
 
-        public static void AddTileType(Texture2D Atlas, string Name)
+        public static void AddTileType(int type, Texture2D atlas)
         {
-            tileTypes.Add(new Tile(Atlas, new Rectangle(0, 0, 32, 32)));
+            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32)));
+            tileDict.Add(type, atlas);
         }
 
         public static void RemoveTile()
@@ -86,14 +90,14 @@ namespace Flipsider
                     {
                         if (Main.tiles[i, j].active)
                         {
-                            if (Main.tiles[i, j].atlas == null)
+                            if (Main.tiles[i, j].type == -1)
                             {
                                 DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
                             }
                             else
                             {
                                 Main.tiles[i, j].frame = GetTileFrame(i, j);
-                                Main.spriteBatch.Draw(Main.tiles[i, j].atlas, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
+                                Main.spriteBatch.Draw(tileDict[Main.tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
                             }
                         }
                     }
@@ -327,13 +331,13 @@ namespace Flipsider
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 Rectangle TileFrame = GetTileFrame((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                if (Main.currentAtlas == null)
+                if (Main.currentType == -1)
                 {
                     DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
                 }
                 else
                 {
-                    Main.spriteBatch.Draw(Main.currentAtlas, tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                 }
             }
         }

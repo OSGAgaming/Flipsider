@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Flipsider.GUI
 {
-    class UIElement
+    public class UIElement
     {
         public Rectangle dimensions;
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Flipsider.GUI
 {
-    class UIScreen
+    public class UIScreen
     {
         protected List<UIElement> elements = new List<UIElement>();
         public bool active;

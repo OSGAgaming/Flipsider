@@ -37,6 +37,13 @@ namespace Flipsider
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
+        public static void DrawTextToLeft(string text, Color colour, Vector2 position)
+        {
+            SpriteFont font = Main.font;
+            float textPositionLeft = position.X;
+            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        }
+
         public static void DrawSquare(Vector2 point, float size, Color color)
         {
             DrawLine(new Vector2(point.X + size, point.Y + size), new Vector2(point.X, point.Y + size), color);

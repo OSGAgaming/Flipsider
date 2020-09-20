@@ -65,7 +65,7 @@ namespace Flipsider.Engine.Particles
 
         public void Invoke(Particle[] particles, int index)
         {
-             particles[index].Color = _c;
+            particles[index].Color = _c;
         }
     }
 

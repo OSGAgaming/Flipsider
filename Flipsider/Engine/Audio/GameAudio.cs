@@ -66,7 +66,7 @@ namespace Flipsider.Engine.Audio
         public void Unload()
         {
             _audioSystem.release();
-            foreach(AudioBank bank in _banks.Values)
+            foreach (AudioBank bank in _banks.Values)
             {
                 bank.Unload();
             }
