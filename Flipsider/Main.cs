@@ -9,6 +9,8 @@ using Flipsider.GUI;
 using Flipsider.GUI.HUD;
 using System.Collections.Generic;
 
+using Flipsider.Scenes;
+using Flipsider.Engine.Particles;
 using Flipsider.Engine;
 using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
@@ -56,6 +58,8 @@ namespace Flipsider
         public static Point MouseScreen => (Mouse.GetState().Position.ToVector2() / mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
         public static Tile[,] tiles;
 
+        private ParticleSystem TestParticleSystem;
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -71,8 +75,11 @@ namespace Flipsider
         private Verlet verletEngine;
         protected override void Initialize()
         {
+            // Register controls
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
             GameInput.Instance.RegisterControl("MoveRight", Keys.D, Buttons.LeftThumbstickRight);
+            GameInput.Instance.RegisterControl("MoveUp", Keys.W, Buttons.LeftThumbstickUp);
+            GameInput.Instance.RegisterControl("MoveDown", Keys.S, Buttons.LeftThumbstickDown);
             GameInput.Instance.RegisterControl("Jump", Keys.Space, Buttons.A);
             GameInput.Instance.RegisterControl("NPCEditor", Keys.N, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorPlaceTile", MouseInput.Left, Buttons.RightTrigger);
@@ -81,6 +88,9 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("EditorTileEditor", Keys.T, Buttons.LeftStick);
             GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
+
+            sceneManager = new SceneManager();
+            sceneManager.SetNextScene(new DebugScene(), null);
 
             tiles = new Tile[MaxTilesX, MaxTilesY];
             verletEngine = new Verlet();
@@ -144,6 +154,22 @@ namespace Flipsider
             font = Content.Load<SpriteFont>("FlipFont");
             mainCamera = new Camera();
             TextureCache.LoadTextures(Content);
+
+            TestParticleSystem = new ParticleSystem(200);
+            TestParticleSystem.SpawnRate = 10f;
+            //TestParticleSystem.WorldSpace = true;
+            TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
+            TestParticleSystem.SpawnModules.Add(new SetScale(5f));
+            TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
+            TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
+            TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
+            TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
+            var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) => 
+            {
+                return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
+            });
+            TestParticleSystem.UpdateModules.Add(condition);
+
             AddTileType(TextureCache.TileSet1, "TileSet1");
             AddTileType(TextureCache.TileSet2, "TileSet2");
             tileGUI = new TileGUI();
@@ -160,17 +186,19 @@ namespace Flipsider
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
 
-            //this is vile, please change, cause I dont know whats being passed
             Main.gameTime = gameTime;
-            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed())
+
+            sceneManager.Update();
+
+            if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
                 AddTile();
             }
-            if (GameInput.Instance["EdtiorRemoveTile"].IsJustPressed())
+            if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
                 RemoveTile();
             }
-            //I was lazy to make another instance variable, so I just calculated my average press time lol
+
             if (GameInput.Instance["EditorSwitchModes"].IsJustPressed())
             {
                 SwitchModes();
@@ -206,6 +234,10 @@ namespace Flipsider
             hud.Update();
             tileGUI.Update();
             npcGUI.Update();
+
+            TestParticleSystem.Position = GameInput.Instance.MousePosition;
+            TestParticleSystem.Update();
+
             base.Update(gameTime);
         }
         void SwitchToTileEditorMode()
@@ -233,8 +265,7 @@ namespace Flipsider
         {
             mainCamera.FixateOnPlayer(player);
             mainCamera.rotation = 0;
-            MouseState mouseState = Mouse.GetState();
-            KeyboardState state = Keyboard.GetState();
+
             float scrollSpeed = 0.02f;
             float camMoveSpeed = 0.2f;
             if (EditorMode)
@@ -247,19 +278,20 @@ namespace Flipsider
                 {
                     targetScale -= scrollSpeed;
                 }
-                if (state.IsKeyDown(Keys.D))
+
+                if (GameInput.Instance["MoveRight"].IsDown())
                 {
                     mainCamera.offset.X += camMoveSpeed;
                 }
-                if (state.IsKeyDown(Keys.A))
+                if (GameInput.Instance["MoveLeft"].IsDown())
                 {
                     mainCamera.offset.X -= camMoveSpeed;
                 }
-                if (state.IsKeyDown(Keys.W))
+                if (GameInput.Instance["MoveUp"].IsDown())
                 {
                     mainCamera.offset.Y -= camMoveSpeed;
                 }
-                if (state.IsKeyDown(Keys.S))
+                if (GameInput.Instance["MoveDown"].IsDown())
                 {
                     mainCamera.offset.Y += camMoveSpeed;
                 }
@@ -322,11 +354,24 @@ namespace Flipsider
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
             fps.Update(gameTime);
+            
             spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            
             Render();
 
             spriteBatch.End();
+
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(TextureCache.player, player.position, Color.White);
+
+            TestParticleSystem.Draw(spriteBatch);
+
+            spriteBatch.End();
+
+            sceneManager.Draw();
 
             base.Draw(gameTime);
         }

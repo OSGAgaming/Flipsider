@@ -11,6 +11,7 @@ namespace Flipsider.Engine.Maths
     public abstract class EaseFunction
     {
         public static readonly EaseFunction Linear = new PolynomialEase((float x) => { return x; });
+        public static readonly EaseFunction ReverseLinear = new PolynomialEase((float x) => { return 1f - x; });
 
         public static readonly EaseFunction EaseQuadIn = new PolynomialEase((float x) => { return x * x; });
         public static readonly EaseFunction EaseQuadOut = new PolynomialEase((float x) => { return 1f - EaseQuadIn.Ease(1f - x); });
