@@ -41,7 +41,7 @@ namespace Flipsider
             int height = (int)Main.ScreenSize.Y;
 
             playerpos += offset;
-            if (!Main.EditorMode)
+            if (!EditorModes.EditorMode)
             {
                 if (scale >= 1)
                 {

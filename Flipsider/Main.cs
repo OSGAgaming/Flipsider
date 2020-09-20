@@ -38,18 +38,16 @@ namespace Flipsider
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
-        public static bool EditorMode;
+
         public static GameTime gameTime;
         public static Camera mainCamera;
         public static SpriteFont font;
-        public float targetScale = 1;
+        public static float targetScale = 1;
         public static int currentType;
         public static Rectangle currentFrame;
         public static List<Entity> entities = new List<Entity>();
         public static List<UIScreen> UIScreens = new List<UIScreen>();
-        public static bool TileEditorMode;
-        public static bool NPCSpawnerMode;
-        public static bool WorldSaverMode;
+
 
         private Serializers ser = new Serializers();
         public static int MaxTilesX
@@ -99,7 +97,6 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
             sceneManager = new SceneManager();
             sceneManager.SetNextScene(new DebugScene(), null);
-
             tiles = new Tile[MaxTilesX, MaxTilesY];
             verletEngine = new Verlet();
             rand = new Random();
@@ -205,7 +202,7 @@ namespace Flipsider
             instance = this;
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
-        public static string MainPath = @"C:\Users\tafid\source\repos\Flipsider\Flipsider\";
+        public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
         public void SaveCurrentWorldAs(string Name)
         {
@@ -224,41 +221,15 @@ namespace Flipsider
 
             sceneManager.Update();
 
-            if (GameInput.Instance["EditorPlaceTile"].IsDown())
-            {
-                AddTile();
-            }
-            if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
-            {
-                RemoveTile();
-            }
 
-            if (GameInput.Instance["EditorSwitchModes"].IsJustPressed())
-            {
-                SwitchModes();
-            }
 
-            if (EditorMode)
-            {
-                if (GameInput.Instance["EditorTileEditor"].IsJustPressed())
-                {
-                    SwitchToTileEditorMode();
-                }
-                if (GameInput.Instance["NPCEditor"].IsJustPressed())
-                {
-                    SwitchToNPCEditorMode();
-                }
-                if (GameInput.Instance["WorldSaverMode"].IsJustPressed())
-                {
-                    SwitchToWorldSaverMode();
-                }
-            }
+           
 
             verletEngine.Update();
 
-            tileGUI.active = TileEditorMode;
+            tileGUI.active = EditorModes.TileEditorMode;
 
-            if (!EditorMode)
+            if (!EditorModes.EditorMode)
             {
                 for (int i = 0; i < entities.Count; i++)
                 {
@@ -271,8 +242,7 @@ namespace Flipsider
             {
                 UIScreens[i].Update();
             }
-
-            ControlEditorScreen();
+            EditorModes.Update();
             hud.Update();
             tileGUI.Update();
             npcGUI.Update();
@@ -282,72 +252,9 @@ namespace Flipsider
 
             base.Update(gameTime);
         }
-        void SwitchToTileEditorMode()
-        {
-            TileEditorMode = !TileEditorMode;
-        }
-        void SwitchToNPCEditorMode()
-        {
-            NPCSpawnerMode = !NPCSpawnerMode;
-        }
-        void SwitchToWorldSaverMode()
-        {
-            WorldSaverMode = !WorldSaverMode;
-        }
-        void SwitchModes()
-        {
-            EditorMode = !EditorMode;
-            if (EditorMode)
-            {
-                targetScale = 0.8f;
-            }
-            else
-            {
-                targetScale = 1.2f;
-            }
-        }
 
-        void ControlEditorScreen()
-        {
-            mainCamera.FixateOnPlayer(player);
-            mainCamera.rotation = 0;
 
-            float scrollSpeed = 0.02f;
-            float camMoveSpeed = 0.2f;
-            if (EditorMode)
-            {
-                if (GameInput.Instance["EditorZoomIn"].IsDown())
-                {
-                    targetScale += scrollSpeed;
-                }
-                if (GameInput.Instance["EditorZoomOut"].IsDown())
-                {
-                    targetScale -= scrollSpeed;
-                }
 
-                if (GameInput.Instance["MoveRight"].IsDown())
-                {
-                    mainCamera.offset.X += camMoveSpeed;
-                }
-                if (GameInput.Instance["MoveLeft"].IsDown())
-                {
-                    mainCamera.offset.X -= camMoveSpeed;
-                }
-                if (GameInput.Instance["MoveUp"].IsDown())
-                {
-                    mainCamera.offset.Y -= camMoveSpeed;
-                }
-                if (GameInput.Instance["MoveDown"].IsDown())
-                {
-                    mainCamera.offset.Y += camMoveSpeed;
-                }
-            }
-            else
-            {
-
-            }
-            mainCamera.scale += (targetScale - mainCamera.scale) / 16f;
-        }
 
         protected override void UnloadContent()
         {

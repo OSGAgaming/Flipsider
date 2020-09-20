@@ -32,7 +32,7 @@ namespace Flipsider
 
         public static void AddTile()
         {
-            if (Main.EditorMode && !Main.TileEditorMode)
+            if (EditorModes.EditorMode && !EditorModes.TileEditorMode)
             {
                 try
                 {
@@ -59,7 +59,7 @@ namespace Flipsider
 
         public static void RemoveTile()
         {
-            if (Main.EditorMode)
+            if (EditorModes.EditorMode)
             {
                 try
                 {
@@ -323,7 +323,7 @@ namespace Flipsider
 
         public static void ShowTileCursor()
         {
-            if (Main.EditorMode && !Main.TileEditorMode)
+            if (EditorModes.EditorMode && !EditorModes.TileEditorMode)
             {
                 int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 Vector2 mousePos = Main.MouseScreen.ToVector2();

@@ -37,9 +37,8 @@ namespace Flipsider
         public static Vector2 ToScreen(this Vector2 v) => (v / Main.mainCamera.scale + Main.mainCamera.CamPos);
         public static Vector2 AddParralaxAcross(this Vector2 v, float traversingPixels)
         {
-
             float traverseFunction = Math.Clamp(Main.player.position.X / traversingPixels, Main.mainCamera.LeftBound / traversingPixels, 100000);
-            return v - new Vector2(traverseFunction, 0);
+            return v - new Vector2(0, 0);
         }
     }
 }
