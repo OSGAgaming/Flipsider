@@ -25,6 +25,7 @@ namespace Flipsider
         public static Texture2D NPCPanel;
         public static Texture2D Textbox;
         public static Texture2D SaveTex;
+        public static Texture2D WorldSavePanel;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -42,7 +43,7 @@ namespace Flipsider
             NPCPanel = content.Load<Texture2D>("NPCPanel");
             Textbox = content.Load<Texture2D>("Textbox");
             SaveTex = content.Load<Texture2D>("SaveTex");
-
+            WorldSavePanel = content.Load<Texture2D>("GUI/WorldSavePanel");
         }
     }
 }

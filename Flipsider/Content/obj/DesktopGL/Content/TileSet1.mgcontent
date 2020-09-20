@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/TileSet1.png</SourceFile>
-  <SourceTime>2020-09-18T17:57:25.2207699+01:00</SourceTime>
+  <SourceTime>2020-09-20T19:11:33.1158514+01:00</SourceTime>
   <DestFile>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/TileSet1.xnb</DestFile>
-  <DestTime>2020-09-18T17:57:46.4582582+01:00</DestTime>
+  <DestTime>2020-09-20T19:14:41.5058596+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
