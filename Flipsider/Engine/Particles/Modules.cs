@@ -38,6 +38,21 @@ namespace Flipsider.Engine.Particles
             particles[index].Center += _amount;
         }
     }
+    public class FloatUp : IParticleModifier
+    {
+        private float _speed;
+        private float _friction;
+        public FloatUp(float speed, float friction)
+        {
+            _speed = speed;
+            _friction = friction;
+        }
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Velocity.Y -= _speed;
+            particles[index].Velocity.X *= _friction;
+        }
+    }
 
     public class SetVelocity : IParticleModifier
     {
@@ -51,6 +66,23 @@ namespace Flipsider.Engine.Particles
         public void Invoke(Particle[] particles, int index)
         {
             particles[index].Velocity = _velocity;
+        }
+    }
+    public class SetRandomVelocity : IParticleModifier
+    {
+        private float _speed;
+        private Random _random;
+        private float _angle;
+        public SetRandomVelocity(float speed, Random random)
+        {
+            _speed = speed;
+            _random = random;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            _angle = _random.NextFloat(6.28f);
+            particles[index].Velocity = new Vector2((float)Math.Sin(_angle), (float)Math.Cos(_angle)) * _speed;
         }
     }
 
