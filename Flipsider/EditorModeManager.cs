@@ -24,10 +24,10 @@ namespace Flipsider
 {
     public class EditorModes
     {
-        public static bool TileEditorMode;
-        public static bool NPCSpawnerMode;
-        public static bool WorldSaverMode;
-        public static bool EditorMode;
+        public static bool TileEditorMode { get; set; }
+        public static bool NPCSpawnerMode { get; set; }
+        public static bool WorldSaverMode { get; set; }
+        public static bool EditorMode { get; set; }
         static void ControlEditorScreen()
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
