@@ -1,20 +1,21 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
-using Flipsider.GUI;
-using Flipsider.GUI.HUD;
 using System.Collections.Generic;
 
+using Flipsider.GUI;
+using Flipsider.GUI.HUD;
 using Flipsider.Scenes;
 using Flipsider.Engine.Particles;
 using Flipsider.Engine;
+using Flipsider.Engine.Audio;
 using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
 using static Flipsider.TileManager;
+
 using System.Reflection;
 using System.Linq;
 
@@ -151,6 +152,9 @@ namespace Flipsider
 
         protected override void LoadContent()
         {
+            // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
+            //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
+
             font = Content.Load<SpriteFont>("FlipFont");
             mainCamera = new Camera();
             TextureCache.LoadTextures(Content);
