@@ -365,8 +365,6 @@ namespace Flipsider
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(TextureCache.player, player.position, Color.White);
-
             TestParticleSystem.Draw(spriteBatch);
 
             spriteBatch.End();
