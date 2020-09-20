@@ -166,20 +166,34 @@ namespace Flipsider
             mainCamera = new Camera();
             TextureCache.LoadTextures(Content);
 
+            #region testparticles
+            /* TestParticleSystem = new ParticleSystem(200);
+             TestParticleSystem.SpawnRate = 10f;
+             //TestParticleSystem.WorldSpace = true;
+             TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
+             TestParticleSystem.SpawnModules.Add(new SetScale(5f));
+             TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
+             TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
+             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
+             TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
+             var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
+             {
+                 return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
+             });
+             TestParticleSystem.UpdateModules.Add(condition);*/
+
+            //Flame
             TestParticleSystem = new ParticleSystem(200);
             TestParticleSystem.SpawnRate = 10f;
-            //TestParticleSystem.WorldSpace = true;
+            TestParticleSystem.WorldSpace = true;
             TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
             TestParticleSystem.SpawnModules.Add(new SetScale(5f));
-            TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
-            TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
+            TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.Yellow, Color.Red, Main.rand));
             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
-            TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
-            var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
-            {
-                return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
-            });
-            TestParticleSystem.UpdateModules.Add(condition);
+            TestParticleSystem.SpawnModules.Add(new SetRandomVelocity(20f, Main.rand));
+            TestParticleSystem.UpdateModules.Add(new FloatUp(0.2f, 0.99f));
+
+            #endregion
 
             AddTileType(0, TextureCache.TileSet1);
             AddTileType(1, TextureCache.TileSet2);
