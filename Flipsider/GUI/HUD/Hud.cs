@@ -14,6 +14,7 @@ namespace Flipsider.GUI.HUD
 
         public Hud()
         {
+            Main.UIScreens.Add(this);
             leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 64, 48, 48);
             //leftIcon.weapon = Main.player.leftWeapon;
             elements.Add(leftIcon);

@@ -24,6 +24,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public int chosen = -1;
         public NPCGUI()
         {
+            Main.UIScreens.Add(this);
             tilePanel = new NPCPanel[NPCTypes.Length];
             if (tilePanel.Length != 0)
             {

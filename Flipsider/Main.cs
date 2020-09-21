@@ -49,20 +49,11 @@ namespace Flipsider
         public static List<UIScreen> UIScreens = new List<UIScreen>();
 
 
-        private Serializers ser = new Serializers();
-        public static int MaxTilesX
-        {
-            get => 1000;
-        }
+        public Serializers ser = new Serializers();
 
-        public static int MaxTilesY
-        {
-            get => 1000;
-        }
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => (Mouse.GetState().Position.ToVector2() / mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
-        public static Tile[,] tiles;
 
         private ParticleSystem TestParticleSystem;
 
@@ -72,7 +63,7 @@ namespace Flipsider
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.ApplyChanges();
 
-            Window.AllowUserResizing = true;
+            Window.AllowUserResizing = false;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
@@ -137,18 +128,6 @@ namespace Flipsider
                 NPC.NPCTypes[i].type = NPCTypes[i];
             }
 
-            // Verlet examples
-
-            /* verletEngine.CreateStickMan(new Vector2(100, 100));
-             verletEngine.CreateVerletSquare(new Vector2(150, 150), 30);
-             int firstPoint = verletEngine.CreateVerletPoint(new Vector2(150, 100),true);
-             int secondPoint = verletEngine.CreateVerletPoint(new Vector2(100, 120));
-             int thirdPoint = verletEngine.CreateVerletPoint(new Vector2(100, 140));
-             int fourthPoint = verletEngine.CreateVerletPoint(new Vector2(100, 160));
-             verletEngine.BindPoints(firstPoint, secondPoint);
-             verletEngine.BindPoints(secondPoint, thirdPoint);
-             verletEngine.BindPoints(thirdPoint, fourthPoint);
-             */
             targetScale = 1.2f;
             //  NPC.SpawnNPC<Blob>(player.position);
             base.Initialize();
@@ -158,11 +137,9 @@ namespace Flipsider
         {
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
-
             font = Content.Load<SpriteFont>("FlipFont");
             mainCamera = new Camera();
             TextureCache.LoadTextures(Content);
-
             #region testparticles
             /* TestParticleSystem = new ParticleSystem(200);
              TestParticleSystem.SpawnRate = 10f;
@@ -191,39 +168,31 @@ namespace Flipsider
             TestParticleSystem.UpdateModules.Add(new FloatUp(0.2f, 0.99f));
 
             #endregion
+            LoadTiles();
+            LoadGUI();
+            instance = this;
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+        }
 
-            AddTileType(0, TextureCache.TileSet1);
-            AddTileType(1, TextureCache.TileSet2);
-            AddTileType(2, TextureCache.TileSet3);
+        void LoadGUI()
+        {
             tileGUI = new TileGUI();
             npcGUI = new NPCGUI();
             WCGUI = new WorldCreationGUI();
             hud = new Hud();
-            instance = this;
-            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
-        public void SaveCurrentWorldAs(string Name)
-        {
-            //SAME NAME WORLDS WILL OVERRIDE
-            ser.Serialize(tiles, MainPath + Name + ".txt");
-        }
+
         protected override void Update(GameTime gameTime)
         {
             GameInput.Instance.UpdateInput();
-              //  Thread thr1 = new Thread(() => );
-              //  thr1.Start();
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;
 
             Main.gameTime = gameTime;
 
             sceneManager.Update();
-
-
-
-           
 
             verletEngine.Update();
 
@@ -243,70 +212,15 @@ namespace Flipsider
                 UIScreens[i].Update();
             }
             EditorModes.Update();
-            hud.Update();
-            tileGUI.Update();
-            npcGUI.Update();
 
             TestParticleSystem.Position = GameInput.Instance.MousePosition;
             TestParticleSystem.Update();
 
             base.Update(gameTime);
         }
-
-
-
-
         protected override void UnloadContent()
         {
             base.UnloadContent();
-        }
-
-        void Render()
-        {
-            RenderSkybox();
-
-            //TODO: Move this later
-            for (int k = 0; k < entities.Count; k++)
-            {
-                Entity entity = entities[k];
-                entity.Draw(spriteBatch);
-            }
-
-            verletEngine.GlobalRenderPoints();
-
-            RenderTiles();
-            ShowTileCursor();
-            RenderUI();
-        }
-
-        void RenderSkybox()
-        {
-            spriteBatch.End();
-            spriteBatch.Begin();
-            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(5), Color.White);
-            spriteBatch.End();
-            spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
-        }
-
-        void RenderUI()
-        {
-            spriteBatch.End();
-            spriteBatch.Begin();
-
-            hud.active = true;
-            hud.Draw(spriteBatch);
-            tileGUI.active = true;
-            tileGUI.Draw(spriteBatch);
-            npcGUI.active = true;
-            npcGUI.Draw(spriteBatch);
-
-            for (int i = 0; i < UIScreens.Count; i++)
-            {
-                UIScreens[i].active = true;
-                UIScreens[i].Draw(spriteBatch);
-            }
-            //debuganthinghere
-            fps.DrawFps(spriteBatch, font, new Vector2(10, 36), Color.Black);
         }
 
         FPS fps = new FPS();
@@ -318,7 +232,7 @@ namespace Flipsider
 
             spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
 
-            Render();
+            Renderer.Render();
 
             spriteBatch.End();
 

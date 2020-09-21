@@ -50,6 +50,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public TileGUI()
         {
+            Main.UIScreens.Add(this);
             tilePanel = new TilePanel[tileTypes.Count];
             if (tilePanel.Length != 0)
             {

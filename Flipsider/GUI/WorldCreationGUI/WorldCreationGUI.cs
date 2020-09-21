@@ -52,7 +52,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 dimensions.X += (int)(Main.ScreenSize.X - 150 - dimensions.X) / 16;
                 if (keyboard.IsKeyDown(Keys.Enter) && inputText != "")
                 {
-                    Main.instance.SaveCurrentWorldAs(inputText);
+                    TileManager.SaveCurrentWorldAs(inputText);
                     inputText = "";
                 }
                 else

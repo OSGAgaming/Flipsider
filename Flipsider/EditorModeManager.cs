@@ -36,6 +36,7 @@ namespace Flipsider
         }
         public static void Update()
         {
+
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
@@ -96,18 +97,9 @@ namespace Flipsider
                 }
             }
         }
-        static void SwitchToTileEditorMode()
-        {
-            TileEditorMode = !TileEditorMode;
-        }
-        static void SwitchToNPCEditorMode()
-        {
-            NPCSpawnerMode = !NPCSpawnerMode;
-        }
-        static void SwitchToWorldSaverMode()
-        {
-            WorldSaverMode = !WorldSaverMode;
-        }
+        static void SwitchToTileEditorMode() => TileEditorMode = !TileEditorMode;
+        static void SwitchToNPCEditorMode() => NPCSpawnerMode = !NPCSpawnerMode;
+        static void SwitchToWorldSaverMode() => WorldSaverMode = !WorldSaverMode;
         static void SwitchModes()
         {
             EditorMode = !EditorMode;

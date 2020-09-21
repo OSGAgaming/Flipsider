@@ -10,7 +10,28 @@ namespace Flipsider
     {
         public static int tileRes = 32;
         public static List<Tile> tileTypes = new List<Tile>();
+        public static Tile[,] tiles;
+        public static void LoadTiles()
+        {
+            AddTileType(0, TextureCache.TileSet1);
+            AddTileType(1, TextureCache.TileSet2);
+            AddTileType(2, TextureCache.TileSet3);
+        }
 
+        public static void SaveCurrentWorldAs(string Name)
+        {
+            //SAME NAME WORLDS WILL OVERRIDE
+            Main.instance.ser.Serialize(tiles, Main.MainPath + Name + ".txt");
+        }
+        public static int MaxTilesX
+        {
+            get => 1000;
+        }
+
+        public static int MaxTilesY
+        {
+            get => 1000;
+        }
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
         [Serializable]
         public struct Tile
@@ -39,7 +60,7 @@ namespace Flipsider
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                     Point tilePoint = new Point((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                    Main.tiles[tilePoint.X, tilePoint.Y] = new Tile(Main.currentType, Main.currentFrame)
+                    tiles[tilePoint.X, tilePoint.Y] = new Tile(Main.currentType, Main.currentFrame)
                     {
                         active = true
                     };
@@ -66,7 +87,7 @@ namespace Flipsider
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                     Point tilePoint = new Point(Main.MouseScreen.X / tileRes, Main.MouseScreen.Y / tileRes);
-                    Main.tiles[tilePoint.X, tilePoint.Y].active = false;
+                    tiles[tilePoint.X, tilePoint.Y].active = false;
                 }
                 catch
                 {
@@ -86,18 +107,18 @@ namespace Flipsider
             {
                 for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
                 {
-                    if (i > 0 && j > 0 && i < Main.MaxTilesX && j < Main.MaxTilesY)
+                    if (i > 0 && j > 0 && i < MaxTilesX && j < MaxTilesY)
                     {
-                        if (Main.tiles[i, j].active)
+                        if (tiles[i, j].active)
                         {
-                            if (Main.tiles[i, j].type == -1)
+                            if (tiles[i, j].type == -1)
                             {
                                 DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
                             }
                             else
                             {
-                                Main.tiles[i, j].frame = GetTileFrame(i, j);
-                                Main.spriteBatch.Draw(tileDict[Main.tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), Main.tiles[i, j].frame, Color.White);
+                                tiles[i, j].frame = GetTileFrame(i, j);
+                                Main.spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
                             }
                         }
                     }
@@ -107,18 +128,18 @@ namespace Flipsider
         public static Rectangle GetTileFrame(int i, int j)
         {
             //fuck this is gonna be messy:
-            if (i > 0 && j > 0 && i < Main.MaxTilesX && j < Main.MaxTilesY)
+            if (i > 0 && j > 0 && i < MaxTilesX && j < MaxTilesY)
             {
-                bool upLeft = Main.tiles[i - 1, j - 1].active;
-                bool upMid = Main.tiles[i, j - 1].active;
-                bool upRight = Main.tiles[i + 1, j - 1].active;
+                bool upLeft = tiles[i - 1, j - 1].active;
+                bool upMid = tiles[i, j - 1].active;
+                bool upRight = tiles[i + 1, j - 1].active;
 
-                bool left = Main.tiles[i - 1, j].active;
-                bool right = Main.tiles[i + 1, j].active;
+                bool left = tiles[i - 1, j].active;
+                bool right = tiles[i + 1, j].active;
 
-                bool downLeft = Main.tiles[i - 1, j + 1].active;
-                bool downMid = Main.tiles[i, j + 1].active;
-                bool downRight = Main.tiles[i + 1, j + 1].active;
+                bool downLeft = tiles[i - 1, j + 1].active;
+                bool downMid = tiles[i, j + 1].active;
+                bool downRight = tiles[i + 1, j + 1].active;
 
                 //non sloped for now
 

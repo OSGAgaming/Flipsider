@@ -75,9 +75,9 @@ namespace Flipsider
             {
                 for (int j = (int)position.Y / res - (height / res + 2); j < (int)position.Y / res + (height / res + 2); j++)
                 {
-                    if (i >= 0 && j >= 0 && i < Main.MaxTilesX && j < Main.MaxTilesY)
+                    if (i >= 0 && j >= 0 && i < TileManager.MaxTilesX && j < TileManager.MaxTilesY)
                     {
-                        if (Main.tiles[i, j].active)
+                        if (TileManager.tiles[i, j].active)
                         {
                             Rectangle tileRect = new Rectangle(i * res - fluff, j * res - fluff, res + fluff, res + fluff);
                             if (CollisionFrame.Intersects(tileRect))
