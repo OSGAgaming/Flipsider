@@ -86,10 +86,12 @@ namespace Flipsider
             mainCamera = new Camera();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tiles = new Tile[MaxTilesX, MaxTilesY];
+            LoadTiles();
             LoadGUI();
         }
         protected override void Initialize()
         {
+            TextureCache.LoadTextures(Content);
             Instatiate();
             // Register controls
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
@@ -150,7 +152,7 @@ namespace Flipsider
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
             font = Content.Load<SpriteFont>("FlipFont");
-            TextureCache.LoadTextures(Content);
+           
             #region testparticles
             /* TestParticleSystem = new ParticleSystem(200);
              TestParticleSystem.SpawnRate = 10f;
@@ -179,7 +181,6 @@ namespace Flipsider
             TestParticleSystem.UpdateModules.Add(new FloatUp(0.2f, 0.99f));
 
             #endregion
-            LoadTiles();
             instance = this;
 
         }
