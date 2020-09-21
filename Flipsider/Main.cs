@@ -70,8 +70,27 @@ namespace Flipsider
         }
 
         private Verlet verletEngine;
+        void Instatiate()
+        {
+            Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
+            NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
+            for (int i = 0; i < NPCTypes.Length; i++)
+            {
+                NPC.NPCTypes[i].type = NPCTypes[i];
+            }
+            sceneManager = new SceneManager();
+            sceneManager.SetNextScene(new DebugScene(), null);
+            verletEngine = new Verlet();
+            rand = new Random();
+            player = new Player(new Vector2(100, 100));
+            mainCamera = new Camera();
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            tiles = new Tile[MaxTilesX, MaxTilesY];
+            LoadGUI();
+        }
         protected override void Initialize()
         {
+            Instatiate();
             // Register controls
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
             GameInput.Instance.RegisterControl("MoveRight", Keys.D, Buttons.LeftThumbstickRight);
@@ -86,12 +105,9 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
             GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
-            sceneManager = new SceneManager();
-            sceneManager.SetNextScene(new DebugScene(), null);
-            tiles = new Tile[MaxTilesX, MaxTilesY];
-            verletEngine = new Verlet();
-            rand = new Random();
-            player = new Player(new Vector2(100, 100));
+
+            
+
 
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
@@ -121,12 +137,8 @@ namespace Flipsider
                     verletEngine.BindPoints(verletEngine.points.Count - 1, verletEngine.points.Count - 2, true, Color.White);
                 }
             }
-            Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
-            NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
-            for (int i = 0; i < NPCTypes.Length; i++)
-            {
-                NPC.NPCTypes[i].type = NPCTypes[i];
-            }
+
+
 
             targetScale = 1.2f;
             //  NPC.SpawnNPC<Blob>(player.position);
@@ -138,7 +150,6 @@ namespace Flipsider
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
             font = Content.Load<SpriteFont>("FlipFont");
-            mainCamera = new Camera();
             TextureCache.LoadTextures(Content);
             #region testparticles
             /* TestParticleSystem = new ParticleSystem(200);
@@ -169,9 +180,8 @@ namespace Flipsider
 
             #endregion
             LoadTiles();
-            LoadGUI();
             instance = this;
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+
         }
 
         void LoadGUI()
