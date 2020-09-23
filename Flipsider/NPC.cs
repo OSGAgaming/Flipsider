@@ -46,6 +46,8 @@ namespace Flipsider
         protected override void OnUpdate()
         {
             Constraints();
+            if (Collides)
+                TileCollisions();
         }
 
         protected virtual void SetDefaults()
