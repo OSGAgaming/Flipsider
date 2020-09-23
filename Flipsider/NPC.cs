@@ -14,7 +14,13 @@ namespace Flipsider
 
         public int life;
         public int maxLife;
-
+        protected void Jump(float jumpheight, bool hasToBeOnGround = true)
+        {
+            if (hasToBeOnGround ? onGround : true)
+            {
+                velocity.Y -= jumpheight;
+            }
+        }
         public struct NPCInfo
         {
             public Texture2D icon;
