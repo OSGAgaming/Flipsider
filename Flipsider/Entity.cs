@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Diagnostics;
 
 namespace Flipsider
@@ -69,7 +70,6 @@ namespace Flipsider
 
         public void TileCollisions()
         {
-            int fluff = 1;
             int res = TileManager.tileRes;
             for (int i = (int)position.X / res - (width / res + 2); i < (int)position.X / res + (width / res + 2); i++)
             {
@@ -79,36 +79,48 @@ namespace Flipsider
                     {
                         if (TileManager.tiles[i, j].active)
                         {
-                            Rectangle tileRect = new Rectangle(i * res - fluff, j * res - fluff, res + fluff, res + fluff);
+                            Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
                             if (CollisionFrame.Intersects(tileRect))
                             {
+                                float lerpFuncMid = MathHelper.Clamp((position.X + width / 2 - tileRect.X) / res,0,1);
+                                Vector2 firstVec = tileRect.Location.ToVector2();
+                                Vector2 secondVec = tileRect.Location.ToVector2() + new Vector2(res,0);
+                                Vector2 MapMid = Vector2.Lerp(firstVec, secondVec, lerpFuncMid);
                                 Vector2 positionPreCollision = position - velocity * Time.DeltaVar(120);
                                 isColliding = true;
-                                if (positionPreCollision.X + width - fluff <= tileRect.X || positionPreCollision.X + fluff >= tileRect.X + res)
+                                if (positionPreCollision.Y + height - Math.Abs((res / 2) * (secondVec - firstVec).Slope()) > MapMid.Y + 1 && positionPreCollision.Y < tileRect.Y + res)
                                 {
-                                    if (positionPreCollision.Y + height - fluff > tileRect.Y)
+                                    if (positionPreCollision.X + width >= tileRect.X && positionPreCollision.X < tileRect.X && velocity.X > 0)
                                     {
-                                        if (positionPreCollision.X >= tileRect.X + res * .5f - fluff)
-                                            position.X -= position.X - (tileRect.X + res + fluff);
-                                        else if (positionPreCollision.X + width < tileRect.X + fluff + res * .5f)
-                                            position.X -= (position.X + width) - tileRect.X - fluff;
+                                        position.X = tileRect.X - width + 1;
                                         velocity.X = 0;
                                     }
-                                }
-                                else
-                                {
-                                    if (positionPreCollision.X + width - fluff > tileRect.X + fluff)
+                                    if (positionPreCollision.X <= tileRect.X + res && positionPreCollision.X > tileRect.X && velocity.X < 0)
                                     {
-                                        if (positionPreCollision.Y >= tileRect.Y + res * .5f)
-                                            position.Y -= position.Y - (tileRect.Y + res + fluff);
-                                        else if (positionPreCollision.Y + height < tileRect.Y + fluff + res * .5f)
+                                        position.X = tileRect.X + res;
+                                        velocity.X = 0;
+                                    }
+
+                                }
+                                if (position.X + width - 2 > tileRect.X && position.X + 2 < tileRect.X + res)
+                                {
+                                    if (position.Y >= MapMid.Y - height && position.Y < tileRect.Y)
+                                    {
+                                        if (Center.X > tileRect.X && Center.X < tileRect.X + res)
                                         {
-                                            position.Y -= (position.Y + height) - tileRect.Y - fluff;
+                                            position.Y = MapMid.Y - height + 1;
                                             onGround = true;
+                                            velocity.Y = 0;
                                         }
+                                    }
+                                    if (position.Y <= tileRect.Y + res && position.Y > MapMid.Y)
+                                    {
+                                        position.Y = tileRect.Y + res;
                                         velocity.Y = 0;
                                     }
                                 }
+
+
                             }
                         }
                     }
@@ -117,7 +129,7 @@ namespace Flipsider
 
         }
 
-        public Entity()
+        protected Entity()
         {
             oldPositions = new Vector2[TrailLength];
             Init();
@@ -135,11 +147,18 @@ namespace Flipsider
 
         public void Animate(int per, int noOfFrames, int frameHeight, int column = 0)
         {
-            if (frameCounter % per == 0)
+            if (frameY >= noOfFrames)
             {
-                frameY++;
-                if (frameY >= noOfFrames)
-                    frameY = 0;
+                frameY = 0;
+            }
+            if (per != 0)
+            {
+                if (frameCounter % per == 0)
+                {
+                    frameY++;
+                    if (frameY >= noOfFrames)
+                        frameY = 0;
+                }
             }
             frame = new Rectangle(framewidth * column, frameY * frameHeight, framewidth, frameHeight);
         }

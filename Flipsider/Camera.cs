@@ -54,6 +54,10 @@ namespace Flipsider
                     playerpos.Y = height / 2;
                 }
             }
+            else
+            {
+
+            }
             Transform =
                  Matrix.CreateTranslation(new Vector3(-playerpos + shake, 0)) *
                  Matrix.CreateScale(GetScreenScale()) *

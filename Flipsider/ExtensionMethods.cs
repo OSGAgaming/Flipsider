@@ -22,6 +22,10 @@ namespace Flipsider
         {
             return (float)(random.NextDouble() * max);
         }
+        public static float ReciprocateTo(this ref float num,float target, float ease)
+        {
+            return (target - num)/ease;
+        }
         public static void Shuffle<T>(this Random random, ref T[] input)
         {
             for (int i = input.Length - 1; i > 0; i--)
@@ -40,5 +44,10 @@ namespace Flipsider
             float traverseFunction = Math.Clamp(Main.player.position.X / traversingPixels, Main.mainCamera.LeftBound / traversingPixels, 100000);
             return v - new Vector2(traverseFunction, 0);
         }
+        public static float Slope(this Vector2 v)
+        {
+            return v.Y/v.X;
+        }
+
     }
 }
