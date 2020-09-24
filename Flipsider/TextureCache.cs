@@ -22,7 +22,7 @@ namespace Flipsider
         public static Texture2D TileSet3;
         public static Texture2D TileGUIPanels;
         public static Texture2D Blob;
-     //   public static Texture2D GreenSlime;
+        public static Texture2D GreenSlime;
         public static Texture2D NPCPanel;
         public static Texture2D Textbox;
         public static Texture2D SaveTex;
@@ -41,11 +41,11 @@ namespace Flipsider
             magicPixel = content.Load<Texture2D>("GUI/MagicPixel");
             skybox = content.Load<Texture2D>("skybox");
             Blob = content.Load<Texture2D>("Blob");
-        //    GreenSlime = content.Load<Texture2D>("GreenSlime");
             NPCPanel = content.Load<Texture2D>("NPCPanel");
             Textbox = content.Load<Texture2D>("Textbox");
             SaveTex = content.Load<Texture2D>("SaveTex");
             WorldSavePanel = content.Load<Texture2D>("GUI/WorldSavePanel");
+            GreenSlime = content.Load<Texture2D>("GreenSlime");
         }
     }
 }

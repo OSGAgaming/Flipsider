@@ -106,12 +106,9 @@ namespace Flipsider
                                 {
                                     if (position.Y >= MapMid.Y - height && position.Y < tileRect.Y)
                                     {
-                                        if (Center.X > tileRect.X && Center.X < tileRect.X + res)
-                                        {
                                             position.Y = MapMid.Y - height + 1;
                                             onGround = true;
                                             velocity.Y = 0;
-                                        }
                                     }
                                     if (position.Y <= tileRect.Y + res && position.Y > MapMid.Y)
                                     {

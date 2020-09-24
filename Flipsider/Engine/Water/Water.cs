@@ -24,57 +24,35 @@ namespace Flipsider
 {
     public class Water
     {
+        public static List<Water> WaterBodies = new List<Water>();
         int accuracy;
-        float lengthOfScreen = 400;
-        Vector2[] DisplacmentFromOriginal;
         Vector2[] Pos;
         Vector2[] accel;
         Vector2[] vel;
-        Vector2[] normalPos;
         Vector2[] targetHeight;
+        Rectangle frame;
         float[] disLeft;
         float[] disRight;
         float dampening;
         float constant;
         float viscosity;
-        void setup()
+
+        public void SetDampeningTo(float dampening) => this.dampening = dampening;
+        public void SetFrame(Rectangle vertices) => frame = vertices;
+
+        public Water(Rectangle _frame)
         {
-            viscosity = 0.09f;
-            dampening = 0.05f;
-            constant = 50;
-            accuracy = 1000;
-            DisplacmentFromOriginal = new Vector2[accuracy + 1];
-            disLeft = new float[accuracy + 1];
-            disRight = new float[accuracy + 1];
-            Pos = new Vector2[accuracy + 1];
-            vel = new Vector2[accuracy + 1];
-            accel = new Vector2[accuracy + 1];
-            normalPos = new Vector2[accuracy + 1];
-            targetHeight = new Vector2[accuracy + 1];
-            for (int i = 0; i < accuracy + 1; i++)
-            {
-                normalPos[i].Y = 100;
-            }
-            for (int i = 0; i < accuracy + 1; i++)
-            {
-                normalPos[i].X = i * (lengthOfScreen / accuracy);
-            }
-            for (int i = 0; i < accuracy + 1; i++)
-            {
-                Pos[i].Y = 100;
-            }
-            for (int i = 0; i < accuracy + 1; i++)
-            {
-                Pos[i].X = i * (lengthOfScreen / accuracy);
-            }
+            SetFrame(_frame);
+            WaterBodies.Add(this);
         }
-        void draw()
+        public void Update()
         {
- 
+            if(Main.rand.Next(100) == 0)
+            {
+                SplashPerc(Main.rand.NextFloat(1), Main.rand.NextFloat(20));
+            }
             for (int i = 0; i < accuracy + 1; i++)
             {
-                targetHeight[i].X = (normalPos[i].X + DisplacmentFromOriginal[i].X);
-                targetHeight[i].Y = (normalPos[i].Y + DisplacmentFromOriginal[i].Y);
                 Pos[i].X += vel[i].X;
                 Pos[i].Y += vel[i].Y;
                 vel[i].X += accel[i].X;
@@ -98,9 +76,45 @@ namespace Flipsider
                 }
             }
         }
-        void Splash(int index, float speed)
+
+        public void Render()
         {
-            vel[index].Y = speed;
+            for (int i = 0; i < accuracy; i++)
+            {
+                DrawMethods.DrawLine(Pos[i], Pos[i] + new Vector2(0,frame.Height),Color.Blue*0.5f);
+            }
+         }
+        public void Splash(int index, float speed) => vel[index].Y = speed;
+        public void SplashPerc(float perc, float speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)].Y = speed;
+
+        public void Initialize()
+        {
+            viscosity = 0.09f;
+            dampening = 0.05f;
+            constant = 50;
+            accuracy = 100;
+            disLeft = new float[accuracy + 1];
+            disRight = new float[accuracy + 1];
+            Pos = new Vector2[accuracy + 1];
+            vel = new Vector2[accuracy + 1];
+            accel = new Vector2[accuracy + 1];
+            targetHeight = new Vector2[accuracy + 1];
+            for (int i = 0; i < accuracy + 1; i++)
+            {
+                targetHeight[i].Y = frame.Y;
+            }
+            for (int i = 0; i < accuracy + 1; i++)
+            {
+                targetHeight[i].X = i * (frame.Width / accuracy) + frame.X;
+            }
+            for (int i = 0; i < accuracy + 1; i++)
+            {
+                Pos[i].Y = frame.Y;
+            }
+            for (int i = 0; i < accuracy + 1; i++)
+            {
+                Pos[i].X = i * (frame.Width / accuracy) + frame.X;
+            }
         }
     }
 }

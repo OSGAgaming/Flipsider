@@ -34,7 +34,7 @@ namespace Flipsider
         private TileGUI tileGUI;
         private NPCGUI npcGUI;
         private WorldCreationGUI WCGUI;
-
+        public static Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
@@ -86,6 +86,10 @@ namespace Flipsider
             mainCamera = new Camera();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             tiles = new Tile[MaxTilesX, MaxTilesY];
+            for (int i = 0; i < Water.WaterBodies.Count; i++)
+            {
+                Water.WaterBodies[i].Initialize();
+            }
             LoadTiles();
             LoadGUI();
         }
@@ -197,6 +201,10 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
+            for (int i = 0; i < Water.WaterBodies.Count; i++)
+            {
+                Water.WaterBodies[i].Update();
+            }
             GameInput.Instance.UpdateInput();
             verletEngine.points[0].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 18, 30) + player.velocity;
             verletEngine.points[1].point = player.position + new Vector2((player.spriteDirection == -1 ? -8 : 0) + 25, 30) + player.velocity;

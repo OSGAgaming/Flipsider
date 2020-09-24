@@ -35,8 +35,11 @@ namespace Flipsider
                 entity.Draw(Main.spriteBatch);
             }
 
-           // verletEngine.GlobalRenderPoints();
-
+            // verletEngine.GlobalRenderPoints();
+            for (int i = 0; i < Water.WaterBodies.Count; i++)
+            {
+                Water.WaterBodies[i].Render();
+            }
             RenderTiles();
             ShowTileCursor();
             RenderUI();
