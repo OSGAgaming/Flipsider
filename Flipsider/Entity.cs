@@ -106,9 +106,9 @@ namespace Flipsider
                                     }
 
                                 }
-                                if (positionPreCollision.X + width - 2 > tileRect.X && positionPreCollision.X + 2 < tileRect.X + res && velocity.Y > 0)
+                                if (positionPreCollision.X + width - 2 > tileRect.X && positionPreCollision.X + 2 < tileRect.X + res)
                                 {
-                                    if (position.Y >= MapMid.Y - height && position.Y < tileRect.Y)
+                                    if (position.Y >= MapMid.Y - height && position.Y < tileRect.Y && velocity.Y > 0)
                                     {
                                             position.Y = MapMid.Y - height + 1;
                                             onGround = true;
