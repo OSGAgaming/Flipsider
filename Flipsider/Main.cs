@@ -34,7 +34,7 @@ namespace Flipsider
         private TileGUI tileGUI;
         private NPCGUI npcGUI;
         private WorldCreationGUI WCGUI;
-        public static Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
+        Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;

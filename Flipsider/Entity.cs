@@ -29,7 +29,11 @@ namespace Flipsider
         protected virtual void PreDraw() { }
         public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y + maxHeight - height, width, height);
 
-
+        public bool Wet
+        {
+            get;
+            private set;
+        }
 
         public int height;
         public int maxHeight;
@@ -102,7 +106,7 @@ namespace Flipsider
                                     }
 
                                 }
-                                if (position.X + width - 2 > tileRect.X && position.X + 2 < tileRect.X + res)
+                                if (positionPreCollision.X + width - 2 > tileRect.X && positionPreCollision.X + 2 < tileRect.X + res && velocity.Y > 0)
                                 {
                                     if (position.Y >= MapMid.Y - height && position.Y < tileRect.Y)
                                     {
@@ -110,7 +114,7 @@ namespace Flipsider
                                             onGround = true;
                                             velocity.Y = 0;
                                     }
-                                    if (position.Y <= tileRect.Y + res && position.Y > MapMid.Y)
+                                    if (position.Y <= tileRect.Y + res && position.Y > MapMid.Y && velocity.Y < 0)
                                     {
                                         position.Y = tileRect.Y + res;
                                         velocity.Y = 0;
@@ -170,6 +174,12 @@ namespace Flipsider
             PreAI();
             AI();
             PostAI();
+            Wet = false;
+            for (int i = 0; i<Water.WaterBodies.Count; i++)
+            {
+                if (Water.WaterBodies[i].frame.Intersects(CollisionFrame))
+                    Wet = true;
+            }
         }
 
         public void Init()

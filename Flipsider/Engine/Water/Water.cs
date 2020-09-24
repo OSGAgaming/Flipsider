@@ -30,7 +30,7 @@ namespace Flipsider
         Vector2[] accel;
         Vector2[] vel;
         Vector2[] targetHeight;
-        Rectangle frame;
+        public Rectangle frame;
         float[] disLeft;
         float[] disRight;
         float dampening;
