@@ -130,7 +130,7 @@ namespace Flipsider
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
-            friction = 0.89f;
+            friction = 0.92f;
 
             if (crouching) airResistance.X = 0.99f;
             else if (!onGround) airResistance.X = 0.97f;
@@ -210,8 +210,8 @@ namespace Flipsider
             }
             else
             {
-                float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 10);
-                Animate(5 / (int)Math.Abs(vel), 8, 48, 1);
+                float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
+                Animate((int)(4 / Math.Abs(vel*0.6f)), 8, 48, 1);
             }
 
             if (!onGround)

@@ -47,10 +47,10 @@ namespace Flipsider
         }
         public void Update()
         {
-            if(Main.rand.Next(100) == 0)
-            {
-                SplashPerc(Main.rand.NextFloat(1), Main.rand.NextFloat(20));
-            }
+            var player = Main.player;
+            float preContact = player.CollisionFrame.Bottom - player.velocity.Y*player.velocity.Y;
+            if(preContact < frame.Y && player.Wet)
+                SplashPerc((player.Center.X - frame.X) / frame.Width, player.velocity.Y*4);
             for (int i = 0; i < accuracy + 1; i++)
             {
                 Pos[i].X += vel[i].X;
@@ -81,7 +81,7 @@ namespace Flipsider
         {
             for (int i = 0; i < accuracy; i++)
             {
-                DrawMethods.DrawLine(Pos[i], Pos[i] + new Vector2(0,frame.Height),Color.Blue*0.5f);
+                DrawMethods.DrawLine(Pos[i], Pos[i] - new Vector2(0,Pos[i].Y - frame.Bottom),Color.Blue*0.5f);
             }
          }
         public void Splash(int index, float speed) => vel[index].Y = speed;
