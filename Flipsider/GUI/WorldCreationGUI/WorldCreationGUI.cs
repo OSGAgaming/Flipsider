@@ -35,7 +35,6 @@ namespace Flipsider.GUI.TilePlacementGUI
     class UIStringInput : UIElement
     {
         string inputText = "";
-        string current;
         float alpha = 0f;
         int delay = 0;
         public override void Draw(SpriteBatch spriteBatch)
@@ -88,10 +87,6 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         if(inputText.Length > 0)
                         inputText = inputText.Remove(inputText.Length - 1);
-                    }
-                    else
-                    {
-                        current = firstKey.ToString();
                     }
                     delay = 10;
                 }

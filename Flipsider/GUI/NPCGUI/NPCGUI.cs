@@ -59,10 +59,10 @@ namespace Flipsider.GUI.TilePlacementGUI
         public float alpha = 0;
         float progression = 0;
         public bool active = true;
-        Texture2D tex;
+        Texture2D? tex;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            tex ??= npc.type.GetField("icon").GetValue(null) as Texture2D;
+            tex ??= npc.type.GetField("icon")?.GetValue(null) as Texture2D;
             if (chosen)
             {
                 progression += (1 - progression) / 16f;

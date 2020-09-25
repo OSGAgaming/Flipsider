@@ -10,14 +10,14 @@ namespace Flipsider.Engine
 {
     public class SceneManager
     {
-        private Scene _currentScene;
-        private Scene _nextScene;
-        private SceneTransition _transitionToUse;
+        private Scene? _currentScene;
+        private Scene? _nextScene;
+        private SceneTransition? _transitionToUse;
         private float _transitionProgress;
         private bool _transitioning;
         private bool _transitionSwitchedScene;
 
-        public Scene Scene
+        public Scene? Scene
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Flipsider.Engine
             }
         }
 
-        public void SetNextScene(Scene scene, SceneTransition transition = null, bool startTransition = true)
+        public void SetNextScene(Scene? scene, SceneTransition? transition = null, bool startTransition = true)
         {
             _nextScene = scene;
             _transitionToUse = transition;
@@ -46,7 +46,7 @@ namespace Flipsider.Engine
         {
             if (_transitioning)
             {
-                if (!_transitionSwitchedScene && _transitionProgress > _transitionToUse.SwitchPoint)
+                if (!_transitionSwitchedScene && _transitionProgress > _transitionToUse?.SwitchPoint)
                 {
                     _transitionSwitchedScene = true;
                     SwitchScene();
@@ -80,7 +80,7 @@ namespace Flipsider.Engine
             //deactivate current scene (if not null), set next scene, then activate it
             _currentScene?.OnDeactivate();
             _currentScene = _nextScene;
-            _currentScene.OnActivate();
+            _currentScene?.OnActivate();
             _nextScene = null;
         }
 
@@ -88,7 +88,7 @@ namespace Flipsider.Engine
         {
             _currentScene?.Draw();
 
-            if (_transitioning)
+            if (_transitioning && _transitionToUse != null)
             {
                 //the progress is from 0-1 so we need to get it via that.
                 float progress = _transitionProgress / _transitionToUse.Length;

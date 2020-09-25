@@ -22,6 +22,8 @@ using System.Threading;
 
 namespace Flipsider
 {
+    // TODO holy shit this hurts
+#nullable disable
     public class Main : Game
     {
         public SceneManager sceneManager;

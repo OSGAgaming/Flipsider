@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flipsider", "Flipsider\Flipsider.csproj", "{BDA0A576-92AE-44C4-8136-6F28B7A654BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flipsider", "Flipsider\Flipsider.csproj", "{BDA0A576-92AE-44C4-8136-6F28B7A654BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B95DD4CB-70FD-437C-9DA9-78128F47210D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

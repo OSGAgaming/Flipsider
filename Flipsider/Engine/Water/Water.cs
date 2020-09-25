@@ -20,6 +20,8 @@ using System.Reflection;
 using System.Linq;
 using System.Threading;
 
+#nullable disable
+// TODO fix this..
 namespace Flipsider
 {
     public class Water

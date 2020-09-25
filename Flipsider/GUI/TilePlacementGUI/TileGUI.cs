@@ -89,7 +89,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         float progression = 0;
-        public TileGUI parent;
+        public TileGUI? parent;
         public int index;
         public bool active = true;
         public override void Draw(SpriteBatch spriteBatch)
@@ -150,7 +150,8 @@ namespace Flipsider.GUI.TilePlacementGUI
                 Main.currentType = tile.type;
                 if (chosen)
                 {
-                    parent.chosen = index;
+                    if (parent != null)
+                        parent.chosen = index;
                     Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, 128, 272);
                     MouseState mousestate = Mouse.GetState();
                     int DimTileRes = tileRes / 2;
@@ -166,7 +167,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnRightClick()
         {
             chosen = false;
-            parent.chosen = -1;
+            if (parent != null)
+                parent.chosen = -1;
         }
         protected override void OnHover()
         {

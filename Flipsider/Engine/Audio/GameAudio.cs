@@ -17,7 +17,7 @@ namespace Flipsider.Engine.Audio
         }
 
         private FMOD.Studio.System _audioSystem;
-        private Dictionary<string, AudioBank> _banks;
+        private Dictionary<string, AudioBank> _banks = new Dictionary<string, AudioBank>();
 
         private VCA _musicVCA;
         private VCA _sfxVCA;

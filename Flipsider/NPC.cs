@@ -29,14 +29,14 @@ namespace Flipsider
                 this.type = type;
             }
         }
-        public static NPCInfo[] NPCTypes;
+        public static NPCInfo[] NPCTypes = new NPCInfo[0];
         public float percentLife => life / (float)maxLife;
 
         public bool hostile;
 
         public static void SpawnNPC(Vector2 position, Type type)
         {
-            NPC NPC = Activator.CreateInstance(type) as NPC;
+            NPC NPC = Activator.CreateInstance(type) as NPC ?? throw new InvalidOperationException("Type wasn't an NPC");
             NPC.SetDefaults();
             NPC.position = position;
         }

@@ -8,7 +8,7 @@ namespace Flipsider.Weapons
 {
     public class Weapon
     {
-        public Texture2D inventoryIcon;
+        public Texture2D? inventoryIcon;
 
         public int damage;
         public int delay;

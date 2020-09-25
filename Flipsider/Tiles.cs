@@ -10,7 +10,7 @@ namespace Flipsider
     {
         public static int tileRes = 32;
         public static List<Tile> tileTypes = new List<Tile>();
-        public static Tile[,] tiles;
+        public static Tile[,] tiles = new Tile[0, 0];
         public static void LoadTiles()
         {
             AddTileType(0, TextureCache.TileSet1);
