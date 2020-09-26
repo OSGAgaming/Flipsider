@@ -9,7 +9,7 @@ namespace Flipsider
     {
 
         public int width;
-        public Texture2D texture;
+        public Texture2D? texture;
 
         public int frameY;
         public int framewidth;

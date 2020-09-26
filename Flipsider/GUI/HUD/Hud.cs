@@ -36,7 +36,7 @@ namespace Flipsider.GUI.HUD
 
     class WeaponIcon : UIElement
     {
-        public Weapon weapon;
+        public Weapon? weapon;
 
         public override void Draw(SpriteBatch spriteBatch)
         {

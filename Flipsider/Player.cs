@@ -7,6 +7,8 @@ using System.Diagnostics;
 using Flipsider.Engine.Input;
 using Flipsider.Weapons;
 
+#nullable disable
+// TODO fix this..
 namespace Flipsider
 {
     public class Player : Entity

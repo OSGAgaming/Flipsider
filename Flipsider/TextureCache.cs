@@ -9,6 +9,8 @@ using System.Collections.Generic;
 
 namespace Flipsider
 {
+    // TODO dude.
+#nullable disable
     public class TextureCache
     {
         public static Texture2D pixel;

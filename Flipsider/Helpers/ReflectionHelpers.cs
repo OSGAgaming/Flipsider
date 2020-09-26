@@ -13,7 +13,7 @@ namespace Flipsider
     {
         public static Type[] GetInheritedClasses(Type MyType)
         {
-            return Assembly.GetAssembly(MyType).GetTypes().Where(TheType => TheType.IsClass && !TheType.IsAbstract && TheType.IsSubclassOf(MyType)).ToArray();
+            return MyType.Assembly.GetTypes().Where(TheType => TheType.IsClass && !TheType.IsAbstract && TheType.IsSubclassOf(MyType)).ToArray();
         }
     }
 }
