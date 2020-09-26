@@ -27,7 +27,7 @@ namespace Flipsider
         public static void Render()
         {
             RenderSkybox();
-
+            RenderTiles();
             //TODO: Move this later
             for (int k = 0; k < Main.entities.Count; k++)
             {
@@ -40,7 +40,7 @@ namespace Flipsider
             {
                 Water.WaterBodies[i].Render();
             }
-            RenderTiles();
+
             ShowTileCursor();
             RenderUI();
         }

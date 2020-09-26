@@ -81,7 +81,7 @@ namespace Flipsider
                 {
                     if (i >= 0 && j >= 0 && i < TileManager.MaxTilesX && j < TileManager.MaxTilesY)
                     {
-                        if (TileManager.tiles[i, j].active)
+                        if (TileManager.tiles[i, j].active && !TileManager.tiles[i, j].wall)
                         {
                             Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
                             if (CollisionFrame.Intersects(tileRect))

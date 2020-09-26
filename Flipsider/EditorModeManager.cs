@@ -24,10 +24,8 @@ namespace Flipsider
 {
     public class EditorModes
     {
-        public static bool TileEditorMode { get; set; }
-        public static bool NPCSpawnerMode { get; set; }
-        public static bool WorldSaverMode { get; set; }
         public static bool EditorMode { get; set; }
+        public static EditorUIState CurrentState;
         static void ControlEditorScreen()
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
@@ -55,15 +53,19 @@ namespace Flipsider
             {
                 if (GameInput.Instance["EditorTileEditor"].IsJustPressed())
                 {
-                    SwitchToTileEditorMode();
+                    SwitchToMode(EditorUIState.TileEditorMode);
                 }
                 if (GameInput.Instance["NPCEditor"].IsJustPressed())
                 {
-                    SwitchToNPCEditorMode();
+                    SwitchToMode(EditorUIState.NPCSpawnerMode);
                 }
                 if (GameInput.Instance["WorldSaverMode"].IsJustPressed())
                 {
-                    SwitchToWorldSaverMode();
+                    SwitchToMode(EditorUIState.WorldSaverMode);
+                }
+                if (GameInput.Instance["PropEditorMode"].IsJustPressed())
+                {
+                    SwitchToMode(EditorUIState.PropEditorMode);
                 }
             }
             if (EditorMode)
@@ -97,9 +99,17 @@ namespace Flipsider
                 }
             }
         }
-        static void SwitchToTileEditorMode() => TileEditorMode = !TileEditorMode;
-        static void SwitchToNPCEditorMode() => NPCSpawnerMode = !NPCSpawnerMode;
-        static void SwitchToWorldSaverMode() => WorldSaverMode = !WorldSaverMode;
+        static void SwitchToMode(EditorUIState state)
+        {
+            if (CurrentState == EditorUIState.None)
+            {
+                CurrentState = state;
+            }
+            else
+            {
+                CurrentState = EditorUIState.None;
+            }
+        }
         static void SwitchModes()
         {
             EditorMode = !EditorMode;

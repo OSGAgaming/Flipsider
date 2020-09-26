@@ -33,6 +33,7 @@ namespace Flipsider
         private Hud hud;
         private TileGUI tileGUI;
         private NPCGUI npcGUI;
+        private PropGUI propGUI;
         private WorldCreationGUI WCGUI;
         Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
         //Terraria PTSD
@@ -111,9 +112,7 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
             GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
-
-            
-
+            GameInput.Instance.RegisterControl("PropEditorMode", Keys.OemPeriod, Buttons.LeftTrigger);
 
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
@@ -195,6 +194,7 @@ namespace Flipsider
             npcGUI = new NPCGUI();
             WCGUI = new WorldCreationGUI();
             hud = new Hud();
+            propGUI = new PropGUI();
         }
         public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
@@ -215,7 +215,7 @@ namespace Flipsider
 
             verletEngine.Update();
 
-            tileGUI.active = EditorModes.TileEditorMode;
+            tileGUI.active = EditorModes.CurrentState == EditorUIState.TileEditorMode;
 
             if (!EditorModes.EditorMode)
             {

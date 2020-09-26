@@ -10,12 +10,21 @@ namespace Flipsider
     {
         public static int tileRes = 32;
         public static List<Tile> tileTypes = new List<Tile>();
+        public static List<PropInfo> props = new List<PropInfo>();
         public static Tile[,] tiles;
+        public static string CurrentProp;
+
         public static void LoadTiles()
         {
             AddTileType(0, TextureCache.TileSet1);
             AddTileType(1, TextureCache.TileSet2);
             AddTileType(2, TextureCache.TileSet3);
+            AddProp("Sky", TextureCache.GreenSlime);
+            AddProp("Player", TextureCache.player);
+            AddProp("Blob", TextureCache.Blob);
+            AddProp("HudSlot", TextureCache.hudSlot);
+            AddProp("TestGun", TextureCache.testGun);
+            AddProp("SaveTex", TextureCache.SaveTex);
         }
 
         public static void SaveCurrentWorldAs(string Name)
@@ -32,6 +41,22 @@ namespace Flipsider
         {
             get => 1000;
         }
+        public struct PropInfo
+        {
+            //do not make inherit from an Info interface, as I want to serialize this.. may turn these into bytes
+            public int noOfFrames;
+            public int animSpeed;
+            public Vector2 position;
+            public string prop;
+            public PropInfo(string prop, Vector2 pos, int noOfFrames = 1, int animSpeed = 1)
+            {
+                this.noOfFrames = noOfFrames;
+                this.animSpeed = animSpeed;
+                position = pos;
+                this.prop = prop;
+            }
+            //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
+        }
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
         [Serializable]
         public struct Tile
@@ -40,20 +65,24 @@ namespace Flipsider
             [NonSerialized]
             public Rectangle frame;
             public bool active;
-            public Tile(int type, Rectangle frame)
+            public bool wall;
+            public Tile(int type, Rectangle frame, bool ifWall = false)
             {
                 this.type = type;
                 this.frame = frame;
                 active = false;
+                wall = ifWall;
             }
             //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
 
         public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
+        public static Dictionary<string, Texture2D> Props = new Dictionary<string, Texture2D>();
 
         public static void AddTile()
         {
-            if (EditorModes.EditorMode && !EditorModes.TileEditorMode)
+
+            if (EditorModes.EditorMode && EditorModes.CurrentState != EditorUIState.TileEditorMode && EditorModes.CurrentState != EditorUIState.PropEditorMode)
             {
                 try
                 {
@@ -70,13 +99,30 @@ namespace Flipsider
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
             }
+            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            {
+                try
+                {
+                    MouseState state = Mouse.GetState();
+                    Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
+                    int alteredRes = tileRes / 2;
+                    Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+                    props.Add(new PropInfo(CurrentProp, tilePoint2 - Props[CurrentProp].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2)));
+                }
+                catch
+                {
+
+
+                }
+            }
         }
 
-        public static void AddTileType(int type, Texture2D atlas)
+        public static void AddTileType(int type, Texture2D atlas, bool ifWall = false)
         {
-            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32)));
+            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32),ifWall));
             tileDict.Add(type, atlas);
         }
+        public static void AddProp(string Prop, Texture2D tex) => Props.Add(Prop, tex);
 
         public static void RemoveTile()
         {
@@ -123,6 +169,10 @@ namespace Flipsider
                         }
                     }
                 }
+            }
+            foreach (PropInfo propInfo in props)
+            {
+                Main.spriteBatch.Draw(Props[propInfo.prop], propInfo.position,Props[propInfo.prop].Bounds, Color.White);
             }
         }
         public static Rectangle GetTileFrame(int i, int j)
@@ -344,7 +394,7 @@ namespace Flipsider
 
         public static void ShowTileCursor()
         {
-            if (EditorModes.EditorMode && !EditorModes.TileEditorMode)
+            if (EditorModes.EditorMode)
             {
                 int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
@@ -352,13 +402,25 @@ namespace Flipsider
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 Rectangle TileFrame = GetTileFrame((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                if (Main.currentType == -1)
+                if (EditorModes.CurrentState != EditorUIState.TileEditorMode && EditorModes.CurrentState != EditorUIState.PropEditorMode)
                 {
-                    DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
+                    if (Main.currentType == -1)
+                    {
+                        DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
+                    }
+                    else
+                    {
+                        Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                    }
                 }
-                else
+                if(EditorModes.CurrentState == EditorUIState.PropEditorMode)
                 {
-                    Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                    int alteredRes = tileRes / 2;
+                    Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+                    if (CurrentProp != null)
+                    {
+                        Main.spriteBatch.Draw(Props[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), Props[CurrentProp].Bounds, Color.White * Math.Abs(sine), 0f, Props[CurrentProp].Bounds.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                    }
                 }
             }
         }

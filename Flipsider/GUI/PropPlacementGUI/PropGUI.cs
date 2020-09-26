@@ -1,40 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Security.Cryptography;
+using System.Linq;
 using System.Text;
 using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static Flipsider.NPC;
 using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-
-    class NPCGUI : UIScreen
+    class PropGUI : UIScreen
     {
-        NPCPanel[] tilePanel;
+
+        PropPanel[] tilePanel;
         int rows = 5;
         int widthOfPanel = 64;
         int heightOfPanel = 64;
         int paddingX = 5;
         int paddingY = 20;
         public int chosen = -1;
-        public NPCGUI()
+        public PropGUI()
         {
             Main.UIScreens.Add(this);
-            tilePanel = new NPCPanel[NPCTypes.Length];
+            tilePanel = new PropPanel[Props.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)
                 {
-                    Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * heightOfPanel);
-                    tilePanel[i] = new NPCPanel();
+                    Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * (heightOfPanel + paddingY));
+                    tilePanel[i] = new PropPanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
-                    tilePanel[i].npc = NPCTypes[i];
+                    tilePanel[i].parent = this;
+                    tilePanel[i].index = i;
                     elements.Add(tilePanel[i]);
                 }
             }
@@ -42,37 +42,31 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         protected override void OnUpdate()
         {
+
         }
         protected override void OnDraw()
         {
-
+          //DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
         }
     }
-   
-    class NPCPanel : UIElement
+        class PropPanel : UIElement
     {
-        public NPCInfo npc;
         float lerpage = 0;
         public Rectangle startingDimensions;
-        bool chosen;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
+        Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         float progression = 0;
+        public PropGUI parent;
+        public int index;
         public bool active = true;
-        Texture2D tex;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            tex ??= npc.type.GetField("icon").GetValue(null) as Texture2D;
-            if (chosen)
-            {
-                progression += (1 - progression) / 16f;
-            }
-            else
-            {
-                progression -= progression / 16f;
 
-            }
-            if (EditorModes.CurrentState == EditorUIState.NPCSpawnerMode)
+            dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
+            dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
+            dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
+            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
             {
                 alpha += (1 - alpha) / 16f;
             }
@@ -80,10 +74,10 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 alpha -= alpha / 16f;
             }
-            int fluff  = 1;
+            int fluff = 5;
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-            spriteBatch.Draw(tex, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(Props.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {
@@ -91,7 +85,11 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            SpawnNPC(Main.player.position + new Vector2(0,-200), npc.type);
+            CurrentProp = Props.Keys.ToArray()[index];
+        }
+        protected override void OnRightClick()
+        {
+            parent.chosen = -1;
         }
         protected override void OnHover()
         {
