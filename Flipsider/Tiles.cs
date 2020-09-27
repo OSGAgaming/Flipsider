@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static Flipsider.PropInteractions;
 namespace Flipsider
 {
     public class TileManager
@@ -13,7 +14,7 @@ namespace Flipsider
         public static List<PropInfo> props = new List<PropInfo>();
         public static Tile[,] tiles = new Tile[0,0];
         public static string? CurrentProp;
-
+        public delegate void TileInteraction();
         public static void LoadTiles()
         {
             AddTileType(0, TextureCache.TileSet1);
@@ -22,6 +23,7 @@ namespace Flipsider
             AddProp("Sky", TextureCache.GreenSlime);
             AddProp("Player", TextureCache.player);
             AddProp("Blob", TextureCache.Blob);
+            AddPropInteraction("Blob", BlobInteractable);
             AddProp("HudSlot", TextureCache.hudSlot);
             AddProp("TestGun", TextureCache.testGun);
             AddProp("SaveTex", TextureCache.SaveTex);
@@ -48,12 +50,16 @@ namespace Flipsider
             public int animSpeed;
             public Vector2 position;
             public string prop;
-            public PropInfo(string prop, Vector2 pos, int noOfFrames = 1, int animSpeed = 1)
+            public int interactRange;
+            public TileInteraction? tileInteraction;
+            public PropInfo(string prop, Vector2 pos, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = 1)
             {
                 this.noOfFrames = noOfFrames;
                 this.animSpeed = animSpeed;
                 position = pos;
                 this.prop = prop;
+                interactRange = 200;
+                tileInteraction = TileInteraction;
             }
             //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
@@ -73,12 +79,14 @@ namespace Flipsider
                 active = false;
                 wall = ifWall;
             }
+
+            
             //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
 
         public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
         public static Dictionary<string, Texture2D> Props = new Dictionary<string, Texture2D>();
-
+        public static Dictionary<string, TileInteraction> PropInteractions = new Dictionary<string, TileInteraction>();
         public static void AddTile()
         {
 
@@ -107,7 +115,12 @@ namespace Flipsider
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                     int alteredRes = tileRes / 2;
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                    props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - Props[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2)));
+                    TileInteraction? currentInteraction = null;
+                    if(PropInteractions.ContainsKey(CurrentProp ?? ""))
+                    {
+                        currentInteraction = PropInteractions[CurrentProp ?? ""];
+                    }
+                    props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - Props[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2),currentInteraction));
                 }
                 catch
                 {
@@ -123,6 +136,8 @@ namespace Flipsider
             tileDict.Add(type, atlas);
         }
         public static void AddProp(string Prop, Texture2D tex) => Props.Add(Prop, tex);
+        public static void AddPropInteraction(string Prop, TileInteraction TI) => PropInteractions.Add(Prop, TI);
+
 
         public static void RemoveTile()
         {
