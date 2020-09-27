@@ -11,8 +11,8 @@ namespace Flipsider
         public static int tileRes = 32;
         public static List<Tile> tileTypes = new List<Tile>();
         public static List<PropInfo> props = new List<PropInfo>();
-        public static Tile[,] tiles;
-        public static string CurrentProp;
+        public static Tile[,] tiles = new Tile[0,0];
+        public static string? CurrentProp;
 
         public static void LoadTiles()
         {
@@ -107,7 +107,7 @@ namespace Flipsider
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                     int alteredRes = tileRes / 2;
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                    props.Add(new PropInfo(CurrentProp, tilePoint2 - Props[CurrentProp].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2)));
+                    props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - Props[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2)));
                 }
                 catch
                 {

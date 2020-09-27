@@ -57,7 +57,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         float progression = 0;
-        public PropGUI parent;
+        public PropGUI? parent;
         public int index;
         public bool active = true;
         public override void Draw(SpriteBatch spriteBatch)
@@ -89,6 +89,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnRightClick()
         {
+            if(parent != null)
             parent.chosen = -1;
         }
         protected override void OnHover()
