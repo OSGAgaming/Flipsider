@@ -4,29 +4,24 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static Flipsider.PropInteractions;
+using static Flipsider.Prop;
+using static Flipsider.PropInteraction;
 namespace Flipsider
 {
     public class TileManager
     {
         public static int tileRes = 32;
         public static List<Tile> tileTypes = new List<Tile>();
-        public static List<PropInfo> props = new List<PropInfo>();
+
         public static Tile[,] tiles = new Tile[0,0];
-        public static string? CurrentProp;
-        public delegate void TileInteraction();
+
+
         public static void LoadTiles()
         {
             AddTileType(0, TextureCache.TileSet1);
             AddTileType(1, TextureCache.TileSet2);
             AddTileType(2, TextureCache.TileSet3);
-            AddProp("Sky", TextureCache.GreenSlime);
-            AddProp("Player", TextureCache.player);
-            AddProp("Blob", TextureCache.Blob);
-            AddPropInteraction("Blob", BlobInteractable);
-            AddProp("HudSlot", TextureCache.hudSlot);
-            AddProp("TestGun", TextureCache.testGun);
-            AddProp("SaveTex", TextureCache.SaveTex);
+            Prop.LoadProps();
         }
 
         public static void SaveCurrentWorldAs(string Name)
@@ -43,26 +38,7 @@ namespace Flipsider
         {
             get => 1000;
         }
-        public struct PropInfo
-        {
-            //do not make inherit from an Info interface, as I want to serialize this.. may turn these into bytes
-            public int noOfFrames;
-            public int animSpeed;
-            public Vector2 position;
-            public string prop;
-            public int interactRange;
-            public TileInteraction? tileInteraction;
-            public PropInfo(string prop, Vector2 pos, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = 1)
-            {
-                this.noOfFrames = noOfFrames;
-                this.animSpeed = animSpeed;
-                position = pos;
-                this.prop = prop;
-                interactRange = 200;
-                tileInteraction = TileInteraction;
-            }
-            //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
-        }
+        
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
         [Serializable]
         public struct Tile
@@ -85,8 +61,7 @@ namespace Flipsider
         }
 
         public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
-        public static Dictionary<string, Texture2D> Props = new Dictionary<string, Texture2D>();
-        public static Dictionary<string, TileInteraction> PropInteractions = new Dictionary<string, TileInteraction>();
+
         public static void AddTile()
         {
 
@@ -120,7 +95,7 @@ namespace Flipsider
                     {
                         currentInteraction = PropInteractions[CurrentProp ?? ""];
                     }
-                    props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - Props[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2),currentInteraction));
+                    props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - PropTypes[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2),currentInteraction));
                 }
                 catch
                 {
@@ -135,8 +110,7 @@ namespace Flipsider
             tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32),ifWall));
             tileDict.Add(type, atlas);
         }
-        public static void AddProp(string Prop, Texture2D tex) => Props.Add(Prop, tex);
-        public static void AddPropInteraction(string Prop, TileInteraction TI) => PropInteractions.Add(Prop, TI);
+
 
 
         public static void RemoveTile()
@@ -187,7 +161,7 @@ namespace Flipsider
             }
             foreach (PropInfo propInfo in props)
             {
-                Main.spriteBatch.Draw(Props[propInfo.prop], propInfo.position,Props[propInfo.prop].Bounds, Color.White);
+                Main.spriteBatch.Draw(PropTypes[propInfo.prop], propInfo.position, PropTypes[propInfo.prop].Bounds, Color.White);
             }
         }
         public static Rectangle GetTileFrame(int i, int j)
@@ -434,7 +408,7 @@ namespace Flipsider
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                     if (CurrentProp != null)
                     {
-                        Main.spriteBatch.Draw(Props[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), Props[CurrentProp].Bounds, Color.White * Math.Abs(sine), 0f, Props[CurrentProp].Bounds.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropTypes[CurrentProp].Bounds, Color.White * Math.Abs(sine), 0f, PropTypes[CurrentProp].Bounds.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
                     }
                 }
             }

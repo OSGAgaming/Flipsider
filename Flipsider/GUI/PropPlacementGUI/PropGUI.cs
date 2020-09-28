@@ -7,7 +7,7 @@ using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static Flipsider.TileManager;
+using static Flipsider.Prop;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
@@ -24,7 +24,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public PropGUI()
         {
             Main.UIScreens.Add(this);
-            tilePanel = new PropPanel[Props.Count];
+            tilePanel = new PropPanel[PropTypes.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)
@@ -77,7 +77,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             int fluff = 5;
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-            spriteBatch.Draw(Props.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(PropTypes.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {
@@ -85,7 +85,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            CurrentProp = Props.Keys.ToArray()[index];
+            CurrentProp = PropTypes.Keys.ToArray()[index];
         }
         protected override void OnRightClick()
         {

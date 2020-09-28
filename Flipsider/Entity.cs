@@ -106,15 +106,15 @@ namespace Flipsider
                                     }
 
                                 }
-                                if (positionPreCollision.X + width - 2 > tileRect.X && positionPreCollision.X + 2 < tileRect.X + res)
+                                else if (positionPreCollision.X + width - 2 > tileRect.X && positionPreCollision.X + 2 < tileRect.X + res)
                                 {
-                                    if (position.Y >= MapMid.Y - height && position.Y < tileRect.Y && velocity.Y > 0)
+                                    if (position.Y + height > MapMid.Y && position.Y < tileRect.Y && velocity.Y > 0)
                                     {
                                             position.Y = MapMid.Y - height + 1;
                                             onGround = true;
                                             velocity.Y = 0;
                                     }
-                                    if (position.Y <= tileRect.Y + res && position.Y > MapMid.Y && velocity.Y < 0)
+                                    if (position.Y < tileRect.Y + res && position.Y > MapMid.Y && velocity.Y < 0)
                                     {
                                         position.Y = tileRect.Y + res;
                                         velocity.Y = 0;

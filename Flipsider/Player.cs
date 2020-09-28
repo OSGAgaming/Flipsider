@@ -15,7 +15,7 @@ namespace Flipsider
     {
 
 
-        float jumpheight = 3.9f;
+        float jumpheight = 3.7f;
 
         bool crouching;
 

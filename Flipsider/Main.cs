@@ -217,7 +217,7 @@ namespace Flipsider
 
             verletEngine.Update();
 
-            PropInteractions.UpdatePropInteractions();
+            PropInteraction.UpdatePropInteractions();
 
             tileGUI.active = EditorModes.CurrentState == EditorUIState.TileEditorMode;
 
