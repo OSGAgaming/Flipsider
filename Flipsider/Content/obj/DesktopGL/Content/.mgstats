@@ -1,6 +1,6 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/char.xnb","TextureProcessor","Texture2DContent",18194,1179733,0.2501363
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/Lighting.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/Lighting.xnb","EffectProcessor","CompiledEffectContent",751,746,0.4370232
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/Lighting.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/Lighting.xnb","EffectProcessor","CompiledEffectContent",751,746,0.4347172
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.1276044
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GF.xnb","TextureProcessor","Texture2DContent",21477,375061,0.0133792
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/HudSlot.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb","TextureProcessor","Texture2DContent",381,9301,0.002995

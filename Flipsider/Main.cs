@@ -205,6 +205,7 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
+            Lighting.Update();
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {
                 Water.WaterBodies[i].Update();
