@@ -25,7 +25,10 @@ float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
   float4 color = tex2D(s0, coords);
   float4 lightColor = tex2D(lightSampler, coords);
   float4 tileColor = tex2D(tileSampler, coords);
+  if(tileColor.r + tileColor.g + tileColor.b > 0)
   return color * (lightColor + baseLight);
+
+  return color;
 }
 technique Technique1
 {

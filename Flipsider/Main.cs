@@ -162,23 +162,23 @@ namespace Flipsider
             Lighting.Load(Content);
             renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
             #region testparticles
-            /* TestParticleSystem = new ParticleSystem(200);
-             TestParticleSystem.SpawnRate = 10f;
-             //TestParticleSystem.WorldSpace = true;
-             TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
-             TestParticleSystem.SpawnModules.Add(new SetScale(5f));
-             TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
-             TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
-             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
-             TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
-             var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
-             {
-                 return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
-             });
-             TestParticleSystem.UpdateModules.Add(condition);*/
+             TestParticleSystem = new ParticleSystem(200);
+            /*TestParticleSystem.SpawnRate = 10f;
+            //TestParticleSystem.WorldSpace = true;
+            TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
+            TestParticleSystem.SpawnModules.Add(new SetScale(5f));
+            TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
+            TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
+            TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
+            TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
+            var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
+            {
+                return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
+            });
+            TestParticleSystem.UpdateModules.Add(condition);*/
 
             //Flame
-            TestParticleSystem = new ParticleSystem(200);
+            /*TestParticleSystem = new ParticleSystem(200);
             TestParticleSystem.SpawnRate = 10f;
             TestParticleSystem.WorldSpace = true;
             TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
@@ -187,7 +187,7 @@ namespace Flipsider
             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
             TestParticleSystem.SpawnModules.Add(new SetRandomVelocity(20f, Main.rand));
             TestParticleSystem.UpdateModules.Add(new FloatUp(0.2f, 0.99f));
-
+            */
             #endregion
             instance = this;
 

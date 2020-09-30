@@ -30,6 +30,13 @@ namespace Flipsider
         public static Texture2D SaveTex;
         public static Texture2D WorldSavePanel;
         public static Texture2D PointLight;
+
+        public static Texture2D BusStop;
+        public static Texture2D BigBusStop;
+        public static Texture2D TrafficLight;
+        public static Texture2D BikeRack;
+        public static Texture2D StopSigns;
+        public static Texture2D StreetLights;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -50,6 +57,13 @@ namespace Flipsider
             WorldSavePanel = content.Load<Texture2D>("GUI/WorldSavePanel");
             GreenSlime = content.Load<Texture2D>("GreenSlime");
             PointLight = content.Load<Texture2D>("PointLight");
+
+            BusStop = content.Load<Texture2D>("Props/BusStop");
+            BigBusStop = content.Load<Texture2D>("Props/BigBusStop");
+            TrafficLight = content.Load<Texture2D>("Props/TrafficLight");
+            StopSigns = content.Load<Texture2D>("Props/StopSigns");
+            BikeRack = content.Load<Texture2D>("Props/BikeRack");
+            StreetLights = content.Load<Texture2D>("Props/StreetLights");
         }
     }
 }

@@ -85,6 +85,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
+            TileManager.UselessCanPlaceBool = false;
             CurrentProp = PropTypes.Keys.ToArray()[index];
         }
         protected override void OnRightClick()

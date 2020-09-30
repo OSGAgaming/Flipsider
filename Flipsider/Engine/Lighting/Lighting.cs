@@ -5,7 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Net.Mime;
-
+using static Flipsider.Prop;
+using static Flipsider.TileManager;
 namespace Flipsider
 {
     public class Lighting
@@ -50,7 +51,7 @@ namespace Flipsider
             LightingEffect = Content.Load<Effect>(@"Effect/Lighting");
             LoadLightMap();
             LoadTileMap();
-            SetBaseLight(0.3f);
+            SetBaseLight(1f);
             AddLight(1, new Vector2(100, 100), Color.Blue);
         }
 
@@ -94,7 +95,7 @@ namespace Flipsider
                     bool intersectionState = NumericalHelpers.LineIntersectsTile(origin.ToPoint(), secondPos.ToPoint());
                     if (intersectionState)
                     {
-                        DrawMethods.DrawLine(origin, intersection, Color.White * 0.2f, 4);
+                        DrawMethods.DrawLine(origin, intersection - (origin - intersection)/10f, Color.White * 0.2f, 4);
                     }
                     else
                     {
@@ -107,7 +108,37 @@ namespace Flipsider
 
             Main.graphics.GraphicsDevice.SetRenderTarget(tileMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
-            //tileMap System here
+            for(int i = 0; i<props.Count; i++)
+            {
+                Main.spriteBatch.Draw(PropTypes[props[i].prop], props[i].position, PropTypes[props[i].prop].Bounds, Color.White);
+            }
+
+            float scale = Main.mainCamera.scale;
+            scale = Math.Clamp(scale, 0.5f, 1);
+            int fluff = 10;
+            Vector2 SafeBoundX = new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.ScreenScale) / 32;
+            Vector2 SafeBoundY = new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) / 32;
+            for (int i = (int)SafeBoundX.X - fluff; i < (int)SafeBoundX.Y + fluff; i++)
+            {
+                for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
+                {
+                    if (i > 0 && j > 0 && i < MaxTilesX && j < MaxTilesY)
+                    {
+                        if (tiles[i, j].active)
+                        {
+                            if (tiles[i, j].type == -1)
+                            {
+                                DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
+                            }
+                            else
+                            {
+                                tiles[i, j].frame = GetTileFrame(i, j);
+                                Main.spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
+                            }
+                        }
+                    }
+                }
+            }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
             Main.graphics.GraphicsDevice.SetRenderTarget(null);

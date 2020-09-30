@@ -95,7 +95,9 @@ namespace Flipsider
                     {
                         currentInteraction = PropInteractions[CurrentProp ?? ""];
                     }
+                    if(UselessCanPlaceBool)
                     props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - PropTypes[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2),currentInteraction));
+                    UselessCanPlaceBool = true;
                 }
                 catch
                 {
@@ -380,7 +382,7 @@ namespace Flipsider
             return new Rectangle(0, 0, 32, 32);
 
         }
-
+        public static bool UselessCanPlaceBool;
         public static void ShowTileCursor()
         {
             if (EditorModes.EditorMode)

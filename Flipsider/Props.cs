@@ -26,6 +26,13 @@ namespace Flipsider
             AddProp("HudSlot", TextureCache.hudSlot);
             AddProp("TestGun", TextureCache.testGun);
             AddProp("SaveTex", TextureCache.SaveTex);
+
+            AddProp("TrafficLight", TextureCache.TrafficLight);
+            AddProp("BusStop", TextureCache.BusStop);
+            AddProp("BigBusStop", TextureCache.BigBusStop);
+            AddProp("BikeRack", TextureCache.BikeRack);
+            AddProp("StopSigns", TextureCache.StopSigns);
+            AddProp("StreetLights", TextureCache.StreetLights);
         }
         public struct PropInfo
         {
@@ -33,6 +40,7 @@ namespace Flipsider
             public int noOfFrames;
             public int animSpeed;
             public Vector2 position;
+            public Vector2 Center => position + new Vector2(PropTypes[prop].Width/2, PropTypes[prop].Height/2);
             public string prop;
             public int interactRange;
             public TileInteraction? tileInteraction;
@@ -42,7 +50,7 @@ namespace Flipsider
                 this.animSpeed = animSpeed;
                 position = pos;
                 this.prop = prop;
-                interactRange = 200;
+                interactRange = 30;
                 tileInteraction = TileInteraction;
             }
         }
@@ -61,12 +69,14 @@ namespace Flipsider
 
         public static void UpdatePropInteractions()
         {
-            foreach(PropInfo PI in props)
+            for(int i = 0; i<props.Count; i++)
             {
-                if((Main.MouseScreen.ToVector2() - PI.position).Length() < PI.interactRange)
+                if ((Main.MouseScreen.ToVector2() - props[i].Center).Length() < props[i].interactRange)
                 {
-                    if(Keyboard.GetState().IsKeyDown(Keys.E))
-                    PI.tileInteraction?.Invoke();
+                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        props.RemoveAt(i);
+                    if (Keyboard.GetState().IsKeyDown(Keys.E))
+                        props[i].tileInteraction?.Invoke();
                 }
             }
         }
