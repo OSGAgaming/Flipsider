@@ -1,9 +1,11 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/char.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/char.xnb","TextureProcessor","Texture2DContent",18194,1179733,0.2501363
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/Lighting.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/Lighting.xnb","EffectProcessor","CompiledEffectContent",751,746,0.4370232
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.1276044
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GF.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GF.xnb","TextureProcessor","Texture2DContent",21477,375061,0.0133792
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/HudSlot.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb","TextureProcessor","Texture2DContent",381,9301,0.002995
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/MagicPixel.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/MagicPixel.xnb","TextureProcessor","Texture2DContent",78,101,0.0017037
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/TestGun.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/TestGun.xnb","TextureProcessor","Texture2DContent",417,9301,0.003687
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/PointLight.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/PointLight.xnb","TextureProcessor","Texture2DContent",5052,40085,0.189622
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/skybox.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/skybox.xnb","TextureProcessor","Texture2DContent",131484,14745685,0.3543047
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/TileSet1.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/TileSet1.xnb","TextureProcessor","Texture2DContent",21506,557141,0.012898

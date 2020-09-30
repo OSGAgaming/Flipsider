@@ -26,11 +26,14 @@ namespace Flipsider
     {
         public static void Render()
         {
+
             RenderSkybox();
             RenderTiles();
+            
             //TODO: Move this later
             for (int k = 0; k < Main.entities.Count; k++)
             {
+
                 Entity entity = Main.entities[k];
                 entity.Draw(Main.spriteBatch);
             }
@@ -48,7 +51,7 @@ namespace Flipsider
         static void RenderSkybox()
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate);
             Main.spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(5), Color.White);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);

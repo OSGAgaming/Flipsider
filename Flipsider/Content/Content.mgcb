@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:char.png
 
+#begin Effect/Lighting.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effect/Lighting.fx
+
 #begin FlipFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -55,18 +61,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GF.png
-
-#begin GreenSlime.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GreenSlime.png
 
 #begin GreenSlime.png
 /importer:TextureImporter
@@ -151,6 +145,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:NPCPanel.png
+
+#begin PointLight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PointLight.png
+
+#begin PointLight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PointLight.png
 
 #begin SaveTex.png
 /importer:TextureImporter

@@ -42,6 +42,7 @@ namespace Flipsider
         public static Texture2D character;
         public static Player player;
 
+        public static RenderTarget2D renderTarget;
         public static GameTime gameTime;
         public static Camera mainCamera;
         public static SpriteFont font;
@@ -157,7 +158,8 @@ namespace Flipsider
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
             font = Content.Load<SpriteFont>("FlipFont");
-           
+            Lighting.Load(Content);
+            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
             #region testparticles
             /* TestParticleSystem = new ParticleSystem(200);
              TestParticleSystem.SpawnRate = 10f;
@@ -249,18 +251,20 @@ namespace Flipsider
         FPS fps = new FPS();
         protected override void Draw(GameTime gameTime)
         {
+            Rectangle frame = new Rectangle(0, 0, (int)(ScreenSize.X), (int)(ScreenSize.Y));
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             fps.Update(gameTime);
-
-            spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
-
+            graphics.GraphicsDevice.SetRenderTarget(renderTarget);
+            spriteBatch.Begin(SpriteSortMode.Immediate);
             Renderer.Render();
-
             spriteBatch.End();
-
+            graphics.GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            Lighting.ApplyShader();
+            spriteBatch.Draw(renderTarget, Vector2.Zero.ToScreen() + (ScreenSize/ ScreenScale)/2, frame, Color.White,0f, frame.Size.ToVector2() / 2, 1/ ScreenScale, SpriteEffects.None,0f);
+            spriteBatch.End();
             spriteBatch.Begin();
-
             TestParticleSystem.Draw(spriteBatch);
 
             spriteBatch.End();
