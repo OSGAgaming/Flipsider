@@ -25,6 +25,7 @@ namespace Flipsider.GUI
 
         public void Update()
         {
+            OnUpdate();
             MouseState state = Mouse.GetState();
             if (dimensions.Contains(state.Position)) OnHover();
             if (!dimensions.Contains(state.Position)) NotOnHover();

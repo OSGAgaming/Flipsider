@@ -30,6 +30,5 @@ namespace Flipsider
             Jump(2f);
             Animate(5, 1, 185, 0);
         }
-
     }
 }

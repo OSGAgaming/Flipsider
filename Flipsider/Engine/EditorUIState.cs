@@ -6,6 +6,7 @@ namespace Flipsider
         TileEditorMode,
         NPCSpawnerMode,
         WorldSaverMode,
-        PropEditorMode
+        PropEditorMode,
+        LightEditorMode
     }
 }

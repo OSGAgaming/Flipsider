@@ -65,7 +65,7 @@ namespace Flipsider
         public static void AddTile()
         {
 
-            if (EditorModes.EditorMode && EditorModes.CurrentState != EditorUIState.TileEditorMode && EditorModes.CurrentState != EditorUIState.PropEditorMode)
+            if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
             {
                 try
                 {
@@ -391,7 +391,7 @@ namespace Flipsider
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 Rectangle TileFrame = GetTileFrame((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                if (EditorModes.CurrentState != EditorUIState.TileEditorMode && EditorModes.CurrentState != EditorUIState.PropEditorMode)
+                if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
                 {
                     if (Main.currentType == -1)
                     {

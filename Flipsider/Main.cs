@@ -37,6 +37,7 @@ namespace Flipsider
         private NPCGUI npcGUI;
         private PropGUI propGUI;
         private WorldCreationGUI WCGUI;
+        private LightPlacementGUI LPGUI;
         Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
         //Terraria PTSD
         public static Texture2D character;
@@ -57,7 +58,7 @@ namespace Flipsider
 
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-        public static Point MouseScreen => (Mouse.GetState().Position.ToVector2() / mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
+        public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
 
         private ParticleSystem TestParticleSystem;
 
@@ -116,7 +117,7 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
             GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
             GameInput.Instance.RegisterControl("PropEditorMode", Keys.OemPeriod, Buttons.LeftTrigger);
-
+            GameInput.Instance.RegisterControl("LightEditorMode", Keys.L, Buttons.LeftShoulder);
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
 
@@ -199,12 +200,14 @@ namespace Flipsider
             WCGUI = new WorldCreationGUI();
             hud = new Hud();
             propGUI = new PropGUI();
+            LPGUI = new LightPlacementGUI();
         }
         public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
 
         protected override void Update(GameTime gameTime)
         {
+
             Lighting.Update();
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {

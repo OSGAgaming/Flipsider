@@ -94,7 +94,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         public bool active = true;
         public override void Draw(SpriteBatch spriteBatch)
         {
-
             if (chosen)
             {
                 progression += (1 - progression) / 16f;
