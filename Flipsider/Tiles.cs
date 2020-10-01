@@ -21,7 +21,7 @@ namespace Flipsider
             AddTileType(0, TextureCache.TileSet1);
             AddTileType(1, TextureCache.TileSet2);
             AddTileType(2, TextureCache.TileSet3);
-            Prop.LoadProps();
+            LoadProps();
         }
 
         public static void SaveCurrentWorldAs(string Name)
@@ -91,9 +91,9 @@ namespace Flipsider
                     int alteredRes = tileRes / 2;
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                     TileInteraction? currentInteraction = null;
-                    if(PropInteractions.ContainsKey(CurrentProp ?? ""))
+                    if(PropEntites.ContainsKey(CurrentProp ?? ""))
                     {
-                        currentInteraction = PropInteractions[CurrentProp ?? ""];
+                        currentInteraction = PropEntites[CurrentProp ?? ""].tileInteraction;
                     }
                     if(UselessCanPlaceBool)
                     props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - PropTypes[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2),currentInteraction));
@@ -161,9 +161,10 @@ namespace Flipsider
                     }
                 }
             }
-            foreach (PropInfo propInfo in props)
+            for (int i = 0; i < props.Count; i++)
             {
-                Main.spriteBatch.Draw(PropTypes[propInfo.prop], propInfo.position, PropTypes[propInfo.prop].Bounds, Color.White);
+                var p = props[i];
+                Main.spriteBatch.Draw(PropTypes[p.prop], p.Center, props[i].alteredFrame, Color.White, 0f, props[i].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public static Rectangle GetTileFrame(int i, int j)
@@ -410,7 +411,7 @@ namespace Flipsider
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                     if (CurrentProp != null)
                     {
-                        Main.spriteBatch.Draw(PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropTypes[CurrentProp].Bounds, Color.White * Math.Abs(sine), 0f, PropTypes[CurrentProp].Bounds.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropEntites[CurrentProp].alteredFrame, Color.White * Math.Abs(sine), 0f, PropEntites[CurrentProp].alteredFrame.Size.ToVector2()/2, 1f, SpriteEffects.None, 0f);
                     }
                 }
             }

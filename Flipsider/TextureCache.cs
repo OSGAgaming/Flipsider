@@ -37,6 +37,7 @@ namespace Flipsider
         public static Texture2D BikeRack;
         public static Texture2D StopSigns;
         public static Texture2D StreetLights;
+        public static Texture2D Birb;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -57,7 +58,7 @@ namespace Flipsider
             WorldSavePanel = content.Load<Texture2D>("GUI/WorldSavePanel");
             GreenSlime = content.Load<Texture2D>("GreenSlime");
             PointLight = content.Load<Texture2D>("PointLight");
-
+            Birb = content.Load<Texture2D>("Birb");
             BusStop = content.Load<Texture2D>("Props/BusStop");
             BigBusStop = content.Load<Texture2D>("Props/BigBusStop");
             TrafficLight = content.Load<Texture2D>("Props/TrafficLight");

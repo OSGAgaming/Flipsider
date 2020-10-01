@@ -11,8 +11,7 @@ namespace Flipsider
 {
     public class Lighting
     {
-        public static RenderTarget2D? lightMap;
-        public static RenderTarget2D? tileMap;
+
         public static float baseLight
         {
             get;
@@ -51,8 +50,11 @@ namespace Flipsider
             LightingEffect = Content.Load<Effect>(@"Effect/Lighting");
             LoadLightMap();
             LoadTileMap();
+            LoadMiscMap();
             SetBaseLight(1f);
             AddLight(1, new Vector2(100, 100), Color.Blue);
+            tileDiffusion = 2f;
+            generalDiffusion = 1.3f;
         }
 
         public static List<LightSource> lightSources = new List<LightSource>();
@@ -62,15 +64,24 @@ namespace Flipsider
         public static void AddDirectionalLight(Vector2 p1, Vector2 p2, Color col) => directionalLightSources.Add(new DirectionalLightSource(p1,p2,col));
         public static void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
         public static void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
+        public static void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
 
         public static void Update()
         {
          //   DrawLightMap();
         }
+        public static RenderTarget2D? lightMap;
+        public static RenderTarget2D? tileMap;
+        public static RenderTarget2D? miscMap;
+        public static float tileDiffusion;
+        public static float generalDiffusion;
         public static void ApplyShader()
         {
             LightingEffect?.Parameters["lightMask"]?.SetValue(lightMap);
             LightingEffect?.Parameters["tileMask"]?.SetValue(tileMap);
+            LightingEffect?.Parameters["tileDiffusion"]?.SetValue(tileDiffusion);
+            LightingEffect?.Parameters["generalDiffusion"]?.SetValue(generalDiffusion);
+            LightingEffect?.Parameters["miscMap"]?.SetValue(miscMap);
             LightingEffect?.Parameters["baseLight"]?.SetValue(baseLight);
             LightingEffect?.CurrentTechnique.Passes[0].Apply();
         }
@@ -107,11 +118,7 @@ namespace Flipsider
             //  Main.spriteBatch.Draw(TextureCache.magicPixel, intersection,new Rectangle(0,0,5,5), Color.White);
 
             Main.graphics.GraphicsDevice.SetRenderTarget(tileMap);
-            Main.graphics.GraphicsDevice.Clear(Color.Black);
-            for(int i = 0; i<props.Count; i++)
-            {
-                Main.spriteBatch.Draw(PropTypes[props[i].prop], props[i].position, PropTypes[props[i].prop].Bounds, Color.White);
-            }
+
 
             float scale = Main.mainCamera.scale;
             scale = Math.Clamp(scale, 0.5f, 1);
@@ -128,7 +135,7 @@ namespace Flipsider
                         {
                             if (tiles[i, j].type == -1)
                             {
-                                DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
+                              //  DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
                             }
                             else
                             {
@@ -138,6 +145,22 @@ namespace Flipsider
                         }
                     }
                 }
+            }
+            
+            Main.graphics.GraphicsDevice.SetRenderTarget(miscMap);
+            Main.graphics.GraphicsDevice.Clear(Color.Black);
+            for (int i = 0; i < props.Count; i++)
+            {
+                Main.spriteBatch.Draw(PropTypes[props[i].prop], props[i].Center, PropEntites[props[i].prop].alteredFrame, Color.White, 0f, PropEntites[props[i].prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+            }
+            for (int k = 0; k < Main.entities.Count; k++)
+            {
+                Entity entity = Main.entities[k];
+                entity.Draw(Main.spriteBatch);
+            }
+            for (int i = 0; i < Water.WaterBodies.Count; i++)
+            {
+                Water.WaterBodies[i].Render();
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();

@@ -10,6 +10,7 @@
 sampler s0: register(s0);
 texture lightMask;
 texture tileMask;
+texture miscMap;
 sampler tileSampler = sampler_state
 {
 	Texture = (tileMask);
@@ -18,17 +19,22 @@ sampler lightSampler = sampler_state
 { 
 	Texture = (lightMask); 
 };
+sampler miscSampler = sampler_state
+{
+	Texture = (miscMap);
+};
+
 
 float baseLight;
+float tileDiffusion;
+float generalDiffusion;
 float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
 {
   float4 color = tex2D(s0, coords);
   float4 lightColor = tex2D(lightSampler, coords);
   float4 tileColor = tex2D(tileSampler, coords);
-  if(tileColor.r + tileColor.g + tileColor.b > 0)
-  return color * (lightColor + baseLight);
-
-  return color;
+  float4 miscColor = tex2D(miscSampler, coords);
+  return (color * baseLight) + (lightColor * (tileColor/ tileDiffusion + miscColor/ generalDiffusion));
 }
 technique Technique1
 {
