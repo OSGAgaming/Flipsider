@@ -35,12 +35,15 @@ namespace Flipsider
         private Hud hud;
         private TileGUI tileGUI;
         private NPCGUI npcGUI;
+        private PropGUI propGUI;
         private WorldCreationGUI WCGUI;
+        private LightPlacementGUI LPGUI;
         Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
 
+        public static RenderTarget2D renderTarget;
         public static GameTime gameTime;
         public static Camera mainCamera;
         public static SpriteFont font;
@@ -55,7 +58,7 @@ namespace Flipsider
 
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-        public static Point MouseScreen => (Mouse.GetState().Position.ToVector2() / mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
+        public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
 
         private ParticleSystem TestParticleSystem;
 
@@ -113,10 +116,8 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);
             GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
-
-            
-
-
+            GameInput.Instance.RegisterControl("PropEditorMode", Keys.OemPeriod, Buttons.LeftTrigger);
+            GameInput.Instance.RegisterControl("LightEditorMode", Keys.L, Buttons.LeftShoulder);
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
 
@@ -158,25 +159,26 @@ namespace Flipsider
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
             font = Content.Load<SpriteFont>("FlipFont");
-           
+            Lighting.Load(Content);
+            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
             #region testparticles
-            /* TestParticleSystem = new ParticleSystem(200);
-             TestParticleSystem.SpawnRate = 10f;
-             //TestParticleSystem.WorldSpace = true;
-             TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
-             TestParticleSystem.SpawnModules.Add(new SetScale(5f));
-             TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
-             TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
-             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
-             TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
-             var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
-             {
-                 return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
-             });
-             TestParticleSystem.UpdateModules.Add(condition);*/
+             TestParticleSystem = new ParticleSystem(200);
+            /*TestParticleSystem.SpawnRate = 10f;
+            //TestParticleSystem.WorldSpace = true;
+            TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
+            TestParticleSystem.SpawnModules.Add(new SetScale(5f));
+            TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, Main.rand));
+            TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
+            TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
+            TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
+            var condition = new ConditionalModifier(new SetScale(10f), new Turn(MathHelper.PiOver2), (Particle[] particles, int index) =>
+            {
+                return GameInput.Instance.MousePosition.X < Main.ScreenSize.X * 0.5f;
+            });
+            TestParticleSystem.UpdateModules.Add(condition);*/
 
             //Flame
-            TestParticleSystem = new ParticleSystem(200);
+            /*TestParticleSystem = new ParticleSystem(200);
             TestParticleSystem.SpawnRate = 10f;
             TestParticleSystem.WorldSpace = true;
             TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
@@ -185,7 +187,7 @@ namespace Flipsider
             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
             TestParticleSystem.SpawnModules.Add(new SetRandomVelocity(20f, Main.rand));
             TestParticleSystem.UpdateModules.Add(new FloatUp(0.2f, 0.99f));
-
+            */
             #endregion
             instance = this;
 
@@ -197,12 +199,16 @@ namespace Flipsider
             npcGUI = new NPCGUI();
             WCGUI = new WorldCreationGUI();
             hud = new Hud();
+            propGUI = new PropGUI();
+            LPGUI = new LightPlacementGUI();
         }
         public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
 
         protected override void Update(GameTime gameTime)
         {
+
+            Lighting.Update();
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {
                 Water.WaterBodies[i].Update();
@@ -217,7 +223,9 @@ namespace Flipsider
 
             verletEngine.Update();
 
-            tileGUI.active = EditorModes.TileEditorMode;
+            PropInteraction.UpdatePropInteractions();
+
+            tileGUI.active = EditorModes.CurrentState == EditorUIState.TileEditorMode;
 
             if (!EditorModes.EditorMode)
             {
@@ -247,18 +255,20 @@ namespace Flipsider
         FPS fps = new FPS();
         protected override void Draw(GameTime gameTime)
         {
+            Rectangle frame = new Rectangle(0, 0, (int)(ScreenSize.X), (int)(ScreenSize.Y));
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             fps.Update(gameTime);
-
-            spriteBatch.Begin(transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
-
+            graphics.GraphicsDevice.SetRenderTarget(renderTarget);
+            spriteBatch.Begin(SpriteSortMode.Immediate);
             Renderer.Render();
-
             spriteBatch.End();
-
+            graphics.GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            Lighting.ApplyShader();
+            spriteBatch.Draw(renderTarget, Vector2.Zero.ToScreen() + (ScreenSize/ ScreenScale)/2, frame, Color.White,0f, frame.Size.ToVector2() / 2, 1/ ScreenScale, SpriteEffects.None,0f);
+            spriteBatch.End();
             spriteBatch.Begin();
-
             TestParticleSystem.Draw(spriteBatch);
 
             spriteBatch.End();

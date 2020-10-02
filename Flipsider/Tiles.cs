@@ -4,18 +4,25 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static Flipsider.Prop;
+using static Flipsider.PropManager;
+using static Flipsider.PropInteraction;
 namespace Flipsider
 {
     public class TileManager
     {
         public static int tileRes = 32;
         public static List<Tile> tileTypes = new List<Tile>();
-        public static Tile[,] tiles = new Tile[0, 0];
+
+        public static Tile[,] tiles = new Tile[0,0];
+
+
         public static void LoadTiles()
         {
             AddTileType(0, TextureCache.TileSet1);
             AddTileType(1, TextureCache.TileSet2);
             AddTileType(2, TextureCache.TileSet3);
+            LoadProps();
         }
 
         public static void SaveCurrentWorldAs(string Name)
@@ -32,6 +39,7 @@ namespace Flipsider
         {
             get => 1000;
         }
+        
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
         [Serializable]
         public struct Tile
@@ -40,12 +48,16 @@ namespace Flipsider
             [NonSerialized]
             public Rectangle frame;
             public bool active;
-            public Tile(int type, Rectangle frame)
+            public bool wall;
+            public Tile(int type, Rectangle frame, bool ifWall = false)
             {
                 this.type = type;
                 this.frame = frame;
                 active = false;
+                wall = ifWall;
             }
+
+            
             //   public void Draw(Vector2 pos) => Main.spriteBatch.Draw(atlas, pos * 16, frame, Color.White);
         }
 
@@ -53,7 +65,8 @@ namespace Flipsider
 
         public static void AddTile()
         {
-            if (EditorModes.EditorMode && !EditorModes.TileEditorMode)
+
+            if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
             {
                 try
                 {
@@ -70,13 +83,16 @@ namespace Flipsider
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
             }
+
         }
 
-        public static void AddTileType(int type, Texture2D atlas)
+        public static void AddTileType(int type, Texture2D atlas, bool ifWall = false)
         {
-            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32)));
+            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32),ifWall));
             tileDict.Add(type, atlas);
         }
+
+
 
         public static void RemoveTile()
         {
@@ -124,6 +140,7 @@ namespace Flipsider
                     }
                 }
             }
+
         }
         public static Rectangle GetTileFrame(int i, int j)
         {
@@ -341,10 +358,10 @@ namespace Flipsider
             return new Rectangle(0, 0, 32, 32);
 
         }
-
+        public static bool UselessCanPlaceBool;
         public static void ShowTileCursor()
         {
-            if (EditorModes.EditorMode && !EditorModes.TileEditorMode)
+            if (EditorModes.EditorMode)
             {
                 int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
@@ -352,13 +369,16 @@ namespace Flipsider
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 Rectangle TileFrame = GetTileFrame((int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                if (Main.currentType == -1)
+                if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
                 {
-                    DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
-                }
-                else
-                {
-                    Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                    if (Main.currentType == -1)
+                    {
+                        DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
+                    }
+                    else
+                    {
+                        Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                    }
                 }
             }
         }

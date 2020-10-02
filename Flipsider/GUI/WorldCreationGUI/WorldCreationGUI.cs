@@ -45,13 +45,13 @@ namespace Flipsider.GUI.TilePlacementGUI
             Main.spriteBatch.Draw(TextureCache.WorldSavePanel, new Rectangle(dimensions.X - 10, dimensions.Y - 20,180, 90), Color.White * alpha);
             Main.spriteBatch.Draw(TextureCache.Textbox, dimensions, Color.White * alpha);
             Main.spriteBatch.Draw(TextureCache.SaveTex, new Rectangle(dimensions.X + dimensions.Width / 4, dimensions.Y - 20 + (int)(Math.Sin(Main.gameTime.TotalGameTime.TotalMilliseconds / 120f) * 3), dimensions.Width / 2, dimensions.Height / 2), Color.White * alpha);
-            if (EditorModes.WorldSaverMode)
+            if (EditorModes.CurrentState == EditorUIState.WorldSaverMode)
             {
                 alpha += (1 - alpha) / 16f;
                 dimensions.X += (int)(Main.ScreenSize.X - 150 - dimensions.X) / 16;
                 if (keyboard.IsKeyDown(Keys.Enter) && inputText != "")
                 {
-                    TileManager.SaveCurrentWorldAs(inputText);
+                    SaveCurrentWorldAs(inputText);
                     inputText = "";
                 }
                 else

@@ -24,23 +24,29 @@ namespace Flipsider
 {
     public class EditorModes
     {
-        public static bool TileEditorMode { get; set; }
-        public static bool NPCSpawnerMode { get; set; }
-        public static bool WorldSaverMode { get; set; }
         public static bool EditorMode { get; set; }
+        public static EditorUIState CurrentState;
         static void ControlEditorScreen()
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
             Main.mainCamera.rotation = 0;
             Main.mainCamera.scale += (Main.targetScale - Main.mainCamera.scale) / 16f;
         }
+
+        public static void Draw()
+        {
+            if(CurrentState == EditorUIState.LightEditorMode)
+            {
+               // Main.spriteBatch.Draw();
+            }
+        }
         public static void Update()
         {
-
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
                 AddTile();
+                PropManager.AddProp();  
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
@@ -55,19 +61,24 @@ namespace Flipsider
             {
                 if (GameInput.Instance["EditorTileEditor"].IsJustPressed())
                 {
-                    SwitchToTileEditorMode();
+                    SwitchToMode(EditorUIState.TileEditorMode);
                 }
                 if (GameInput.Instance["NPCEditor"].IsJustPressed())
                 {
-                    SwitchToNPCEditorMode();
+                    SwitchToMode(EditorUIState.NPCSpawnerMode);
                 }
                 if (GameInput.Instance["WorldSaverMode"].IsJustPressed())
                 {
-                    SwitchToWorldSaverMode();
+                    SwitchToMode(EditorUIState.WorldSaverMode);
                 }
-            }
-            if (EditorMode)
-            {
+                if (GameInput.Instance["PropEditorMode"].IsJustPressed())
+                {
+                    SwitchToMode(EditorUIState.PropEditorMode);
+                }
+                if (GameInput.Instance["LightEditorMode"].IsJustPressed())
+                {
+                    SwitchToMode(EditorUIState.LightEditorMode);
+                }
                 float scrollSpeed = 0.02f;
                 float camMoveSpeed = 0.2f;
                 if (GameInput.Instance["EditorZoomIn"].IsDown())
@@ -96,10 +107,22 @@ namespace Flipsider
                     Main.mainCamera.offset.Y += camMoveSpeed;
                 }
             }
+            else
+            {
+                CurrentState = EditorUIState.None;
+            }
         }
-        static void SwitchToTileEditorMode() => TileEditorMode = !TileEditorMode;
-        static void SwitchToNPCEditorMode() => NPCSpawnerMode = !NPCSpawnerMode;
-        static void SwitchToWorldSaverMode() => WorldSaverMode = !WorldSaverMode;
+        static void SwitchToMode(EditorUIState state)
+        {
+            if (CurrentState == EditorUIState.None)
+            {
+                CurrentState = state;
+            }
+            else
+            {
+                CurrentState = EditorUIState.None;
+            }
+        }
         static void SwitchModes()
         {
             EditorMode = !EditorMode;

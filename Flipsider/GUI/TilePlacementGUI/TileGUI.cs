@@ -94,7 +94,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         public bool active = true;
         public override void Draw(SpriteBatch spriteBatch)
         {
-
             if (chosen)
             {
                 progression += (1 - progression) / 16f;
@@ -107,7 +106,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
             dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
-            if (EditorModes.TileEditorMode)
+            if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
             {
                 alpha += (1 - alpha) / 16f;
             }
