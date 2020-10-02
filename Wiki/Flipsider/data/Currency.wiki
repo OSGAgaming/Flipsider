@@ -1,0 +1,5 @@
+﻿++ Currency
+
+The game's currency is in Viu, isolated fragments of the fabric of reality which are used in trading.
+
+_"A fragment of a dead reality. The number of these has been steadily increasing. Unsettling."_

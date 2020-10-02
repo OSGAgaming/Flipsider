@@ -1,0 +1,3 @@
+﻿++ Player
+
+The player is a young dude wearing an oversized green puffy jacket. He, and other characters, talk passively with text above their heads, reacting to their environment. During real dialogue however, text boxes open with character portraits and all that.

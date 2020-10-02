@@ -1,0 +1,3 @@
+﻿++ Core Mechanic
+
+In every stage, or "reality", the world has some impossible quirk to it that presents some kind of hazard or challenge to the player. For example, in Reality 1, The Forest, the worlds terrain is constantly and dynamically shifting in a set cycle in certain areas, revealing new pathways and blocking off old ones as well as introducing different hazards and such. Lore-wise this is interpreted as reality itself breaking down, and is reflected as such through visuals and NPC interactions as well as the players own dialogue. 

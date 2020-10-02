@@ -1,0 +1,21 @@
+﻿++ Weapon Types
+
++1 handed:
+Gun
+Crossbow
+Sword
+Spear
+Wand
+Shield
+
++2 handed:
+Bow
+Rifle
+Hammer
+Greatsword
+Staff
+Relic
+
+[Melee]
+[Ranged]
+[Magic]

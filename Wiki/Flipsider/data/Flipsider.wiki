@@ -1,5 +1,16 @@
 ﻿++ Flipsider
+An immersive open-world side-scroller with metroidvania elements as well as responsive [Movement] and [Combat], with a divinity-esque system for debuffs and splash surfaces (splash oil on someone and the surrounding tiles, light it on fire, they and the surrounding tiles are lit on fire, etc)
 
+CoreMechanic 
 
+[Story]
+
+[Combat]
+
+[Movement]
+
+[Player]
+
+[Progression]
 
 	* WikiSettings

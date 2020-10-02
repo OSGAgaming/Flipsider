@@ -1,0 +1,15 @@
+﻿++ Elements
+There's a number of elements which apply debuffs (or buffs). Elements can also be found in-world in the form of Surfaces or liquids. Surfaces are that element when applied to a tile, and they spread it to things standing on it.
+
++Oil:
+Slows enemies + players, spreads Fire and explodes
++Fire:
+Does dot to enemies + players, sets fire to Oil and Slime
++Slime:
+Slows players unless produced by a player, in which case it slows enemies. Spreads fire, does not explode
++Water:
+Extinguishes Fire. Spreads Poison
++Poison:
+Applies lingering percent-based dot unless on a boss
+
++other things soon 

@@ -1,0 +1,3 @@
+﻿++ Rolls
+
+Weapons come in rarities, with a number of perks depending on the rarity. Said perks can be as simple as (on a sword for example) "guarunteed crit after hitting a ranged crit" and as complex as "slain enemies become remnants, spreading all of their debuffs at time of death to nearby enemies and eventually expiring, splashing debuff surfaces in a wide area" (though of course these more complex wep perks would be restricted to the highest tiers)

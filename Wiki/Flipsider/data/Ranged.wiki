@@ -1,0 +1,7 @@
+﻿++ Ranged
+
+Ranged weapons come in two types; Guns and Bows.
+Guns reload/gain ammo by dealing other forms of direct damage, be it from another ranged weapon, a melee weapon, or a magic weapon.
+Bows don't require this however, and automatically reload after firing.
+
+All ranged weapons have a default ammo, of which the player has an infinite amount of, but they can find other forms of ammo in-world as loot which is consumable.

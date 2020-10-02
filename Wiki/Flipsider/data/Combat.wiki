@@ -1,0 +1,6 @@
+﻿++ Combat
+
+The player has 3 weapon slots: 2 one-handed slots and a heavy weapon slot. Held item can be swapped by pressing ctrl, switching back and forth between your dual wielding and your heavy weapon. 
+Weapons are designed around perfect synergy: alone, they are weak. Player must mix and match different weapons / [Rolls] to find good builds and constantly perform combos to keep up adequate DPS, often including different [Elements] and debuff interactions.
+
+WeaponTypes

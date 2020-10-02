@@ -1,0 +1,6 @@
+﻿++ Story
+
+Player starts off in their home city, leaving their dorm to meet a friend at a park. They travel across the city, getting a view of the whole range of residency from the slums to the skyscrapers. They get a feel for movement and interaction, as they go through or above buildings and even grabbing some basic loot like a crowbar "sword". As they get to the park, they realize nobody is there and all sound has stopped besides their own footsteps. They go back home, but on their way back they realize things are different as the map begins to change more and more from what it was originally, gradually becoming an incoherent surrealist mess of impossible geometry. Eventually, they meet some sort of otherworldly entity that opens a portal for them and throws them in, saying something like "you dont have much time" or smth. This ends the tutorial and brings them into the first part of the game and one of many [Maps], Reality 1: The Forest.
+
+Here, they begin to try to find their way home but soon realize they cant make their way back after they enter the first portal into the second map (the swamp) and it doesnt bring them home, but rather even farther out.
+From here on out, the players main goal is to travel across the map finding or activating active or dormant RealityAnchors, which normalize reality around them. 

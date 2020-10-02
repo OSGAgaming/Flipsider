@@ -1,0 +1,3 @@
+﻿++ Reality Anchors
+
+These anchors come in the form of Lesser Reality Anchors, Reality Anchors, and Greater Reality Anchors, and are the players main midgame objective. Lesser Anchors merely give the player good loot upon activation and have a small radius. Normal Anchors normally have small shoddy outposts built up around them, or are guarded by some enemies, etc. They give much better loot and have a wider radius of "normalcy". Greater Anchors are huge, and have cities and such built up around them. They provide long-term stability to a large area, and it would be disastrous if one were to fail. wink wink

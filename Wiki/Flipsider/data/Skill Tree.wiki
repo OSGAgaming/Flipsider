@@ -1,0 +1,5 @@
+﻿++ Skill Tree
+
+One of several facets of progression is the skill tree. It's a branching set of a large number of nodes, corresponding to different aspects of combat with major nodes consisting of unique perks and minor nodes consisting of stat bonuses. Player obtains points every time they reactivate a Reality Anchor, corresponding to its size. The Skill tree can be respecced for a cost.
+
+[Skill Tree Perks]
