@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using static Flipsider.Prop;
 using static Flipsider.TileManager;
+using static Flipsider.PropManager;
 namespace Flipsider
 {
     public class Lighting

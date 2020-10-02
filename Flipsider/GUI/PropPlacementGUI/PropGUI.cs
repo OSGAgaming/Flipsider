@@ -7,7 +7,7 @@ using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static Flipsider.Prop;
+using static Flipsider.PropManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {

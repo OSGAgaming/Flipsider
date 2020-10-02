@@ -39,6 +39,7 @@ namespace Flipsider
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
                 AddTile();
+                PropManager.AddProp();  
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {

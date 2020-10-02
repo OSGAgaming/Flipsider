@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using static Flipsider.Prop;
+using static Flipsider.PropManager;
 using static Flipsider.PropInteraction;
 namespace Flipsider
 {
@@ -82,29 +83,7 @@ namespace Flipsider
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
             }
-            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
-            {
-                try
-                {
-                    MouseState state = Mouse.GetState();
-                    Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
-                    int alteredRes = tileRes / 2;
-                    Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                    TileInteraction? currentInteraction = null;
-                    if(PropEntites.ContainsKey(CurrentProp ?? ""))
-                    {
-                        currentInteraction = PropEntites[CurrentProp ?? ""].tileInteraction;
-                    }
-                    if(UselessCanPlaceBool)
-                    props.Add(new PropInfo(CurrentProp ?? "", tilePoint2 - PropTypes[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes/2, alteredRes/2),currentInteraction));
-                    UselessCanPlaceBool = true;
-                }
-                catch
-                {
 
-
-                }
-            }
         }
 
         public static void AddTileType(int type, Texture2D atlas, bool ifWall = false)
@@ -161,11 +140,7 @@ namespace Flipsider
                     }
                 }
             }
-            for (int i = 0; i < props.Count; i++)
-            {
-                var p = props[i];
-                Main.spriteBatch.Draw(PropTypes[p.prop], p.Center, props[i].alteredFrame, Color.White, 0f, props[i].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
-            }
+
         }
         public static Rectangle GetTileFrame(int i, int j)
         {
