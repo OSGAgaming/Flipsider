@@ -1,0 +1,3 @@
+﻿++ Accessories
+
+Accessories exist and, instead of a slot-based system, they operate off points. Player has an arbitrary number of points that are consumed by accessories, with diff accessories having diff amounts of consumed points (like in HK or Warframe)

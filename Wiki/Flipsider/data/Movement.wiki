@@ -1,1 +1,7 @@
 ﻿++ Movement
+
+Player is inherently fast, but doesn't recieve any speed upgrades.
+Sprinting is default.
+Crouch with shift, slide by crouching while running.
+Wall jumping and wall sliding exists, as well as grappling up ledges.
+Fall damage exists, but can be circumvented by pressing shift as the player hits the ground to roll. Perfectly rolling completely negates fall damage. Otherwise, player takes damage and a breif stun.
