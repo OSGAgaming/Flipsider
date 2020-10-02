@@ -38,6 +38,7 @@ namespace Flipsider
             }
             RenderTiles();
             RenderProps();
+            EditorModes.Draw();
           /*if (Main.rand.Next(70) == 0)
             {
                 Birbs.Add(new Birb(new Vector2(-80, Main.rand.Next((int)Main.ScreenSize.Y/2)), Main.rand.NextFloat(1f), Main.rand.NextFloat(0.2f,0.5f)));

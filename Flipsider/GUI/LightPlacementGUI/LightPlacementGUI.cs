@@ -37,6 +37,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         bool flag = true;
         bool mouseStateBuffer;
         Vector2 pos1;
+        Vector2 pos1Inv;
         protected override void OnUpdate()
         {
             if(EditorModes.CurrentState == EditorUIState.LightEditorMode)
@@ -45,12 +46,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     flag = true;
                     Lighting.AddDirectionalLight(pos1, Main.MouseScreen.ToVector2(), Color.White);
-                    Debug.Write(2);
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
                 if(mouseStateBuffer && flag)
                 {
                     pos1 = Main.MouseScreen.ToVector2();
+                    pos1Inv = Mouse.GetState().Position.ToVector2();
                     flag = false;
                 }
                 if(mouseStateBuffer)
@@ -61,10 +62,22 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnDraw()
         {
-
+            if (EditorModes.CurrentState == EditorUIState.LightEditorMode ||
+                EditorModes.CurrentState == EditorUIState.TileEditorMode ||
+                EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            {
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed && EditorModes.CurrentState == EditorUIState.LightEditorMode)
+                {
+                    DrawMethods.DrawLine(pos1Inv, Mouse.GetState().Position.ToVector2(), Color.White, 2);
+                }
+                for (int i = 0; i < Lighting.directionalLightSources.Count; i++)
+                {
+                    float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 2);
+                    DrawMethods.DrawLine(Lighting.directionalLightSources[i].position1.ToScreenInv(), Lighting.directionalLightSources[i].position2.ToScreenInv(),Color.White, sine + 1);
+                }
+            }
         }
     }
-    
     class LightUI : UIElement
     {
         public override void Draw(SpriteBatch spriteBatch)

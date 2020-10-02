@@ -32,9 +32,16 @@ namespace Flipsider
             Main.mainCamera.rotation = 0;
             Main.mainCamera.scale += (Main.targetScale - Main.mainCamera.scale) / 16f;
         }
+
+        public static void Draw()
+        {
+            if(CurrentState == EditorUIState.LightEditorMode)
+            {
+               // Main.spriteBatch.Draw();
+            }
+        }
         public static void Update()
         {
-
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
@@ -72,9 +79,6 @@ namespace Flipsider
                 {
                     SwitchToMode(EditorUIState.LightEditorMode);
                 }
-            }
-            if (EditorMode)
-            {
                 float scrollSpeed = 0.02f;
                 float camMoveSpeed = 0.2f;
                 if (GameInput.Instance["EditorZoomIn"].IsDown())
@@ -102,6 +106,10 @@ namespace Flipsider
                 {
                     Main.mainCamera.offset.Y += camMoveSpeed;
                 }
+            }
+            else
+            {
+                CurrentState = EditorUIState.None;
             }
         }
         static void SwitchToMode(EditorUIState state)
