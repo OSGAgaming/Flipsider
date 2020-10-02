@@ -380,15 +380,6 @@ namespace Flipsider
                         Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                     }
                 }
-                if(EditorModes.CurrentState == EditorUIState.PropEditorMode)
-                {
-                    int alteredRes = tileRes / 2;
-                    Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                    if (CurrentProp != null)
-                    {
-                        Main.spriteBatch.Draw(PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropEntites[CurrentProp].alteredFrame, Color.White * Math.Abs(sine), 0f, PropEntites[CurrentProp].alteredFrame.Size.ToVector2()/2, 1f, SpriteEffects.None, 0f);
-                    }
-                }
             }
         }
     }

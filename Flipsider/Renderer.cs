@@ -63,6 +63,7 @@ namespace Flipsider
 
 
             ShowTileCursor();
+            ShowPropCursor();
             RenderUI();
             Lighting.DrawLightMap();
         }

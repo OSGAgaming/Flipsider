@@ -64,12 +64,11 @@ namespace Flipsider
         {
             if (EditorModes.CurrentState == EditorUIState.PropEditorMode && delay == 0)
             {
-                delay = 30;
                 try
                 {
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
-                    int alteredRes = TileManager.tileRes / 2;
+                    int alteredRes = TileManager.tileRes / 4;
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                     TileInteraction? currentInteraction = null;
                     if (PropEntites.ContainsKey(CurrentProp ?? ""))
@@ -77,13 +76,31 @@ namespace Flipsider
                         currentInteraction = PropEntites[CurrentProp ?? ""].tileInteraction;
                     }
                     if (TileManager.UselessCanPlaceBool)
+                    {
                         props.Add(new Prop(CurrentProp ?? "", tilePoint2 - PropTypes[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction));
+                        delay = 30;
+                    }
                     TileManager.UselessCanPlaceBool = true;
                 }
                 catch
                 {
 
 
+                }
+            }
+        }
+
+        public static void ShowPropCursor()
+        {
+            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            {
+                Vector2 mousePos = Main.MouseScreen.ToVector2();
+                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
+                int alteredRes = TileManager.tileRes / 4;
+                Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+                if (CurrentProp != null)
+                {
+                    Main.spriteBatch.Draw(PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropEntites[CurrentProp].alteredFrame, Color.White * Math.Abs(sine), 0f, PropEntites[CurrentProp].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
                 }
             }
         }
