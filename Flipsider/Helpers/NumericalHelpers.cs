@@ -51,6 +51,10 @@ namespace Flipsider
             return result;
         }
 
+        public static int Round(float num, int round)
+        {
+            return (int)(num / round) * round;
+        }
         public static bool LineIntersectsTile(Point p1, Point p2)
         {
             Point TilePos1 = p1.ToTile();

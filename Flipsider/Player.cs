@@ -76,6 +76,7 @@ namespace Flipsider
         }
         protected override void OnUpdate()
         {
+
             PlayerInputs();
             ResetVars();
             CoreUpdates();
@@ -83,7 +84,7 @@ namespace Flipsider
             if (Collides)
                 TileCollisions();
             PostUpdates();
-
+            FindFrame();
             leftWeapon?.UpdatePassive();
             rightWeapon?.UpdatePassive();
         }
@@ -199,7 +200,6 @@ namespace Flipsider
         public override void Draw(SpriteBatch spriteBatch)
         {
             texture = TextureCache.player;
-            FindFrame();
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             DrawMethods.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
         }
@@ -213,7 +213,8 @@ namespace Flipsider
             else
             {
                 float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                Animate((int)(4 / Math.Abs(vel*0.6f)), 8, 48, 1);
+                int velFunc = (int)(Math.Round(10 / Math.Abs(vel*0.6f)) * Time.DeltaTimeRoundedVar(60,10) / 120f);
+                Animate(velFunc, 8, 48, 1);
             }
 
             if (!onGround)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using static Flipsider.PropManager;
 using static Flipsider.PropInteraction;
+using System.Reflection;
 
 namespace Flipsider
 {
@@ -35,10 +36,13 @@ namespace Flipsider
             ChangeFrames("StreetLights", 5);
             ChangeFrames("StopSigns", 3);
             ChangeAnimSpeed("StreetLights", 20);
+            ChangeAnimSpeed("StopSigns", 20);
         }
 
         public static void RenderProps()
         {
+            if(delay > 0)
+            delay--;
             for (int i = 0; i < props.Count; i++)
             {
                 props[i].frameCounter++;
@@ -55,11 +59,12 @@ namespace Flipsider
             PropEntites.Add(Prop, new Prop(Prop, Vector2.Zero, null));
             return PropTypes.Count - 1; 
         }
-
+        public static int delay;
         public static void AddProp()
         {
-            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            if (EditorModes.CurrentState == EditorUIState.PropEditorMode && delay == 0)
             {
+                delay = 30;
                 try
                 {
                     MouseState state = Mouse.GetState();
