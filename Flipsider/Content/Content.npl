@@ -1,12 +1,20 @@
-﻿{
-	"content": {
-		"textures": {
-			"path": "Textures/*.png",
+{
+	"root": "",
+	"references":
+	[
+
+	],
+	"content":
+	{
+		"textures":
+		{
+			"path": "Graphics/*.png",
 			"recursive": "True",
 			"action": "build",
 			"importer": "TextureImporter",
 			"processor": "TextureProcessor",
-			"processorParam": {
+			"processorParam":
+			{
 				"ColorKeyColor": "255,0,255,255",
 				"ColorKeyEnabled": "True",
 				"GenerateMipmaps": "False",
@@ -15,6 +23,6 @@
 				"MakeSquare": "False",
 				"TextureFormat": "Color"
 			}
-		}
+		},
 	}
 }

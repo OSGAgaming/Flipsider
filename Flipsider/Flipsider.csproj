@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Flipsider.targets"/>
+  <Import Project="../Flipsider.targets" />
   <PropertyGroup>
     <RootNamespace>Flipsider.Content</RootNamespace>
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlipsiderEngine\FlipsiderEngine.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
 </Project>

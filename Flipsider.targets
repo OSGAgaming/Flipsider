@@ -10,9 +10,38 @@
   </PropertyGroup>
   <ItemGroup>
     <MGCBContentReferences Include="**/*.mgcb" />
+    <NPLFile Include="**/*.npl" />
     <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.8.0.1" />
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.9" />
     <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
     <EmbeddedResource Include="**/*.xnb" />
   </ItemGroup>
+  <Target Name="Ensure NPL file" BeforeTargets="Nopipeline" Condition=" '@(NPLFile)' == '' ">
+    <Message Importance="high" Text="No .npl file was found. Generating one in the Assets folder." />
+    <WriteLinesToFile File="Assets/Assets.npl" Lines="
+{
+	&quot;content&quot;: 
+	{
+		&quot;textures&quot;: 
+		{
+			&quot;path&quot;: &quot;Textures/*.png&quot;,
+			&quot;recursive&quot;: &quot;True&quot;,
+			&quot;action&quot;: &quot;build&quot;,
+			&quot;importer&quot;: &quot;TextureImporter&quot;,
+			&quot;processor&quot;: &quot;TextureProcessor&quot;,
+			&quot;processorParam&quot;: 
+			{
+				&quot;ColorKeyColor&quot;: &quot;255,0,255,255&quot;,
+				&quot;ColorKeyEnabled&quot;: &quot;True&quot;,
+				&quot;GenerateMipmaps&quot;: &quot;False&quot;,
+				&quot;PremultiplyAlpha&quot;: &quot;True&quot;,
+				&quot;ResizeToPowerOfTwo&quot;: &quot;False&quot;,
+				&quot;MakeSquare&quot;: &quot;False&quot;,
+				&quot;TextureFormat&quot;: &quot;Color&quot;
+			}
+		}
+	}
+}"
+                      />
+  </Target>
 </Project>
