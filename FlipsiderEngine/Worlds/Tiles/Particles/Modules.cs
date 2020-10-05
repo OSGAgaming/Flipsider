@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Flipsider.Maths;
 using Flipsider.Extensions;
 using Flipsider.Worlds.Entities;
+using Flipsider.Core;
 
 namespace Flipsider.Worlds.Particles
 {

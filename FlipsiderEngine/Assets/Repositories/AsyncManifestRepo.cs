@@ -1,4 +1,5 @@
-﻿using Flipsider.Core.Collections;
+﻿using Flipsider.Core;
+using Flipsider.Core.Collections;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -48,7 +49,7 @@ namespace Flipsider.Assets.Repositories
     {
         private readonly Assembly manifest;
 
-        public ManifestContentManager(Assembly manifest, string root) : base(FlipsiderGame.GameServices, root)
+        public ManifestContentManager(Assembly manifest, string root) : base(FlipsiderGame.GameInstance.Services, root)
         {
             this.manifest = manifest;
         }

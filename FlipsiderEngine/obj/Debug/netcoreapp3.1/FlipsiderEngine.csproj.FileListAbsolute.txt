@@ -1,7 +1,6 @@
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.csprojAssemblyReference.cache
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.AssemblyInfoInputs.cache
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.AssemblyInfo.cs
-C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.csproj.CoreCompileInputs.cache
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\bin\Debug\netcoreapp3.1\FlipsiderEngine.exe
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\bin\Debug\netcoreapp3.1\FlipsiderEngine.deps.json
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\bin\Debug\netcoreapp3.1\FlipsiderEngine.runtimeconfig.json
@@ -21,3 +20,4 @@ C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\Fl
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.dll
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.pdb
 C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.genruntimeconfig.cache
+C:\Users\erict\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.csproj.CoreCompileInputs.cache

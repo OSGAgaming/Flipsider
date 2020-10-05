@@ -9,7 +9,7 @@ namespace Flipsider.Core
 {
     public class Camera
     {
-        public Viewport Viewport => FlipsiderGame.Graphics.GraphicsDevice == null ? new Viewport(0, 0, 1, 1) : FlipsiderGame.Graphics.GraphicsDevice.Viewport;
+        public Viewport Viewport => FlipsiderGame.GameInstance.GraphicsDevice == null ? new Viewport(0, 0, 1, 1) : FlipsiderGame.GameInstance.GraphicsDevice.Viewport;
         public Vector2 MouseScreen => Mouse.GetState().Position.ToVector2() / scale + Translation2D;
 
         private Vector2 scale;

@@ -14,7 +14,7 @@ namespace Flipsider.Core
         /// <summary>
         /// The actual spritebatch instance. Only call Draw on it. Use the safe spritebatch methods for Begin/End.
         /// </summary>
-        public SpriteBatch Sb { get; } = new SpriteBatch(FlipsiderGame.Graphics.GraphicsDevice);
+        public SpriteBatch Sb { get; } = new SpriteBatch(FlipsiderGame.GameInstance.GraphicsDevice);
 
         public bool Begun { get; private set; }
 

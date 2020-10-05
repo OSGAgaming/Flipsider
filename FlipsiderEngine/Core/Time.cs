@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Flipsider
+namespace Flipsider.Core
 {
     public static class Time
     {
