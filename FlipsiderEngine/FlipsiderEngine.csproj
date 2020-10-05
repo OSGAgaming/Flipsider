@@ -24,7 +24,6 @@
     <EmbeddedResource Include="Icon.ico" />
     <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.8.0.1" />
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.9" />
-    <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
     <MGCBContentReferences Include="**/*.mgcb" />

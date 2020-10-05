@@ -15,7 +15,4 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgNopipeline_Task Condition=" '$(PkgNopipeline_Task)' == '' ">C:\Users\erict\.nuget\packages\nopipeline.task\2.1.0</PkgNopipeline_Task>
-  </PropertyGroup>
 </Project>

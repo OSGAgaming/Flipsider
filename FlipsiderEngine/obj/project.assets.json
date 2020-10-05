@@ -50,12 +50,6 @@
             "rid": "win-x86"
           }
         }
-      },
-      "Nopipeline.Task/2.1.0": {
-        "type": "package",
-        "build": {
-          "build/Nopipeline.Task.targets": {}
-        }
       }
     }
   },
@@ -97,34 +91,12 @@
         "runtimes/win-x86/native/SDL2.dll",
         "runtimes/win-x86/native/soft_oal.dll"
       ]
-    },
-    "Nopipeline.Task/2.1.0": {
-      "sha512": "vum7TgqPUbpI8GFLwoBGC/V6xAuHDbASty5JeuWsIrUAM99G/ifBHWnTVa8xdtAFDB8QzOI92KawkoOOVWb9KQ==",
-      "type": "package",
-      "path": "nopipeline.task/2.1.0",
-      "hasTools": true,
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.md",
-        "build/Nopipeline.Task.targets",
-        "icon.png",
-        "nopipeline.task.2.1.0.nupkg.sha512",
-        "nopipeline.task.nuspec",
-        "tools/netcoreapp3.1/any/Newtonsoft.Json.dll",
-        "tools/netcoreapp3.1/any/npl.deps.json",
-        "tools/netcoreapp3.1/any/npl.dll",
-        "tools/netcoreapp3.1/any/npl.exe",
-        "tools/netcoreapp3.1/any/npl.pdb",
-        "tools/netcoreapp3.1/any/npl.runtimeconfig.json"
-      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "MonoGame.Content.Builder >= 3.7.0.9",
-      "MonoGame.Framework.DesktopGL.Core >= 3.8.0.1",
-      "Nopipeline.Task >= 2.1.0"
+      "MonoGame.Framework.DesktopGL.Core >= 3.8.0.1"
     ]
   },
   "packageFolders": {
@@ -166,10 +138,6 @@
           "MonoGame.Framework.DesktopGL.Core": {
             "target": "Package",
             "version": "[3.8.0.1, )"
-          },
-          "Nopipeline.Task": {
-            "target": "Package",
-            "version": "[2.1.0, )"
           }
         },
         "imports": [

@@ -40,10 +40,6 @@
             "MonoGame.Framework.DesktopGL.Core": {
               "target": "Package",
               "version": "[3.8.0.1, )"
-            },
-            "Nopipeline.Task": {
-              "target": "Package",
-              "version": "[2.1.0, )"
             }
           },
           "imports": [
