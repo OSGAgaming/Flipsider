@@ -6,9 +6,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Weapons
 {
-    public class Weapon
+    public class Weapon : IStoreable
     {
-        public Texture2D? inventoryIcon;
+        public int MaxStack
+        {
+            get => 1;
+            set => MaxStack = value;
+        }
+        public Texture2D? inventoryIcon
+        {
+            get;
+            set;
+        }
+        public void SetInventoryIcon(Texture2D icon) => inventoryIcon = icon;
+
 
         public int damage;
         public int delay;

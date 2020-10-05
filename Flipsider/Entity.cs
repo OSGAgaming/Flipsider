@@ -84,15 +84,17 @@ namespace Flipsider
                         if (TileManager.tiles[i, j].active && !TileManager.tiles[i, j].wall)
                         {
                             Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
+                            
                             if (CollisionFrame.Intersects(tileRect))
                             {
                                 float lerpFuncMid = MathHelper.Clamp((position.X + width / 2 - tileRect.X) / res,0,1);
-                                Vector2 firstVec = tileRect.Location.ToVector2();
+                                Vector2 firstVec = tileRect.Location.ToVector2() + new Vector2(0, 0);
                                 Vector2 secondVec = tileRect.Location.ToVector2() + new Vector2(res,0);
+                                float grad = (secondVec - firstVec).Slope();
                                 Vector2 MapMid = Vector2.Lerp(firstVec, secondVec, lerpFuncMid);
                                 Vector2 positionPreCollision = position - velocity * Time.DeltaVar(120);
                                 isColliding = true;
-                                if (positionPreCollision.Y + height - Math.Abs((res / 2) * (secondVec - firstVec).Slope()) > MapMid.Y + 1 && positionPreCollision.Y < tileRect.Y + res)
+                                if (positionPreCollision.Y + height - Math.Abs((res / 2) * grad) > MapMid.Y + 1 && positionPreCollision.Y < tileRect.Y + res)
                                 {
                                     if (positionPreCollision.X + width >= tileRect.X && positionPreCollision.X < tileRect.X && velocity.X > 0)
                                     {
@@ -106,9 +108,9 @@ namespace Flipsider
                                     }
 
                                 }
-                                else if (positionPreCollision.X + width - 2 > tileRect.X && positionPreCollision.X + 2 < tileRect.X + res)
+                                else if (positionPreCollision.X + width + (2* (Math.Abs(grad) - 0.5)) - (Math.Abs(grad) * (res/2)) > tileRect.X && positionPreCollision.X - (2 * (Math.Abs(grad) - 0.5)) + (Math.Abs(grad) * (res / 2)) < tileRect.X + res)
                                 {
-                                    if (position.Y + height > MapMid.Y && position.Y < tileRect.Y && velocity.Y > 0)
+                                    if (position.Y + height > MapMid.Y && position.Y < MapMid.Y && velocity.Y >= 0)
                                     {
                                             position.Y = MapMid.Y - height + 1;
                                             onGround = true;

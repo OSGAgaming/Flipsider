@@ -56,7 +56,10 @@ namespace Flipsider
             {
                 SwitchModes();
             }
-
+            if (GameInput.Instance["InvEditorMode"].IsJustPressed())
+            {
+                SwitchToMode(EditorUIState.Inventory);
+            }
             if (EditorMode)
             {
                 if (GameInput.Instance["EditorTileEditor"].IsJustPressed())

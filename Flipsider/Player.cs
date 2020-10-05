@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 using Flipsider.Engine.Input;
 using Flipsider.Weapons;
+using Flipsider.Weapons.Ranged.Pistol;
 
 #nullable disable
 // TODO fix this..
@@ -29,15 +30,30 @@ namespace Flipsider
         public Weapon leftWeaponStore;
         public Weapon rightWeaponStore;
         public bool usingWeapon => leftWeapon.active || rightWeapon.active;
-
+        public IStoreable[] inventory;
+        public int inventorySize => 20;
         public Player(Vector2 position)
         {
+            inventory = new IStoreable[20];
             this.position = position;
             width = 30;
             maxHeight = 60;
             height = 60;
             framewidth = 48;
             Collides = true;
+            AddToInventory(new TestGun(), 1);
+        }
+
+        public void AddToInventory(IStoreable item,int slot)
+        {
+            if(slot >= inventorySize)
+            {
+                inventory[inventorySize - 1] = item;
+            }
+            else
+            {
+                inventory[slot] = item;
+            }
         }
 
         public int swapTimer;
@@ -76,7 +92,8 @@ namespace Flipsider
         }
         protected override void OnUpdate()
         {
-
+            if(Main.CurrentItem != null)
+            Debug.Write(Main.CurrentItem);
             PlayerInputs();
             ResetVars();
             CoreUpdates();
@@ -201,7 +218,15 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
+            if(Math.Abs(velocity.LengthSquared())>1)
+            {
+                for(int i = 0; i<oldPositions.Length; i++)
+                {
+                    int length = oldPositions.Length;
+                    float alpha = (length - i) / length;
+                    spriteBatch.Draw(texture, oldPositions[i] - new Vector2(-width/2, 18-height/2), frame, Color.White* alpha*0.3f, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                }
+            }
         }
 
         private void FindFrame()
@@ -213,7 +238,7 @@ namespace Flipsider
             else
             {
                 float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                int velFunc = (int)(Math.Round(10 / Math.Abs(vel*0.6f)) * Time.DeltaTimeRoundedVar(60,10) / 120f);
+                int velFunc = (int)(Math.Round(10 / Math.Abs(vel*0.6f)) * Time.DeltaTimeRoundedVar(600,10)/1600);
                 Animate(velFunc, 8, 48, 1);
             }
 

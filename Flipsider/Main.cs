@@ -27,7 +27,6 @@ namespace Flipsider
     public class Main : Game
     {
         public SceneManager sceneManager;
-
         public static Random rand;
         public static SpriteBatch spriteBatch;
         public static GraphicsDeviceManager graphics;
@@ -35,6 +34,7 @@ namespace Flipsider
         private Hud hud;
         private TileGUI tileGUI;
         private NPCGUI npcGUI;
+        private InventoryGUI invGUI;
         private PropGUI propGUI;
         private WorldCreationGUI WCGUI;
         private LightPlacementGUI LPGUI;
@@ -42,7 +42,7 @@ namespace Flipsider
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
-
+        public static IStoreable CurrentItem;
         public static RenderTarget2D renderTarget;
         public static GameTime gameTime;
         public static Camera mainCamera;
@@ -118,6 +118,7 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("WorldSaverMode", Keys.OemSemicolon, Buttons.DPadRight);
             GameInput.Instance.RegisterControl("PropEditorMode", Keys.OemPeriod, Buttons.LeftTrigger);
             GameInput.Instance.RegisterControl("LightEditorMode", Keys.L, Buttons.LeftShoulder);
+            GameInput.Instance.RegisterControl("InvEditorMode", Keys.I, Buttons.BigButton);
             int connectionOne = verletEngine.CreateVerletPoint(player.position + new Vector2(10, 27), true);
             int connectionTwo = verletEngine.CreateVerletPoint(player.position + new Vector2(20, 27), true);
 
@@ -201,6 +202,7 @@ namespace Flipsider
             hud = new Hud();
             propGUI = new PropGUI();
             LPGUI = new LightPlacementGUI();
+            invGUI = new InventoryGUI();
         }
         public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 

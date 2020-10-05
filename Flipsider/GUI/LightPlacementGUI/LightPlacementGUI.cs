@@ -73,7 +73,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 for (int i = 0; i < Lighting.directionalLightSources.Count; i++)
                 {
                     float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 2);
-                    DrawMethods.DrawLine(Lighting.directionalLightSources[i].position1.ToScreenInv(), Lighting.directionalLightSources[i].position2.ToScreenInv(),Color.White, sine + 1);
+                    DrawMethods.DrawLine(Lighting.directionalLightSources[i].position1.ToScreenInv(), Lighting.directionalLightSources[i].position2.ToScreenInv(),Color.White*0.2f, sine + 1);
                 }
             }
         }
