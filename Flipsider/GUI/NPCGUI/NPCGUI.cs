@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using Flipsider.Engine.Assets;
 using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -82,7 +83,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             int fluff  = 1;
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
-            spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(AssetManager.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
             spriteBatch.Draw(tex, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()

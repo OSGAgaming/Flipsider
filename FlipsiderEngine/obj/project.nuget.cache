@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "jxFrqfwEqUFa1nDiEbJG/1kybd5X5kam1bIT70vswF/34F5H9IaB9PBLNf9pliMSiA9yLXdg+pdpPEVfsBgHjg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\erict\\source\\repos\\Flipsider\\FlipsiderEngine\\FlipsiderEngine.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\erict\\.nuget\\packages\\monogame.content.builder\\3.7.0.9\\monogame.content.builder.3.7.0.9.nupkg.sha512",
+    "C:\\Users\\erict\\.nuget\\packages\\monogame.framework.desktopgl.core\\3.8.0.1\\monogame.framework.desktopgl.core.3.8.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

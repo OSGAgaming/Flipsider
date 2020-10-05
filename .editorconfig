@@ -2,3 +2,9 @@
 
 # CA1712: Do not prefix enum values with type name
 dotnet_diagnostic.CA1712.severity = none
+
+# CA1815: Override equals and operator equals on value types
+dotnet_diagnostic.CA1815.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none

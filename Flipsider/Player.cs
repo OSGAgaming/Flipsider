@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 using Flipsider.Engine.Input;
 using Flipsider.Weapons;
+using Flipsider.Engine.Assets;
 
 #nullable disable
 // TODO fix this..
@@ -198,7 +199,7 @@ namespace Flipsider
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            texture = TextureCache.player;
+            texture = AssetManager.player;
             FindFrame();
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             DrawMethods.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Flipsider.Engine.Assets;
 using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -119,12 +120,12 @@ namespace Flipsider.GUI.TilePlacementGUI
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff, dimensions.Height + fluff);
             if (!chosen)
             {
-                spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+                spriteBatch.Draw(AssetManager.TileGUIPanels, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
                 spriteBatch.Draw(tileDict[tile.type], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
             }
             else
             {
-                spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.White * alpha);
+                spriteBatch.Draw(AssetManager.TileGUIPanels, panelDims, Color.White * alpha);
                 spriteBatch.Draw(tileDict[tile.type], dimensions, Color.White * alpha);
                 Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
                 MouseState mousestate = Mouse.GetState();
@@ -140,7 +141,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-
         }
         protected override void OnLeftClick()
         {

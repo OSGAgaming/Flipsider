@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using Flipsider.Engine.Assets;
 using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,9 +43,9 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (delay > 0)
                 delay--;
             KeyboardState keyboard = Keyboard.GetState();
-            Main.spriteBatch.Draw(TextureCache.WorldSavePanel, new Rectangle(dimensions.X - 10, dimensions.Y - 20,180, 90), Color.White * alpha);
-            Main.spriteBatch.Draw(TextureCache.Textbox, dimensions, Color.White * alpha);
-            Main.spriteBatch.Draw(TextureCache.SaveTex, new Rectangle(dimensions.X + dimensions.Width / 4, dimensions.Y - 20 + (int)(Math.Sin(Main.gameTime.TotalGameTime.TotalMilliseconds / 120f) * 3), dimensions.Width / 2, dimensions.Height / 2), Color.White * alpha);
+            Main.spriteBatch.Draw(AssetManager.WorldSavePanel, new Rectangle(dimensions.X - 10, dimensions.Y - 20,180, 90), Color.White * alpha);
+            Main.spriteBatch.Draw(AssetManager.Textbox, dimensions, Color.White * alpha);
+            Main.spriteBatch.Draw(AssetManager.SaveTex, new Rectangle(dimensions.X + dimensions.Width / 4, dimensions.Y - 20 + (int)(Math.Sin(Main.gameTime.TotalGameTime.TotalMilliseconds / 120f) * 3), dimensions.Width / 2, dimensions.Height / 2), Color.White * alpha);
             if (EditorModes.WorldSaverMode)
             {
                 alpha += (1 - alpha) / 16f;

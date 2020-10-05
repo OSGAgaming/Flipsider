@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Flipsider.Content</RootNamespace>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
@@ -20,16 +21,19 @@
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Content/Content.mgcb" />
+    <MonoGameContentReference Include="Assets/Assets.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
+    <Folder Include="Assets\Entities\" />
+    <Folder Include="Assets\UI\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlipsiderEngine\FlipsiderEngine.csproj" />
   </ItemGroup>
 </Project>

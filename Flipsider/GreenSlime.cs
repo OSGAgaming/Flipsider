@@ -6,12 +6,13 @@ using System.Diagnostics;
 
 using Flipsider.Engine.Input;
 using Flipsider.Weapons;
+using Flipsider.Engine.Assets;
 
 namespace Flipsider
 {
     public class GreenSlime : NPC
     {
-        public static Texture2D icon = TextureCache.GreenSlime;
+        public static Texture2D icon = AssetManager.GreenSlime;
         protected override void SetDefaults()
         {
             life = 100;
@@ -21,7 +22,7 @@ namespace Flipsider
             maxHeight = 52;
             height = maxHeight;
             position = Main.player.position;
-            texture = TextureCache.GreenSlime;
+            texture = AssetManager.GreenSlime;
             Collides = true;
         }
 

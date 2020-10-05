@@ -6,12 +6,13 @@ using System.Diagnostics;
 
 using Flipsider.Engine.Input;
 using Flipsider.Weapons;
+using Flipsider.Engine.Assets;
 
 namespace Flipsider
 {
     public class Blob : NPC
     {
-        public static Texture2D icon = TextureCache.Blob;
+        public static Texture2D icon = AssetManager.Blob;
         protected override void SetDefaults()
         {
             life = 100;
@@ -21,7 +22,7 @@ namespace Flipsider
             maxHeight = 185;
             height = maxHeight;
             position = Main.player.position;
-            texture = TextureCache.Blob;
+            texture = AssetManager.Blob;
             Collides = true;
         }
 

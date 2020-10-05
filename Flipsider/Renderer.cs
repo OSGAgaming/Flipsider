@@ -19,6 +19,7 @@ using static Flipsider.TileManager;
 using System.Reflection;
 using System.Linq;
 using System.Threading;
+using Flipsider.Engine.Assets;
 
 namespace Flipsider
 {
@@ -49,7 +50,7 @@ namespace Flipsider
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(5), Color.White);
+            Main.spriteBatch.Draw(AssetManager.skybox, Vector2.Zero.AddParralaxAcross(5), Color.White);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         }

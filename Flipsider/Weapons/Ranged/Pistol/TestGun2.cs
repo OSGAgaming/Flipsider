@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Assets;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
     {
         public TestGun2() : base(5, 5, 1)
         {
-            inventoryIcon = TextureCache.testGun;
+            inventoryIcon = AssetManager.testGun;
             reloadTime = 180;
             maxAmmo = 20;
         }
@@ -18,14 +19,14 @@ namespace Flipsider.Weapons.Ranged.Pistol
         protected override void OnActivate()
         {
             Camera.screenShake += 2;
-            inventoryIcon = TextureCache.testGun;
+            inventoryIcon = AssetManager.testGun;
         }
 
         public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
         {
             base.DrawInventory(spriteBatch, pos);
 
-            Texture2D tex = TextureCache.magicPixel;
+            Texture2D tex = AssetManager.magicPixel;
             Rectangle target = new Rectangle((int)pos.X, (int)pos.Y + 54, (int)(ammo / (float)maxAmmo * 48), 2);
             Rectangle targetUnder = new Rectangle((int)pos.X - 2, (int)pos.Y + 52, 52, 6);
             Color color = Color.Lerp(Color.Red, Color.LimeGreen, ammo / (float)(maxAmmo + 1));

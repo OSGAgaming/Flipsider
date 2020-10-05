@@ -9,20 +9,16 @@ using System.Collections.Generic;
 using Flipsider.GUI;
 using Flipsider.GUI.HUD;
 using Flipsider.Scenes;
-using Flipsider.Engine.Particles;
-using Flipsider.Engine;
-using Flipsider.Engine.Audio;
-using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
 using static Flipsider.TileManager;
 
 using System.Reflection;
 using System.Linq;
 using System.Threading;
+using Flipsider.Input;
 
 namespace Flipsider
 {
-    // TODO holy shit this hurts
 #nullable disable
     public class Main : Game
     {
@@ -56,8 +52,6 @@ namespace Flipsider
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => (Mouse.GetState().Position.ToVector2() / mainCamera.scale).ToPoint() + mainCamera.CamPos.ToPoint();
-
-        private ParticleSystem TestParticleSystem;
 
         public Main()
         {
@@ -97,7 +91,6 @@ namespace Flipsider
         }
         protected override void Initialize()
         {
-            TextureCache.LoadTextures(Content);
             Instatiate();
             // Register controls
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
@@ -179,7 +172,7 @@ namespace Flipsider
             TestParticleSystem = new ParticleSystem(200);
             TestParticleSystem.SpawnRate = 10f;
             TestParticleSystem.WorldSpace = true;
-            TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
+            TestParticleSystem.SpawnModules.Add(new SetTexture(AssetManager.pixel));
             TestParticleSystem.SpawnModules.Add(new SetScale(5f));
             TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.Yellow, Color.Red, Main.rand));
             TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));

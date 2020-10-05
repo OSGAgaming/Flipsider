@@ -1,3 +1,4 @@
+using Flipsider.Engine.Assets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,9 +14,9 @@ namespace Flipsider
         public static Tile[,] tiles = new Tile[0, 0];
         public static void LoadTiles()
         {
-            AddTileType(0, TextureCache.TileSet1);
-            AddTileType(1, TextureCache.TileSet2);
-            AddTileType(2, TextureCache.TileSet3);
+            AddTileType(0, AssetManager.TileSet1);
+            AddTileType(1, AssetManager.TileSet2);
+            AddTileType(2, AssetManager.TileSet3);
         }
 
         public static void SaveCurrentWorldAs(string Name)
