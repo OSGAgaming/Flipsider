@@ -1,38 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Flipsider.targets"/>
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <RootNamespace>Flipsider.Content</RootNamespace>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PublishReadyToRun>false</PublishReadyToRun>
-    <TieredCompilation>false</TieredCompilation>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Icon.ico" />
-    <None Remove="Icon.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
-    <EmbeddedResource Include="Icon.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="Assets/Assets.mgcb" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="../.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Entities\" />
-    <Folder Include="Assets\UI\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlipsiderEngine\FlipsiderEngine.csproj" />
   </ItemGroup>
