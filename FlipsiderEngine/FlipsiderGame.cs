@@ -64,6 +64,8 @@ namespace Flipsider
         {
             // TODO: Make a main menu. We shouldn't ALWAYS be in a world.
             CurrentWorld = new World();
+            Updateables.Add(CurrentWorld);
+            Drawables.Add(CurrentWorld);
             base.Initialize();
         }
 
