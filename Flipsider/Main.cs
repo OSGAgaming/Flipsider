@@ -19,6 +19,7 @@ using static Flipsider.TileManager;
 using System.Reflection;
 using System.Linq;
 using System.Threading;
+using Flipsider.Weapons;
 
 namespace Flipsider
 {
@@ -75,14 +76,23 @@ namespace Flipsider
         }
 
         private Verlet verletEngine;
-        void Instatiate()
+        void GetAllTypes()
         {
             Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
+
             NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
             for (int i = 0; i < NPCTypes.Length; i++)
-            {
                 NPC.NPCTypes[i].type = NPCTypes[i];
-            }
+
+            Type[] StoreableTypes = ReflectionHelpers.GetInheritedClasses(typeof(IStoreable));
+
+            Item.ItemTypes = new Type[StoreableTypes.Length];
+            for (int i = 0; i < StoreableTypes.Length; i++)
+                Item.ItemTypes[i] = StoreableTypes[i];
+        }
+        void Instatiate()
+        {
+            GetAllTypes();
             sceneManager = new SceneManager();
             sceneManager.SetNextScene(new DebugScene(), null);
             verletEngine = new Verlet();

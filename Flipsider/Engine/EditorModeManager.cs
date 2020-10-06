@@ -35,7 +35,14 @@ namespace Flipsider
 
         public static void Draw()
         {
-            if(CurrentState == EditorUIState.LightEditorMode)
+            if (Main.CurrentItem != null)
+            {
+                Texture2D tex = Main.CurrentItem.inventoryIcon ?? TextureCache.magicPixel;
+                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2 + Vector2.One*4, Color.Black * 0.3f * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
+                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2()/2, Color.White*(float)Math.Abs(Math.Sin(Time.TotalTimeMil/120f)));
+
+            }
+            if (CurrentState == EditorUIState.LightEditorMode)
             {
                // Main.spriteBatch.Draw();
             }

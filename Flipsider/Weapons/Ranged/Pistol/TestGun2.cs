@@ -10,7 +10,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
     {
         public TestGun2() : base(5, 5, 1)
         {
-            inventoryIcon = TextureCache.testGun;
+            SetInventoryIcon(TextureCache.testGun);
             reloadTime = 180;
             maxAmmo = 20;
         }
@@ -18,7 +18,6 @@ namespace Flipsider.Weapons.Ranged.Pistol
         protected override void OnActivate()
         {
             Camera.screenShake += 2;
-            inventoryIcon = TextureCache.testGun;
         }
 
         public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)

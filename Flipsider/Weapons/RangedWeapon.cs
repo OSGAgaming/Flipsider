@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Flipsider.Weapons
 {
-    class RangedWeapon : Weapon
+    abstract class RangedWeapon : Weapon
     {
         public int maxAmmo;
         public int ammo;

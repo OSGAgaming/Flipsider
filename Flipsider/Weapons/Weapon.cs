@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static Flipsider.IStoreable;
 
 namespace Flipsider.Weapons
 {
-    public class Weapon : IStoreable
+    public abstract class Weapon : IStoreable
     {
+        public ItemInfo itemInfo
+        {
+            get;
+            set;
+        }
         public int MaxStack
         {
             get => 1;
@@ -18,9 +24,11 @@ namespace Flipsider.Weapons
             get;
             set;
         }
-        public void SetInventoryIcon(Texture2D icon) => inventoryIcon = icon;
-
-
+        public void SetInventoryIcon(Texture2D icon)
+        {
+            inventoryIcon = icon;
+            itemInfo = new ItemInfo();
+        }
         public int damage;
         public int delay;
         protected int activeTimeLeft;

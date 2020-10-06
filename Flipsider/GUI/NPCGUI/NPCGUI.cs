@@ -83,7 +83,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             int fluff  = 1;
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-            spriteBatch.Draw(tex, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(tex ?? TextureCache.magicPixel, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {
