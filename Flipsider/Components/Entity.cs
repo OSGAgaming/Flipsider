@@ -55,10 +55,13 @@ namespace Flipsider
         int a;
         public void UpdateTrailCache()
         {
-            a++;
-            if (a > TrailLength - 1)
-                a = 0;
-            oldPositions[a] = position;
+            if (active)
+            {
+                a++;
+                if (a > TrailLength - 1)
+                    a = 0;
+                oldPositions[a] = position;
+            }
         }
 
         public bool isColliding;
@@ -101,11 +104,13 @@ namespace Flipsider
                                     {
                                         position.X = tileRect.X - width + 1;
                                         velocity.X = 0;
+                                        isColliding = true;
                                     }
                                     if (positionPreCollision.X <= tileRect.X + res && positionPreCollision.X > tileRect.X && velocity.X < 0)
                                     {
                                         position.X = tileRect.X + res;
                                         velocity.X = 0;
+                                        isColliding = true;
                                     }
 
                                 }
@@ -116,11 +121,13 @@ namespace Flipsider
                                             position.Y = MapMid.Y - height + 1;
                                             onGround = true;
                                             velocity.Y = 0;
+                                           isColliding = true;
                                     }
                                     if (position.Y < tileRect.Y + res && position.Y > MapMid.Y && velocity.Y < 0)
                                     {
                                         position.Y = tileRect.Y + res;
                                         velocity.Y = 0;
+                                        isColliding = true;
                                     }
                                 }
 
@@ -138,10 +145,12 @@ namespace Flipsider
             oldPositions = new Vector2[TrailLength];
             Init();
         }
-
+        bool active = true;
         public void Kill()
         {
+            active = false;
             Main.entities.Remove(this);
+            OnKill();
         }
 
         public void Spawn()
@@ -191,12 +200,15 @@ namespace Flipsider
             PostAI();
             if (Collides)
                 TileCollisions();
+            if (isColliding)
+                OnCollide();
             Wet = false;
             for (int i = 0; i<Water.WaterBodies.Count; i++)
             {
                 if (Water.WaterBodies[i].frame.Intersects(CollisionFrame))
                     Wet = true;
             }
+            UpdateTrailCache();
         }
 
         public void Init()
@@ -206,6 +218,10 @@ namespace Flipsider
         }
 
         protected virtual void OnUpdate() { }
+
+       protected virtual void OnCollide() { }
+
+        protected virtual void OnKill() { }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {

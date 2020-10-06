@@ -15,10 +15,18 @@ namespace Flipsider
         public bool hostile;
         public float alpha;
         public float rotation;
+        public bool TileCollide;
 
         public static void SpawnProjectile()
         {
 
+        }
+        protected override void OnCollide()
+        {
+            if(TileCollide)
+            {
+                Kill();
+            }
         }
         public static void SpawnProjectile<T>(Vector2 position) where T : Projectile, new()
         {

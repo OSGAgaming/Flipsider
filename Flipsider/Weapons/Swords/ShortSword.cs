@@ -40,6 +40,7 @@ namespace Flipsider.Weapons
             Collides = true;
             noGravity = true;
             noAirResistance = true;
+            TileCollide = true;
         }
 
         protected override void AI()

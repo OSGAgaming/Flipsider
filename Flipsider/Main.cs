@@ -244,7 +244,6 @@ namespace Flipsider
                 for (int i = 0; i < entities.Count; i++)
                 {
                     entities[i].Update();
-                    entities[i].UpdateTrailCache();
                 }
                 mainCamera.offset -= mainCamera.offset / 16f;
             }
