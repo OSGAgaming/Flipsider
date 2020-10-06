@@ -27,7 +27,7 @@ namespace Flipsider
         void SetInventoryIcon(Texture2D icon);
     }
 
-    public class Item : IStoreable
+    public class Item : Entity, IStoreable
     {
         public int MaxStack
         {
