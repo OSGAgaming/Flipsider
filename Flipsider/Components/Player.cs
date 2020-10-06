@@ -8,7 +8,7 @@ using Flipsider.Engine.Input;
 using Flipsider.Weapons;
 using Flipsider.Weapons.Ranged.Pistol;
 
-#nullable disable
+#nullable enable
 // TODO fix this..
 namespace Flipsider
 {
@@ -24,12 +24,12 @@ namespace Flipsider
         public int maxLife = 100;
         public float percentLife => life / (float)maxLife;
 
-        public Weapon leftWeapon = new Weapons.Ranged.Pistol.TestGun(); //Temporary
-        public Weapon rightWeapon = new Weapons.Ranged.Pistol.TestGun2(); //Temporary
+        public Weapon leftWeapon = new TestGun(); //Temporary
+        public Weapon rightWeapon = new TestGun2(); //Temporary
 
-        public Weapon leftWeaponStore;
-        public Weapon rightWeaponStore;
-        public bool usingWeapon => leftWeapon.active || rightWeapon.active;
+        public Weapon leftWeaponStore = new ShortSword();
+        public Weapon rightWeaponStore = new ShortSword();
+        public bool usingWeapon => (leftWeapon != null ? leftWeapon.active : false) || (rightWeapon != null ? rightWeapon.active : false);
         public IStoreable[] inventory;
         public int inventorySize => 20;
         public Player(Vector2 position)
@@ -41,7 +41,6 @@ namespace Flipsider
             height = 60;
             framewidth = 48;
             Collides = false;
-            AddToInventory(new TestGun(), 1);
         }
 
         public void AddToInventory(IStoreable item,int slot)
@@ -187,21 +186,10 @@ namespace Flipsider
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
-                leftWeapon.Activate(this);
+                leftWeapon?.Activate(this);
 
             if (mouseState.RightButton == ButtonState.Pressed)
-                rightWeapon.Activate(this);
-        }
-
-        void Constraints()
-        {
-            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
-            position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if (Bottom >= Main.ScreenSize.Y)
-            {
-                onGround = true;
-                velocity.Y = 0;
-            }
+                rightWeapon?.Activate(this);
         }
 
         void Jump()

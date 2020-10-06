@@ -12,7 +12,6 @@ namespace Flipsider.Weapons
         public abstract Texture2D swordSheet
         {
             get;
-            set;
         }
         public Sword(int damage, int delay, int maxCombo) : base(damage, delay, maxCombo)
         {
@@ -20,7 +19,6 @@ namespace Flipsider.Weapons
         }
         public sealed override void UpdateActive()
         {
-            //animate based on state
         }
         protected override void OnActivate()
         {
@@ -31,4 +29,5 @@ namespace Flipsider.Weapons
             }
         }
     }
+
 }

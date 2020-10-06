@@ -199,7 +199,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 if (delay == 0)
                 {
-                    Main.player.inventory[inventorySlot] = null;
                     Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
                     Main.CurrentItem = item;
                     delay = 20;

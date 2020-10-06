@@ -15,7 +15,8 @@ namespace Flipsider
         public int framewidth;
         public int frameCounter;
         public Rectangle frame;
-
+        public bool noGravity;
+        public bool noAirResistance;
         public float friction = 0.982f;
         public void ResetVars()
         {
@@ -179,7 +180,9 @@ namespace Flipsider
         {
             frameCounter++;
             ResetVars();
+            if(!noGravity)
             velocity.Y += gravity * Time.DeltaVar(120);
+            if(!noAirResistance)
             velocity *= airResistance;
             position += velocity * Time.DeltaVar(120);
             OnUpdate();
@@ -198,7 +201,7 @@ namespace Flipsider
 
         public void Init()
         {
-            Main.entities.Add(this);
+            Spawn();
             Initialize();
         }
 
