@@ -27,6 +27,7 @@ namespace Flipsider
 
         protected override void AI()
         {
+            Constraints();
             Jump(2f);
             Animate(5, 1, 185, 0);
         }

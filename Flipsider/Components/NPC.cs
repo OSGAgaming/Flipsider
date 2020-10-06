@@ -47,27 +47,11 @@ namespace Flipsider
             NPC.SetDefaults();
             NPC.position = position;
         }
-        protected override void OnUpdate()
-        {
-            Constraints();
-            if (Collides)
-                TileCollisions();
-        }
-
         protected virtual void SetDefaults()
         {
 
         }
-        void Constraints()
-        {
-            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
-            position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if (Bottom >= Main.ScreenSize.Y)
-            {
-                onGround = true;
-                velocity.Y = 0;
-            }
-        }
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {

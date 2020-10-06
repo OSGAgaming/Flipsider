@@ -165,6 +165,16 @@ namespace Flipsider
             }
             frame = new Rectangle(framewidth * column, frameY * frameHeight, framewidth, frameHeight);
         }
+        public void Constraints()
+        {
+            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
+            position.X = MathHelper.Clamp(position.X, 0, 100000);
+            if (Bottom >= Main.ScreenSize.Y)
+            {
+                onGround = true;
+                velocity.Y = 0;
+            }
+        }
         public void Update()
         {
             frameCounter++;
@@ -176,6 +186,8 @@ namespace Flipsider
             PreAI();
             AI();
             PostAI();
+            if (Collides)
+                TileCollisions();
             Wet = false;
             for (int i = 0; i<Water.WaterBodies.Count; i++)
             {

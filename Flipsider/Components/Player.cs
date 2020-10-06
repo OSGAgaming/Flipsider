@@ -40,7 +40,7 @@ namespace Flipsider
             maxHeight = 60;
             height = 60;
             framewidth = 48;
-            Collides = true;
+            Collides = false;
             AddToInventory(new TestGun(), 1);
         }
 
@@ -92,14 +92,11 @@ namespace Flipsider
         }
         protected override void OnUpdate()
         {
-            if(Main.CurrentItem != null)
-            Debug.Write(Main.CurrentItem);
             PlayerInputs();
             ResetVars();
             CoreUpdates();
             Constraints();
-            if (Collides)
-                TileCollisions();
+            TileCollisions();
             PostUpdates();
             FindFrame();
             leftWeapon?.UpdatePassive();

@@ -9,7 +9,6 @@ namespace Flipsider.Weapons
     {
 
         protected int state;
-        public int useTime;
         public abstract Texture2D swordSheet
         {
             get;
@@ -19,15 +18,17 @@ namespace Flipsider.Weapons
         {
             
         }
-
-        public sealed override void Activate(Player player)
+        public sealed override void UpdateActive()
+        {
+            //animate based on state
+        }
+        protected override void OnActivate()
         {
             state++;
             if(state > 3)
             {
                 state = 0;
             }
-            OnActivate();
         }
     }
 }
