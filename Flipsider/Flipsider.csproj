@@ -5,7 +5,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <FlipsiderEngine Include="../$(OutDir)FlipsiderEngine.dll" />
-    <Folder Include="Assets\" />
+    <Reference Include="../FlipsiderEngine/$(OutDir)FlipsiderEngine.dll" />
   </ItemGroup>
 </Project>

@@ -3,20 +3,18 @@
   <PropertyGroup>
     <RootNamespace>Flipsider</RootNamespace>
     <OutputType>WinExe</OutputType>
-  </PropertyGroup>
-    <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Icon.bmp" />
     <None Remove="Icon.ico" />
+    <None Remove="Localization\LanguageKeys\en.json" />
     <EmbeddedResource Include="Icon.bmp" />
     <EmbeddedResource Include="Icon.ico" />
-    <FlipsiderEngine Include="../$(OutDir)FlipsiderEngine.dll" />
+    <FlipsiderEngine Include="../Output/$(OutDir)FlipsiderEngine.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Content\Fonts\" />
     <Folder Include="Assets\Content\Textures\" />
   </ItemGroup>
 </Project>

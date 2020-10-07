@@ -15,11 +15,10 @@
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.9" />
     <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
     <EmbeddedResource Include="**/*.xnb" />
-    <Reference Include="@(FlipsiderEngine)" Condition=" '$(ProjectName)' != 'FlipsiderEngine' " />
+    <EmbeddedResource Include="**/*.json" />
   </ItemGroup>
-  <Target Name="NPLFile" BeforeTargets="Nopipeline" Condition=" '@(NPLFile)' == '' ">
-    <Message Importance="high" Text="No .npl file was found. Generating one in the Assets folder." />
-    <WriteLinesToFile File="Assets/Assets.npl" Lines="
+  <Target Name="NPLFile" BeforeTargets="Nopipeline">
+    <WriteLinesToFile File="Assets/Assets.npl" Condition=" '@(NPLFile)' == '' " Lines="
 {
 	&quot;content&quot;: 
 	{
@@ -45,14 +44,4 @@
 }"
                       />
   </Target>
-  <Target Name="EngineReference" BeforeTargets="NPLFile">
-    <Error Text="Include the path to FlipsiderEngine in the 'FlipsiderEngine' item. '@(FlipsiderEngine)' is not a valid file." 
-           Condition=" !Exists('@(FlipsiderEngine)') And '$(ProjectName)' != 'FlipsiderEngine' " />
-    <ItemGroup>
-      <OutputFiles Include="$(OutDir)**" />
-    </ItemGroup>
-    <Copy Condition="Exists('@(FlipsiderEngine)')" SkipUnchangedFiles="true" SourceFiles="@(OutputFiles)" DestinationFolder="%(FlipsiderEngine.Directory)" />
-  </Target>
 </Project>
-
-<!--TODO get versatile ref to FlipsiderEngine for Flipsider-->

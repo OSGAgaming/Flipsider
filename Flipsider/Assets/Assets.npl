@@ -1,5 +1,5 @@
-﻿{
-	"root": "Assets/Content/",
+{
+	"root": "Assets/",
 	"content": {
 		"textures": {
 			"path": "Textures/*.png",
@@ -16,11 +16,6 @@
 				"MakeSquare": "False",
 				"TextureFormat": "Color"
 			}
-		},
-		"fonts": {
-			"path": "Fonts/*.spritefont",
-			"recursive": "True",
-			"action": "build"
 		}
 	}
 }

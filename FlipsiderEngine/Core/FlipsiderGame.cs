@@ -1,7 +1,6 @@
 ﻿using Flipsider.Assets;
 using Flipsider.Assets.Repositories;
 using Flipsider.Core.Collections;
-using Flipsider.Worlds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -169,7 +168,7 @@ namespace Flipsider.Core
             }
             catch (AggregateException e)
             {
-                string message = string.Join("\n", e.InnerExceptions.Select(e => $"{e.TargetSite} threw {e.GetType()}: {e.Message}"));
+                string message = string.Join("\n", e.Flatten().InnerExceptions.Select(e => $"{e.TargetSite} threw {e.GetType()}: {e.Message}"));
                 Logger.Fatal(message);
             }
         }
