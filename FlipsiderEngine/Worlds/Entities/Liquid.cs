@@ -3,19 +3,21 @@ using Flipsider.Worlds.Collision;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Flipsider.Worlds.Entities
 {
-    public class Water : Entity, ICollideable
+    public class Liquid : Entity
     {
-        public Water(RectangleF frame, int accuracy = 100)
+        public Liquid(RectangleF frame, int accuracy = 100)
         {
             OnUpdate += Update;
             Center = frame.Center;
             Size = frame.Size;
-            OnSpawn += delegate { CurrentWorld.Collision.Add(this); };
-            OnRemove += delegate { CurrentWorld.Collision.Remove(this); };
+            OnSpawn += delegate { InWorld.Collision.OnCheck += Intersect; };
+            OnRemove += delegate { InWorld.Collision.OnCheck += Intersect; };
             viscosity = 0.09f;
             dampening = 0.05f;
             constant = 50;
@@ -89,21 +91,34 @@ namespace Flipsider.Worlds.Entities
                     Pos[i + 1].Y += disRight[i];
                 }
             }
-        }
 
-        protected virtual void OnCollide(PhysicalEntity entity)
-        {
-            entity.WetIn = this;
-            SplashPerc((entity.Center.X - Bounds.x) / Bounds.w, entity.Velocity.Y * 4);
-        }
-
-        void ICollideable.Intersect(ICollideable other)
-        {
-            if (other is HitBox box && box.Owner is PhysicalEntity entity)
+            // Remove any entities that are ded
+            wet.RemoveWhere(wet =>
             {
-                if (box.Bounds.BL.Y - entity.Velocity.Y * entity.Velocity.Y < Bounds.y && entity.WetIn == null)
+                if (!wet.Bounds.Intersects(Bounds))
                 {
-                    OnCollide(entity);
+                    wet.OnExit(this);
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        private readonly WeakObjectSet<IWettable> wet = new WeakObjectSet<IWettable>();
+
+        void Intersect(ICollideable other)
+        {
+            if (other is IWettable obj)
+            {
+                var handle = GCHandle.Alloc(obj, GCHandleType.Weak);
+                if (!wet.Contains(obj) && obj.Bounds.Intersects(Bounds))
+                {
+                    obj.OnEnter(this);
+                    SplashPerc((obj.Position.X - Bounds.x) / Bounds.w, obj.Velocity.Y * 4);
+                }
+                else
+                {
+                    handle.Free();
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Flipsider.Core
 {
@@ -23,6 +24,22 @@ namespace Flipsider.Core
         {
             get => TL + Size / 2;
             set => (x, y) = value - Size / 2;
+        }
+
+        public bool Intersects(RectangleF other)
+        {
+            bool isGap = other.x > x + w || other.x + other.w < x || other.y > y + h || other.y + other.h < y;
+            return !isGap;
+        }
+
+        public RectangleF? Intersection(RectangleF other)
+        {
+            if (!Intersects(other))
+                return null;
+            var ret = new RectangleF { x = Math.Max(x, other.x), y = Math.Max(y, other.y) };
+            ret.w = Math.Min(x + w, other.x + other.w) - ret.x; 
+            ret.h = Math.Min(y + h, other.y + other.h) - ret.y;
+            return ret;
         }
 
         /// <summary>

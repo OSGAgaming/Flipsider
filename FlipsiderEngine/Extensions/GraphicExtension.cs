@@ -10,14 +10,16 @@ namespace Flipsider.Extensions
 {
     public static class GraphicExtension
     {
-        public static Vector2 ToScreen(this Vector2 v) => v / FlipsiderGame.CurrentCamera.Scale + FlipsiderGame.CurrentCamera.Translation2D;
+        public static Vector2 Size(this Texture2D texture) => texture.Bounds.Size.ToVector2();
+
+        public static Vector2 ToScreen(this Vector2 v) => v / FlipsiderGame.GameInstance.CurrentCamera.Scale + FlipsiderGame.GameInstance.CurrentCamera.Translation2D;
         public static Vector2 AddParralaxAcross(this Vector2 v, Vector2 position, float traversingPixels)
         {
             float traverseFunction = position.X / traversingPixels;
             return v - new Vector2(traverseFunction, 0);
         }
 
-        public static Vector2 GetParallaxOffset(Vector2 center, float distance) => (FlipsiderGame.CurrentCamera.Translation2D - center) * distance;
+        public static Vector2 GetParallaxOffset(Vector2 center, float distance) => (FlipsiderGame.GameInstance.CurrentCamera.Translation2D - center) * distance;
 
         public static void DrawPixel(this SpriteBatch sb, Vector2 pos, Color tint) => sb.Draw(Asset<Texture2D>.From("Pixel"), pos, tint);
 

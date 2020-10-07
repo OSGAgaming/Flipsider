@@ -5,9 +5,7 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlipsiderEngine\FlipsiderEngine.csproj" />
-  </ItemGroup>
-  <ItemGroup>
+    <FlipsiderEngine Include="../$(OutDir)FlipsiderEngine.dll" />
     <Folder Include="Assets\" />
   </ItemGroup>
 </Project>

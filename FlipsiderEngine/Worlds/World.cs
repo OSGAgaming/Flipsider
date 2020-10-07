@@ -1,4 +1,5 @@
-﻿using Flipsider.Core;
+﻿using Flipsider.Assets;
+using Flipsider.Core;
 using Flipsider.Core.Collections;
 using Flipsider.Worlds.Collision;
 using Flipsider.Worlds.Entities;
@@ -9,7 +10,7 @@ using System;
 
 namespace Flipsider.Worlds
 {
-    public sealed class World : IUpdated, IDrawn
+    public class World : IUpdated, IDrawn
     {
         public World()
         {
@@ -32,26 +33,21 @@ namespace Flipsider.Worlds
         public EntitySystem Entities { get; }
         public TileSystem Tiles { get; }
 
-        public OrderedSet<IUpdated> OnUpdate { get; private set; }
-        public OrderedSet<IDrawn> OnDraw { get; private set; }
+        public OrderedSet<IUpdated> OnUpdate { get; }
+        public OrderedSet<IDrawn> OnDraw { get; }
 
-        public static event Action? OnLoad;
-        public static event Action? OnUnload;
-
-        public void Load()
+        protected internal virtual void Load()
         {
-            Collision.Add(new TileCollision());
-            OnLoad?.Invoke();
+
         }
 
-        public void Unload()
+        protected internal virtual void Unload()
         {
-            OnUnload?.Invoke();
-            OnUpdate = new OrderedSet<IUpdated>();
-            OnDraw = new OrderedSet<IDrawn>();
+            OnUpdate.Clear();
+            OnDraw.Clear();
         }
 
-        void IUpdated.Update()
+        protected virtual void Update()
         {
             foreach (var item in OnUpdate)
             {
@@ -66,9 +62,9 @@ namespace Flipsider.Worlds
             }
         }
 
-        void IDrawn.Draw(SafeSpriteBatch spriteBatch)
+        protected virtual void Draw(SafeSpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: FlipsiderGame.CurrentCamera.Transform);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: FlipsiderGame.GameInstance.CurrentCamera.Transform);
             foreach (var item in OnDraw)
             {
                 try
@@ -81,5 +77,8 @@ namespace Flipsider.Worlds
                 }
             }
         }
+
+        void IUpdated.Update() => Update();
+        void IDrawn.Draw(SafeSpriteBatch spriteBatch) => Draw(spriteBatch);
     }
 }

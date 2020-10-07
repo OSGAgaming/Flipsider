@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Flipsider.Core;
+using Flipsider.Assets;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider

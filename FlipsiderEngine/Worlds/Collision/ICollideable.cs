@@ -1,11 +1,11 @@
 ﻿using Flipsider.Core;
+using Flipsider.Worlds.Entities;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 
 namespace Flipsider.Worlds.Collision
 {
     /// <summary>
-    /// Represents an object that can be registered into a world's <see cref="CollisionSystem"/> and exprience collisions.
+    /// Represents an object that can be registered into a world's <see cref="CollisionSystem"/> and experience collisions.
     /// </summary>
     public interface ICollideable
     {

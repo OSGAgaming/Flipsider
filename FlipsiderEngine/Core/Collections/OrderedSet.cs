@@ -33,55 +33,93 @@ namespace Flipsider.Core.Collections
 
         void ICollection<T>.Add(T item) => Add(item);
 
+        /// <summary>
+        /// Adds an item to the end of the <see cref="OrderedSet{T}"/> if it isn't already present.
+        /// </summary>
+        /// <param name="item">The element to add.</param>
+        /// <returns>True if the operation was successful; false if the item was already present.</returns>
         public bool Add(T item)
         {
-            if (!dictionary.ContainsKey(item))
-            {
-                dictionary.Add(item, linkedList.AddLast(item));
-                return true;
-            }
-            return false;
+            return dictionary.TryAdd(item, linkedList.AddLast(item));
         }
 
-        public bool InsertAfter(T anchor, T item)
+        /// <summary>
+        /// Adds an item to the beginning of the <see cref="OrderedSet{T}"/> if it isn't already present.
+        /// </summary>
+        /// <param name="item">The element to add.</param>
+        /// <returns>True if the operation was successful; false if the item was already present.</returns>
+        public bool AddFirst(T item)
+        {
+            return dictionary.TryAdd(item, linkedList.AddFirst(item));
+        }
+
+        /// <summary>
+        /// Adds an item after the <paramref name="anchor"/> if the item isn't already present and the anchor exists.
+        /// </summary>
+        /// <param name="item">The element to add.</param>
+        /// <returns>True if the operation was successful; false if the item was already present or the anchor did not exist.</returns>
+        public bool AddAfter(T anchor, T item)
         {
             if (dictionary.TryGetValue(anchor, out var val))
             {
-                linkedList.AddAfter(val, item);
-                return true;
+                return dictionary.TryAdd(item, linkedList.AddAfter(val, item));
             }
             return false;
         }
 
-        public bool InsertBefore(T anchor, T item)
+        /// <summary>
+        /// Adds an item before the <paramref name="anchor"/> if the item isn't already present and the anchor exists.
+        /// </summary>
+        /// <param name="item">The element to add.</param>
+        /// <returns>True if the operation was successful; false if the item was already present or the anchor did not exist.</returns>
+        public bool AddBefore(T anchor, T item)
         {
             if (dictionary.TryGetValue(anchor, out var val))
             {
-                linkedList.AddBefore(val, item);
-                return true;
+                return dictionary.TryAdd(item, linkedList.AddBefore(val, item));
             }
             return false;
         }
 
+        /// <summary>
+        /// Removes an item from the <see cref="OrderedSet{T}"/> if it's present.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        /// <returns>True if the operation was successful; false if the item was not present.</returns>
         public bool Remove(T item)
         {
-            if (dictionary.TryGetValue(item, out var node))
+            if (dictionary.Remove(item, out var node))
             {
-                dictionary.Remove(item);
                 linkedList.Remove(node);
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Gets a copy of this collection in the form of a dictionary of linked list nodes.
+        /// </summary>
+        public Dictionary<T, LinkedListNode<T>> ToDictionary() => new Dictionary<T, LinkedListNode<T>>(dictionary);
+
+        /// <summary>
+        /// Determines whether the value is present in the <see cref="OrderedSet{T}"/>.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        /// <returns>True if the item was present; false otherwise</returns>
         public bool Contains(T item) => dictionary.ContainsKey(item);
 
-        void ICollection<T>.Clear()
+        /// <summary>
+        /// Removes all items from the <see cref="OrderedSet{T}"/>. Clearing is not an O(1) operation.
+        /// </summary>
+        public void Clear()
         {
             linkedList.Clear();
             dictionary.Clear();
         }
 
+        /// <summary>
+        /// Gets an enumerator for the <see cref="OrderedSet{T}"/>. Enumerating is not an O(1) operation.
+        /// </summary>
         public IEnumerator<T> GetEnumerator() => linkedList.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Core;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flipsider.Core
+namespace Flipsider.Assets
 {
     /// <summary>
     /// Defines a wrapper for <see cref="SpriteBatch"/> that allows safe beginning/ending.

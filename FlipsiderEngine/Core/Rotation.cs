@@ -8,37 +8,28 @@ namespace Flipsider.Core
 {
     public struct Rotation
     {
-        private double rad;
+        public Rotation(double radians) => Rad = WrapAngle(radians);
+
+        public static Rotation FromDegrees(double degrees) => new Rotation(degrees * Math.PI / 180);
+        public static Rotation FromRadians(double radians) => new Rotation(radians);
 
         /// <summary>
-        /// The rotation in radians, as a double from -pi to +pi. Positive is counter-clockwise.
+        /// The rotation in degrees, in the range -180 to +180. Positive is counter-clockwise.
         /// </summary>
-        public double Rad 
-        { 
-            get => rad; 
-            set => rad = WrapAngle(value); 
-        }
+        public double Deg => Rad * 180 / Math.PI;
         /// <summary>
-        /// The rotation in radians, as a float from -pi to +pi. Positive is counter-clockwise.
+        /// Float cast for <see cref="Deg"/>.
         /// </summary>
-        public float RadF => (float)rad;
+        public float DegF => (float)Deg;
 
         /// <summary>
-        /// Gets the difference between two rotations. Positive return values indicate that <paramref name="other"/> is more counterclockwise than <see langword="this"/>.
+        /// The rotation in radians, in the range -pi to +pi. Positive is counter-clockwise.
         /// </summary>
-        /// <param name="other">A second rotation angle to compare to.</param>
-        /// <returns>The difference between the two rotations.</returns>
-        public double Difference(Rotation other)
-        {
-            double a = rad, b = other.rad;
-
-            double d = Math.Abs(a - b) % (Math.PI * 2);
-            double r = d > Math.PI ? Math.PI*2 - d : d;
-
-            //calculate sign 
-            int sign = (a - b >= 0 && a - b <= Math.PI) || (a - b <= -Math.PI && a - b >= -Math.PI*2) ? 1 : -1;
-            return r * sign;
-        }
+        public double Rad { get; }
+        /// <summary>
+        /// Float cast for <see cref="Rad"/>.
+        /// </summary>
+        public float RadF => (float)Rad;
 
         public override bool Equals(object? obj)
         {
@@ -51,14 +42,13 @@ namespace Flipsider.Core
             return Rad.GetHashCode();
         }
 
-        public static bool operator ==(Rotation left, Rotation right) => left.Equals(right);
+        public static Rotation operator +(Rotation left, Rotation right) => FromRadians(left.Rad + right.Rad);
+        public static Rotation operator -(Rotation left, Rotation right) => FromDegrees(left.Rad - right.Rad);
 
+        public static bool operator ==(Rotation left, Rotation right) => left.Equals(right);
         public static bool operator !=(Rotation left, Rotation right) => !(left == right);
 
-        public static implicit operator double(Rotation r) => r.rad;
-        public static implicit operator Rotation(double r) => new Rotation { rad = r };
-
-        static double WrapAngle(double angle)
+        public static double WrapAngle(double angle)
         {
             if (angle > -Math.PI && angle <= Math.PI)
             {

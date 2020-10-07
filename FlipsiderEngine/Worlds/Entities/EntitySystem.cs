@@ -1,4 +1,5 @@
-﻿using Flipsider.Core;
+﻿using Flipsider.Assets;
+using Flipsider.Core;
 using Flipsider.Worlds.Tiles;
 using Microsoft.Xna.Framework;
 using System;
@@ -43,7 +44,7 @@ namespace Flipsider.Worlds.Entities
         public World World { get; }
 
         private int id;
-        private readonly Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
+        private readonly Dictionary<int, Entity> entities = new Dictionary<int, Entity>(100);
         private readonly Dictionary<Entity, bool> additions = new Dictionary<Entity, bool>();
 
         internal int New(Entity entity)
@@ -51,10 +52,6 @@ namespace Flipsider.Worlds.Entities
             if (entities.Count > MaxEntityCount)
             {
                 throw new InvalidOperationException($"Somehow, a maximum number of entities was reached. Failed on #{id}: {entities[id]}.");
-            }
-            if (entity.id.HasValue)
-            {
-                throw new InvalidOperationException($"Cannot spawn an entity that is already present in the world.");
             }
 
             // Allocate the entity to current (open) ID
@@ -73,10 +70,6 @@ namespace Flipsider.Worlds.Entities
 
         internal void Remove(Entity entity)
         {
-            if (!entity.id.HasValue)
-            {
-                throw new InvalidOperationException("Cannot remove an entity that isn't present in the world.");
-            }
             additions[entity] = false;
         }
 
@@ -112,8 +105,7 @@ namespace Flipsider.Worlds.Entities
                     Entity entity = kvp.Key;
                     if (kvp.Value)
                     {
-                        int id = entity.id!.Value;
-                        entities[id] = entity;
+                        entities[entity.ID] = entity;
                         entity.CallSpawn(id, World);
                         OnSpawn?.Invoke(entity, id, World);
                     }
@@ -121,8 +113,7 @@ namespace Flipsider.Worlds.Entities
                     {
                         entity.CallRemove();
                         OnRemove?.Invoke(entity);
-                        entities.Remove(entity.id!.Value);
-                        entity.id = null;
+                        entities.Remove(entity.ID);
                     }
                 }
             }

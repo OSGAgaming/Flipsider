@@ -1,4 +1,5 @@
-﻿using Flipsider.Core;
+﻿using Flipsider.Assets;
+using Flipsider.Core;
 using Flipsider.Worlds.Tiles;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,33 +14,44 @@ namespace Flipsider.Worlds.Entities
 
     public abstract class Entity
     {
-        protected World CurrentWorld => FlipsiderGame.CurrentWorld ?? throw new InvalidOperationException("Cannot access entity outside world.");
+        /// <summary>
+        /// World that contains this entity.
+        /// </summary>
+        public World InWorld => inWorld ?? throw new InvalidOperationException("Entity is not spawned in any world.");
 
         /// <summary>
         /// ID of this entity.
         /// </summary>
-        public int ID => id ?? throw new InvalidOperationException("Entity is not spawned in the world. It has no ID.");
-        internal int? id;
+        public int ID => id ?? throw new InvalidOperationException("Entity is not spawned in any world.");
 
         /// <summary>
         /// The center of the entity.
         /// </summary>
         public Vector2 Center;
+        private World? inWorld;
+        private int? id;
 
         /// <summary>
         /// Call this when the entity should be removed from the world.
         /// </summary>
-        protected void Delete() => CurrentWorld.Entities.Remove(this);
+        protected void Delete()
+        {
+            if (!id.HasValue) 
+                return;
+            InWorld.Entities.Remove(this);
+        }
 
         /// <summary>
-        /// Spawns the entity in the current world and sets its ID value.
+        /// If this entity is not already spawned, this spawns the entity in the current world and sets its ID value.
         /// </summary>
-        /// <returns>The ID of the new entity.</returns>
-        public int SpawnInWorld()
+        /// <returns>True if the entity was successfully spawned; false if the entity was already spawned prior.</returns>
+        public bool SpawnInWorld()
         {
-            var world = FlipsiderGame.CurrentWorld ?? throw new InvalidOperationException("Cannot spawn entity when there is no world loaded.");
-            int id = world.Entities.New(this);
-            return this.id ??= id;
+            if (id.HasValue)
+                return false;
+            inWorld = FlipsiderGame.GameInstance.CurrentWorld ?? throw new InvalidOperationException("Cannot spawn entity when there is no world loaded.");
+            id = inWorld.Entities.New(this);
+            return true;
         }
 
         /// <summary>
@@ -74,6 +86,7 @@ namespace Flipsider.Worlds.Entities
             OnUpdate = null;
             OnDraw = null;
             OnSpawn = null;
+            id = null;
         }
     }
 }

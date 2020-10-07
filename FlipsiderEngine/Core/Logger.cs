@@ -18,5 +18,11 @@ namespace Flipsider.Core
             Warn("Fatal error. " + message);
             Environment.Exit(1);
         }
+
+        public static void Error(object message)
+        {
+            Warn(message);
+            // TODO error handle
+        }
     }
 }

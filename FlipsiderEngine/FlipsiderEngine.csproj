@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Flipsider.targets"/>
+  <Import Project="../Flipsider.targets" />
   <PropertyGroup>
     <RootNamespace>Flipsider</RootNamespace>
     <OutputType>WinExe</OutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
     <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -16,6 +13,7 @@
     <None Remove="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
     <EmbeddedResource Include="Icon.ico" />
+    <FlipsiderEngine Include="../$(OutDir)FlipsiderEngine.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\Fonts\" />

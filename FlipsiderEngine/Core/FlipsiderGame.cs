@@ -13,10 +13,14 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Flipsider.Core
 {
-    public delegate void EnterWorldDelegate(World? oldWorld, World? newWorld);
+    /// <summary>
+    /// Represents a delegate that is called when the game's current world changes.
+    /// </summary>
+    public delegate void WorldDelegate(World world);
     
     /// <summary>
     /// The game.
@@ -25,7 +29,7 @@ namespace Flipsider.Core
     {
         private FlipsiderGame(string[] args)
         {
-            EntryArgs = new ReadOnlyCollection<string>(args);
+            LaunchParameters = new ReadOnlyCollection<string>(args);
 
             Graphics = new GraphicsDeviceManager(this);
 
@@ -46,46 +50,68 @@ namespace Flipsider.Core
         /// <summary>
         /// The arguments that were passed through the command line to this program.
         /// </summary>
-        public ReadOnlyCollection<string> EntryArgs { get; }
+        public new ReadOnlyCollection<string> LaunchParameters { get; }
         private SafeSpriteBatch sb = null!;
 
         /// <summary>
         /// The <see cref="Game"/> instance. Be very careful to not leave any dangling references in this object, or unloading content packs will result in a fatal crash.
         /// </summary>
-        public static FlipsiderGame GameInstance { get; private set; } = null!;
+        internal static FlipsiderGame GameInstance { get; private set; } = null!;
         /// <summary>
         /// The camera.
         /// </summary>
-        public static Camera CurrentCamera { get; set; } = new Camera();
+        public Camera CurrentCamera { get; set; } = new Camera();
         /// <summary>
         /// The current world, if any.
         /// </summary>
-        public static World? CurrentWorld
+        public World? CurrentWorld
         {
             get => currentWorld;
             set
             {
-                OnEnterWorld?.Invoke(currentWorld, value);
-                currentWorld?.Unload();
+                if (ReferenceEquals(currentWorld, value) || switchingWorlds)
+                    return;
+                switchingWorlds = true;
+
+                var oldW = currentWorld;
+                var newW = value;
                 currentWorld = value;
-                currentWorld?.Load();
+
+                if (oldW != null)
+                {
+                    oldW.Unload();
+                    OnWorldLeave?.Invoke(oldW);
+                }
+
+                if (newW != null)
+                {
+                    newW.Load();
+                    OnWorldEnter?.Invoke(newW);
+                }
+
+                switchingWorlds = false;
             }
         }
-        private static World? currentWorld;
+        private World? currentWorld;
+        private bool switchingWorlds;
 
         /// <summary>
-        /// Called just before unloading an old world and loading a new one.
+        /// Fired upon entering a new world.
         /// </summary>
-        public static event EnterWorldDelegate? OnEnterWorld;
+        public event WorldDelegate? OnWorldEnter;
+        /// <summary>
+        /// Fired upon exiting the current world.
+        /// </summary>
+        public event WorldDelegate? OnWorldLeave;
 
         /// <summary>
         /// Objects that should have their <see cref="IUpdated.Update"/> function called every update.
         /// </summary>
-        public static OrderedSet<IUpdated> Updateables { get; } = new OrderedSet<IUpdated>();
+        public OrderedSet<IUpdated> Updateables { get; } = new OrderedSet<IUpdated>();
         /// <summary>
         /// Objects that should have their <see cref="IDrawn.Draw(SafeSpriteBatch)"/> function called every update.
         /// </summary>
-        public static OrderedSet<IDrawn> Drawables { get; } = new OrderedSet<IDrawn>();
+        public OrderedSet<IDrawn> Drawables { get; } = new OrderedSet<IDrawn>();
 
         internal static GameTime time = new GameTime();
 
@@ -94,7 +120,7 @@ namespace Flipsider.Core
         /// </summary>
         public AssemblyLoadContext ContentPacks { get; private set; }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             using (GameInstance = new FlipsiderGame(args))
                 GameInstance.Run();
@@ -117,8 +143,12 @@ namespace Flipsider.Core
             // Get current dir
             string dir = Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new Exception("Catastrophic failure. Program was run not run within a subdirectory.");
 
-            if (ContentPacks.Assemblies.Any())
-                ReloadContent();
+            if (!ContentPacks.Assemblies.Any())
+                return;
+
+            ReloadContent();
+
+            var assemblies = new List<Assembly>();
 
             foreach (string file in Directory.EnumerateFiles(dir, "*.dll"))
                 try
@@ -127,40 +157,53 @@ namespace Flipsider.Core
                     if (Path.GetFileName(file) != Path.GetFileName(Environment.CurrentDirectory))
                     {
                         AssemblyName asm = AssemblyName.GetAssemblyName(file);
-                        ContentPacks.LoadFromAssemblyName(asm);
+                        assemblies.Add(ContentPacks.LoadFromAssemblyName(asm));
                     }
                 }
                 catch { }
 
-            foreach (Assembly asm in ContentPacks.Assemblies)
+            // Do not fuck up initialization.
+            try
             {
-                try
-                {
-                    Action? entryPoint = null;
-                    foreach (Type type in asm.GetTypes())
-                    {
-                        foreach (MethodInfo method in type.GetMethods(BindingFlags.Static))
-                        {
-                            if (method.Name != "LoadPack" || method.ReturnType != typeof(void) || method.ContainsGenericParameters)
-                                continue;
-                            var parameters = method.GetParameters();
-                            if (parameters.Length > 0)
-                                continue;
-                            if (entryPoint != null)
-                            {
-                                throw new Exception("Content pack cannot have more than one entry point.");
-                            }
-                            entryPoint = (Action)Delegate.CreateDelegate(typeof(Action), method);
-                        }
-                    }
-                    entryPoint?.Invoke();
-                }
-                catch (Exception e)
-                {
-                    Logger.Warn($"Error while trying to load content pack for {asm}: {e}");
-                }
+                InitializeAsms(assemblies);
+            }
+            catch (AggregateException e)
+            {
+                string message = string.Join("\n", e.InnerExceptions.Select(e => $"{e.TargetSite} threw {e.GetType()}: {e.Message}"));
+                Logger.Fatal(message);
             }
         }
+
+        private static void InitializeAsms(List<Assembly> assemblies) => 
+        Parallel.For(0, assemblies.Count, i =>
+        {
+            Assembly asm = assemblies[i];
+            Action<FlipsiderGame>? entryPoint = null;
+            try
+            {
+                foreach (Type type in asm.GetTypes())
+                {
+                    foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                    {
+                        if (method.Name != "InitializePack" || method.ReturnType != typeof(void) || method.ContainsGenericParameters)
+                            continue;
+                        var parameters = method.GetParameters();
+                        if (parameters.Length != 1 || parameters[0].ParameterType != typeof(FlipsiderGame) || parameters[0].IsOut || parameters[0].IsIn)
+                            continue;
+                        if (entryPoint != null)
+                        {
+                            throw new Exception("Content pack cannot have more than one entry point.");
+                        }
+                        entryPoint = (Action<FlipsiderGame>)Delegate.CreateDelegate(typeof(Action<FlipsiderGame>), method);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Warn($"Error while trying to load assembly of content pack for {asm}: {e}");
+            }
+            entryPoint?.Invoke(GameInstance);
+        });
 
         private void ReloadContent()
         {
@@ -168,7 +211,7 @@ namespace Flipsider.Core
             (Updateables as ICollection<IUpdated>).Clear();
             (Drawables as ICollection<IDrawn>).Clear();
             CurrentWorld = null;
-            OnEnterWorld = null;
+            OnWorldEnter = null;
 
             Asms_Reload();
         }

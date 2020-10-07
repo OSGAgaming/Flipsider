@@ -1,33 +1,32 @@
-﻿using Flipsider.Core;
+﻿using Flipsider.Assets;
+using Flipsider.Extensions;
 using Flipsider.Worlds.Collision;
+using Flipsider.Worlds.Tiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace Flipsider.Worlds.Entities
 {
     public delegate void DamageDelegate(DamageSource source);
 
-    public abstract class LivingEntity : PhysicalEntity
+    public abstract class LivingEntity : PhysicalEntity, IHurtable, ITileCollideable
     {
-        protected LivingEntity(float lifeMaxBase, bool registerHitbox)
+        protected LivingEntity(Asset<Texture2D> texture, float lifeMaxBase) : base(true)
         {
             Life = LifeMax = lifeMaxBase;
-            OnUpdate += DeactivateIfLifeEmpty;
+            OnUpdate += RemoveIfLifeEmpty;
+            OnDraw += Draw;
             OnRemove += delegate 
             {
                 OnDamage = null;
                 OnDie = null;
             };
-
-            if (registerHitbox)
-            {
-                HitBox hb = new HitBox(this, OnHit, () => new RectangleF { Size = Size, Center = Center });
-                OnSpawn += delegate { CurrentWorld.Collision.Add(hb); };
-                OnRemove += delegate { CurrentWorld.Collision.Remove(hb); };
-            }
+            Texture = texture;
         }
 
         private double life;
@@ -47,7 +46,7 @@ namespace Flipsider.Worlds.Entities
         /// <summary>
         /// The maximum life for this entity.
         /// </summary>
-        public double LifeMax { get; }
+        public double LifeMax { get; protected set; }
         /// <summary>
         /// An additional modifier to <see cref="LifeMax"/>. May be positive, negative, or zero.
         /// </summary>
@@ -56,10 +55,32 @@ namespace Flipsider.Worlds.Entities
         /// If true, the entity will ignore calls to <see cref="Damage(DamageSource)"/>. Its Life can still be set, however.
         /// </summary>
         public bool ImmuneToDamage { get; set; }
+        /// <summary>
+        /// This entity's texture.
+        /// </summary>
+        public Asset<Texture2D>? Texture { get; protected set; }
 
+        /// <summary>
+        /// Called when this entity dies.
+        /// </summary>
         public event Action? OnDie;
 
+        /// <summary>
+        /// Called when this entity takes damage.
+        /// </summary>
         public event DamageDelegate? OnDamage;
+
+        /// <summary>
+        /// All tiles that this entity is touching.
+        /// </summary>
+        public IEnumerable<Tile> TouchingTiles { get; private set; } = Enumerable.Empty<Tile>();
+
+        IEnumerable<Tile> ITileCollideable.Touching { set => TouchingTiles = value; }
+
+        /// <summary>
+        /// Does damage to this NPC.
+        /// </summary>
+        /// <param name="source">The damage source.</param>
         public void Damage(DamageSource source)
         {
             if (!ImmuneToDamage)
@@ -69,18 +90,21 @@ namespace Flipsider.Worlds.Entities
             }
         }
 
-        protected void DeactivateIfLifeEmpty()
+        public virtual void Jump(float strength)
+        {
+
+        }
+
+        protected void RemoveIfLifeEmpty()
         {
             if (life == 0)
                 Delete();
         }
 
-        /// <summary>
-        /// Called when this entity's hitbox (registered through the constructor) is collided with.
-        /// </summary>
-        protected virtual void OnHit(ICollideable source)
+        protected virtual void Draw(SafeSpriteBatch sb)
         {
-            // TODO impl hit/hurt/collide boxes
+            if (Texture != null)
+                Draw(sb, Texture);
         }
     }
 }
