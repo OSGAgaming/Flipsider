@@ -18,8 +18,8 @@ namespace Flipsider.Entities
             OnUpdate += UpdatePhysics;
             if (registerCollision)
             {
-                OnSpawn += delegate { InWorld.Collision.AddCollideable(this); };
-                OnRemove += delegate { InWorld.Collision.RemoveCollideable(this); };
+                OnSpawn += me => me.World.Collision.AddCollideable(this);
+                OnRemove += me => me.World.Collision.RemoveCollideable(this);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Flipsider.Entities
         /// <summary>
         /// Updates the acceleration, velocity, and position of the entity.
         /// </summary>
-        protected virtual void UpdatePhysics()
+        protected virtual void UpdatePhysics(WorldEntity me)
         {
             Rotation += new Rotation(RotationDelta.Rad * Time.DeltaD);
             Velocity += Acceleration * Time.DeltaF;

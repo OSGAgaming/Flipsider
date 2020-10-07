@@ -98,7 +98,7 @@ namespace Flipsider.Tiles
             if (staticEntities.Add(identity))
             {
                 entityLinks[e] = identity;
-                e.OnRemove += () => E_OnRemove(e);
+                e.OnRemove += e => E_OnRemove(e.Entity);
                 e.SpawnInWorld();
             }
         }
@@ -108,17 +108,17 @@ namespace Flipsider.Tiles
             staticEntities.Remove(entityLinks[e]);
             entityLinks.Remove(e);
         }
-    }
 
-    // Used for tracking entities loaded from chunks.
-    internal struct StaticEntity
-    {
-        public int id;
-        public Point chunk;
-
-        public override int GetHashCode()
+        // Used for tracking entities loaded from chunks.
+        private struct StaticEntity
         {
-            return HashCode.Combine(id, chunk);
+            public int id;
+            public Point chunk;
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(id, chunk);
+            }
         }
     }
 }

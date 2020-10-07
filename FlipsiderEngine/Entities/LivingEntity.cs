@@ -95,13 +95,13 @@ namespace Flipsider.Entities
 
         }
 
-        protected void RemoveIfLifeEmpty()
+        protected void RemoveIfLifeEmpty(WorldEntity me)
         {
             if (life == 0)
                 Delete();
         }
 
-        protected virtual void Draw(SafeSpriteBatch sb)
+        protected virtual void Draw(WorldEntity me, SafeSpriteBatch sb)
         {
             if (Texture != null)
                 Draw(sb, Texture);

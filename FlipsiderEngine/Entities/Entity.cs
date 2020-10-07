@@ -4,54 +4,47 @@ using Flipsider.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Flipsider.Entities
 {
-    public delegate void UpdateDelegate();
-    public delegate void DrawDelegate(SafeSpriteBatch spriteBatch);
-    public delegate void SpawnDelegate(int entityID, World world);
+    public delegate void UpdateDelegate(WorldEntity worldEntity);
+    public delegate void DrawDelegate(WorldEntity worldEntity, SafeSpriteBatch spriteBatch);
+    public delegate void SpawnDelegate(WorldEntity worldEntity);
 
     public abstract class Entity
     {
         /// <summary>
-        /// World that contains this entity.
+        /// A <see cref="WorldEntity"/> object that represents this entity. Null if this entity isn't in a world.
         /// </summary>
-        public World InWorld => inWorld ?? throw new InvalidOperationException("Entity is not spawned in any world.");
-
-        /// <summary>
-        /// ID of this entity.
-        /// </summary>
-        public int ID => id ?? throw new InvalidOperationException("Entity is not spawned in any world.");
+        public WorldEntity? AsWorldEntity { get; private set; }
 
         /// <summary>
         /// The center of the entity.
         /// </summary>
         public Vector2 Center;
-        private World? inWorld;
-        private int? id;
 
         /// <summary>
         /// Call this when the entity should be removed from the world.
         /// </summary>
         protected void Delete()
         {
-            if (!id.HasValue) 
-                return;
-            InWorld.Entities.Remove(this);
+            AsWorldEntity?.World.Entities.Remove(AsWorldEntity.ID);
         }
 
         /// <summary>
-        /// If this entity is not already spawned, this spawns the entity in the current world and sets its ID value.
+        /// If this entity is not already spawned, this spawns the entity in the current world and sets the <see cref="AsWorldEntity"/> property accordingly.
         /// </summary>
-        /// <returns>True if the entity was successfully spawned; false if the entity was already spawned prior.</returns>
-        public bool SpawnInWorld()
+        /// <returns>This entity's non-null <see cref="AsWorldEntity"/> value.</returns>
+        public WorldEntity SpawnInWorld()
         {
-            if (id.HasValue)
-                return false;
-            inWorld = FlipsiderGame.GameInstance.CurrentWorld ?? throw new InvalidOperationException("Cannot spawn entity when there is no world loaded.");
-            id = inWorld.Entities.New(this);
-            return true;
+            if (AsWorldEntity == null)
+            {
+                var world = FlipsiderGame.GameInstance.CurrentWorld ?? throw new InvalidOperationException("Cannot spawn entity when there is no world loaded.");
+                AsWorldEntity = world.Entities.New(this);
+            }
+            return AsWorldEntity;
         }
 
         /// <summary>
@@ -59,34 +52,34 @@ namespace Flipsider.Entities
         /// </summary>
         /// <param name="id">The ID of this entity.</param>
         /// <param name="world">The current world.</param>
-        public event SpawnDelegate? OnSpawn;
-        internal void CallSpawn(int entityID, World world) => OnSpawn?.Invoke(entityID, world);
+        public event EntityDelegate? OnSpawn;
+        internal void CallSpawn(WorldEntity worldEntity) => OnSpawn?.Invoke(worldEntity);
 
         /// <summary>
         /// Called when this entity is updated.
         /// </summary>
-        public event UpdateDelegate? OnUpdate;
-        internal void CallUpdate() => OnUpdate?.Invoke();
+        public event EntityDelegate? OnUpdate;
+        internal void CallUpdate(WorldEntity worldEntity) => OnUpdate?.Invoke(worldEntity);
 
         /// <summary>
         /// Called when this entity is drawn.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to draw with.</param>
-        public event DrawDelegate? OnDraw;
-        internal void CallDraw(SafeSpriteBatch spriteBatch) => OnDraw?.Invoke(spriteBatch);
+        public event EntityDrawDelegate? OnDraw;
+        internal void CallDraw(WorldEntity worldEntity, SafeSpriteBatch spriteBatch) => OnDraw?.Invoke(worldEntity, spriteBatch);
 
         /// <summary>
         /// Use this to set any event handlers to null. Prevents any possible memory leaks.
         /// </summary>
         public event UpdateDelegate? OnRemove;
-        internal void CallRemove()
+        internal void CallRemove(WorldEntity worldEntity)
         {
-            OnRemove?.Invoke();
+            OnRemove?.Invoke(worldEntity);
             OnRemove = null;
             OnUpdate = null;
             OnDraw = null;
             OnSpawn = null;
-            id = null;
+            AsWorldEntity = null;
         }
     }
 }

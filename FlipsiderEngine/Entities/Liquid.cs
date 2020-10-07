@@ -17,8 +17,8 @@ namespace Flipsider.Entities
             OnUpdate += Update;
             Center = frame.Center;
             Size = frame.Size;
-            OnSpawn += delegate { InWorld.Collision.AddObserver(this); };
-            OnRemove += delegate { InWorld.Collision.RemoveObserver(this); };
+            OnSpawn += me => me.World.Collision.AddObserver(this);
+            OnRemove += me => me.World.Collision.RemoveObserver(this);
             viscosity = 0.09f;
             dampening = 0.05f;
             constant = 50;
@@ -66,7 +66,7 @@ namespace Flipsider.Entities
         public void Splash(int index, float speed) => vel[index].Y = speed;
         public void SplashPerc(float perc, float speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)].Y = speed;
 
-        protected virtual void Update()
+        protected virtual void Update(WorldEntity me)
         {
             for (int i = 0; i < accuracy + 1; i++)
             {

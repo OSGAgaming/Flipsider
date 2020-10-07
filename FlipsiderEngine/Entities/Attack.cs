@@ -11,8 +11,8 @@ namespace Flipsider.Entities
 
         protected Attack(DamageSource dmgSource) : base(false)
         {
-            OnSpawn += delegate { InWorld.Collision.AddObserver(this); };
-            OnRemove += delegate { InWorld.Collision.RemoveObserver(this); };
+            OnSpawn += me => me.World.Collision.AddObserver(this);
+            OnRemove += me => me.World.Collision.RemoveObserver(this);
             this.dmgSource = dmgSource;
         }
 
@@ -33,7 +33,7 @@ namespace Flipsider.Entities
         {
             public QuickAttack(Asset<Texture2D> texture, DamageSource dmgSource) : base(dmgSource)
             {
-                OnDraw += sb => Draw(sb, texture);
+                OnDraw += (me, sb) => Draw(sb, texture);
             }
         }
     }

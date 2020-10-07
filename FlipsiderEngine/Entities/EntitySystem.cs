@@ -6,13 +6,23 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 
 namespace Flipsider.Entities
 {
-    public delegate void OnSpawnGlobalDelegate(Entity entity, int entityID, World world);
-    public delegate void OnUpdateGlobal(Entity entity);
+    /// <summary>
+    /// Represents a delegate that handles an entity.
+    /// </summary>
+    /// <param name="worldEntity">The entity in the world.</param>
+    public delegate void EntityDelegate(WorldEntity worldEntity);
+    /// <summary>
+    /// Represents a delegate that handles an entity's drawing.
+    /// </summary>
+    /// <param name="worldEntity">The entity in the world.</param>
+    /// <param name="safeSB">The given spritebatch.</param>
+    public delegate void EntityDrawDelegate(WorldEntity worldEntity, SafeSpriteBatch safeSB);
 
     public sealed class EntitySystem : IUpdated, IDrawn
     {
@@ -29,25 +39,29 @@ namespace Flipsider.Entities
         /// <summary>
         /// Called when any entity is spawned using <see cref="Entity.SpawnInWorld"/>.
         /// </summary>
-        public event OnSpawnGlobalDelegate? OnSpawn;
+        public event EntityDelegate? OnSpawn;
         /// <summary>
         /// Called when any entity is updated.
         /// </summary>
-        public event OnUpdateGlobal? OnUpdate;
+        public event EntityDelegate? OnUpdate;
+        /// <summary>
+        /// Called when any entity is drawn.
+        /// </summary>
+        public event EntityDrawDelegate? OnDraw;
         /// <summary>
         /// Called when any entity is removed from the world.
         /// </summary>
-        public event OnUpdateGlobal? OnRemove;
+        public event EntityDelegate? OnRemove;
 
-        public IEnumerable<Entity> Enumerable => entities.Values;
+        public IEnumerable<WorldEntity> Enumerable => entities.Values;
 
         public World World { get; }
 
         private int id;
-        private readonly Dictionary<int, Entity> entities = new Dictionary<int, Entity>(100);
-        private readonly Dictionary<Entity, bool> additions = new Dictionary<Entity, bool>(10);
+        private readonly Dictionary<int, WorldEntity> entities = new Dictionary<int, WorldEntity>(100);
+        private readonly Dictionary<int, Entity?> additions = new Dictionary<int, Entity?>(10);
 
-        internal int New(Entity entity)
+        internal WorldEntity New(Entity entity)
         {
             if (entities.Count > MaxEntityCount)
             {
@@ -56,7 +70,7 @@ namespace Flipsider.Entities
 
             // Allocate the entity to current (open) ID
             int entId = id;
-            additions[entity] = true;
+            additions[entId] = entity;
 
             // Go to next open ID
             do
@@ -65,12 +79,12 @@ namespace Flipsider.Entities
             }
             while (entities.ContainsKey(id));
 
-            return entId;
+            return new WorldEntity(entId, World, entity);
         }
 
-        internal void Remove(Entity entity)
+        internal void Remove(int id)
         {
-            additions[entity] = false;
+            additions[id] = null;
         }
 
         /// <summary>
@@ -79,7 +93,7 @@ namespace Flipsider.Entities
         /// <param name="id">The ID of the entity.</param>
         /// <param name="entity">The entity, if any.</param>
         /// <returns>True for success, false for failure.</returns>
-        public bool TryGet(int id, [MaybeNullWhen(false)] out Entity entity)
+        public bool TryGet(int id, [MaybeNullWhen(false)] out WorldEntity entity)
         {
             return entities.TryGetValue(id, out entity);
         }
@@ -89,10 +103,9 @@ namespace Flipsider.Entities
         /// </summary>
         /// <param name="id">The ID of the entity.</param>
         /// <returns>The matching entity.</returns>
-        public Entity? Get(int id)
+        public WorldEntity Get(int id)
         {
-            entities.TryGetValue(id, out var entity);
-            return entity;
+            return entities[id];
         }
 
         void IUpdated.Update()
@@ -104,13 +117,13 @@ namespace Flipsider.Entities
             {
                 try
                 {
-                    item.CallUpdate();
+                    item.Entity.CallUpdate(item);
                     OnUpdate?.Invoke(item);
                 }
                 catch (Exception e)
                 {
                     Logger.Warn($"Entity {item} threw an exception while updating. {e}");
-                    additions[item] = false;
+                    additions[item.ID] = null;
                 }
             }
 
@@ -123,18 +136,18 @@ namespace Flipsider.Entities
             {
                 foreach (var kvp in additions)
                 {
-                    Entity entity = kvp.Key;
-                    if (kvp.Value)
+                    Entity? entity = kvp.Value;
+                    if (entity != null && !entities.ContainsKey(kvp.Key))
                     {
-                        entities[entity.ID] = entity;
-                        entity.CallSpawn(id, World);
-                        OnSpawn?.Invoke(entity, id, World);
+                        entities[kvp.Key] = new WorldEntity(kvp.Key, World, entity);
+                        entity.CallSpawn(entities[kvp.Key]);
+                        OnSpawn?.Invoke(entities[kvp.Key]);
                     }
-                    else
+                    else if (entities.ContainsKey(kvp.Key))
                     {
-                        entity.CallRemove();
-                        OnRemove?.Invoke(entity);
-                        entities.Remove(entity.ID);
+                        entities[kvp.Key].Entity.CallRemove(entities[kvp.Key]);
+                        OnRemove?.Invoke(entities[kvp.Key]);
+                        entities.Remove(kvp.Key);
                     }
                 }
 
@@ -149,12 +162,13 @@ namespace Flipsider.Entities
             {
                 try
                 {
-                    item.CallDraw(spriteBatch);
+                    item.Entity.CallDraw(item, spriteBatch);
+                    OnDraw?.Invoke(item, spriteBatch);
                 }
                 catch (Exception e)
                 {
                     Logger.Warn($"Entity {item} threw an exception while drawing. {e}");
-                    additions[item] = false;
+                    additions[item.ID] = null;
                 }
             }
         }
