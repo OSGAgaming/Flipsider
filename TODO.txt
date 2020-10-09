@@ -1,0 +1,4 @@
+
+- Merge all core content from content (Flipsider.csproj) to engine (FlipsiderEngine.csproj)
+- Only keep content in the content project
+- I'll finish this soon -Dual
