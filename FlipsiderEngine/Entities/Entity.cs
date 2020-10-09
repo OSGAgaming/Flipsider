@@ -1,5 +1,5 @@
-﻿using Flipsider.Assets;
-using Flipsider.Core;
+﻿using Flipsider.Core;
+using Flipsider.Graphics;
 using Flipsider.Tiles;
 using Microsoft.Xna.Framework;
 using System;

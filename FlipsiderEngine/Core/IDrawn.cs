@@ -1,4 +1,4 @@
-﻿using Flipsider.Assets;
+﻿using Flipsider.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Core

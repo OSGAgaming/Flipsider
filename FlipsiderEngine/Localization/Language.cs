@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -10,30 +9,6 @@ using System.Text.Json;
 
 namespace Flipsider.Localization
 {
-    /// <summary>
-    /// Represents a localized string.
-    /// </summary>
-    public class LocalizedText
-    {
-        public LocalizedText(string key, params object[] parameters)
-        {
-            Key = key;
-            Parameters = new ReadOnlyCollection<object>(parameters);
-        }
-
-        public string Key { get; }
-        public ReadOnlyCollection<object> Parameters { get; }
-
-        public override string ToString()
-        {
-            return Language.Current.Get(Key, Parameters);
-        }
-
-        public static implicit operator LocalizedText(string key)
-        {
-            return new LocalizedText(key);
-        }
-    }
 
     /// <summary>
     /// Represents a language with keys and values specified in a JSON document.

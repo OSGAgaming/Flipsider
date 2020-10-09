@@ -56,13 +56,19 @@ namespace Flipsider.Tiles
         public ref Tile GetTile(int x, int y)
         {
             Chunk c = GetChunkOrLoad(x / Chunk.Width, y / Chunk.Height);
-            x %= Chunk.Width;
-            y %= Chunk.Height;
+            x = Mod(x, Chunk.Width);
+            y = Mod(y, Chunk.Height);
             if (x < 0)
                 x -= c.Pos.X * Chunk.Width;
             if (y < 0)
                 y -= c.Pos.Y * Chunk.Height;
             return ref c[x, y];
+
+            static int Mod(int value, int length)
+            {
+                int r = value % length;
+                return r < 0 ? r + length : r;
+            }
         }
         /// <summary>
         /// Gets the tile from the specified tile coordinates.

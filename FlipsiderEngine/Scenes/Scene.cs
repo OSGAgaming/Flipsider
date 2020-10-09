@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework.Graphics;
-
-namespace Flipsider.Scenes
+﻿namespace Flipsider.Scenes
 {
     public class Scene
     {
@@ -34,7 +26,7 @@ namespace Flipsider.Scenes
         /// <summary>
         /// Method called to draw the scene.
         /// </summary>
-        public virtual void Draw()
+        public virtual void Draw(Graphics.SafeSpriteBatch sb)
         {
 
         }

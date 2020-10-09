@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Flipsider.Assets;
 using Flipsider.Core;
+using Flipsider.Graphics;
 using Flipsider.Scenes;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -88,7 +88,7 @@ namespace Flipsider
 
         void IDrawn.Draw(SafeSpriteBatch sb)
         {
-            _currentScene?.Draw();
+            _currentScene?.Draw(sb);
 
             if (_transitioning && _transitionToUse != null)
             {

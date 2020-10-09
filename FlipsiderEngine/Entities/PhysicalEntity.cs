@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Flipsider.Graphics;
 
 namespace Flipsider.Entities
 {
@@ -84,8 +85,12 @@ namespace Flipsider.Entities
         {
             if (texture != null)
             {
-                Vector2 scale = Size / texture.Value.Size();
-                sb.Sb.Draw(texture, Center, frame, Color.White, Rotation.RadF, Size / 2, scale, SpriteEffects.None, 0);
+                sb.Draw(new DrawData(texture)
+                {
+                    WorldPosition = Center,
+                    Frame = frame,
+                    Scale = Size / texture.Value.Size()
+                });
             }
         }
     }

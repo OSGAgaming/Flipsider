@@ -1,6 +1,6 @@
-﻿using Flipsider.Assets;
-using Flipsider.Assets.Repositories;
+﻿using Flipsider.Assets.Repositories;
 using Flipsider.Core.Collections;
+using Flipsider.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -131,10 +131,6 @@ namespace Flipsider.Core
             base.Initialize();
 
             LoadContentPacks();
-
-            CurrentWorld = new World();
-            Updateables.Add(CurrentWorld);
-            Drawables.Add(CurrentWorld);
         }
 
         private void LoadContentPacks()
@@ -173,7 +169,7 @@ namespace Flipsider.Core
             }
         }
 
-        private static void InitializeAsms(List<Assembly> assemblies) => 
+        private static void InitializeAsms(List<Assembly> assemblies) =>
         Parallel.For(0, assemblies.Count, i =>
         {
             Assembly asm = assemblies[i];
@@ -207,10 +203,11 @@ namespace Flipsider.Core
         private void ReloadContent()
         {
             // Force clear them :)
-            (Updateables as ICollection<IUpdated>).Clear();
-            (Drawables as ICollection<IDrawn>).Clear();
             CurrentWorld = null;
             OnWorldEnter = null;
+            OnWorldEnter = null;
+            Updateables.Clear();
+            Drawables.Clear();
 
             Asms_Reload();
         }
@@ -218,6 +215,7 @@ namespace Flipsider.Core
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void Asms_Reload()
         {
+            ContentPacks.Unload();
             var asmRef = new WeakReference(ContentPacks, true);
             ContentPacks = new AssemblyLoadContext(null, true);
 

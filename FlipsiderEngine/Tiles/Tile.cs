@@ -24,6 +24,10 @@ namespace Flipsider.Tiles
         public Point Pos { get; }
         public bool IsEmpty => Name.Length == 0;
 
+        public const int TileSizePixels = 20;
+
+        public static Vector2 ScreenToTile(Vector2 coords) => coords / TileSizePixels;
+
         public void Serialize(Stream stream)
         {
             if (IsEmpty)

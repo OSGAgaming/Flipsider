@@ -12,6 +12,8 @@ namespace Flipsider.Core
 
         public static Rotation FromDegrees(double degrees) => new Rotation(degrees * Math.PI / 180);
         public static Rotation FromRadians(double radians) => new Rotation(radians);
+        public static Rotation FromVector(Vector2 vector) => new Rotation(Math.Atan2(vector.Y, vector.X));
+        public Vector2 ToUnitVector() => new Vector2((float)Math.Cos(Rad), (float)Math.Sin(Rad));
 
         /// <summary>
         /// The rotation in degrees, in the range -180 to +180. Positive is counter-clockwise.

@@ -24,12 +24,4 @@ namespace Flipsider.Extensions
             }
         }
     }
-
-    public static class MathExtension
-    {
-        public static float Slope(this Vector2 v)
-        {
-            return v.Y / v.X;
-        }
-    }
 }

@@ -11,8 +11,8 @@
   <ItemGroup>
     <MGCBContentReferences Include="**/*.mgcb" />
     <NPLFile Include="**/*.npl" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.8.0.1" />
-    <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.9" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
     <EmbeddedResource Include="**/*.xnb" />
     <EmbeddedResource Include="**/*.json" />
@@ -20,17 +20,15 @@
   <Target Name="NPLFile" BeforeTargets="Nopipeline">
     <WriteLinesToFile File="Assets/Assets.npl" Condition=" '@(NPLFile)' == '' " Lines="
 {
-	&quot;content&quot;: 
-	{
-		&quot;textures&quot;: 
-		{
+	&quot;root&quot;: &quot;Assets/Content/&quot;,
+	&quot;content&quot;: {
+		&quot;textures&quot;: {
 			&quot;path&quot;: &quot;Textures/*.png&quot;,
 			&quot;recursive&quot;: &quot;True&quot;,
 			&quot;action&quot;: &quot;build&quot;,
 			&quot;importer&quot;: &quot;TextureImporter&quot;,
 			&quot;processor&quot;: &quot;TextureProcessor&quot;,
-			&quot;processorParam&quot;: 
-			{
+			&quot;processorParam&quot;: {
 				&quot;ColorKeyColor&quot;: &quot;255,0,255,255&quot;,
 				&quot;ColorKeyEnabled&quot;: &quot;True&quot;,
 				&quot;GenerateMipmaps&quot;: &quot;False&quot;,
@@ -39,9 +37,15 @@
 				&quot;MakeSquare&quot;: &quot;False&quot;,
 				&quot;TextureFormat&quot;: &quot;Color&quot;
 			}
+		},
+		&quot;fonts&quot;: {
+			&quot;path&quot;: &quot;Fonts/*.spritefont&quot;,
+			&quot;recursive&quot;: &quot;True&quot;,
+			&quot;action&quot;: &quot;build&quot;
 		}
 	}
-}"
+}
+"
                       />
   </Target>
 </Project>

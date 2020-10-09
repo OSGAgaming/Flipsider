@@ -6,22 +6,27 @@ using Flipsider.Particles;
 using Flipsider.Tiles;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Microsoft.Xna.Framework;
+using Flipsider.Extensions;
+using Flipsider.Graphics;
 
 namespace Flipsider.Core
 {
     public class World : IUpdated, IDrawn
     {
-        public World()
+        public World(Skybox skybox)
         {
             Tiles = new TileSystem(this);
             OnUpdate = new OrderedSet<IUpdated>
             {
+                (Skybox = skybox),
                 (Entities = new EntitySystem(this)),
                 (Particles = new ParticleSystem(this, 100)),
-                (Collision = new CollisionSystem()),
+                (Collision = new CollisionSystem())
             };
             OnDraw = new OrderedSet<IDrawn>
             {
+                Skybox,
                 Entities,
                 Particles
             };
@@ -31,6 +36,7 @@ namespace Flipsider.Core
         public ParticleSystem Particles { get; }
         public EntitySystem Entities { get; }
         public TileSystem Tiles { get; }
+        public Skybox Skybox { get; protected set; }
 
         public OrderedSet<IUpdated> OnUpdate { get; }
         public OrderedSet<IDrawn> OnDraw { get; }

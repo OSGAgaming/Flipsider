@@ -62,7 +62,7 @@ namespace Flipsider.Collision
                     }
                     catch (Exception e)
                     {
-                        Logger.Warn($"Intersection of collidedables {one} and {two} threw an exception. {e}");
+                        Logger.Warn($"Intersection between observer {one} and collideable {two} threw an exception. {e}");
                     }
                 }
             }

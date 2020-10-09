@@ -1,11 +1,13 @@
-﻿using Flipsider.Core;
+﻿using Flipsider.Assets;
+using Flipsider.Core;
+using Flipsider.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flipsider.Assets
+namespace Flipsider.Graphics
 {
     /// <summary>
     /// Defines a wrapper for <see cref="SpriteBatch"/> that allows safe beginning/ending.
@@ -13,10 +15,13 @@ namespace Flipsider.Assets
     public sealed class SafeSpriteBatch
     {
         /// <summary>
-        /// The actual spritebatch instance. Only call Draw on it. Use the safe spritebatch methods for Begin/End.
+        /// The actual spritebatch instance. Only use if you know what you're doing.
         /// </summary>
         public SpriteBatch Sb { get; } = new SpriteBatch(FlipsiderGame.GameInstance.GraphicsDevice);
 
+        /// <summary>
+        /// Whether this sprite batch has had its Begin method called. Begin must be called before calling Draw.
+        /// </summary>
         public bool Begun { get; private set; }
 
         /// <summary>
@@ -30,6 +35,14 @@ namespace Flipsider.Assets
             End();
             Begun = true;
             Sb.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, transformMatrix);
+        }
+        
+        /// <summary>
+        /// Draws the given DrawData.
+        /// </summary>
+        public void Draw(DrawData data)
+        {
+            data.Draw(Sb);
         }
 
         /// <summary>

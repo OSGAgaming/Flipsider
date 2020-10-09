@@ -1,16 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Core;
+using Flipsider.Tiles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flipsider.Core
+namespace Flipsider.Graphics
 {
     public class Camera
     {
         public Viewport Viewport => FlipsiderGame.GameInstance.GraphicsDevice == null ? new Viewport(0, 0, 1, 1) : FlipsiderGame.GameInstance.GraphicsDevice.Viewport;
-        public Vector2 MouseScreen => Mouse.GetState().Position.ToVector2() / scale + Translation2D;
+        public Vector2 MouseWorld => Mouse.GetState().Position.ToVector2() / scale + Translation2D;
+        public Vector2 ScreenSize => Viewport.Bounds.Size.ToVector2();
 
         private Vector2 scale;
         public Vector2 Scale
