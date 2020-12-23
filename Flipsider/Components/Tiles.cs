@@ -28,7 +28,7 @@ namespace Flipsider
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-            Main.instance.ser.Serialize(tiles, Main.MainPath + Name + ".txt");
+           // Main.instance.ser.Serialize(tiles, Main.MainPath + Name + ".txt");
         }
         public static int MaxTilesX
         {
@@ -117,7 +117,8 @@ namespace Flipsider
             float scale = Main.mainCamera.scale;
             scale = Math.Clamp(scale, 0.5f, 1);
             int fluff = 10;
-            Vector2 SafeBoundX = new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.ScreenScale) / 32;
+            Vector2 SafeBoundX = new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.
+                ) / 32;
             Vector2 SafeBoundY = new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) / 32;
             for (int i = (int)SafeBoundX.X - fluff; i < (int)SafeBoundX.Y + fluff; i++)
             {

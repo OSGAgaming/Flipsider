@@ -214,7 +214,7 @@ namespace Flipsider
             LPGUI = new LightPlacementGUI();
             invGUI = new InventoryGUI();
         }
-        public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
+ //       public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
 
         protected override void Update(GameTime gameTime)
