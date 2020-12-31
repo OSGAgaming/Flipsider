@@ -40,7 +40,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         Vector2 pos1Inv;
         protected override void OnUpdate()
         {
-            if(EditorModes.CurrentState == EditorUIState.LightEditorMode)
+            if(Main.Editor.CurrentState == EditorUIState.LightEditorMode)
             {
                 if(Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
@@ -62,11 +62,11 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnDraw()
         {
-            if (EditorModes.CurrentState == EditorUIState.LightEditorMode ||
-                EditorModes.CurrentState == EditorUIState.TileEditorMode ||
-                EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.LightEditorMode ||
+                Main.Editor.CurrentState == EditorUIState.TileEditorMode ||
+                Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed && EditorModes.CurrentState == EditorUIState.LightEditorMode)
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed && Main.Editor.CurrentState == EditorUIState.LightEditorMode)
                 {
                     DrawMethods.DrawLine(pos1Inv, Mouse.GetState().Position.ToVector2(), Color.White, 2);
                 }
@@ -89,7 +89,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             Vector2 activePos = Main.ScreenSize - new Vector2(80, -10);
             Vector2 inactivePos = Main.ScreenSize;
-            if (EditorModes.CurrentState == EditorUIState.LightEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.LightEditorMode)
             {
                 dimensions.X += (int)(activePos.X - dimensions.X) / 16;
             }

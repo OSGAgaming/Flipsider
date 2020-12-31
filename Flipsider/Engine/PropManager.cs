@@ -60,7 +60,7 @@ namespace Flipsider
             return PropTypes.Count - 1; 
         }
         public static int delay;
-        public static void AddProp()
+        public static void AddProp(World world)
         {
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode && delay == 0)
             {
@@ -68,7 +68,7 @@ namespace Flipsider
                 {
                     MouseState state = Mouse.GetState();
                     Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
-                    int alteredRes = TileManager.tileRes / 4;
+                    int alteredRes = world.TileRes / 4;
                     Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                     TileInteraction? currentInteraction = null;
                     if (PropEntites.ContainsKey(CurrentProp ?? ""))
