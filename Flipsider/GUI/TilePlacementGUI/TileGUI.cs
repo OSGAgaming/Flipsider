@@ -146,7 +146,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (active)
             {
                 chosen = true;
-                Main.currentType = tile.type;
+                EditorModes.currentType = tile.type;
                 if (chosen)
                 {
                     if (parent != null)
@@ -158,7 +158,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
                         Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        Main.currentFrame = new Rectangle((int)tilePoint.X - chooseArea.X, (int)tilePoint.Y - chooseArea.Y, tileRes, tileRes);
+                        EditorModes.currentFrame = new Rectangle((int)tilePoint.X - chooseArea.X, (int)tilePoint.Y - chooseArea.Y, tileRes, tileRes);
                     }
                 }
             }

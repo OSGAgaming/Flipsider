@@ -49,8 +49,6 @@ namespace Flipsider
         public static Camera mainCamera;
         public static SpriteFont font;
         public static float targetScale = 1;
-        public static int currentType;
-        public static Rectangle currentFrame;
         public static List<Entity> entities = new List<Entity>();
         public static List<UIScreen> UIScreens = new List<UIScreen>();
 

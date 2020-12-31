@@ -26,6 +26,8 @@ namespace Flipsider
     {
         public static bool EditorMode { get; set; }
         public static EditorUIState CurrentState;
+        public static int currentType;
+        public static Rectangle currentFrame;
         static void ControlEditorScreen()
         {
             Main.mainCamera.FixateOnPlayer(Main.player);

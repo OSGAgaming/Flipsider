@@ -38,7 +38,7 @@ namespace Flipsider
             {
                 try
                 {
-                    world.tiles[X,Y] = new Tile(Main.currentType, Main.currentFrame)
+                    world.tiles[X,Y] = new Tile(EditorModes.currentType, EditorModes.currentFrame)
                     {
                         active = true
                     };
@@ -57,7 +57,7 @@ namespace Flipsider
             {
                 try
                 {
-                    world.tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.currentType, Main.currentFrame)
+                    world.tiles[(int)XY.X, (int)XY.Y] = new Tile(EditorModes.currentType, EditorModes.currentFrame)
                     {
                         active = true
                     };
@@ -148,13 +148,13 @@ namespace Flipsider
                 Rectangle TileFrame = Framing.GetTileFrame(world,(int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
                 if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
                 {
-                    if (Main.currentType == -1)
+                    if (EditorModes.currentType == -1)
                     {
                         DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
                     }
                     else
                     {
-                        Main.spriteBatch.Draw(tileDict[Main.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(tileDict[EditorModes.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                     }
                 }
             }

@@ -16,6 +16,15 @@ namespace Flipsider
         public int MaxTilesX { get; private set; }
         public int MaxTilesY { get; private set; }
 
+        public bool IsTileActive(int i, int j)
+        {
+            if (tiles[i, j] == null)
+            return false;
+            if (!tiles[i, j].active)
+            return false;
+            return true;
+        }
+
         public World(int Width, int Height)
         {
             MaxTilesX = Width;
