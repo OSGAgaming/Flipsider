@@ -34,7 +34,6 @@ namespace Flipsider
         public static Main instance;
         Water testWater2 = new Water(new Rectangle(100, 450, 100, 50));
         //Terraria PTSD
-        public static Texture2D character;
         public static Player player;
         public static IStoreable CurrentItem;
         public static RenderTarget2D renderTarget;
