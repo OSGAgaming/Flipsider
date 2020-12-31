@@ -95,6 +95,7 @@ namespace Flipsider
             {
                 try
                 {
+                    if(world.tiles[(int)XY.X, (int)XY.Y] != null)
                     world.tiles[(int)XY.X, (int)XY.Y].active = false;
                 }
                 catch

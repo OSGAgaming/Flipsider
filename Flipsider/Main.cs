@@ -32,13 +32,6 @@ namespace Flipsider
         public static SpriteBatch spriteBatch;
         public static GraphicsDeviceManager graphics;
         public static Main instance;
-        private Hud hud;
-        private TileGUI tileGUI;
-        private NPCGUI npcGUI;
-        private InventoryGUI invGUI;
-        private PropGUI propGUI;
-        private WorldCreationGUI WCGUI;
-        private LightPlacementGUI LPGUI;
         Water testWater2 = new Water(new Rectangle(100, 450, 100, 50));
         //Terraria PTSD
         public static Texture2D character;
@@ -207,13 +200,10 @@ namespace Flipsider
         void LoadGUI()
         {
             CurrentWorld = new World(1000,1000);
-            tileGUI = new TileGUI();
-            npcGUI = new NPCGUI();
-            WCGUI = new WorldCreationGUI();
-            hud = new Hud();
-            propGUI = new PropGUI();
-            LPGUI = new LightPlacementGUI();
-            invGUI = new InventoryGUI();
+            foreach(Type type in ReflectionHelpers.GetInheritedClasses(typeof(UIScreen)))
+            {
+                Activator.CreateInstance(type);
+            }
         }
  //       public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
 
@@ -237,8 +227,6 @@ namespace Flipsider
             verletEngine.Update();
 
             PropInteraction.UpdatePropInteractions();
-
-            tileGUI.active = Editor.CurrentState == EditorUIState.TileEditorMode;
 
             if (!Editor.IsActive)
             {
