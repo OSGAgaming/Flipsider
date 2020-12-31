@@ -49,10 +49,12 @@ namespace Flipsider
         }
         public void Update()
         {
-            var player = Main.player;
-            float preContact = player.CollisionFrame.Bottom - player.velocity.Y*player.velocity.Y;
-            if(preContact < frame.Y && player.Wet)
-                SplashPerc((player.Center.X - frame.X) / frame.Width, player.velocity.Y*4);
+            foreach (Entity entity in Main.entities)
+            {
+                float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
+                if (preContact < frame.Y && entity.Wet)
+                    SplashPerc((entity.Center.X - frame.X) / frame.Width, entity.velocity.Y * 4);
+            }
             for (int i = 0; i < accuracy + 1; i++)
             {
                 Pos[i].X += vel[i].X;
