@@ -66,7 +66,7 @@ namespace Flipsider
             ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
             RenderUI();
-            EditorModes.Draw();
+            Main.Editor.Draw();
             Lighting.DrawLightMap(Main.CurrentWorld);
         }
         class Birb

@@ -62,7 +62,7 @@ namespace Flipsider
         public static int delay;
         public static void AddProp()
         {
-            if (EditorModes.CurrentState == EditorUIState.PropEditorMode && delay == 0)
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode && delay == 0)
             {
                 try
                 {
@@ -92,7 +92,7 @@ namespace Flipsider
 
         public static void ShowPropCursor()
         {
-            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);

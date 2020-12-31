@@ -39,7 +39,7 @@ namespace Flipsider
         private PropGUI propGUI;
         private WorldCreationGUI WCGUI;
         private LightPlacementGUI LPGUI;
-        Water testWater2 = new Water(new Rectangle(100, 400, 100, 100));
+        Water testWater2 = new Water(new Rectangle(100, 450, 100, 50));
         //Terraria PTSD
         public static Texture2D character;
         public static Player player;
@@ -53,8 +53,8 @@ namespace Flipsider
         public static List<UIScreen> UIScreens = new List<UIScreen>();
 
         public static World CurrentWorld;
-        public Serializers ser = new Serializers();
-
+        public Serializers ser;
+        public static EditorMode Editor;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / tileRes, MouseScreen.Y / tileRes);
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
@@ -167,6 +167,8 @@ namespace Flipsider
         {
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
+            ser = new Serializers();
+            Editor = new EditorMode();
             font = Content.Load<SpriteFont>("FlipFont");
             Lighting.Load(Content);
             renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
@@ -236,9 +238,9 @@ namespace Flipsider
 
             PropInteraction.UpdatePropInteractions();
 
-            tileGUI.active = EditorModes.CurrentState == EditorUIState.TileEditorMode;
+            tileGUI.active = Editor.CurrentState == EditorUIState.TileEditorMode;
 
-            if (!EditorModes.EditorMode)
+            if (!Editor.IsActive)
             {
                 for (int i = 0; i < entities.Count; i++)
                 {
@@ -250,7 +252,7 @@ namespace Flipsider
             {
                 UIScreens[i].Update();
             }
-            EditorModes.Update();
+            Editor.Update();
 
             TestParticleSystem.Position = GameInput.Instance.MousePosition;
             TestParticleSystem.Update();

@@ -95,7 +95,7 @@ namespace Flipsider
                 {
                     if (i >= 0 && i < world.MaxTilesX && j >= 0 && j < world.MaxTilesY)
                     {
-                        if (world.tiles[i, j].active)
+                        if (world.IsTileActive(i, j))
                         {
                             int tileRes = TileManager.tileRes;
                             if (LineIntersectsRect(p1, p2, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes)))

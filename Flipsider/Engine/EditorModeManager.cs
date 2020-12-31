@@ -22,20 +22,20 @@ using System.Threading;
 
 namespace Flipsider
 {
-    public class EditorModes
+    public class EditorMode
     {
-        public static bool EditorMode { get; set; }
-        public static EditorUIState CurrentState;
-        public static int currentType;
-        public static Rectangle currentFrame;
-        static void ControlEditorScreen()
+        public bool IsActive { get; set; }
+        public EditorUIState CurrentState;
+        public int currentType;
+        public Rectangle currentFrame;
+        public void ControlEditorScreen()
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
             Main.mainCamera.rotation = 0;
             Main.mainCamera.scale += (Main.targetScale - Main.mainCamera.scale) / 16f;
         }
 
-        public static void Draw()
+        public void Draw()
         {
             if (Main.CurrentItem != null)
             {
@@ -49,7 +49,7 @@ namespace Flipsider
                // Main.spriteBatch.Draw();
             }
         }
-        public static void Update()
+        public void Update()
         {
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
@@ -69,7 +69,7 @@ namespace Flipsider
             {
                 SwitchToMode(EditorUIState.Inventory);
             }
-            if (EditorMode)
+            if (IsActive)
             {
                 if (GameInput.Instance["EditorTileEditor"].IsJustPressed())
                 {
@@ -124,7 +124,7 @@ namespace Flipsider
                 CurrentState = EditorUIState.None;
             }
         }
-        static void SwitchToMode(EditorUIState state)
+        public void SwitchToMode(EditorUIState state)
         {
             if (CurrentState == EditorUIState.None)
             {
@@ -135,10 +135,10 @@ namespace Flipsider
                 CurrentState = EditorUIState.None;
             }
         }
-        static void SwitchModes()
+        public void SwitchModes()
         {
-            EditorMode = !EditorMode;
-            if (EditorMode)
+            IsActive = !IsActive;
+            if (IsActive)
             {
                 Main.targetScale = 0.8f;
             }

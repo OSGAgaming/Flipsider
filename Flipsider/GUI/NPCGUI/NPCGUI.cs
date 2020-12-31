@@ -72,7 +72,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 progression -= progression / 16f;
 
             }
-            if (EditorModes.CurrentState == EditorUIState.NPCSpawnerMode)
+            if (Main.Editor.CurrentState == EditorUIState.NPCSpawnerMode)
             {
                 alpha += (1 - alpha) / 16f;
             }

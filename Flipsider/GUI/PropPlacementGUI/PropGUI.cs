@@ -66,7 +66,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
             dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
-            if (EditorModes.CurrentState == EditorUIState.PropEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
                 alpha += (1 - alpha) / 16f;
             }

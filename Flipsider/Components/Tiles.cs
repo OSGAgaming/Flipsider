@@ -34,11 +34,11 @@ namespace Flipsider
         public static void AddTile(World world, int X, int Y)
         {
 
-            if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 try
                 {
-                    world.tiles[X,Y] = new Tile(EditorModes.currentType, EditorModes.currentFrame)
+                    world.tiles[X,Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
                     {
                         active = true
                     };
@@ -53,11 +53,11 @@ namespace Flipsider
         public static void AddTile(World world, Vector2 XY)
         {
 
-            if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 try
                 {
-                    world.tiles[(int)XY.X, (int)XY.Y] = new Tile(EditorModes.currentType, EditorModes.currentFrame)
+                    world.tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
                     {
                         active = true
                     };
@@ -77,7 +77,7 @@ namespace Flipsider
 
         public static void RemoveTile(World world, int X, int Y)
         {
-            if (EditorModes.EditorMode)
+            if (Main.Editor.IsActive)
             {
                 try
                 {
@@ -91,7 +91,7 @@ namespace Flipsider
         }
         public static void RemoveTile(World world, Vector2 XY)
         {
-            if (EditorModes.EditorMode)
+            if (Main.Editor.IsActive)
             {
                 try
                 {
@@ -138,7 +138,7 @@ namespace Flipsider
         public static bool UselessCanPlaceBool;
         public static void ShowTileCursor(World world)
         {
-            if (EditorModes.EditorMode)
+            if (Main.Editor.IsActive)
             {
                 int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
@@ -146,15 +146,15 @@ namespace Flipsider
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
                 Rectangle TileFrame = Framing.GetTileFrame(world,(int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
-                if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
+                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
                 {
-                    if (EditorModes.currentType == -1)
+                    if (Main.Editor.currentType == -1)
                     {
                         DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
                     }
                     else
                     {
-                        Main.spriteBatch.Draw(tileDict[EditorModes.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(tileDict[Main.Editor.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                     }
                 }
             }

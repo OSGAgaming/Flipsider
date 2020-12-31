@@ -106,7 +106,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
             dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
-            if (EditorModes.CurrentState == EditorUIState.TileEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 alpha += (1 - alpha) / 16f;
             }
@@ -146,7 +146,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (active)
             {
                 chosen = true;
-                EditorModes.currentType = tile.type;
+                Main.Editor.currentType = tile.type;
                 if (chosen)
                 {
                     if (parent != null)
@@ -158,7 +158,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
                         Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        EditorModes.currentFrame = new Rectangle((int)tilePoint.X - chooseArea.X, (int)tilePoint.Y - chooseArea.Y, tileRes, tileRes);
+                        Main.Editor.currentFrame = new Rectangle((int)tilePoint.X - chooseArea.X, (int)tilePoint.Y - chooseArea.Y, tileRes, tileRes);
                     }
                 }
             }

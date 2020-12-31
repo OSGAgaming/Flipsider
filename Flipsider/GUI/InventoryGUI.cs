@@ -103,7 +103,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 progression -= progression / 16f;
 
             }
-            if (EditorModes.CurrentState == EditorUIState.Inventory)
+            if (Main.Editor.CurrentState == EditorUIState.Inventory)
             {
                 dimensions.Y += (int)(Main.ScreenSize.Y - 90 - dimensions.Y) / 32;
                 alpha += (1 - alpha) / 16f;
@@ -183,7 +183,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 progression -= progression / 16f;
 
             }
-            if (EditorModes.CurrentState == EditorUIState.Inventory)
+            if (Main.Editor.CurrentState == EditorUIState.Inventory)
             {
                 alpha += (1 - alpha) / 16f;
             }
