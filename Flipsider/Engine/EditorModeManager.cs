@@ -52,12 +52,12 @@ namespace Flipsider
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
-                AddTile();
+                AddTile(Main.CurrentWorld, Main.MouseTile);
                 PropManager.AddProp();  
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
-                RemoveTile();
+                RemoveTile(Main.CurrentWorld,Main.MouseTile);
             }
             if (GameInput.Instance["EditorSwitchModes"].IsJustPressed())
             {

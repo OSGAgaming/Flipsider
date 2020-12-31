@@ -95,7 +95,7 @@ namespace Flipsider
             ResetVars();
             CoreUpdates();
             Constraints();
-            TileCollisions();
+            TileCollisions(Main.CurrentWorld);
             PostUpdates();
             FindFrame();
             leftWeapon?.UpdatePassive();

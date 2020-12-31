@@ -86,7 +86,7 @@ namespace Flipsider
             LightingEffect?.Parameters["baseLight"]?.SetValue(baseLight);
             LightingEffect?.CurrentTechnique.Passes[0].Apply();
         }
-        public static void DrawLightMap()
+        public static void DrawLightMap(World world)
         {
             Main.graphics.GraphicsDevice.SetRenderTarget(lightMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
@@ -103,8 +103,8 @@ namespace Flipsider
                 {
                     Vector2 diffVec = dl.position2 - origin;
                     Vector2 secondPos = origin + diffVec.RotatedBy(i / (100/dl.angularCoverage));
-                    Vector2 intersection = NumericalHelpers.ReturnIntersectionTile(origin.ToPoint(), secondPos.ToPoint());
-                    bool intersectionState = NumericalHelpers.LineIntersectsTile(origin.ToPoint(), secondPos.ToPoint());
+                    Vector2 intersection = NumericalHelpers.ReturnIntersectionTile(Main.CurrentWorld,origin.ToPoint(), secondPos.ToPoint());
+                    bool intersectionState = NumericalHelpers.LineIntersectsTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
                     if (intersectionState)
                     {
                         DrawMethods.DrawLine(origin, intersection - (origin - intersection)/10f, Color.White * 0.2f, 4);
@@ -130,18 +130,18 @@ namespace Flipsider
             {
                 for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
                 {
-                    if (i > 0 && j > 0 && i < MaxTilesX && j < MaxTilesY)
+                    if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && world.tiles[i,j] != null)
                     {
-                        if (tiles[i, j].active)
+                        if (world.tiles[i, j].active)
                         {
-                            if (tiles[i, j].type == -1)
+                            if (world.tiles[i, j].type == -1)
                             {
                               //  DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
                             }
                             else
                             {
-                                tiles[i, j].frame = GetTileFrame(i, j);
-                                Main.spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
+                                world.tiles[i, j].frame = Framing.GetTileFrame(world,i, j);
+                                Main.spriteBatch.Draw(tileDict[world.tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), world.tiles[i, j].frame, Color.White);
                             }
                         }
                     }

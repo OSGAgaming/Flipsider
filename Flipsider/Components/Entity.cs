@@ -76,16 +76,16 @@ namespace Flipsider
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
 
-        public void TileCollisions()
+        public void TileCollisions(World world)
         {
             int res = TileManager.tileRes;
             for (int i = (int)position.X / res - (width / res + 2); i < (int)position.X / res + (width / res + 2); i++)
             {
                 for (int j = (int)position.Y / res - (height / res + 2); j < (int)position.Y / res + (height / res + 2); j++)
                 {
-                    if (i >= 0 && j >= 0 && i < TileManager.MaxTilesX && j < TileManager.MaxTilesY)
+                    if (i >= 0 && j >= 0 && i < world.MaxTilesX && j < world.MaxTilesY && world.tiles[i, j] != null)
                     {
-                        if (TileManager.tiles[i, j].active && !TileManager.tiles[i, j].wall)
+                        if (world.tiles[i, j].active && !world.tiles[i, j].wall)
                         {
                             Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
                             
@@ -199,7 +199,7 @@ namespace Flipsider
             AI();
             PostAI();
             if (Collides)
-                TileCollisions();
+            TileCollisions(Main.CurrentWorld);
             if (isColliding)
                 OnCollide();
             Wet = false;

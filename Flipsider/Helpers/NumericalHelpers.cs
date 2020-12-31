@@ -55,7 +55,7 @@ namespace Flipsider
         {
             return (int)(num / round) * round;
         }
-        public static bool LineIntersectsTile(Point p1, Point p2)
+        public static bool LineIntersectsTile(World world,Point p1, Point p2)
         {
             Point TilePos1 = p1.ToTile();
             Point TilePos2 = p2.ToTile();
@@ -67,9 +67,9 @@ namespace Flipsider
             {
                 for (int j = lowestY - 1; j < highestY + 1; j++)
                 {
-                    if (i >= 0 && i < TileManager.MaxTilesX && j >= 0 && j < TileManager.MaxTilesY)
+                    if (i >= 0 && i < world.MaxTilesX && j >= 0 && j < world.MaxTilesY)
                     {
-                        if (TileManager.tiles[i, j].active)
+                        if (world.tiles[i, j].active)
                         {
                             int tileRes = TileManager.tileRes;
                             if (LineIntersectsRect(p1, p2, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes)))
@@ -80,7 +80,7 @@ namespace Flipsider
             }
             return false;
         }
-        public static Vector2 ReturnIntersectionTile(Point p1, Point p2)
+        public static Vector2 ReturnIntersectionTile(World world, Point p1, Point p2)
         {
             Point TilePos1 = p1.ToTile();
             Point TilePos2 = p2.ToTile();
@@ -93,9 +93,9 @@ namespace Flipsider
             {
                 for (int j = lowestY - 1; j < highestY + 1; j++)
                 {
-                    if (i >= 0 && i < TileManager.MaxTilesX && j >= 0 && j < TileManager.MaxTilesY)
+                    if (i >= 0 && i < world.MaxTilesX && j >= 0 && j < world.MaxTilesY)
                     {
-                        if (TileManager.tiles[i, j].active)
+                        if (world.tiles[i, j].active)
                         {
                             int tileRes = TileManager.tileRes;
                             if (LineIntersectsRect(p1, p2, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes)))

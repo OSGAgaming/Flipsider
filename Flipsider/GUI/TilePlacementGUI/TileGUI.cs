@@ -81,7 +81,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     }
         class TilePanel : UIElement
     {
-        public Tile tile;
+        public Tile tile = new Tile(0,Rectangle.Empty);
         float lerpage = 0;
         public Rectangle startingDimensions;
         bool chosen;

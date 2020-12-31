@@ -36,7 +36,7 @@ namespace Flipsider
             {
                 Water.WaterBodies[i].Render();
             }
-            RenderTiles();
+            RenderTiles(Main.CurrentWorld);
             RenderProps();
 
           /*if (Main.rand.Next(70) == 0)
@@ -63,11 +63,11 @@ namespace Flipsider
             // verletEngine.GlobalRenderPoints();
 
 
-            ShowTileCursor();
+            ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
             RenderUI();
             EditorModes.Draw();
-            Lighting.DrawLightMap();
+            Lighting.DrawLightMap(Main.CurrentWorld);
         }
         class Birb
         {

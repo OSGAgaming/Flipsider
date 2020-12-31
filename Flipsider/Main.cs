@@ -54,9 +54,10 @@ namespace Flipsider
         public static List<Entity> entities = new List<Entity>();
         public static List<UIScreen> UIScreens = new List<UIScreen>();
 
-
+        public static World CurrentWorld;
         public Serializers ser = new Serializers();
 
+        public static Vector2 MouseTile => new Vector2(MouseScreen.X / tileRes, MouseScreen.Y / tileRes);
         public static float ScreenScale => mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
@@ -100,7 +101,6 @@ namespace Flipsider
             player = new Player(new Vector2(100, 100));
             mainCamera = new Camera();
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tiles = new Tile[MaxTilesX, MaxTilesY];
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {
                 Water.WaterBodies[i].Initialize();
@@ -206,6 +206,7 @@ namespace Flipsider
 
         void LoadGUI()
         {
+            CurrentWorld = new World(1000,1000);
             tileGUI = new TileGUI();
             npcGUI = new NPCGUI();
             WCGUI = new WorldCreationGUI();
