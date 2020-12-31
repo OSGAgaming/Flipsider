@@ -22,11 +22,16 @@ namespace Flipsider
             height = maxHeight;
             position = Main.player.position;
             texture = TextureCache.GreenSlime;
+            hostile = true;
             Collides = true;
         }
-
+        protected override void PreDraw()
+        {
+            DrawMethods.DrawText(life.ToString(), Color.White, Center + new Vector2(0, height / 2 + 10));
+        }
         protected override void AI()
         {
+            Constraints();
             Jump(2f);
             Animate(5, 1, 52, 0);
         }

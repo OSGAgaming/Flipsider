@@ -22,6 +22,7 @@ namespace Flipsider
             height = maxHeight;
             position = Main.player.position;
             texture = TextureCache.Blob;
+            hostile = true;
             Collides = true;
         }
 

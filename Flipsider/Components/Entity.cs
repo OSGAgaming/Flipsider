@@ -175,6 +175,7 @@ namespace Flipsider
             }
             frame = new Rectangle(framewidth * column, frameY * frameHeight, framewidth, frameHeight);
         }
+        public bool isNPC;
         public void Constraints()
         {
             position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);

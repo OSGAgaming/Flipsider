@@ -39,30 +39,30 @@ namespace Flipsider
             RenderTiles(Main.CurrentWorld);
             RenderProps();
 
-          /*if (Main.rand.Next(70) == 0)
-            {
-                Birbs.Add(new Birb(new Vector2(-80, Main.rand.Next((int)Main.ScreenSize.Y/2)), Main.rand.NextFloat(1f), Main.rand.NextFloat(0.2f,0.5f)));
-            }
-            for (int i = 0; i < Birbs.Count; i++)
-            {
-                Main.spriteBatch.Draw(TextureCache.Birb, Birbs[i].position, new Rectangle(0, TextureCache.Birb.Height/4 * Birbs[i].frame, TextureCache.Birb.Width, TextureCache.Birb.Height / 4),Color.White,0f,Vector2.Zero, Birbs[i].scale,SpriteEffects.None,0f);
-                Birbs[i].position.X += Birbs[i].speed;
-                Birbs[i].framecounter++;
-                if (Birbs[i].framecounter % 4/ (Birbs[i].speed/5f) == 0)
-                {
-                    Birbs[i].frame++;
-                    if(Birbs[i].frame > 3)
-                    {
-                        Birbs[i].frame = 0;
-                    }
-                }
-            }*/
+            /*if (Main.rand.Next(70) == 0)
+              {
+                  Birbs.Add(new Birb(new Vector2(-80, Main.rand.Next((int)Main.ScreenSize.Y/2)), Main.rand.NextFloat(1f), Main.rand.NextFloat(0.2f,0.5f)));
+              }
+              for (int i = 0; i < Birbs.Count; i++)
+              {
+                  Main.spriteBatch.Draw(TextureCache.Birb, Birbs[i].position, new Rectangle(0, TextureCache.Birb.Height/4 * Birbs[i].frame, TextureCache.Birb.Width, TextureCache.Birb.Height / 4),Color.White,0f,Vector2.Zero, Birbs[i].scale,SpriteEffects.None,0f);
+                  Birbs[i].position.X += Birbs[i].speed;
+                  Birbs[i].framecounter++;
+                  if (Birbs[i].framecounter % 4/ (Birbs[i].speed/5f) == 0)
+                  {
+                      Birbs[i].frame++;
+                      if(Birbs[i].frame > 3)
+                      {
+                          Birbs[i].frame = 0;
+                      }
+                  }
+              }*/
             //TODO: Move this later
 
 
             // verletEngine.GlobalRenderPoints();
 
-
+            NPC.DTH.Draw(Main.spriteBatch);
             ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
             RenderUI();

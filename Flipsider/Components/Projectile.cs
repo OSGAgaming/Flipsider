@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
-
+using System.Linq;
 using Flipsider.Engine.Input;
 using Flipsider.Weapons;
 
@@ -16,7 +16,35 @@ namespace Flipsider
         public float alpha;
         public float rotation;
         public bool TileCollide;
+        public int damage;
+        public bool isHittingEntity => EntityCollide();
+        public bool EntityCollide()
+        {
+            foreach (Entity entity in Main.entities)
+            {
+                if (entity.isNPC)
+                {
+                    if ((entity as NPC)?.hostile == !hostile)
+                    {
+                        if (entity.CollisionFrame.Intersects(CollisionFrame))
+                        {
+                            (entity as NPC)?.TakeDamage(damage);
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        protected virtual void OnAI()
+        {
 
+        }
+        protected override void AI()
+        {
+            EntityCollide();
+            OnAI();
+        }
         public static void SpawnProjectile()
         {
 

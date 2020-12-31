@@ -209,7 +209,7 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
-
+            NPC.DTH.Update();
             Lighting.Update();
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {

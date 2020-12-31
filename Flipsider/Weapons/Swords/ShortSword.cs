@@ -32,7 +32,9 @@ namespace Flipsider.Weapons
         public static Texture2D icon = TextureCache.Blob;
         protected override void SetDefaults()
         {
+            damage = 50;
             width = 20;
+            hostile = false;
             maxHeight = 20;
             framewidth = width;
             height = maxHeight;
@@ -43,7 +45,7 @@ namespace Flipsider.Weapons
             TileCollide = true;
         }
 
-        protected override void AI()
+        protected override void OnAI()
         {
             Constraints();
             Animate(5, 1, 20, 0);

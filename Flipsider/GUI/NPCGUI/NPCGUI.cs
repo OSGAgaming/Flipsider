@@ -60,6 +60,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         float progression = 0;
         public bool active = true;
         Texture2D? tex;
+        int coolDown = 0;
         public override void Draw(SpriteBatch spriteBatch)
         {
             tex ??= npc.type.GetField("icon")?.GetValue(null) as Texture2D;
@@ -87,11 +88,16 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-
+            if(coolDown > 0)
+            coolDown--;
         }
         protected override void OnLeftClick()
         {
-            SpawnNPC(Main.player.position + new Vector2(0,-200), npc.type);
+            if (coolDown == 0)
+            {
+                coolDown = 30;
+                SpawnNPC(Main.player.position + new Vector2(0, -200), npc.type);
+            }
         }
         protected override void OnHover()
         {
