@@ -38,6 +38,10 @@ namespace Flipsider
         public static Texture2D StopSigns;
         public static Texture2D StreetLights;
         public static Texture2D Birb;
+        public static Texture2D FrontBicep;
+        public static Texture2D FrontForearm;
+        public static Texture2D BackBicep;
+        public static Texture2D BackForearm;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -65,6 +69,10 @@ namespace Flipsider
             StopSigns = content.Load<Texture2D>("Props/StopSigns");
             BikeRack = content.Load<Texture2D>("Props/BikeRack");
             StreetLights = content.Load<Texture2D>("Props/StreetLights");
+            //FrontBicep = content.Load<Texture2D>("BodyParts/FrontBicep");
+            //FrontForearm = content.Load<Texture2D>("BodyParts/FrontForearm");
+            //BackBicep = content.Load<Texture2D>("BodyParts/BackBicep");
+            //BackForearm = content.Load<Texture2D>("BodyParts/BackForearm");
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Flipsider
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.ApplyChanges();
 
-            Window.AllowUserResizing = false;
+            Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
@@ -265,6 +265,7 @@ namespace Flipsider
             graphics.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Lighting.ApplyShader();
+            verletEngine.GlobalRenderPoints();
             spriteBatch.Draw(renderTarget, Vector2.Zero.ToScreen() + (ScreenSize/ ScreenScale)/2, frame, Color.White,0f, frame.Size.ToVector2() / 2, 1/ ScreenScale, SpriteEffects.None,0f);
             spriteBatch.End();
             spriteBatch.Begin();
