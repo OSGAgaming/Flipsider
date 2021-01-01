@@ -117,10 +117,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         int delay;
         protected override void OnLeftClick()
         {
-            if (delay == 0)
+            if (Main.Editor.CurrentState == EditorUIState.Inventory)
             {
-                Main.CurrentItem = item;
-                delay = 20;
+                if (delay == 0)
+                {
+                    Main.CurrentItem = item;
+                    delay = 20;
+                }
             }
         }
         protected override void OnHover()
@@ -194,23 +197,25 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-
-            if (hasItem)
+            if (Main.Editor.CurrentState == EditorUIState.Inventory)
             {
-                if (delay == 0)
+                if (hasItem)
                 {
-                    Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
-                    Main.CurrentItem = item;
-                    delay = 20;
+                    if (delay == 0)
+                    {
+                        Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
+                        Main.CurrentItem = item;
+                        delay = 20;
+                    }
                 }
-            }
-            else
-            {
-                if (delay == 0)
+                else
                 {
-                    Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
-                    Main.CurrentItem = null;
-                    delay = 20;
+                    if (delay == 0)
+                    {
+                        Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
+                        Main.CurrentItem = null;
+                        delay = 20;
+                    }
                 }
             }
         }

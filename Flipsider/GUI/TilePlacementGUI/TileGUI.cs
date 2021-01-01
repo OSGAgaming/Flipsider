@@ -72,8 +72,10 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         protected override void OnUpdate()
         {
-            active = Main.Editor.CurrentState == EditorUIState.TileEditorMode;
-            HideExcept(chosen);
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                HideExcept(chosen);
+            }
         }
         protected override void OnDraw()
         {

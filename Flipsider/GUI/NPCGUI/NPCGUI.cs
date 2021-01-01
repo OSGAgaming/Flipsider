@@ -93,10 +93,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            if (coolDown == 0)
+            if (Main.Editor.CurrentState == EditorUIState.NPCSpawnerMode)
             {
-                coolDown = 30;
-                SpawnNPC(Main.player.position + new Vector2(0, -200), npc.type);
+                if (coolDown == 0)
+                {
+                    coolDown = 30;
+                    SpawnNPC(Main.player.position + new Vector2(0, -200), npc.type);
+                }
             }
         }
         protected override void OnHover()
