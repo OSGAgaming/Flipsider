@@ -161,7 +161,7 @@ namespace Flipsider
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
             ser = new Serializers();
             Editor = new EditorMode();
-            font = Content.Load<SpriteFont>("FlipFont");
+            font = Content.Load<SpriteFont>("Textures/FlipFont");
             Lighting.Load(Content);
             renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
             #region testparticles

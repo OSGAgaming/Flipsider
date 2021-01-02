@@ -8,7 +8,7 @@
 	{
 		"textures":
 		{
-			"path": "Graphics/*.png",
+			"path": "Textures/*.png",
 			"recursive": "True",
 			"action": "build",
 			"importer": "TextureImporter",

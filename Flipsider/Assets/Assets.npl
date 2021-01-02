@@ -1,5 +1,5 @@
 {
-	"root": "Assets/Content/",
+	"root": "Content/",
 	"content": {
 		"textures": {
 			"path": "Textures/*.png",
