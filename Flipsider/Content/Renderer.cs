@@ -77,6 +77,7 @@ namespace Flipsider
         }
         public void Render()
         {
+            //Todo: Events
             spriteBatch.Begin(SpriteSortMode.Immediate);
             RenderSkybox();
             OnPreDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
