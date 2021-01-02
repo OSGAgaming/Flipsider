@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/FlipFont.spritefont</SourceFile>
-  <SourceTime>2020-12-29T22:41:33.4609714+00:00</SourceTime>
+  <SourceTime>2021-01-02T02:37:28.8634013+00:00</SourceTime>
   <DestFile>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/FlipFont.xnb</DestFile>
-  <DestTime>2020-12-29T22:41:36.8416411+00:00</DestTime>
+  <DestTime>2021-01-02T16:17:45.282856+00:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

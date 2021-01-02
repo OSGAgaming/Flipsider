@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/GUI/HudSlot.png</SourceFile>
-  <SourceTime>2020-12-29T22:41:33.4779261+00:00</SourceTime>
+  <SourceTime>2021-01-02T02:37:28.864398+00:00</SourceTime>
   <DestFile>C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/GUI/HudSlot.xnb</DestFile>
-  <DestTime>2020-12-29T22:41:36.8636202+00:00</DestTime>
+  <DestTime>2021-01-02T16:17:45.301805+00:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
