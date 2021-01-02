@@ -26,6 +26,7 @@ namespace Flipsider
     public class Renderer
     {
         public event LayerEventDelegate? OnPreDrawEntities;
+        public event LayerEventDelegate? OnPostDrawEntities;
         internal Lighting? lighting;
         public GraphicsDeviceManager? graphics;
         public RenderTarget2D? renderTarget;
@@ -57,6 +58,7 @@ namespace Flipsider
         {
             if(instance != null)
             lighting = new Lighting(instance.Content, 1f);
+            OnPreDrawEntities += RenderSkybox;
         }
         public void Draw()
         {
@@ -79,7 +81,6 @@ namespace Flipsider
         {
             //Todo: Events
             spriteBatch.Begin(SpriteSortMode.Immediate);
-            RenderSkybox();
             OnPreDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
             for (int k = 0; k < Main.entities.Count; k++)
             {
@@ -90,7 +91,7 @@ namespace Flipsider
             {
                 Water.WaterBodies[i].Render();
             }
-            RenderTiles(Main.CurrentWorld);
+            OnPostDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
             RenderProps();
             NPC.DTH.Draw(spriteBatch);
             ShowTileCursor(Main.CurrentWorld);
@@ -100,7 +101,7 @@ namespace Flipsider
             lighting?.DrawLightMap(Main.CurrentWorld);
             spriteBatch.End();
         }
-        public void RenderSkybox()
+        public void RenderSkybox(World world, SpriteBatch spriteBatch)
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate);

@@ -20,6 +20,7 @@ namespace Flipsider
             AddTileType(1, TextureCache.TileSet2);
             AddTileType(2, TextureCache.TileSet3);
             LoadProps();
+            Main.renderer.OnPreDrawEntities += RenderTiles;
         }
 
         public static void SaveCurrentWorldAs(string Name)
@@ -105,7 +106,7 @@ namespace Flipsider
             }
         }
 
-        public static void RenderTiles(World world)
+        public static void RenderTiles(World world, SpriteBatch spriteBatch)
         {
             float scale = Main.mainCamera.scale;
             scale = Math.Clamp(scale, 0.5f, 1);
@@ -127,7 +128,7 @@ namespace Flipsider
                             else
                             {
                                 world.tiles[i, j].frame = Framing.GetTileFrame(world,i, j);
-                                Main.spriteBatch.Draw(tileDict[world.tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), world.tiles[i, j].frame, Color.White);
+                                spriteBatch.Draw(tileDict[world.tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), world.tiles[i, j].frame, Color.White);
                             }
                         }
                     }
