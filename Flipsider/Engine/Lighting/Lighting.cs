@@ -12,7 +12,13 @@ namespace Flipsider
 {
     public class Lighting
     {
-
+        public RenderTarget2D? lightMap;
+        public RenderTarget2D? tileMap;
+        public RenderTarget2D? miscMap;
+        public float tileDiffusion;
+        public float generalDiffusion;
+        public List<LightSource> lightSources = new List<LightSource>();
+        public List<DirectionalLightSource> directionalLightSources = new List<DirectionalLightSource>();
         public static float baseLight
         {
             get;
@@ -45,38 +51,29 @@ namespace Flipsider
                 angularCoverage = rad;
             }
         }
-        public static Effect? LightingEffect;
-        public static void Load(ContentManager Content)
+        public Lighting(ContentManager Content,float baseLight = 1f, float GD = 1.3f, float TD = 2f)
         {
             LightingEffect = Content.Load<Effect>(@"Effect/Lighting");
             LoadLightMap();
             LoadTileMap();
             LoadMiscMap();
-            SetBaseLight(1f);
-            AddLight(1, new Vector2(100, 100), Color.Blue);
-            tileDiffusion = 2f;
-            generalDiffusion = 1.3f;
+            SetBaseLight(baseLight);
+            generalDiffusion = GD;
+            tileDiffusion = TD;
         }
-
-        public static List<LightSource> lightSources = new List<LightSource>();
-        public static List<DirectionalLightSource> directionalLightSources = new List<DirectionalLightSource>();
-        public static void SetBaseLight(float bl) => baseLight = bl;
-        public static void AddLight(int str, Vector2 pos, Color col) => lightSources.Add(new LightSource(str, pos, col));
-        public static void AddDirectionalLight(Vector2 p1, Vector2 p2, Color col) => directionalLightSources.Add(new DirectionalLightSource(p1,p2,col));
-        public static void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
-        public static void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
-        public static void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
-
-        public static void Update()
+        public static Effect? LightingEffect;
+        internal void Load(ContentManager Content)
         {
-         //   DrawLightMap();
+           
         }
-        public static RenderTarget2D? lightMap;
-        public static RenderTarget2D? tileMap;
-        public static RenderTarget2D? miscMap;
-        public static float tileDiffusion;
-        public static float generalDiffusion;
-        public static void ApplyShader()
+        public static void SetBaseLight(float bl) => baseLight = bl;
+        public void AddLight(int str, Vector2 pos, Color col) => lightSources.Add(new LightSource(str, pos, col));
+        public void AddDirectionalLight(Vector2 p1, Vector2 p2, Color col) => directionalLightSources.Add(new DirectionalLightSource(p1,p2,col));
+        public void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
+        public void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
+        public void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, (int)Main.ScreenSize.X, (int)Main.ScreenSize.Y);
+
+        public void ApplyShader()
         {
             LightingEffect?.Parameters["lightMask"]?.SetValue(lightMap);
             LightingEffect?.Parameters["tileMask"]?.SetValue(tileMap);
@@ -86,7 +83,7 @@ namespace Flipsider
             LightingEffect?.Parameters["baseLight"]?.SetValue(baseLight);
             LightingEffect?.CurrentTechnique.Passes[0].Apply();
         }
-        public static void DrawLightMap(World world)
+        public void DrawLightMap(World world)
         {
             Main.graphics.GraphicsDevice.SetRenderTarget(lightMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);

@@ -4,17 +4,14 @@
 	[
 
 	],
-	"content":
-	{
-		"textures":
-		{
+	"content": {
+		"textures": {
 			"path": "Textures/*.png",
 			"recursive": "True",
 			"action": "build",
 			"importer": "TextureImporter",
 			"processor": "TextureProcessor",
-			"processorParam":
-			{
+			"processorParam": {
 				"ColorKeyColor": "255,0,255,255",
 				"ColorKeyEnabled": "True",
 				"GenerateMipmaps": "False",
@@ -24,5 +21,10 @@
 				"TextureFormat": "Color"
 			}
 		},
+		"Font": {
+			"path": "Textures/*.spritefont",
+			"recursive": "False",
+			"action": "copy"
+		}
 	}
 }

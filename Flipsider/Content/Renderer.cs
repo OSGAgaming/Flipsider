@@ -22,15 +22,68 @@ using System.Threading;
 
 namespace Flipsider
 {
+    public delegate void LayerEventDelegate(World world,SpriteBatch spriteBatch);
     public class Renderer
     {
-        public static void Render()
+        public event LayerEventDelegate? OnPreDrawEntities;
+        internal Lighting? lighting;
+        public GraphicsDeviceManager? graphics;
+        public RenderTarget2D? renderTarget;
+        public Game? instance;
+        public SpriteBatch spriteBatch;
+        public Camera? mainCamera;
+        public float ScreenScale
         {
+            get
+            {
+                if(mainCamera != null)
+                return mainCamera.scale;
+                return 1;
+            }
+        }
+        public Vector2 ScreenSize => graphics?.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
+        public Renderer(Game game)
+        {
+            instance = game;
+            graphics = new GraphicsDeviceManager(instance);
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics.ApplyChanges();
+            mainCamera = new Camera();
+            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
+            spriteBatch = new SpriteBatch(graphics?.GraphicsDevice);
+        }
+
+        public void Load()
+        {
+            if(instance != null)
+            lighting = new Lighting(instance.Content, 1f);
+        }
+        public void Draw()
+        {
+            graphics?.GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
+            Render();
+            graphics?.GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
+            lighting?.ApplyShader();
+            PrintRenderTarget();
+            spriteBatch.End();
+        }
+
+        public void PrintRenderTarget()
+        {
+            Rectangle frame = new Rectangle(0, 0, (int)(ScreenSize.X), (int)(ScreenSize.Y));
+            spriteBatch.Draw(renderTarget, Vector2.Zero.ToScreen() + (ScreenSize / ScreenScale) / 2, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1 / ScreenScale, SpriteEffects.None, 0f);
+        }
+        public void Render()
+        {
+            spriteBatch.Begin(SpriteSortMode.Immediate);
             RenderSkybox();
+            OnPreDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
             for (int k = 0; k < Main.entities.Count; k++)
             {
                 Entity entity = Main.entities[k];
-                entity.Draw(Main.spriteBatch);
+                entity.Draw(spriteBatch);
             }
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {
@@ -38,72 +91,34 @@ namespace Flipsider
             }
             RenderTiles(Main.CurrentWorld);
             RenderProps();
-
-            /*if (Main.rand.Next(70) == 0)
-              {
-                  Birbs.Add(new Birb(new Vector2(-80, Main.rand.Next((int)Main.ScreenSize.Y/2)), Main.rand.NextFloat(1f), Main.rand.NextFloat(0.2f,0.5f)));
-              }
-              for (int i = 0; i < Birbs.Count; i++)
-              {
-                  Main.spriteBatch.Draw(TextureCache.Birb, Birbs[i].position, new Rectangle(0, TextureCache.Birb.Height/4 * Birbs[i].frame, TextureCache.Birb.Width, TextureCache.Birb.Height / 4),Color.White,0f,Vector2.Zero, Birbs[i].scale,SpriteEffects.None,0f);
-                  Birbs[i].position.X += Birbs[i].speed;
-                  Birbs[i].framecounter++;
-                  if (Birbs[i].framecounter % 4/ (Birbs[i].speed/5f) == 0)
-                  {
-                      Birbs[i].frame++;
-                      if(Birbs[i].frame > 3)
-                      {
-                          Birbs[i].frame = 0;
-                      }
-                  }
-              }*/
-            //TODO: Move this later
-
-
-            // verletEngine.GlobalRenderPoints();
-
-            NPC.DTH.Draw(Main.spriteBatch);
+            NPC.DTH.Draw(spriteBatch);
             ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
             RenderUI();
             Main.Editor.Draw();
-            Lighting.DrawLightMap(Main.CurrentWorld);
+            lighting?.DrawLightMap(Main.CurrentWorld);
+            spriteBatch.End();
         }
-        class Birb
+        public void RenderSkybox()
         {
-            public Vector2 position;
-            public int frame;
-            public float scale;
-            public float framecounter;
-            public float speed;
-            public Birb(Vector2 pos, float scale, float sped)
-            {
-                position = pos;
-                this.scale = scale;
-                speed = sped;
-            }
-        }
-        static void RenderSkybox()
-        {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate);
             Rectangle dims = new Rectangle(0, 0, TextureCache.skybox.Width, TextureCache.skybox.Height);
-            Main.spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(10), dims, Color.White,0f, new Vector2(0, TextureCache.skybox.Height/2), 0.7f,SpriteEffects.None,0f);
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(10), dims, Color.White, 0f, new Vector2(0, TextureCache.skybox.Height / 2), 0.7f, SpriteEffects.None, 0f);
+            spriteBatch.End();
+            spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         }
-        static List<Birb> Birbs = new List<Birb>();
-        static void RenderUI()
+        public void RenderUI()
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.AlphaBlend);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.AlphaBlend);
             for (int i = 0; i < Main.UIScreens.Count; i++)
             {
                 Main.UIScreens[i].active = true;
                 Main.UIScreens[i].Draw(Main.spriteBatch);
             }
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate,null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate,null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             //debuganthinghere
             // Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, new Vector2(10, 36), Color.Black);
         }

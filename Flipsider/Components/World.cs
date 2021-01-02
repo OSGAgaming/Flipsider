@@ -16,6 +16,10 @@ namespace Flipsider
         public int MaxTilesX { get; private set; }
         public int MaxTilesY { get; private set; }
 
+        Player? MainPlayer;
+
+        List<Entity>? Entities;
+
         public bool IsTileActive(int i, int j)
         {
             if (tiles[i, j] == null)
@@ -24,6 +28,7 @@ namespace Flipsider
             return false;
             return true;
         }
+
 
         public World(int Width, int Height)
         {

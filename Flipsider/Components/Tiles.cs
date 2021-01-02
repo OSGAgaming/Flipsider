@@ -133,7 +133,6 @@ namespace Flipsider
                     }
                 }
             }
-
         }
         
         public static bool UselessCanPlaceBool;

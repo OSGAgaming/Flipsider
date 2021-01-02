@@ -29,8 +29,8 @@ namespace Flipsider
     {
         public SceneManager sceneManager;
         public static Random rand;
-        public static SpriteBatch spriteBatch;
-        public static GraphicsDeviceManager graphics;
+        public static SpriteBatch spriteBatch => renderer.spriteBatch;
+        public static GraphicsDeviceManager graphics => renderer.graphics;
         public static Main instance;
         Water testWater2 = new Water(new Rectangle(100, 450, 100, 50));
         //Terraria PTSD
@@ -38,17 +38,18 @@ namespace Flipsider
         public static IStoreable CurrentItem;
         public static RenderTarget2D renderTarget;
         public static GameTime gameTime;
-        public static Camera mainCamera;
+        public static Camera mainCamera => renderer.mainCamera;
         public static SpriteFont font;
         public static float targetScale = 1;
+        public static Renderer renderer;
         public static List<Entity> entities = new List<Entity>();
         public static List<UIScreen> UIScreens = new List<UIScreen>();
-
+        public static Lighting lighting => renderer.lighting;
         public static World CurrentWorld;
         public Serializers ser;
         public static EditorMode Editor;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / tileRes, MouseScreen.Y / tileRes);
-        public static float ScreenScale => mainCamera.scale;
+        public static float ScreenScale => renderer.mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
 
@@ -56,10 +57,7 @@ namespace Flipsider
 
         public Main()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
-            graphics.ApplyChanges();
-
+            renderer = new Renderer(this);
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -89,18 +87,14 @@ namespace Flipsider
             verletEngine = new Verlet();
             rand = new Random();
             player = new Player(new Vector2(100, 100));
-            mainCamera = new Camera();
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {
                 Water.WaterBodies[i].Initialize();
             }
-            LoadTiles();
-            LoadGUI();
+  
         }
         protected override void Initialize()
         {
-            TextureCache.LoadTextures(Content);
             Instatiate();
             // Register controls
             GameInput.Instance.RegisterControl("MoveLeft", Keys.A, Buttons.LeftThumbstickLeft);
@@ -159,11 +153,10 @@ namespace Flipsider
         {
             // TODO: Create SFX and Music bank (boffin or salv's job, based on who ends up doing the fmod studio stuff.)
             //GameAudio.Instance.LoadBank("SFX", "Audio\\SFX.bank");
+            renderer.Load();
             ser = new Serializers();
             Editor = new EditorMode();
-            font = Content.Load<SpriteFont>("Textures/FlipFont");
-            Lighting.Load(Content);
-            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
+            font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
              TestParticleSystem = new ParticleSystem(200);
             /*TestParticleSystem.SpawnRate = 10f;
@@ -193,7 +186,10 @@ namespace Flipsider
             */
             #endregion
             instance = this;
-
+            renderTarget = new RenderTarget2D(graphics.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
+            TextureCache.LoadTextures(Content);
+            LoadTiles();
+            LoadGUI();
         }
 
         void LoadGUI()
@@ -210,7 +206,6 @@ namespace Flipsider
         protected override void Update(GameTime gameTime)
         {
             NPC.DTH.Update();
-            Lighting.Update();
             for (int i = 0; i < Water.WaterBodies.Count; i++)
             {
                 Water.WaterBodies[i].Update();
@@ -243,7 +238,7 @@ namespace Flipsider
 
             TestParticleSystem.Position = GameInput.Instance.MousePosition;
             TestParticleSystem.Update();
-
+            fps.Update(gameTime);
             base.Update(gameTime);
         }
         protected override void UnloadContent()
@@ -254,27 +249,7 @@ namespace Flipsider
         FPS fps = new FPS();
         protected override void Draw(GameTime gameTime)
         {
-            Rectangle frame = new Rectangle(0, 0, (int)(ScreenSize.X), (int)(ScreenSize.Y));
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            fps.Update(gameTime);
-            graphics.GraphicsDevice.SetRenderTarget(renderTarget);
-            spriteBatch.Begin(SpriteSortMode.Immediate);
-            Renderer.Render();
-            spriteBatch.End();
-            graphics.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera.Transform, samplerState: SamplerState.PointClamp);
-            Lighting.ApplyShader();
-            verletEngine.GlobalRenderPoints();
-            spriteBatch.Draw(renderTarget, Vector2.Zero.ToScreen() + (ScreenSize/ ScreenScale)/2, frame, Color.White,0f, frame.Size.ToVector2() / 2, 1/ ScreenScale, SpriteEffects.None,0f);
-            spriteBatch.End();
-            spriteBatch.Begin();
-            TestParticleSystem.Draw(spriteBatch);
-
-            spriteBatch.End();
-
-            sceneManager.Draw();
-
+            renderer.Draw();
             base.Draw(gameTime);
         }
     }
