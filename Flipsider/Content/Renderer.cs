@@ -80,7 +80,7 @@ namespace Flipsider
         {
             //Todo: Events
             spriteBatch.Begin(SpriteSortMode.Immediate);
-            RenderSkybox(Main.CurrentWorld,Main.spriteBatch);
+            RenderSkybox(Main.CurrentWorld, Main.spriteBatch);
             OnPreDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
             for (int k = 0; k < Main.entities.Count; k++)
             {
@@ -114,10 +114,10 @@ namespace Flipsider
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            for (int i = 0; i < Main.UIScreens.Count; i++)
+            for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {
-                Main.UIScreens[i].active = true;
-                Main.UIScreens[i].Draw(Main.spriteBatch);
+                UIScreenManager.Instance.Components[i].active = true;
+                UIScreenManager.Instance?.Components[i].Draw(Main.spriteBatch);
             }
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);

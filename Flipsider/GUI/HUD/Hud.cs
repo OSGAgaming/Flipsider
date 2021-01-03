@@ -12,9 +12,8 @@ namespace Flipsider.GUI.HUD
         private readonly WeaponIcon leftIcon = new WeaponIcon();
         private readonly WeaponIcon rightIcon = new WeaponIcon();
 
-        public Hud()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
             leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 64, 48, 48);
             //leftIcon.weapon = Main.player.leftWeapon;
             elements.Add(leftIcon);

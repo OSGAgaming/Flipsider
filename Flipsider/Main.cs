@@ -30,15 +30,10 @@ namespace Flipsider
         public static Random rand;
         public static Main instance;
         //Terraria PTSD
-        public static IStoreable CurrentItem;
         public static GameTime gameTime;
         public static SpriteFont font;
-        public static float targetScale = 1;
         public static Renderer renderer;
-        public static List<UIScreen> UIScreens = new List<UIScreen>();
         public static World CurrentWorld;
-        public static EditorMode Editor;
-        public PropManager propManager = new PropManager();
         private ParticleSystem TestParticleSystem;
 
         public Main()
@@ -49,9 +44,6 @@ namespace Flipsider
             IsMouseVisible = true;
             IsFixedTimeStep = false;
         }
-
-        private Verlet verletEngine;
-
         private void GetAllTypes()
         {
             Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
@@ -72,7 +64,6 @@ namespace Flipsider
             GetAllTypes();
             sceneManager = new SceneManager();
             sceneManager.SetNextScene(new DebugScene(), null);
-            verletEngine = new Verlet();
             rand = new Random();
 
         }
@@ -84,7 +75,7 @@ namespace Flipsider
             Instatiate();
             // Register controls
             RegisterControls.Invoke();
-            targetScale = 1.2f;
+            mainCamera.targetScale = 1.2f;
             //  NPC.SpawnNPC<Blob>(player.position);
             base.Initialize();
         }
@@ -92,12 +83,12 @@ namespace Flipsider
         protected override void LoadContent()
         {
             renderer.Load();
-            Editor = new EditorMode();
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
             TestParticleSystem = new ParticleSystem(200);
             #endregion
             instance = this;
+            PropManager.LoadProps();
             LoadGUI();
         }
 
@@ -113,21 +104,12 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
-            GameInput.Instance.UpdateInput();
             Main.gameTime = gameTime;
-
-            foreach (IUpdate updateable in Updateables)
+            foreach (IUpdate updateable in Updateables.ToArray())
             {
                 if (updateable != null)
                     updateable.Update();
             }
-            Debug.Write(tileManager.tileDict[0] != null);
-
-            for (int i = 0; i < UIScreens.Count; i++)
-            {
-                UIScreens[i].Update();
-            }
-            TestParticleSystem.Position = GameInput.Instance.MousePosition;
             base.Update(gameTime);
         }
         protected override void UnloadContent()

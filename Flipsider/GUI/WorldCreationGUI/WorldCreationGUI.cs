@@ -15,9 +15,8 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class WorldCreationGUI : UIScreen
     {
         public int chosen = -1;
-        public WorldCreationGUI()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
             UIStringInput textBox = new UIStringInput();
             textBox.dimensions = new Rectangle((int)Main.ScreenSize.X - 150, 40, 150, 26);
             elements.Add(textBox);

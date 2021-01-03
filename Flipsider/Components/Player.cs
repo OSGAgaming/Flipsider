@@ -14,6 +14,8 @@ namespace Flipsider
 {
     public class Player : Entity
     {
+        public IStoreable? SelectedItem;
+
         private readonly float jumpheight = 3.7f;
         private bool crouching;
 
@@ -31,7 +33,7 @@ namespace Flipsider
         public int inventorySize => 20;
         public Player(Vector2 position)
         {
-            
+
             inventory = new IStoreable[20];
             this.position = position;
             width = 30;
@@ -43,13 +45,16 @@ namespace Flipsider
 
         public void AddToInventory(IStoreable item, int slot)
         {
-            if (slot >= inventorySize)
+            if (item != null)
             {
-                inventory[inventorySize - 1] = item;
-            }
-            else
-            {
-                inventory[slot] = item;
+                if (slot >= inventorySize)
+                {
+                    inventory[inventorySize - 1] = item;
+                }
+                else
+                {
+                    inventory[slot] = item;
+                }
             }
         }
 

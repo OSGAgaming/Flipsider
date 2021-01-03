@@ -12,7 +12,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 {
     internal class TileGUI : UIScreen
     {
-        private readonly TilePanel[] tilePanel;
+        private TilePanel[]? tilePanel;
         private readonly int rows = 5;
         private readonly int widthOfPanel = 128 / 2;
         private readonly int heightOfPanel = 272 / 2;
@@ -23,7 +23,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (index != -1)
             {
-                for (int i = 0; i < tilePanel.Length; i++)
+                for (int i = 0; i < tilePanel?.Length; i++)
                 {
                     if (index != i)
                     {
@@ -35,7 +35,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             else
             {
-                for (int i = 0; i < tilePanel.Length; i++)
+                for (int i = 0; i < tilePanel?.Length; i++)
                 {
                     if (index != i)
                     {
@@ -47,9 +47,8 @@ namespace Flipsider.GUI.TilePlacementGUI
                 }
             }
         }
-        public TileGUI()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
             tilePanel = new TilePanel[Main.tileManager.tileTypes.Count];
             if (tilePanel.Length != 0)
             {

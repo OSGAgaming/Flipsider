@@ -30,7 +30,7 @@ namespace Flipsider
         {
             Main.Updateables.Add(this);
         }
-        internal readonly List<T> Components = new List<T>();
+        internal List<T> Components = new List<T>();
         public virtual void Update()
         {
             foreach (T foo in Components)

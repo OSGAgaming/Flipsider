@@ -25,6 +25,7 @@ namespace Flipsider
 
         public Manager<Water> WaterBodies = new Manager<Water>();
 
+        public PropManager propManager = new PropManager();
         public bool IsTileActive(int i, int j)
         {
             if (tiles[i, j] == null)
@@ -36,7 +37,7 @@ namespace Flipsider
 
         public bool AppendPlayer(Player player)
         {
-            if(player != null)
+            if (player != null)
             {
                 MainPlayer = player;
                 return true;

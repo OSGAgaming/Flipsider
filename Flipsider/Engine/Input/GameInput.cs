@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Flipsider.Engine.Input
 {
-    public class GameInput
+    public class GameInput : IUpdate
     {
         public static GameInput Instance;
 
@@ -34,13 +34,14 @@ namespace Flipsider.Engine.Input
 
         public GameInput()
         {
+            Main.Updateables.Add(this);
             _controls = new Dictionary<string, InputBinding>();
         }
 
         /// <summary>
         /// Make sure this is called as early as possible in the Game's main Update method.
         /// </summary>
-        public void UpdateInput()
+        public void Update()
         {
             PreviousKeyState = CurrentKeyState;
             CurrentKeyState = Keyboard.GetState();

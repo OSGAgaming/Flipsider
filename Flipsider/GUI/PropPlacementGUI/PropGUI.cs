@@ -13,16 +13,15 @@ namespace Flipsider.GUI.TilePlacementGUI
 {
     internal class PropGUI : UIScreen
     {
-        private readonly PropPanel[] tilePanel;
+        private PropPanel[]? tilePanel;
         private readonly int rows = 5;
         private readonly int widthOfPanel = 64;
         private readonly int heightOfPanel = 64;
         private readonly int paddingX = 5;
         private readonly int paddingY = 20;
         public int chosen = -1;
-        public PropGUI()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
             tilePanel = new PropPanel[PropTypes.Count];
             if (tilePanel.Length != 0)
             {
@@ -68,6 +67,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
+                Debug.Write(1);
                 alpha += (1 - alpha) / 16f;
             }
             else

@@ -22,6 +22,7 @@ namespace Flipsider
         public static Texture2D TileSet1;
         public static Texture2D TileSet2;
         public static Texture2D TileSet3;
+        public static Texture2D TileSet4;
         public static Texture2D TileGUIPanels;
         public static Texture2D Blob;
         public static Texture2D GreenSlime;
@@ -30,7 +31,8 @@ namespace Flipsider
         public static Texture2D SaveTex;
         public static Texture2D WorldSavePanel;
         public static Texture2D PointLight;
-
+        public static Texture2D ForestTree1;
+        public static Texture2D ForestTree2;
         public static Texture2D BusStop;
         public static Texture2D BigBusStop;
         public static Texture2D TrafficLight;
@@ -50,6 +52,7 @@ namespace Flipsider
             TileSet2 = content.Load<Texture2D>("Textures/TileSet2");
             TileSet1 = content.Load<Texture2D>("Textures/TileSet1");
             TileSet3 = content.Load<Texture2D>("Textures/TileSet3");
+            TileSet4 = content.Load<Texture2D>("Textures/TileSet4");
             player = content.Load<Texture2D>("Textures/char");
             hudSlot = content.Load<Texture2D>("Textures/GUI/HudSlot");
             testGun = content.Load<Texture2D>("Textures/GUI/TestGun");
@@ -64,6 +67,8 @@ namespace Flipsider
             PointLight = content.Load<Texture2D>("Textures/PointLight");
             Birb = content.Load<Texture2D>("Textures/Birb");
             BusStop = content.Load<Texture2D>("Textures/Props/BusStop");
+            ForestTree1 = content.Load<Texture2D>("Textures/Props/ForestTree1");
+            ForestTree2 = content.Load<Texture2D>("Textures/Props/ForestTree2");
             BigBusStop = content.Load<Texture2D>("Textures/Props/BigBusStop");
             TrafficLight = content.Load<Texture2D>("Textures/Props/TrafficLight");
             StopSigns = content.Load<Texture2D>("Textures/Props/StopSigns");

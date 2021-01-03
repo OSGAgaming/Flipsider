@@ -11,8 +11,8 @@ namespace Flipsider.GUI.TilePlacementGUI
 {
     internal class InventoryGUI : UIScreen
     {
-        private readonly InventoryPanel[] tilePanel;
-        private readonly ItemPanel[] itemPanel;
+        private InventoryPanel[]? tilePanel;
+        private ItemPanel[]? itemPanel;
         private readonly int rows = 5;
         private readonly int widthOfPanel = 64;
         private readonly int heightOfPanel = 64;
@@ -21,11 +21,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         public int chosen = -1;
         private Vector2 topRight = new Vector2(Main.ScreenSize.X, 0);
         public int lastInvSlot;
-        public InventoryGUI()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
-
-
             itemPanel = new ItemPanel[ItemTypes.Length];
             if (itemPanel.Length != 0)
             {
@@ -58,7 +55,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         protected override void OnUpdate()
         {
-            for (int i = 0; i < tilePanel.Length; i++)
+            for (int i = 0; i < tilePanel?.Length; i++)
             {
                 tilePanel[i].item = Main.player.inventory[i];
             }
@@ -122,7 +119,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 if (delay == 0)
                 {
-                    Main.CurrentItem = item;
+                    Main.player.SelectedItem = item;
                     delay = 20;
                 }
             }
@@ -207,8 +204,9 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     if (delay == 0)
                     {
-                        Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
-                        Main.CurrentItem = item;
+                        if (Main.player.SelectedItem != null)
+                            Main.player.AddToInventory(Main.player.SelectedItem, inventorySlot);
+                        Main.player.SelectedItem = item;
                         delay = 20;
                     }
                 }
@@ -216,8 +214,9 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     if (delay == 0)
                     {
-                        Main.player.AddToInventory(Main.CurrentItem, inventorySlot);
-                        Main.CurrentItem = null;
+                        if (Main.player.SelectedItem != null)
+                            Main.player.AddToInventory(Main.player.SelectedItem, inventorySlot);
+                        Main.player.SelectedItem = null;
                         delay = 20;
                     }
                 }

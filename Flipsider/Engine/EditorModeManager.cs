@@ -29,9 +29,11 @@ namespace Flipsider
         public EditorUIState CurrentState;
         public int currentType;
         public Rectangle currentFrame;
-        public EditorMode()
+        public static EditorMode Instance;
+        static EditorMode()
         {
-            Main.Updateables.Add(this);
+            Instance = new EditorMode();
+            Main.Updateables.Add(Instance);
         }
         public void ControlEditorScreen()
         {
@@ -42,9 +44,9 @@ namespace Flipsider
 
         public void Draw()
         {
-            if (Main.CurrentItem != null)
+            if (Main.player.SelectedItem != null)
             {
-                Texture2D tex = Main.CurrentItem.inventoryIcon ?? TextureCache.magicPixel;
+                Texture2D tex = Main.player.SelectedItem.inventoryIcon ?? TextureCache.magicPixel;
                 Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2 + Vector2.One * 4, Color.Black * 0.3f * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
                 Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2, Color.White * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
 
@@ -104,11 +106,11 @@ namespace Flipsider
                 float camMoveSpeed = 0.2f;
                 if (GameInput.Instance["EditorZoomIn"].IsDown())
                 {
-                    Main.targetScale += scrollSpeed;
+                    Main.mainCamera.targetScale += scrollSpeed;
                 }
                 if (GameInput.Instance["EditorZoomOut"].IsDown())
                 {
-                    Main.targetScale -= scrollSpeed;
+                    Main.mainCamera.targetScale -= scrollSpeed;
                 }
 
                 if (GameInput.Instance["MoveRight"].IsDown())
@@ -149,11 +151,11 @@ namespace Flipsider
             IsActive = !IsActive;
             if (IsActive)
             {
-                Main.targetScale = 0.8f;
+                Main.mainCamera.targetScale = 0.8f;
             }
             else
             {
-                Main.targetScale = 1.2f;
+                Main.mainCamera.targetScale = 1.2f;
             }
         }
     }

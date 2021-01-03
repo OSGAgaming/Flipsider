@@ -1,15 +1,20 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Flipsider.GUI
 {
-    public class UIScreen
+    public class UIScreen : IComponent
     {
         protected List<UIElement> elements = new List<UIElement>();
         public bool active;
-
+        public UIScreen()
+        {
+            UIScreenManager.Instance?.AddComponent(this);
+            OnLoad();
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             if (active)
@@ -25,6 +30,7 @@ namespace Flipsider.GUI
         protected virtual void OnUpdate() { }
 
         protected virtual void OnDraw() { }
+        protected virtual void OnLoad() { }
 
         public void Update()
         {

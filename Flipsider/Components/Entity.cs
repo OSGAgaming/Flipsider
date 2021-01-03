@@ -158,8 +158,8 @@ namespace Flipsider
 
         public void Spawn()
         {
-            if(Main.CurrentWorld != null)
-            Main.CurrentWorld.entityManager.AddComponent(this);
+            if (Main.CurrentWorld != null)
+                Main.CurrentWorld.entityManager.AddComponent(this);
         }
 
         public void Animate(int per, int noOfFrames, int frameHeight, int column = 0)
@@ -218,7 +218,7 @@ namespace Flipsider
 
         public void Init()
         {
-           
+
             Initialize();
             Spawn();
         }

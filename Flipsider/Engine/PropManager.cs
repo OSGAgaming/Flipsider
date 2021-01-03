@@ -34,6 +34,8 @@ namespace Flipsider
             AddPropType("BikeRack", TextureCache.BikeRack);
             AddPropType("StopSigns", TextureCache.StopSigns);
             AddPropType("StreetLights", TextureCache.StreetLights);
+            AddPropType("ForestTree1", TextureCache.ForestTree1);
+            AddPropType("ForestTree2", TextureCache.ForestTree2);
             ChangeFrames("StreetLights", 5);
             ChangeFrames("StopSigns", 3);
             ChangeAnimSpeed("StreetLights", 20);

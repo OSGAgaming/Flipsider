@@ -26,6 +26,8 @@ namespace Flipsider
 #nullable disable
     internal partial class Main : Game
     {
+        public static EditorMode Editor => EditorMode.Instance;
+        public static float targetScale => mainCamera.targetScale;
         public static TileManager tileManager => CurrentWorld.tileManager;
         public static SpriteBatch spriteBatch => renderer.spriteBatch;
         public static Player player => CurrentWorld.MainPlayer;

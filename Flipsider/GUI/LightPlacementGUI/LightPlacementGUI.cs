@@ -13,9 +13,8 @@ namespace Flipsider.GUI.TilePlacementGUI
 {
     internal class LightPlacementGUI : UIScreen
     {
-        public LightPlacementGUI()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
             LightUI LU1 = new LightUI
             {
                 dimensions = new Rectangle((int)Main.ScreenSize.X, 120, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)

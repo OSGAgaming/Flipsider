@@ -14,16 +14,15 @@ namespace Flipsider.GUI.TilePlacementGUI
 {
     internal class NPCGUI : UIScreen
     {
-        private readonly NPCPanel[] tilePanel;
+        private NPCPanel[]? tilePanel;
         private readonly int rows = 5;
         private readonly int widthOfPanel = 64;
         private readonly int heightOfPanel = 64;
         private readonly int paddingX = 5;
         private readonly int paddingY = 20;
         public int chosen = -1;
-        public NPCGUI()
+        protected override void OnLoad()
         {
-            Main.UIScreens.Add(this);
             tilePanel = new NPCPanel[NPCTypes.Length];
             if (tilePanel.Length != 0)
             {
