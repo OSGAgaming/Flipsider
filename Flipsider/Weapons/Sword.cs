@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Flipsider.Weapons
 {
-    abstract class Sword : Weapon
+    internal abstract class Sword : Weapon
     {
 
         protected int state;
@@ -15,7 +15,7 @@ namespace Flipsider.Weapons
         }
         public Sword(int damage, int delay, int maxCombo) : base(damage, delay, maxCombo)
         {
-            
+
         }
         public sealed override void UpdateActive()
         {
@@ -23,7 +23,7 @@ namespace Flipsider.Weapons
         protected override void OnActivate()
         {
             state++;
-            if(state > 3)
+            if (state > 3)
             {
                 state = 0;
             }

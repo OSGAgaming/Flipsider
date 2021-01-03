@@ -14,8 +14,8 @@ namespace Flipsider.Maths.Noise
         private const int PSIZE = 512;
         private const int PMASK = 511;
 
-        private int[] _permutation;
-        private Random _random;
+        private readonly int[] _permutation;
+        private readonly Random _random;
 
         public int Seed { get; }
 

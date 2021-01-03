@@ -12,8 +12,7 @@ using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-
-    class WorldCreationGUI : UIScreen
+    internal class WorldCreationGUI : UIScreen
     {
         public int chosen = -1;
         public WorldCreationGUI()
@@ -32,17 +31,18 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         }
     }
-    class UIStringInput : UIElement
+
+    internal class UIStringInput : UIElement
     {
-        string inputText = "";
-        float alpha = 0f;
-        int delay = 0;
+        private string inputText = "";
+        private float alpha = 0f;
+        private int delay = 0;
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (delay > 0)
                 delay--;
             KeyboardState keyboard = Keyboard.GetState();
-            Main.spriteBatch.Draw(TextureCache.WorldSavePanel, new Rectangle(dimensions.X - 10, dimensions.Y - 20,180, 90), Color.White * alpha);
+            Main.spriteBatch.Draw(TextureCache.WorldSavePanel, new Rectangle(dimensions.X - 10, dimensions.Y - 20, 180, 90), Color.White * alpha);
             Main.spriteBatch.Draw(TextureCache.Textbox, dimensions, Color.White * alpha);
             Main.spriteBatch.Draw(TextureCache.SaveTex, new Rectangle(dimensions.X + dimensions.Width / 4, dimensions.Y - 20 + (int)(Math.Sin(Main.gameTime.TotalGameTime.TotalMilliseconds / 120f) * 3), dimensions.Width / 2, dimensions.Height / 2), Color.White * alpha);
             if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
@@ -80,13 +80,13 @@ namespace Flipsider.GUI.TilePlacementGUI
                                     inputText += keyboard.GetPressedKeys()[i].ToString().ToLower();
                             }
                         }
-                        
+
                     }
-                    
+
                     if (firstKey == Keys.Back && delay == 0)
                     {
-                        if(inputText.Length > 0)
-                        inputText = inputText.Remove(inputText.Length - 1);
+                        if (inputText.Length > 0)
+                            inputText = inputText.Remove(inputText.Length - 1);
                     }
                     delay = 10;
                 }
@@ -98,11 +98,11 @@ namespace Flipsider.GUI.TilePlacementGUI
                 dimensions.X += (int)(Main.ScreenSize.X - dimensions.X) / 16;
             }
 
-            
+
         }
         protected override void OnUpdate()
         {
-            
+
         }
         protected override void OnLeftClick()
         {

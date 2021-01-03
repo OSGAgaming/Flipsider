@@ -233,7 +233,6 @@ namespace Flipsider
             {
                 return Rectangle.Empty;
             }
-            return Rectangle.Empty;
         }
     }
 }

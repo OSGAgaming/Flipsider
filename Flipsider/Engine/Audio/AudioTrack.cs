@@ -13,8 +13,8 @@ namespace Flipsider.Engine.Audio
     public class AudioTrack
     {
         private EventInstance _instance;
-        private string _bank;
-        private string _track;
+        private readonly string _bank;
+        private readonly string _track;
 
         public AudioTrack(string bank, string track)
         {

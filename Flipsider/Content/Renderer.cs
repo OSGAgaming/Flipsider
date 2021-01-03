@@ -22,7 +22,7 @@ using System.Threading;
 
 namespace Flipsider
 {
-    public delegate void LayerEventDelegate(World world,SpriteBatch spriteBatch);
+    public delegate void LayerEventDelegate(World world, SpriteBatch spriteBatch);
     public class Renderer
     {
         public event LayerEventDelegate? OnPreDrawEntities;
@@ -37,8 +37,8 @@ namespace Flipsider
         {
             get
             {
-                if(mainCamera != null)
-                return mainCamera.scale;
+                if (mainCamera != null)
+                    return mainCamera.scale;
                 return 1;
             }
         }
@@ -56,9 +56,8 @@ namespace Flipsider
 
         public void Load()
         {
-            if(instance != null)
-            lighting = new Lighting(instance.Content, 1f);
-            OnPreDrawEntities += RenderSkybox;
+            if (instance != null)
+                lighting = new Lighting(instance.Content, 1f);
         }
         public void Draw()
         {
@@ -81,20 +80,21 @@ namespace Flipsider
         {
             //Todo: Events
             spriteBatch.Begin(SpriteSortMode.Immediate);
+            RenderSkybox(Main.CurrentWorld,Main.spriteBatch);
             OnPreDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
             for (int k = 0; k < Main.entities.Count; k++)
             {
                 Entity entity = Main.entities[k];
                 entity.Draw(spriteBatch);
             }
-            for (int i = 0; i < Water.WaterBodies.Count; i++)
+            for (int i = 0; i < Main.WaterBodies.Count; i++)
             {
-                Water.WaterBodies[i].Render();
+                Main.WaterBodies[i].Draw(spriteBatch);
             }
             OnPostDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
             RenderProps();
             NPC.DTH.Draw(spriteBatch);
-            ShowTileCursor(Main.CurrentWorld);
+            Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
             RenderUI();
             Main.Editor.Draw();
@@ -113,14 +113,14 @@ namespace Flipsider
         public void RenderUI()
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             for (int i = 0; i < Main.UIScreens.Count; i++)
             {
                 Main.UIScreens[i].active = true;
                 Main.UIScreens[i].Draw(Main.spriteBatch);
             }
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate,null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             //debuganthinghere
             // Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, new Vector2(10, 36), Color.Black);
         }

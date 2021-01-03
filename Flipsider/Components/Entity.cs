@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 
 namespace Flipsider
 {
-    public abstract class Entity
+    public abstract class Entity : IComponent
     {
 
         public int width;
@@ -52,7 +53,8 @@ namespace Flipsider
         public Vector2[] oldPositions;
 
         protected internal virtual int TrailLength => 5;
-        int a;
+
+        private int a;
         public void UpdateTrailCache()
         {
             if (active)
@@ -78,7 +80,7 @@ namespace Flipsider
 
         public void TileCollisions(World world)
         {
-            int res = TileManager.tileRes;
+            int res = world.TileRes;
             for (int i = (int)position.X / res - (width / res + 2); i < (int)position.X / res + (width / res + 2); i++)
             {
                 for (int j = (int)position.Y / res - (height / res + 2); j < (int)position.Y / res + (height / res + 2); j++)
@@ -88,12 +90,12 @@ namespace Flipsider
                         if (world.tiles[i, j].active && !world.tiles[i, j].wall)
                         {
                             Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
-                            
+
                             if (CollisionFrame.Intersects(tileRect))
                             {
-                                float lerpFuncMid = MathHelper.Clamp((position.X + width / 2 - tileRect.X) / res,0,1);
+                                float lerpFuncMid = MathHelper.Clamp((position.X + width / 2 - tileRect.X) / res, 0, 1);
                                 Vector2 firstVec = tileRect.Location.ToVector2() + new Vector2(0, 0);
-                                Vector2 secondVec = tileRect.Location.ToVector2() + new Vector2(res,0);
+                                Vector2 secondVec = tileRect.Location.ToVector2() + new Vector2(res, 0);
                                 float grad = (secondVec - firstVec).Slope();
                                 Vector2 MapMid = Vector2.Lerp(firstVec, secondVec, lerpFuncMid);
                                 Vector2 positionPreCollision = position - velocity * Time.DeltaVar(120);
@@ -114,14 +116,14 @@ namespace Flipsider
                                     }
 
                                 }
-                                else if (positionPreCollision.X + width + (2* (Math.Abs(grad) - 0.5)) - (Math.Abs(grad) * (res/2)) > tileRect.X && positionPreCollision.X - (2 * (Math.Abs(grad) - 0.5)) + (Math.Abs(grad) * (res / 2)) < tileRect.X + res)
+                                else if (positionPreCollision.X + width + (2 * (Math.Abs(grad) - 0.5)) - (Math.Abs(grad) * (res / 2)) > tileRect.X && positionPreCollision.X - (2 * (Math.Abs(grad) - 0.5)) + (Math.Abs(grad) * (res / 2)) < tileRect.X + res)
                                 {
                                     if (position.Y + height > MapMid.Y && position.Y < MapMid.Y && velocity.Y >= 0)
                                     {
-                                            position.Y = MapMid.Y - height + 1;
-                                            onGround = true;
-                                            velocity.Y = 0;
-                                           isColliding = true;
+                                        position.Y = MapMid.Y - height + 1;
+                                        onGround = true;
+                                        velocity.Y = 0;
+                                        isColliding = true;
                                     }
                                     if (position.Y < tileRect.Y + res && position.Y > MapMid.Y && velocity.Y < 0)
                                     {
@@ -145,17 +147,19 @@ namespace Flipsider
             oldPositions = new Vector2[TrailLength];
             Init();
         }
-        bool active = true;
+
+        private bool active = true;
         public void Kill()
         {
             active = false;
-            Main.entities.Remove(this);
+            Main.CurrentWorld.entityManager.RemoveComponent(this);
             OnKill();
         }
 
         public void Spawn()
         {
-            Main.entities.Add(this);
+            if(Main.CurrentWorld != null)
+            Main.CurrentWorld.entityManager.AddComponent(this);
         }
 
         public void Animate(int per, int noOfFrames, int frameHeight, int column = 0)
@@ -190,23 +194,23 @@ namespace Flipsider
         {
             frameCounter++;
             ResetVars();
-            if(!noGravity)
-            velocity.Y += gravity * Time.DeltaVar(120);
-            if(!noAirResistance)
-            velocity *= airResistance;
+            if (!noGravity)
+                velocity.Y += gravity * Time.DeltaVar(120);
+            if (!noAirResistance)
+                velocity *= airResistance;
             position += velocity * Time.DeltaVar(120);
             OnUpdate();
             PreAI();
             AI();
             PostAI();
             if (Collides)
-            TileCollisions(Main.CurrentWorld);
+                TileCollisions(Main.CurrentWorld);
             if (isColliding)
                 OnCollide();
             Wet = false;
-            for (int i = 0; i<Water.WaterBodies.Count; i++)
+            foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
             {
-                if (Water.WaterBodies[i].frame.Intersects(CollisionFrame))
+                if (water.frame.Intersects(CollisionFrame))
                     Wet = true;
             }
             UpdateTrailCache();
@@ -214,13 +218,14 @@ namespace Flipsider
 
         public void Init()
         {
-            Spawn();
+           
             Initialize();
+            Spawn();
         }
 
         protected virtual void OnUpdate() { }
 
-       protected virtual void OnCollide() { }
+        protected virtual void OnCollide() { }
 
         protected virtual void OnKill() { }
 

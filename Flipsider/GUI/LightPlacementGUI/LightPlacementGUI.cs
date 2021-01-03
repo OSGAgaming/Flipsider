@@ -11,8 +11,7 @@ using static Flipsider.NPC;
 using static Flipsider.TileManager;
 namespace Flipsider.GUI.TilePlacementGUI
 {
-
-    class LightPlacementGUI : UIScreen
+    internal class LightPlacementGUI : UIScreen
     {
         public LightPlacementGUI()
         {
@@ -34,29 +33,29 @@ namespace Flipsider.GUI.TilePlacementGUI
             elements.Add(LU3);
         }
 
-        bool flag = true;
-        bool mouseStateBuffer;
-        Vector2 pos1;
-        Vector2 pos1Inv;
+        private bool flag = true;
+        private bool mouseStateBuffer;
+        private Vector2 pos1;
+        private Vector2 pos1Inv;
         protected override void OnUpdate()
         {
-            if(Main.Editor.CurrentState == EditorUIState.LightEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.LightEditorMode)
             {
-                if(Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
+                if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
                     flag = true;
                     Main.lighting.AddDirectionalLight(pos1, Main.MouseScreen.ToVector2(), Color.White);
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
-                if(mouseStateBuffer && flag)
+                if (mouseStateBuffer && flag)
                 {
                     pos1 = Main.MouseScreen.ToVector2();
                     pos1Inv = Mouse.GetState().Position.ToVector2();
                     flag = false;
                 }
-                if(mouseStateBuffer)
+                if (mouseStateBuffer)
                 {
-                   // DrawMethods.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
+                    // DrawMethods.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
                 }
             }
         }
@@ -73,16 +72,17 @@ namespace Flipsider.GUI.TilePlacementGUI
                 for (int i = 0; i < Main.lighting.directionalLightSources.Count; i++)
                 {
                     float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 2);
-                    DrawMethods.DrawLine(Main.lighting.directionalLightSources[i].position1.ToScreenInv(), Main.lighting.directionalLightSources[i].position2.ToScreenInv(),Color.White*0.2f, sine + 1);
+                    DrawMethods.DrawLine(Main.lighting.directionalLightSources[i].position1.ToScreenInv(), Main.lighting.directionalLightSources[i].position2.ToScreenInv(), Color.White * 0.2f, sine + 1);
                 }
             }
         }
     }
-    class LightUI : UIElement
+
+    internal class LightUI : UIElement
     {
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Main.spriteBatch.Draw(TextureCache.NPCPanel, dimensions, Color.White* alpha);
+            Main.spriteBatch.Draw(TextureCache.NPCPanel, dimensions, Color.White * alpha);
 
         }
         protected override void OnUpdate()
@@ -100,12 +100,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-           
+
         }
-        float alpha = 1f;
+
+        private float alpha = 1f;
         protected override void OnHover()
         {
-           alpha.ReciprocateTo(0.5f,16f);
+            alpha.ReciprocateTo(0.5f, 16f);
         }
 
         protected override void NotOnHover()

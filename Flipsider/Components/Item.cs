@@ -63,11 +63,11 @@ namespace Flipsider
             get;
             set;
         }
-        public void SetInventoryIcon(Texture2D icon) =>  inventoryIcon = icon;
+        public void SetInventoryIcon(Texture2D icon) => inventoryIcon = icon;
 
         public int maxStack;
 
-        protected virtual void SetDefaults() { ; }
+        protected virtual void SetDefaults() {; }
 
     }
 }

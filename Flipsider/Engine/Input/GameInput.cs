@@ -16,7 +16,7 @@ namespace Flipsider.Engine.Input
             Instance = new GameInput();
         }
 
-        private Dictionary<string, InputBinding> _controls;
+        private readonly Dictionary<string, InputBinding> _controls;
 
         public KeyboardState PreviousKeyState { get; private set; }
         public KeyboardState CurrentKeyState { get; private set; }

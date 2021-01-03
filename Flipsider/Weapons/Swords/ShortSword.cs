@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Flipsider.Weapons
 {
-    class ShortSword : Sword
+    internal class ShortSword : Sword
     {
         public override Texture2D swordSheet => TextureCache.GreenSlime;
 
@@ -18,7 +18,7 @@ namespace Flipsider.Weapons
 
         protected override void OnActivate()
         {
-            Projectile.ShootProjectileAtCursor<ExampleProj>(Main.player.Center,3f);
+            Projectile.ShootProjectileAtCursor<ExampleProj>(Main.player.Center, 3f);
         }
 
         public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)

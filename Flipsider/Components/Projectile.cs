@@ -51,7 +51,7 @@ namespace Flipsider
         }
         protected override void OnCollide()
         {
-            if(TileCollide)
+            if (TileCollide)
             {
                 Kill();
             }

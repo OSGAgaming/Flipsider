@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Engine
 {
-    public class SceneManager
+    public class SceneManager : IUpdate
     {
+        public SceneManager()
+        {
+            Main.Updateables.Add(this);
+        }
+
         private Scene? _currentScene;
         private Scene? _nextScene;
         private SceneTransition? _transitionToUse;

@@ -14,11 +14,8 @@ namespace Flipsider
 {
     public class Player : Entity
     {
-
-
-        float jumpheight = 3.7f;
-
-        bool crouching;
+        private readonly float jumpheight = 3.7f;
+        private bool crouching;
 
         public int life = 90;
         public int maxLife = 100;
@@ -34,6 +31,7 @@ namespace Flipsider
         public int inventorySize => 20;
         public Player(Vector2 position)
         {
+            
             inventory = new IStoreable[20];
             this.position = position;
             width = 30;
@@ -43,9 +41,9 @@ namespace Flipsider
             Collides = false;
         }
 
-        public void AddToInventory(IStoreable item,int slot)
+        public void AddToInventory(IStoreable item, int slot)
         {
-            if(slot >= inventorySize)
+            if (slot >= inventorySize)
             {
                 inventory[inventorySize - 1] = item;
             }
@@ -58,7 +56,7 @@ namespace Flipsider
         public int swapTimer;
         public bool Swapping => swapTimer > 0;
 
-        void SwapWeapons()
+        private void SwapWeapons()
         {
             swapTimer++;
 
@@ -72,14 +70,14 @@ namespace Flipsider
                 swapTimer = 0;
         }
 
-        void SwapWeapon(ref Weapon first, ref Weapon second)
+        private void SwapWeapon(ref Weapon first, ref Weapon second)
         {
             var temp = first;
             first = second;
             second = temp;
         }
 
-        new void ResetVars()
+        private new void ResetVars()
         {
             onGround = false;
             isColliding = false;
@@ -102,7 +100,7 @@ namespace Flipsider
             rightWeapon?.UpdatePassive();
         }
 
-        void CoreUpdates()
+        private void CoreUpdates()
         {
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
@@ -119,7 +117,7 @@ namespace Flipsider
 
         }
 
-        void PostUpdates()
+        private void PostUpdates()
         {
             KeyboardState state = Keyboard.GetState();
             if (onGround)
@@ -140,8 +138,7 @@ namespace Flipsider
             }
         }
 
-
-        void PlayerInputs()
+        private void PlayerInputs()
         {
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
@@ -192,7 +189,7 @@ namespace Flipsider
                 rightWeapon?.Activate(this);
         }
 
-        void Jump()
+        private void Jump()
         {
             if (onGround)
             {
@@ -203,13 +200,13 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            if(Math.Abs(velocity.LengthSquared())>1)
+            if (Math.Abs(velocity.LengthSquared()) > 1)
             {
-                for(int i = 0; i<oldPositions.Length; i++)
+                for (int i = 0; i < oldPositions.Length; i++)
                 {
                     int length = oldPositions.Length;
                     float alpha = (length - i) / length;
-                    spriteBatch.Draw(texture, oldPositions[i] - new Vector2(-width/2, 18-height/2), frame, Color.White* alpha*0.3f, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(texture, oldPositions[i] - new Vector2(-width / 2, 18 - height / 2), frame, Color.White * alpha * 0.3f, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
                 }
             }
         }
@@ -223,7 +220,7 @@ namespace Flipsider
             else
             {
                 float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                int velFunc = (int)(Math.Round(10 / Math.Abs(vel*0.6f)) * Time.DeltaTimeRoundedVar(600,10)/1600);
+                int velFunc = (int)(Math.Round(10 / Math.Abs(vel * 0.6f)) * Time.DeltaTimeRoundedVar(600, 10) / 1600);
                 Animate(velFunc, 8, 48, 1);
             }
 

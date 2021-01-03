@@ -11,9 +11,14 @@ using System.Collections.Generic;
 
 namespace Flipsider
 {
-    public class DamageTextHandler
+    public class DamageTextHandler : IUpdate
     {
-        List<DamageText> DT = new List<DamageText>();
+        public DamageTextHandler()
+        {
+            Main.Updateables.Add(this);
+        }
+
+        private readonly List<DamageText> DT = new List<DamageText>();
 
         public void AddDT(Vector2 position, int Damage)
 =>
@@ -23,7 +28,7 @@ namespace Flipsider
             foreach (DamageText text in DT)
             {
                 if (text != null)
-                text.Draw(spriteBatch);
+                    text.Draw(spriteBatch);
             }
         }
         public void Update()
@@ -31,22 +36,22 @@ namespace Flipsider
             Dispose();
             foreach (DamageText text in DT)
             {
-                if(text != null)
-                text.Update();
+                if (text != null)
+                    text.Update();
             }
         }
         public void Dispose()
         {
-            for(int i = 0; i<DT.Count; i++)
-            { 
-                if(DT[i].timeLeft <= 0)
+            for (int i = 0; i < DT.Count; i++)
+            {
+                if (DT[i].timeLeft <= 0)
                 {
                     DT.RemoveAt(i);
                 }
             }
         }
 
-        class DamageText : IComponent
+        private class DamageText : IComponent
         {
             public Vector2 position;
             public string Text;
@@ -57,7 +62,7 @@ namespace Flipsider
             public float rotationSpeed;
             public void Draw(SpriteBatch spriteBatch)
             {
-                DrawMethods.DrawText(Text, Color.Red* alpha, position,rotation);
+                DrawMethods.DrawText(Text, Color.Red * alpha, position, rotation);
             }
             public void Update()
             {
@@ -69,7 +74,7 @@ namespace Flipsider
             }
             public DamageText(Vector2 position, int Damage)
             {
-                rotationSpeed = Main.rand.NextFloat(-0.01f,0.01f);
+                rotationSpeed = Main.rand.NextFloat(-0.01f, 0.01f);
                 velocity = (Vector2.One).RotatedBy(Main.rand.NextFloat(6.28f));
                 this.position = position;
                 Text = Damage.ToString();
@@ -117,8 +122,8 @@ namespace Flipsider
                 Kill();
                 position.Y--;
             }
-            if(IFrames > 0)
-            IFrames--;
+            if (IFrames > 0)
+                IFrames--;
         }
         public static void SpawnNPC<T>(Vector2 position) where T : NPC, new()
         {
@@ -129,7 +134,7 @@ namespace Flipsider
         }
         protected virtual void SetDefaults()
         {
-            
+
         }
 
         public void TakeDamage(int amount)
@@ -140,7 +145,7 @@ namespace Flipsider
                 DTH.AddDT(Center, amount);
                 IFrames = GlobalIFrames;
             }
-            
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

@@ -5,7 +5,7 @@ using System;
 
 namespace Flipsider.Engine.Interfaces
 {
-    public interface IUpdateable
+    public interface IUpdate
     {
         public void Update();
     }

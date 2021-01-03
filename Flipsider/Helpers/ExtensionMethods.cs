@@ -22,9 +22,9 @@ namespace Flipsider
         {
             return (float)(random.NextDouble() * max);
         }
-        public static float ReciprocateTo(this ref float num,float target, float ease)
+        public static float ReciprocateTo(this ref float num, float target, float ease)
         {
-            return (target - num)/ease;
+            return (target - num) / ease;
         }
         public static float ReciprocateTo(this ref int num, float target, float ease)
         {
@@ -59,12 +59,12 @@ namespace Flipsider
         }
         public static Point ToTile(this Point v)
         {
-            return (v.ToVector2()/TileManager.tileRes).ToPoint();
+            return (v.ToVector2() / TileManager.tileRes).ToPoint();
         }
 
         public static float Slope(this Vector2 v)
         {
-            return v.Y/v.X;
+            return v.Y / v.X;
         }
 
     }

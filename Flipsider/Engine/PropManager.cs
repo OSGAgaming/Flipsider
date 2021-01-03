@@ -8,6 +8,7 @@ using System.Diagnostics;
 using static Flipsider.PropManager;
 using static Flipsider.PropInteraction;
 using System.Reflection;
+using Flipsider.Engine.Interfaces;
 
 namespace Flipsider
 {
@@ -41,8 +42,8 @@ namespace Flipsider
 
         public static void RenderProps()
         {
-            if(delay > 0)
-            delay--;
+            if (delay > 0)
+                delay--;
             for (int i = 0; i < props.Count; i++)
             {
                 props[i].frameCounter++;
@@ -54,10 +55,10 @@ namespace Flipsider
 
         public static Dictionary<string, Prop> PropEntites = new Dictionary<string, Prop>();
         public static int AddPropType(string Prop, Texture2D tex)
-        { 
+        {
             PropTypes.Add(Prop, tex);
             PropEntites.Add(Prop, new Prop(Prop, Vector2.Zero, null));
-            return PropTypes.Count - 1; 
+            return PropTypes.Count - 1;
         }
         public static int delay;
         public static void AddProp(World world)
@@ -96,7 +97,7 @@ namespace Flipsider
             {
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                int alteredRes = TileManager.tileRes / 4;
+                int alteredRes = Main.CurrentWorld.TileRes / 4;
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                 if (CurrentProp != null)
                 {
@@ -126,16 +127,19 @@ namespace Flipsider
             }
         }
     }
-    public static class PropInteraction
+    public class PropInteraction : IUpdate
     {
-       public static void BlobInteractable()
-       {
-            Debug.Write("GraydeeIsDumb");
-       }
-
-        public static void UpdatePropInteractions()
+        public static void BlobInteractable()
         {
-            for(int i = 0; i<props.Count; i++)
+            Debug.Write("GraydeeIsDumb");
+        }
+        public PropInteraction()
+        {
+            Main.Updateables.Add(this);
+        }
+        public void Update()
+        {
+            for (int i = 0; i < props.Count; i++)
             {
                 if ((Main.MouseScreen.ToVector2() - props[i].Center).Length() < props[i].interactRange)
                 {

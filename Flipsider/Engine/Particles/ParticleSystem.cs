@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,10 +31,10 @@ namespace Flipsider.Engine.Particles
         bool CanSpawn(out float percentageOfSpeed);
     }
 
-    public class ParticleSystem
+    public class ParticleSystem : IUpdate
     {
         private float _spawnTimer;
-        private Particle[] _particles;
+        private readonly Particle[] _particles;
 
         public bool SpawningEnabled { get; set; }
         public float SpawnRate { get; set; }
@@ -48,7 +48,7 @@ namespace Flipsider.Engine.Particles
         public ParticleSystem(int maxParticles)
         {
             _particles = new Particle[maxParticles];
-
+            Main.Updateables.Add(this);
             SpawningEnabled = true;
 
             SpawnModules = new List<IParticleModifier>();

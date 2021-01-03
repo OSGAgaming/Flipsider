@@ -13,10 +13,10 @@ namespace Flipsider.Maths.Noise
         private const int PSIZE = 2048;
         private const int PMASK = 2047;
 
-        private short[] perm;
-        private Grad2[] permGrad2;
+        private readonly short[] perm;
+        private readonly Grad2[] permGrad2;
 
-        private double _1Dy;
+        private readonly double _1Dy;
 
         public OpenSimplexNoise() : this(DateTime.Now.Ticks) { }
         public OpenSimplexNoise(long seed)
@@ -121,9 +121,9 @@ namespace Flipsider.Maths.Noise
 
         //Lookup Tables & Gradients
 
-        private static LatticePoint2D[] LOOKUP_2D;
+        private static readonly LatticePoint2D[] LOOKUP_2D;
         private const double N2 = 0.05481866495625118;
-        private static Grad2[] GRADIENTS_2D;
+        private static readonly Grad2[] GRADIENTS_2D;
 
         static OpenSimplexNoise()
         {

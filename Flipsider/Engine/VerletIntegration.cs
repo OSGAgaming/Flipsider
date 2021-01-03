@@ -1,5 +1,6 @@
 
 using Flipsider;
+using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,13 +8,17 @@ using System.Collections.Generic;
 
 namespace Flipsider
 {
-    public class Verlet
+    public class Verlet : IUpdate
     {
+        public Verlet()
+        {
+            Main.Updateables.Add(this);
+        }
         private readonly float _gravity = 0.5f;
         private readonly float _bounce = 0.9f;
         private readonly float _AR = 0.99f;
         private readonly int _fluff = 1;
-        float bounce = 0.9f;
+        private readonly float bounce = 0.9f;
         public List<Stick> stickPoints = new List<Stick>();
         public List<Point> points = new List<Point>();
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)

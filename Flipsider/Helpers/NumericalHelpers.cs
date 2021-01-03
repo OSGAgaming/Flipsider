@@ -28,7 +28,7 @@ namespace Flipsider
             ReturnIntersectionLine(p1, p2, new Vector2(r.X + r.Width, r.Y + r.Height), new Vector2(r.X, r.Y + r.Height)),
              ReturnIntersectionLine(p1, p2, new Vector2(r.X, r.Y + r.Height), new Vector2(r.X, r.Y)) };
             Vector2 chosen = Vector2.Zero;
-            for(int i = 0; i<a.Length; i++)
+            for (int i = 0; i < a.Length; i++)
             {
                 if (i == 0)
                     chosen = a[0];
@@ -38,7 +38,7 @@ namespace Flipsider
                 }
             }
             return chosen;
-            
+
         }
         public static Vector2 RotatedBy(this Vector2 spinningpoint, double radians, Vector2 center = default(Vector2))
         {
@@ -55,7 +55,7 @@ namespace Flipsider
         {
             return (int)(num / round) * round;
         }
-        public static bool LineIntersectsTile(World world,Point p1, Point p2)
+        public static bool LineIntersectsTile(World world, Point p1, Point p2)
         {
             Point TilePos1 = p1.ToTile();
             Point TilePos2 = p2.ToTile();
@@ -63,7 +63,7 @@ namespace Flipsider
             int lowestY = (TilePos1.Y < TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
             int highestX = (TilePos1.X > TilePos2.X) ? TilePos1.X : TilePos2.X;
             int highestY = (TilePos1.Y > TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
-            for(int i = lowestX - 1; i<highestX + 1; i++)
+            for (int i = lowestX - 1; i < highestX + 1; i++)
             {
                 for (int j = lowestY - 1; j < highestY + 1; j++)
                 {
@@ -102,7 +102,7 @@ namespace Flipsider
                             {
                                 Vector2 inter = ReturnIntersectRect(p1.ToVector2(), p2.ToVector2(), new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes));
                                 if (Vector2.Distance(inter, p1.ToVector2()) < Vector2.Distance(chosen, p1.ToVector2()))
-                                chosen = inter;
+                                    chosen = inter;
                             }
                         }
                     }
@@ -125,7 +125,7 @@ namespace Flipsider
             return true;
         }
 
-        public  static Vector2 ReturnIntersectionLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
+        public static Vector2 ReturnIntersectionLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
         {
             float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
             float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
@@ -136,7 +136,7 @@ namespace Flipsider
             float s = q / d;
             if (r < 0 || r > 1 || s < 0 || s > 1)
                 return Vector2.Zero;
-            return Vector2.Lerp(l1p1,l1p2,r);
+            return Vector2.Lerp(l1p1, l1p2, r);
         }
     }
 }

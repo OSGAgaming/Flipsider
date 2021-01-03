@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.GUI.HUD
 {
-    class Hud : UIScreen
+    internal class Hud : UIScreen
     {
-        WeaponIcon leftIcon = new WeaponIcon();
-        WeaponIcon rightIcon = new WeaponIcon();
+        private readonly WeaponIcon leftIcon = new WeaponIcon();
+        private readonly WeaponIcon rightIcon = new WeaponIcon();
 
         public Hud()
         {
@@ -34,7 +34,7 @@ namespace Flipsider.GUI.HUD
         }
     }
 
-    class WeaponIcon : UIElement
+    internal class WeaponIcon : UIElement
     {
         public Weapon? weapon;
 
@@ -57,7 +57,7 @@ namespace Flipsider.GUI.HUD
         }
     }
 
-    class ResourceBar : UIElement
+    internal class ResourceBar : UIElement
     {
         public float amount;
 

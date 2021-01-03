@@ -68,7 +68,7 @@ namespace Flipsider.Engine.Maths
 
     public class PolynomialEase : EaseFunction
     {
-        private Func<float, float> _function;
+        private readonly Func<float, float> _function;
 
         public PolynomialEase(Func<float, float> func)
         {
@@ -172,7 +172,7 @@ namespace Flipsider.Engine.Maths
 
     public class EaseBuilder : EaseFunction
     {
-        private List<EasePoint> _points;
+        private readonly List<EasePoint> _points;
 
         public EaseBuilder()
         {

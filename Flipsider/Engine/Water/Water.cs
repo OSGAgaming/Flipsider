@@ -15,29 +15,29 @@ using Flipsider.Engine.Audio;
 using Flipsider.Engine.Input;
 using Flipsider.GUI.TilePlacementGUI;
 using static Flipsider.TileManager;
-
 using System.Reflection;
 using System.Linq;
 using System.Threading;
+using Flipsider.Engine.Interfaces;
 
 #nullable disable
 // TODO fix this..
 namespace Flipsider
 {
-    public class Water
+    public class Water : IComponent
     {
-        public static List<Water> WaterBodies = new List<Water>();
-        int accuracy;
-        Vector2[] Pos;
-        Vector2[] accel;
-        Vector2[] vel;
-        Vector2[] targetHeight;
+        public List<Water> WaterBodies = new List<Water>();
+        private int accuracy;
+        private Vector2[] Pos;
+        private Vector2[] accel;
+        private Vector2[] vel;
+        private Vector2[] targetHeight;
         public Rectangle frame;
-        float[] disLeft;
-        float[] disRight;
-        float dampening;
-        float constant;
-        float viscosity;
+        private float[] disLeft;
+        private float[] disRight;
+        private float dampening;
+        private float constant;
+        private float viscosity;
 
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(Rectangle vertices) => frame = vertices;
@@ -45,11 +45,11 @@ namespace Flipsider
         public Water(Rectangle _frame)
         {
             SetFrame(_frame);
-            WaterBodies.Add(this);
+            Initialize();
         }
         public void Update()
         {
-            foreach (Entity entity in Main.entities)
+            foreach (Entity entity in Main.CurrentWorld.entityManager.Components)
             {
                 float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
                 if (preContact < frame.Y && entity.Wet)
@@ -81,13 +81,13 @@ namespace Flipsider
             }
         }
 
-        public void Render()
+        public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < accuracy; i++)
             {
-                DrawMethods.DrawLine(Pos[i], Pos[i] - new Vector2(0,Pos[i].Y - frame.Bottom),Color.Blue*0.5f);
+                DrawMethods.DrawLine(Pos[i], Pos[i] - new Vector2(0, Pos[i].Y - frame.Bottom), Color.Blue * 0.5f);
             }
-         }
+        }
         public void Splash(int index, float speed) => vel[index].Y = speed;
         public void SplashPerc(float perc, float speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)].Y = speed;
 

@@ -11,30 +11,44 @@ namespace Flipsider
 {
     public class World
     {
-        public Tile[,] tiles;
-        public int TileRes => 32;
+
+        public Tile[,] tiles => tileManager.tiles;
+        public int TileRes => TileManager.tileRes;
         public int MaxTilesX { get; private set; }
         public int MaxTilesY { get; private set; }
 
-        Player? MainPlayer;
+        public Player? MainPlayer;
 
-        List<Entity>? Entities;
+        public EntityManager entityManager = new EntityManager();
+
+        public TileManager tileManager;
+
+        public Manager<Water> WaterBodies = new Manager<Water>();
 
         public bool IsTileActive(int i, int j)
         {
             if (tiles[i, j] == null)
-            return false;
+                return false;
             if (!tiles[i, j].active)
-            return false;
+                return false;
             return true;
         }
 
+        public bool AppendPlayer(Player player)
+        {
+            if(player != null)
+            {
+                MainPlayer = player;
+                return true;
+            }
+            return false;
+        }
 
         public World(int Width, int Height)
         {
             MaxTilesX = Width;
             MaxTilesY = Height;
-            tiles = new Tile[Width, Height];
+            tileManager = new TileManager(Width, Height);
         }
     }
 }

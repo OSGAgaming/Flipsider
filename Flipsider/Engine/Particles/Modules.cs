@@ -40,8 +40,8 @@ namespace Flipsider.Engine.Particles
     }
     public class FloatUp : IParticleModifier
     {
-        private float _speed;
-        private float _friction;
+        private readonly float _speed;
+        private readonly float _friction;
         public FloatUp(float speed, float friction)
         {
             _speed = speed;
@@ -70,8 +70,8 @@ namespace Flipsider.Engine.Particles
     }
     public class SetRandomVelocity : IParticleModifier
     {
-        private float _speed;
-        private Random _random;
+        private readonly float _speed;
+        private readonly Random _random;
         private float _angle;
         public SetRandomVelocity(float speed, Random random)
         {
@@ -105,7 +105,7 @@ namespace Flipsider.Engine.Particles
     {
         private Color _c;
         private Color _c2;
-        private Random _random;
+        private readonly Random _random;
 
         public SetColorBetweenTwoColours(Color color1, Color color2, Random random)
         {
@@ -122,7 +122,7 @@ namespace Flipsider.Engine.Particles
 
     public class SetScale : IParticleModifier
     {
-        private float _s;
+        private readonly float _s;
 
         public SetScale(float scale)
         {
@@ -137,7 +137,7 @@ namespace Flipsider.Engine.Particles
 
     public class SetLifetime : IParticleModifier
     {
-        private float _age;
+        private readonly float _age;
 
         public SetLifetime(float age)
         {
@@ -152,7 +152,7 @@ namespace Flipsider.Engine.Particles
 
     public class SetTexture : IParticleModifier
     {
-        private Texture2D _t;
+        private readonly Texture2D _t;
 
         public SetTexture(Texture2D tex)
         {
@@ -182,7 +182,7 @@ namespace Flipsider.Engine.Particles
 
     public class Turn : IParticleModifier
     {
-        private float _turnRadians;
+        private readonly float _turnRadians;
 
         public Turn(float rads)
         {
@@ -201,7 +201,7 @@ namespace Flipsider.Engine.Particles
 
     public class OpacityOverLifetime : IParticleModifier
     {
-        private EaseFunction _interp;
+        private readonly EaseFunction _interp;
 
         public OpacityOverLifetime(EaseFunction interpolation)
         {
@@ -218,9 +218,9 @@ namespace Flipsider.Engine.Particles
 
     public class FollowEntity : IParticleModifier
     {
-        private Entity _entity;
-        private float _speed;
-        private bool _useVel;
+        private readonly Entity _entity;
+        private readonly float _speed;
+        private readonly bool _useVel;
 
         public FollowEntity(Entity entity, float speed, bool changeVelocity = true)
         {
@@ -270,9 +270,9 @@ namespace Flipsider.Engine.Particles
 
     public class ConditionalModifier : IParticleModifier
     {
-        private IParticleModifier _true;
-        private IParticleModifier _false;
-        private Func<Particle[], int, bool> _condition;
+        private readonly IParticleModifier _true;
+        private readonly IParticleModifier _false;
+        private readonly Func<Particle[], int, bool> _condition;
 
         public ConditionalModifier(IParticleModifier t, IParticleModifier f, Func<Particle[], int, bool> cond)
         {

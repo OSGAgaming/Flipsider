@@ -10,15 +10,14 @@ using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-    class TileGUI : UIScreen
+    internal class TileGUI : UIScreen
     {
-
-        TilePanel[] tilePanel;
-        int rows = 5;
-        int widthOfPanel = 128 / 2;
-        int heightOfPanel = 272 / 2;
-        int paddingX = 5;
-        int paddingY = 20;
+        private readonly TilePanel[] tilePanel;
+        private readonly int rows = 5;
+        private readonly int widthOfPanel = 128 / 2;
+        private readonly int heightOfPanel = 272 / 2;
+        private readonly int paddingX = 5;
+        private readonly int paddingY = 20;
         public int chosen = -1;
         public void HideExcept(int index)
         {
@@ -51,7 +50,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public TileGUI()
         {
             Main.UIScreens.Add(this);
-            tilePanel = new TilePanel[tileTypes.Count];
+            tilePanel = new TilePanel[Main.tileManager.tileTypes.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)
@@ -60,12 +59,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                     tilePanel[i] = new TilePanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
-                    tilePanel[i].tile = tileTypes[i];
+                    tilePanel[i].tile = Main.tileManager.tileTypes[i];
                     tilePanel[i].parent = this;
                     tilePanel[i].index = i;
                     elements.Add(tilePanel[i]);
 
-                    
+
                 }
             }
         }
@@ -82,16 +81,17 @@ namespace Flipsider.GUI.TilePlacementGUI
             //   DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
         }
     }
-        class TilePanel : UIElement
+
+    internal class TilePanel : UIElement
     {
-        public Tile tile = new Tile(0,Rectangle.Empty);
-        float lerpage = 0;
+        public Tile tile = new Tile(0, Rectangle.Empty);
+        private float lerpage = 0;
         public Rectangle startingDimensions;
-        bool chosen;
+        private bool chosen;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
-        Vector2 sizeOfAtlas = new Vector2(128, 272);
+        private Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
-        float progression = 0;
+        private float progression = 0;
         public TileGUI? parent;
         public int index;
         public bool active = true;
@@ -122,13 +122,14 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (!chosen)
             {
                 spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-                spriteBatch.Draw(tileDict[tile.type], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+                if (Main.tileManager.tileDict[tile.type] != null)
+                    spriteBatch.Draw(Main.tileManager.tileDict[tile.type], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
             }
             else
             {
                 spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.White * alpha);
-                spriteBatch.Draw(tileDict[tile.type], dimensions, Color.White * alpha);
-                Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
+                spriteBatch.Draw(Main.tileManager.tileDict[tile.type], dimensions, Color.White * alpha);
+                Rectangle chooseArea = new Rectangle(goToPoint, startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
                 MouseState mousestate = Mouse.GetState();
                 int DimTileRes = tileRes / 2;
                 if (chooseArea.Contains(mousestate.Position))
@@ -154,7 +155,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     if (parent != null)
                         parent.chosen = index;
-                    Rectangle chooseArea = new Rectangle(goToPoint, (int)startingDimensions.Y, 128, 272);
+                    Rectangle chooseArea = new Rectangle(goToPoint, startingDimensions.Y, 128, 272);
                     MouseState mousestate = Mouse.GetState();
                     int DimTileRes = tileRes / 2;
                     if (chooseArea.Contains(mousestate.Position))

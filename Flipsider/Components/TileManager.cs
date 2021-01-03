@@ -9,37 +9,41 @@ using static Flipsider.PropManager;
 using static Flipsider.PropInteraction;
 namespace Flipsider
 {
-    public class TileManager
+    public partial class TileManager
     {
-        public static int tileRes = 32;
-        public static List<Tile> tileTypes = new List<Tile>();
-
-        public static void LoadTiles()
+        public const int tileRes = 32;
+        public List<Tile> tileTypes = new List<Tile>();
+        public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
+        public Tile[,] tiles;
+        public TileManager(int width, int height)
         {
-            AddTileType(0, TextureCache.TileSet1);
-            AddTileType(1, TextureCache.TileSet2);
-            AddTileType(2, TextureCache.TileSet3);
-            LoadProps();
+            Debug.Write("ran");
+            tiles = new Tile[width, height];
+            LoadTileTypes();
             Main.renderer.OnPreDrawEntities += RenderTiles;
+        }
+        public void AddTileType(int type, Texture2D atlas, bool ifWall = false)
+        {
+            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32), ifWall));
+            tileDict.Add(type, atlas);
         }
 
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-           // Main.instance.ser.Serialize(tiles, Main.MainPath + Name + ".txt");
+            // Main.instance.ser.Serialize(tiles, Main.MainPath + Name + ".txt");
         }
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
-      
-        public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
 
-        public static void AddTile(World world, int X, int Y)
+
+        public void AddTile(World world, int X, int Y)
         {
 
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 try
                 {
-                    world.tiles[X,Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
+                    tiles[X, Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
                     {
                         active = true
                     };
@@ -51,14 +55,14 @@ namespace Flipsider
             }
 
         }
-        public static void AddTile(World world, Vector2 XY)
+        public void AddTile(World world, Vector2 XY)
         {
 
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 try
                 {
-                    world.tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
+                    tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
                     {
                         active = true
                     };
@@ -69,20 +73,13 @@ namespace Flipsider
                 }
             }
         }
-
-        public static void AddTileType(int type, Texture2D atlas, bool ifWall = false)
-        {
-            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32),ifWall));
-            tileDict.Add(type, atlas);
-        }
-
-        public static void RemoveTile(World world, int X, int Y)
+        public void RemoveTile(World world, int X, int Y)
         {
             if (Main.Editor.IsActive)
             {
                 try
                 {
-                    world.tiles[X, Y].active = false;
+                    tiles[X, Y].active = false;
                 }
                 catch
                 {
@@ -90,14 +87,14 @@ namespace Flipsider
                 }
             }
         }
-        public static void RemoveTile(World world, Vector2 XY)
+        public void RemoveTile(World world, Vector2 XY)
         {
             if (Main.Editor.IsActive)
             {
                 try
                 {
-                    if(world.tiles[(int)XY.X, (int)XY.Y] != null)
-                    world.tiles[(int)XY.X, (int)XY.Y].active = false;
+                    if (tiles[(int)XY.X, (int)XY.Y] != null)
+                        tiles[(int)XY.X, (int)XY.Y].active = false;
                 }
                 catch
                 {
@@ -106,7 +103,7 @@ namespace Flipsider
             }
         }
 
-        public static void RenderTiles(World world, SpriteBatch spriteBatch)
+        public void RenderTiles(World world, SpriteBatch spriteBatch)
         {
             float scale = Main.mainCamera.scale;
             scale = Math.Clamp(scale, 0.5f, 1);
@@ -117,27 +114,27 @@ namespace Flipsider
             {
                 for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
                 {
-                    if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && world.tiles[i,j] != null)
+                    if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
                     {
-                        if (world.tiles[i, j].active)
+                        if (tiles[i, j].active)
                         {
-                            if (world.tiles[i, j].type == -1)
+                            if (tiles[i, j].type == -1)
                             {
                                 DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
                             }
                             else
                             {
-                                world.tiles[i, j].frame = Framing.GetTileFrame(world,i, j);
-                                spriteBatch.Draw(tileDict[world.tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), world.tiles[i, j].frame, Color.White);
+                                tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
+                                spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
                             }
                         }
                     }
                 }
             }
         }
-        
+
         public static bool UselessCanPlaceBool;
-        public static void ShowTileCursor(World world)
+        public void ShowTileCursor(World world)
         {
             if (Main.Editor.IsActive)
             {
@@ -146,7 +143,7 @@ namespace Flipsider
                 Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
-                Rectangle TileFrame = Framing.GetTileFrame(world,(int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
+                Rectangle TileFrame = Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
                 if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
                 {
                     if (Main.Editor.currentType == -1)
@@ -155,6 +152,7 @@ namespace Flipsider
                     }
                     else
                     {
+                        if(tileDict[Main.Editor.currentType] != null)
                         Main.spriteBatch.Draw(tileDict[Main.Editor.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                     }
                 }

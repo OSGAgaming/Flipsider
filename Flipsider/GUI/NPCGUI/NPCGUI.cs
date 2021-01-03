@@ -12,15 +12,14 @@ using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-
-    class NPCGUI : UIScreen
+    internal class NPCGUI : UIScreen
     {
-        NPCPanel[] tilePanel;
-        int rows = 5;
-        int widthOfPanel = 64;
-        int heightOfPanel = 64;
-        int paddingX = 5;
-        int paddingY = 20;
+        private readonly NPCPanel[] tilePanel;
+        private readonly int rows = 5;
+        private readonly int widthOfPanel = 64;
+        private readonly int heightOfPanel = 64;
+        private readonly int paddingX = 5;
+        private readonly int paddingY = 20;
         public int chosen = -1;
         public NPCGUI()
         {
@@ -48,19 +47,19 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         }
     }
-   
-    class NPCPanel : UIElement
+
+    internal class NPCPanel : UIElement
     {
         public NPCInfo npc;
-        float lerpage = 0;
+        private float lerpage = 0;
         public Rectangle startingDimensions;
-        bool chosen;
+        private readonly bool chosen;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
         public float alpha = 0;
-        float progression = 0;
+        private float progression = 0;
         public bool active = true;
-        Texture2D? tex;
-        int coolDown = 0;
+        private Texture2D? tex;
+        private int coolDown = 0;
         public override void Draw(SpriteBatch spriteBatch)
         {
             tex ??= npc.type.GetField("icon")?.GetValue(null) as Texture2D;
@@ -81,15 +80,15 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 alpha -= alpha / 16f;
             }
-            int fluff  = 1;
-            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
+            int fluff = 1;
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
             spriteBatch.Draw(tex ?? TextureCache.magicPixel, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {
-            if(coolDown > 0)
-            coolDown--;
+            if (coolDown > 0)
+                coolDown--;
         }
         protected override void OnLeftClick()
         {

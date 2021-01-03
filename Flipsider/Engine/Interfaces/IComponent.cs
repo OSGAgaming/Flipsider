@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Flipsider.Engine.Interfaces
 {
-    public interface IComponent : IUpdateable, IDrawable
+    public interface IComponent : IUpdate, IDrawable
     {
 
     }

@@ -12,7 +12,7 @@ namespace Flipsider.Maths.Noise
         private const int WIDTH = 128;
         private const int MASK = 127;
 
-        private Vector2[,] _cells;
+        private readonly Vector2[,] _cells;
 
         public CellularNoise() : this((int)DateTime.Now.Ticks) { }
         public CellularNoise(int seed)

@@ -11,15 +11,14 @@ using static Flipsider.PropManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-    class PropGUI : UIScreen
+    internal class PropGUI : UIScreen
     {
-
-        PropPanel[] tilePanel;
-        int rows = 5;
-        int widthOfPanel = 64;
-        int heightOfPanel = 64;
-        int paddingX = 5;
-        int paddingY = 20;
+        private readonly PropPanel[] tilePanel;
+        private readonly int rows = 5;
+        private readonly int widthOfPanel = 64;
+        private readonly int heightOfPanel = 64;
+        private readonly int paddingX = 5;
+        private readonly int paddingY = 20;
         public int chosen = -1;
         public PropGUI()
         {
@@ -46,17 +45,18 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnDraw()
         {
-          //DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
+            //DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
         }
     }
-        class PropPanel : UIElement
+
+    internal class PropPanel : UIElement
     {
-        float lerpage = 0;
+        private float lerpage = 0;
         public Rectangle startingDimensions;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
-        Vector2 sizeOfAtlas = new Vector2(128, 272);
+        private Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
-        float progression = 0;
+        private readonly float progression = 0;
         public PropGUI? parent;
         public int index;
         public bool active = true;
@@ -75,7 +75,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 alpha -= alpha / 16f;
             }
             int fluff = 5;
-            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
             spriteBatch.Draw(PropTypes.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
@@ -90,8 +90,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnRightClick()
         {
-            if(parent != null)
-            parent.chosen = -1;
+            if (parent != null)
+                parent.chosen = -1;
         }
         protected override void OnHover()
         {

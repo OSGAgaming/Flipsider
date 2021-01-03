@@ -19,9 +19,9 @@ namespace Flipsider.Engine.Input
     }
     public class InputBinding
     {
-        private bool _isMouse;
-        private int _assignedValueKeyboard;
-        private int _assignedValueController;
+        private readonly bool _isMouse;
+        private readonly int _assignedValueKeyboard;
+        private readonly int _assignedValueController;
 
         public InputBinding(Keys key, Buttons button)
         {

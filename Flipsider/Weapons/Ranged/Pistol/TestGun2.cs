@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Flipsider.Weapons.Ranged.Pistol
 {
-    class TestGun2 : RangedWeapon
+    internal class TestGun2 : RangedWeapon
     {
         public TestGun2() : base(5, 5, 1)
         {

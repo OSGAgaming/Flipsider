@@ -17,7 +17,7 @@ namespace Flipsider.Engine.Audio
         }
 
         private FMOD.Studio.System _audioSystem;
-        private Dictionary<string, AudioBank> _banks = new Dictionary<string, AudioBank>();
+        private readonly Dictionary<string, AudioBank> _banks = new Dictionary<string, AudioBank>();
 
         private VCA _musicVCA;
         private VCA _sfxVCA;
@@ -78,8 +78,8 @@ namespace Flipsider.Engine.Audio
     public class AudioBank
     {
         private Bank _bank;
-        private EventDescription[] _events;
-        private Dictionary<string, EventDescription> _eventDict;
+        private readonly EventDescription[] _events;
+        private readonly Dictionary<string, EventDescription> _eventDict;
 
         public AudioBank(FMOD.Studio.System system, string file)
         {

@@ -9,18 +9,17 @@ using static Flipsider.Item;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-
-    class InventoryGUI : UIScreen
+    internal class InventoryGUI : UIScreen
     {
-        InventoryPanel[] tilePanel;
-        ItemPanel[] itemPanel;
-        int rows = 5;
-        int widthOfPanel = 64;
-        int heightOfPanel = 64;
-        int paddingX = 5;
-        int paddingY = 20;
+        private readonly InventoryPanel[] tilePanel;
+        private readonly ItemPanel[] itemPanel;
+        private readonly int rows = 5;
+        private readonly int widthOfPanel = 64;
+        private readonly int heightOfPanel = 64;
+        private readonly int paddingX = 5;
+        private readonly int paddingY = 20;
         public int chosen = -1;
-        Vector2 topRight = new Vector2(Main.ScreenSize.X,0);
+        private Vector2 topRight = new Vector2(Main.ScreenSize.X, 0);
         public int lastInvSlot;
         public InventoryGUI()
         {
@@ -32,7 +31,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < itemPanel.Length; i++)
                 {
-                    Vector2 panelPoint = new Vector2(Main.ScreenSize.X/3.5f + widthOfPanel + (i % rows) * (widthOfPanel + paddingX) - paddingX, Main.ScreenSize.Y + topRight.Y + paddingY + (i / rows) * heightOfPanel);
+                    Vector2 panelPoint = new Vector2(Main.ScreenSize.X / 3.5f + widthOfPanel + (i % rows) * (widthOfPanel + paddingX) - paddingX, Main.ScreenSize.Y + topRight.Y + paddingY + (i / rows) * heightOfPanel);
                     itemPanel[i] = new ItemPanel();
                     itemPanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     itemPanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
@@ -69,17 +68,18 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         }
     }
-    class ItemPanel : UIElement
+
+    internal class ItemPanel : UIElement
     {
         public IStoreable? item;
-        float lerpage = 0;
+        private float lerpage = 0;
         public Rectangle startingDimensions;
-        bool chosen;
+        private readonly bool chosen;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
         public float alpha = 0;
-        float progression = 0;
+        private float progression = 0;
         public bool active = true;
-        Texture2D? tex;
+        private Texture2D? tex;
         public override void Draw(SpriteBatch spriteBatch)
         {
 
@@ -114,7 +114,8 @@ namespace Flipsider.GUI.TilePlacementGUI
                 alpha -= alpha / 16f;
             }
         }
-        int delay;
+
+        private int delay;
         protected override void OnLeftClick()
         {
             if (Main.Editor.CurrentState == EditorUIState.Inventory)
@@ -139,38 +140,41 @@ namespace Flipsider.GUI.TilePlacementGUI
             lerpage -= lerpage / 16f;
         }
     }
-    class InventoryPanel : UIElement
+
+    internal class InventoryPanel : UIElement
     {
         public IStoreable? item;
-        float lerpage = 0;
+        private float lerpage = 0;
         public Rectangle startingDimensions;
-        bool chosen;
-        int delay;
+        private readonly bool chosen;
+        private int delay;
         public int goToPoint = (int)Main.ScreenSize.X - 140;
         public float alpha = 0;
-        float progression = 0;
+        private float progression = 0;
         public bool active = true;
         public int inventorySlot;
-        bool hasItem => Main.player.inventory[inventorySlot] != null;
 
-        bool isWeapon => item?.GetType().IsSubclassOf(typeof(Weapon)) ?? false;
-        string GetStats()
+        private bool hasItem => Main.player.inventory[inventorySlot] != null;
+
+        private bool isWeapon => item?.GetType().IsSubclassOf(typeof(Weapon)) ?? false;
+
+        private string GetStats()
         {
-            if(item != null && isWeapon)
+            if (item != null && isWeapon)
             {
-               return "Damage: " + ((Weapon)item).damage.ToString();
+                return "Damage: " + ((Weapon)item).damage.ToString();
             }
             return "";
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            int fluff  = 1;
-            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff*2, dimensions.Height + fluff*2);
+            int fluff = 1;
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
             if (item != null)
             {
                 spriteBatch.Draw(item.inventoryIcon, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-                DrawMethods.DrawTextToLeft(GetStats(), Color.White* lerpage*2, Mouse.GetState().Position.ToVector2() + new Vector2(20,0));
+                DrawMethods.DrawTextToLeft(GetStats(), Color.White * lerpage * 2, Mouse.GetState().Position.ToVector2() + new Vector2(20, 0));
             }
         }
         protected override void OnUpdate()

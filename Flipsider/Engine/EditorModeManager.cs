@@ -19,15 +19,20 @@ using static Flipsider.TileManager;
 using System.Reflection;
 using System.Linq;
 using System.Threading;
+using Flipsider.Engine.Interfaces;
 
 namespace Flipsider
 {
-    public class EditorMode
+    public class EditorMode : IUpdate
     {
         public bool IsActive { get; set; }
         public EditorUIState CurrentState;
         public int currentType;
         public Rectangle currentFrame;
+        public EditorMode()
+        {
+            Main.Updateables.Add(this);
+        }
         public void ControlEditorScreen()
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
@@ -40,26 +45,30 @@ namespace Flipsider
             if (Main.CurrentItem != null)
             {
                 Texture2D tex = Main.CurrentItem.inventoryIcon ?? TextureCache.magicPixel;
-                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2 + Vector2.One*4, Color.Black * 0.3f * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
-                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2()/2, Color.White*(float)Math.Abs(Math.Sin(Time.TotalTimeMil/120f)));
+                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2 + Vector2.One * 4, Color.Black * 0.3f * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
+                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2, Color.White * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
 
             }
             if (CurrentState == EditorUIState.LightEditorMode)
             {
-               // Main.spriteBatch.Draw();
+                // Main.spriteBatch.Draw();
             }
         }
         public void Update()
         {
+            if (!IsActive)
+            {
+                Main.mainCamera.offset -= Main.mainCamera.offset / 16f;
+            }
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
-                AddTile(Main.CurrentWorld, Main.MouseTile);
-                PropManager.AddProp(Main.CurrentWorld);  
+                Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, Main.MouseTile);
+                PropManager.AddProp(Main.CurrentWorld);
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
-                RemoveTile(Main.CurrentWorld,Main.MouseTile);
+                Main.CurrentWorld.tileManager.RemoveTile(Main.CurrentWorld, Main.MouseTile);
             }
             if (GameInput.Instance["EditorSwitchModes"].IsJustPressed())
             {
