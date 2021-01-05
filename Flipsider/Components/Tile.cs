@@ -22,13 +22,17 @@ namespace Flipsider
         public int i;
         public int j;
         public World world;
-        bool inFrame => i > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && i < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
+        bool inFrame => ParalaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParalaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
+        Vector2 ParalaxedIJ => new Vector2(i, j).AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
+        int ParalaxedI => (int)ParalaxedIJ.X;
         Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.ScreenScale) / 32;
         Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) / 32;
         public TileManager TM => Main.CurrentWorld.tileManager;
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && TM.tiles[i, j] != null && inFrame)
+            
+            
+            if (i > 0 && i > 0 && i < world.MaxTilesX && i < world.MaxTilesY && TM.tiles[i, j] != null && inFrame)
             {
                 if (TM.tiles[i, j].active)
                 {
@@ -50,6 +54,7 @@ namespace Flipsider
             j = (int)pos.Y;
             world = Main.CurrentWorld;
             Layer = LayerHandler.CurrentLayer;
+            i = (int)ParalaxedI;
             Main.AppendToLayer(this);
         }
         public Tile(int type, Rectangle frame, bool ifWall = false)

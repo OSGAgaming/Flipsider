@@ -21,6 +21,7 @@ namespace Flipsider
         public bool active = true;
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
         public Vector2 Center => position + new Vector2(PropTypes[prop].Width / 2, PropTypes[prop].Height / 2);
+        public Vector2 ParalaxedCenter => Center.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
         public int frameX => PropEntites[prop].animSpeed == -1 ? 0 : (frameCounter / PropEntites[prop].animSpeed) % PropEntites[prop].noOfFrames;
         public Rectangle alteredFrame => new Rectangle(frameX * alteredWidth, 0, alteredWidth, PropTypes[prop].Height);
         public int interactRange;
@@ -39,12 +40,12 @@ namespace Flipsider
         {
             this.noOfFrames = noOfFrames;
             this.animSpeed = animSpeed;
-            position = pos;
             this.prop = prop;
             interactRange = 100;
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
             this.Layer = LayerHandler.CurrentLayer;
+            position = pos.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
             Main.renderer.layerHandler.AppendMethodToLayer(this);
         }
 

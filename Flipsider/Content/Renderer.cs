@@ -84,7 +84,9 @@ namespace Flipsider
         public void Render()
         {
             //Todo: Events
-            RenderSkybox(Main.CurrentWorld, Main.spriteBatch);
+            RenderBG(Main.spriteBatch, TextureCache.ForestBackground2, -0.6f, 0.4f);
+            RenderBG(Main.spriteBatch, TextureCache.ForestBackground3, -0.5f, 0.4f);
+            RenderBG(Main.spriteBatch,TextureCache.ForestBackground1,-0.4f,0.4f);
             layerHandler.DrawLayers(spriteBatch);
             spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             for (int k = 0; k < Main.entities.Count; k++)
@@ -104,11 +106,11 @@ namespace Flipsider
             lighting?.DrawLightMap(Main.CurrentWorld);
             spriteBatch.End();
         }
-        public void RenderSkybox(World world, SpriteBatch spriteBatch)
+        public void RenderBG(SpriteBatch spriteBatch,Texture2D Tex, float paralax, float scale)
         {
-            spriteBatch.Begin(SpriteSortMode.Immediate);
-            Rectangle dims = new Rectangle(0, 0, TextureCache.skybox.Width, TextureCache.skybox.Height);
-            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(0.1f), dims, Color.White, 0f, new Vector2(0, TextureCache.skybox.Height / 2), 0.7f, SpriteEffects.None, 0f);
+            spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
+            spriteBatch.Draw(Tex, Vector2.Zero.AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound*-paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height/1.3f * scale), scale, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         public void RenderUI()
@@ -118,7 +120,7 @@ namespace Flipsider
             for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {
                 UIScreenManager.Instance.Components[i].active = true;
-                UIScreenManager.Instance?.Components[i].Draw(Main.spriteBatch);
+                UIScreenManager.Instance?.Components[i].Draw(spriteBatch);
             }
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);

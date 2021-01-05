@@ -32,7 +32,7 @@ namespace Flipsider
             return new Vector3(scaleX * scale, scaleY * scale, 1.0f);
         }
 
-        private Vector2 playerpos;
+        public Vector2 playerpos;
         public Vector2 offset;
         public float LeftBound => Main.ScreenSize.X / (2 * scale);
 

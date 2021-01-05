@@ -149,9 +149,8 @@ namespace Flipsider
         {
             for (int i = 0; i < props.Count; i++)
             {
-                if ((Main.MouseScreen.ToVector2() - props[i].Center).Length() < props[i].interactRange)
+                if ((Main.MouseScreen.ToVector2() - props[i].ParalaxedCenter).Length() < props[i].interactRange)
                 {
-                    Debug.Write(1);
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
                     {
                         props[i].active = false;

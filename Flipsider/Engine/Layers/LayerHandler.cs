@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class LayerHandler
     {
-        List<Layer> Layers = new List<Layer>();
+        public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
         public void DrawLayers(SpriteBatch spriteBatch)
         {
