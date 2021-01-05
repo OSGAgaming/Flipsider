@@ -27,6 +27,7 @@ namespace Flipsider
     {
         public event LayerEventDelegate? OnPreDrawEntities;
         public event LayerEventDelegate? OnPostDrawEntities;
+        public LayerHandler layerHandler = new LayerHandler();
         internal Lighting? lighting;
         public GraphicsDeviceManager? graphics;
         public RenderTarget2D? renderTarget;
@@ -56,6 +57,10 @@ namespace Flipsider
 
         public void Load()
         {
+            layerHandler.AddLayer();
+            layerHandler.AddLayer();
+            layerHandler.AddLayer();
+            layerHandler.AddLayer();
             if (instance != null)
                 lighting = new Lighting(instance.Content, 1f);
         }
@@ -79,9 +84,9 @@ namespace Flipsider
         public void Render()
         {
             //Todo: Events
-            spriteBatch.Begin(SpriteSortMode.Immediate);
             RenderSkybox(Main.CurrentWorld, Main.spriteBatch);
-            OnPreDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
+            layerHandler.DrawLayers(spriteBatch);
+            spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             for (int k = 0; k < Main.entities.Count; k++)
             {
                 Entity entity = Main.entities[k];
@@ -91,8 +96,6 @@ namespace Flipsider
             {
                 Main.WaterBodies[i].Draw(spriteBatch);
             }
-            OnPostDrawEntities?.Invoke(Main.CurrentWorld, spriteBatch);
-            RenderProps();
             NPC.DTH.Draw(spriteBatch);
             Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
@@ -103,12 +106,10 @@ namespace Flipsider
         }
         public void RenderSkybox(World world, SpriteBatch spriteBatch)
         {
-            spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate);
             Rectangle dims = new Rectangle(0, 0, TextureCache.skybox.Width, TextureCache.skybox.Height);
-            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(10), dims, Color.White, 0f, new Vector2(0, TextureCache.skybox.Height / 2), 0.7f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureCache.skybox, Vector2.Zero.AddParralaxAcross(0.1f), dims, Color.White, 0f, new Vector2(0, TextureCache.skybox.Height / 2), 0.7f, SpriteEffects.None, 0f);
             spriteBatch.End();
-            spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         }
         public void RenderUI()
         {

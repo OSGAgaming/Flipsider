@@ -12,15 +12,23 @@ using Flipsider.Engine.Interfaces;
 
 namespace Flipsider
 {
-    public class PropManager
+    public class PropManager : ILayeredComponent
     {
         public static List<Prop> props = new List<Prop>();
 
         public delegate void TileInteraction();
 
         public static string? CurrentProp;
-        public static void LoadProps()
+
+        public static PropManager? Instance;
+
+        static PropManager()
         {
+            Instance = new PropManager();
+        }
+        public void LoadProps()
+        {
+            Layer = 1;
             AddPropType("Sky", TextureCache.GreenSlime);
             AddPropType("Player", TextureCache.player);
             AddPropType("Blob", TextureCache.Blob);
@@ -41,15 +49,13 @@ namespace Flipsider
             ChangeAnimSpeed("StreetLights", 20);
             ChangeAnimSpeed("StopSigns", 20);
         }
-
-        public static void RenderProps()
+        public int Layer { get; set; }
+        public void Draw(SpriteBatch spriteBatch)
         {
-            if (delay > 0)
-                delay--;
             for (int i = 0; i < props.Count; i++)
             {
                 props[i].frameCounter++;
-                Main.spriteBatch.Draw(PropTypes[props[i].prop], props[i].Center, props[i].alteredFrame, Color.White, 0f, props[i].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(PropTypes[props[i].prop], props[i].Center, props[i].alteredFrame, Color.White, 0f, props[i].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
 
@@ -59,7 +65,7 @@ namespace Flipsider
         public static int AddPropType(string Prop, Texture2D tex)
         {
             PropTypes.Add(Prop, tex);
-            PropEntites.Add(Prop, new Prop(Prop, Vector2.Zero, null));
+            PropEntites.Add(Prop, new Prop(Prop, Vector2.One * -500, null));
             return PropTypes.Count - 1;
         }
         public static int delay;
@@ -145,8 +151,11 @@ namespace Flipsider
             {
                 if ((Main.MouseScreen.ToVector2() - props[i].Center).Length() < props[i].interactRange)
                 {
+                    Debug.Write(1);
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                        props.RemoveAt(i);
+                    {
+                        props[i].active = false;
+                    }
                     if (Keyboard.GetState().IsKeyDown(Keys.E))
                         props[i].tileInteraction?.Invoke();
                 }

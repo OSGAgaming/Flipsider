@@ -56,8 +56,11 @@ namespace Flipsider
                 // Main.spriteBatch.Draw();
             }
         }
+        public bool CanSwitch;
         public void Update()
         {
+            if (PropManager.delay > 0)
+                PropManager.delay--;
             if (!IsActive)
             {
                 Main.mainCamera.offset -= Main.mainCamera.offset / 16f;
@@ -94,7 +97,7 @@ namespace Flipsider
                 {
                     SwitchToMode(EditorUIState.WorldSaverMode);
                 }
-                if (GameInput.Instance["PropEditorMode"].IsJustPressed())
+                if (GameInput.Instance["PropEditorMode"].IsJustPressed() && CanSwitch)
                 {
                     SwitchToMode(EditorUIState.PropEditorMode);
                 }
@@ -134,6 +137,7 @@ namespace Flipsider
             {
                 CurrentState = EditorUIState.None;
             }
+            CanSwitch = true;
         }
         public void SwitchToMode(EditorUIState state)
         {

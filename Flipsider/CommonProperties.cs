@@ -26,6 +26,8 @@ namespace Flipsider
 #nullable disable
     internal partial class Main : Game
     {
+        public static void AppendToLayer(ILayeredComponent ilc) => renderer.layerHandler.AppendMethodToLayer(ilc);
+        public static LayerHandler layerHandler => renderer.layerHandler;
         public static EditorMode Editor => EditorMode.Instance;
         public static float targetScale => mainCamera.targetScale;
         public static TileManager tileManager => CurrentWorld.tileManager;

@@ -14,13 +14,14 @@ namespace Flipsider
 {
     public class Player : Entity
     {
+
         public IStoreable? SelectedItem;
 
         private readonly float jumpheight = 3.7f;
         private bool crouching;
 
-        public int life = 90;
-        public int maxLife = 100;
+        public int life = 500;
+        public int maxLife = 500;
         public float percentLife => life / (float)maxLife;
 
         public Weapon leftWeapon = new TestGun(); //Temporary

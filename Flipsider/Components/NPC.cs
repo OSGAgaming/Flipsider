@@ -147,6 +147,22 @@ namespace Flipsider
             }
 
         }
+        public static Type? SelectedNPCType;
+        public static void ShowNPCCursor()
+        {
+            if (Main.Editor.CurrentState == EditorUIState.NPCSpawnerMode)
+            {
+                Vector2 mousePos = Main.MouseScreen.ToVector2();
+                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
+                int alteredRes = Main.CurrentWorld.TileRes / 4;
+                Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+                Texture2D? icon = SelectedNPCType?.GetField("icon")?.GetValue(null) as Texture2D;
+                if (SelectedNPCType != null && icon != null)
+                {
+                    Main.spriteBatch.Draw(icon, Main.MouseScreen.ToVector2(), icon?.Bounds, Color.White * Math.Abs(sine), 0f, (icon ?? TextureCache.BackBicep).TextureCenter(), 1f, SpriteEffects.None, 0f);
+                }
+            }
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             PreDraw();

@@ -174,6 +174,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnHover()
         {
+            CanPlace = false;
             if (active)
             {
                 lerpage += (0.5f - lerpage) / 16f;

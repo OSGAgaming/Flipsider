@@ -43,7 +43,7 @@ namespace Flipsider
             {
                 try
                 {
-                    tiles[X, Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
+                    tiles[X, Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, new Vector2(X, Y))
                     {
                         active = true
                     };
@@ -55,23 +55,27 @@ namespace Flipsider
             }
 
         }
+        public static bool CanPlace;
         public void AddTile(World world, Vector2 XY)
         {
-
-            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            if (CanPlace)
             {
-                try
+                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
                 {
-                    tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame)
+                    try
                     {
-                        active = true
-                    };
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, XY)
+                        {
+                            active = true
+                        };
+                    }
+                    catch
+                    {
+                        Debug.Write("Just put the cursor in your ass next time eh?");
+                    }
                 }
             }
+            CanPlace = true;
         }
         public void RemoveTile(World world, int X, int Y)
         {

@@ -44,11 +44,15 @@ namespace Flipsider
         public static Texture2D FrontForearm;
         public static Texture2D BackBicep;
         public static Texture2D BackForearm;
+        public static Texture2D LayerHide;
+        public static Texture2D TextLine;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
             TileGUIPanels = content.Load<Texture2D>("Textures/TGUI");
+            LayerHide = content.Load<Texture2D>("Textures/GUI/LayerHide");
+            TextLine = content.Load<Texture2D>("Textures/GUI/TextLine");
             TileSet2 = content.Load<Texture2D>("Textures/TileSet2");
             TileSet1 = content.Load<Texture2D>("Textures/TileSet1");
             TileSet3 = content.Load<Texture2D>("Textures/TileSet3");

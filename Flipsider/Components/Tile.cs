@@ -7,22 +7,58 @@ using System.Diagnostics;
 using static Flipsider.Prop;
 using static Flipsider.PropManager;
 using static Flipsider.PropInteraction;
+using Flipsider.Engine.Interfaces;
+
 namespace Flipsider
 {
     [Serializable]
-    public class Tile
+    public class Tile : ILayeredComponent
     {
         public int type;
         [NonSerialized]
         public Rectangle frame;
         public bool active;
         public bool wall;
+        public int i;
+        public int j;
+        public World world;
+        bool inFrame => i > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && i < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
+        Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.ScreenScale) / 32;
+        Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) / 32;
+        public TileManager TM => Main.CurrentWorld.tileManager;
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && TM.tiles[i, j] != null && inFrame)
+            {
+                if (TM.tiles[i, j].active)
+                {
+                    if (TM.tiles[i, j].type != -1)
+                    {
+                        spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), TM.tiles[i, j].frame, Color.White);
+                    }
+                }
+            }
+        }
+        public int Layer { get; set; }
+        public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false)
+        {
+            this.type = type;
+            this.frame = frame;
+            active = false;
+            wall = ifWall;
+            i = (int)pos.X;
+            j = (int)pos.Y;
+            world = Main.CurrentWorld;
+            Layer = LayerHandler.CurrentLayer;
+            Main.AppendToLayer(this);
+        }
         public Tile(int type, Rectangle frame, bool ifWall = false)
         {
             this.type = type;
             this.frame = frame;
             active = false;
             wall = ifWall;
+            world = Main.CurrentWorld;
         }
     }
 }

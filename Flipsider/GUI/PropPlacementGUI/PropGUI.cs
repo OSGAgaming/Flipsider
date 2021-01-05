@@ -67,7 +67,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
-                Debug.Write(1);
                 alpha += (1 - alpha) / 16f;
             }
             else
@@ -85,7 +84,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            TileManager.UselessCanPlaceBool = false;
             CurrentProp = PropTypes.Keys.ToArray()[index];
         }
         protected override void OnRightClick()
@@ -97,6 +95,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (active)
             {
+                TileManager.UselessCanPlaceBool = false;
+
                 lerpage += (0.5f - lerpage) / 16f;
             }
         }

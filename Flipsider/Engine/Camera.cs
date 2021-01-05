@@ -7,8 +7,16 @@ using System.Collections.Generic;
 
 namespace Flipsider
 {
+
     public class Camera
     {
+        public Matrix ParalaxedTransform(float Paralax)
+        {
+            return Matrix.CreateTranslation(new Vector3(-playerpos.AddParralaxAcross(Paralax), 0)) *
+                      Matrix.CreateScale(GetScreenScale()) *
+                      Matrix.CreateRotationZ(rotation) *
+                      Matrix.CreateTranslation(Main.ScreenSize.X / 2, Main.ScreenSize.Y / 2, 0);
+        }
         public Matrix Transform { get; set; }
         public float scale { get; set; }
         public float rotation { get; set; }

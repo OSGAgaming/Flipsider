@@ -29,13 +29,12 @@ namespace Flipsider
         public SceneManager sceneManager;
         public static Random rand;
         public static Main instance;
-        //Terraria PTSD
         public static GameTime gameTime;
         public static SpriteFont font;
         public static Renderer renderer;
         public static World CurrentWorld;
         private ParticleSystem TestParticleSystem;
-
+        PropInteraction PI = new PropInteraction();
         public Main()
         {
             renderer = new Renderer(this);
@@ -88,7 +87,7 @@ namespace Flipsider
             TestParticleSystem = new ParticleSystem(200);
             #endregion
             instance = this;
-            PropManager.LoadProps();
+            PropManager.Instance.LoadProps();
             LoadGUI();
         }
 

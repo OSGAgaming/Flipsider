@@ -10,8 +10,8 @@ namespace Flipsider.GUI
         public static UIScreenManager? Instance;
 
         static UIScreenManager()
-          {
-           Instance = new UIScreenManager();
-         }
+        {
+            Instance = new UIScreenManager();
+        }
     }
 }

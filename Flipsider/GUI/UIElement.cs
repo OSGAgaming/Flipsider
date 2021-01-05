@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -20,6 +21,7 @@ namespace Flipsider.GUI
         protected virtual void NotOnHover() { }
 
         protected virtual void OnLeftClick() { }
+        protected virtual void OnLeftClickAway() { }
 
         protected virtual void OnRightClick() { }
 
@@ -29,7 +31,8 @@ namespace Flipsider.GUI
             MouseState state = Mouse.GetState();
             if (dimensions.Contains(state.Position)) OnHover();
             if (!dimensions.Contains(state.Position)) NotOnHover();
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnLeftClick();
+            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && dimensions.Contains(state.Position)) OnLeftClick();
+            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && !dimensions.Contains(state.Position)) OnLeftClickAway();
             if (Mouse.GetState().RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
         }
 

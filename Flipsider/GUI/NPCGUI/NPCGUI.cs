@@ -96,7 +96,8 @@ namespace Flipsider.GUI.TilePlacementGUI
                 if (coolDown == 0)
                 {
                     coolDown = 30;
-                    SpawnNPC(Main.player.position + new Vector2(0, -200), npc.type);
+                    SelectedNPCType = npc.type;
+                    SpawnNPC(Main.MouseScreen.ToVector2(), npc.type);
                 }
             }
         }

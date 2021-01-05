@@ -36,7 +36,6 @@ namespace Flipsider
                 colour = col;
             }
         }
-
         public struct DirectionalLightSource
         {
             public Vector2 position1;
