@@ -137,6 +137,7 @@ namespace Flipsider
                             else
                             {
                                 int TR = Main.CurrentWorld.TileRes;
+                                if(Main.tileManager.AutoFrame)
                                 world.tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
                                 Main.spriteBatch.Draw(Main.CurrentWorld.tileManager.tileDict[world.tiles[i, j].type], new Rectangle(i * Main.CurrentWorld.TileRes, j * TR, TR, TR), world.tiles[i, j].frame, Color.White);
                             }

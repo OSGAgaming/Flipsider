@@ -84,8 +84,9 @@ namespace Flipsider
         public void Render()
         {
             //Todo: Events
-            RenderBG(Main.spriteBatch, TextureCache.ForestBackground2, -0.6f, 0.4f);
-            RenderBG(Main.spriteBatch, TextureCache.ForestBackground3, -0.5f, 0.4f);
+            RenderBG(Main.spriteBatch, TextureCache.skybox, -0.8f, 0.4f);
+            RenderBG(Main.spriteBatch, TextureCache.ForestBackground3, -0.6f, 0.4f);
+            RenderBG(Main.spriteBatch, TextureCache.ForestBackground2, -0.5f, 0.4f);
             RenderBG(Main.spriteBatch,TextureCache.ForestBackground1,-0.4f,0.4f);
             layerHandler.DrawLayers(spriteBatch);
             spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
@@ -110,7 +111,8 @@ namespace Flipsider
         {
             spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
-            spriteBatch.Draw(Tex, Vector2.Zero.AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound*-paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height/1.3f * scale), scale, SpriteEffects.None, 0f);
+            for(int i = 0; i<6; i++)
+            spriteBatch.Draw(Tex, new Vector2(i* (Tex.Width * scale), 0).AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound*-paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height/1.3f * scale), scale, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         public void RenderUI()

@@ -30,8 +30,6 @@ namespace Flipsider
         public TileManager TM => Main.CurrentWorld.tileManager;
         public void Draw(SpriteBatch spriteBatch)
         {
-            
-            
             if (i > 0 && i > 0 && i < world.MaxTilesX && i < world.MaxTilesY && TM.tiles[i, j] != null && inFrame)
             {
                 if (TM.tiles[i, j].active)

@@ -15,6 +15,7 @@ namespace Flipsider
         public List<Tile> tileTypes = new List<Tile>();
         public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
         public Tile[,] tiles;
+        public bool AutoFrame = true;
         public TileManager(int width, int height)
         {
             Debug.Write("ran");
@@ -64,6 +65,7 @@ namespace Flipsider
                 {
                     try
                     {
+                        Debug.Write(Main.Editor.currentFrame);
                         tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, XY)
                         {
                             active = true
@@ -128,6 +130,7 @@ namespace Flipsider
                             }
                             else
                             {
+                                if(AutoFrame)
                                 tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
                                 spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
                             }

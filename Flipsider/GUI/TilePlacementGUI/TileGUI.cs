@@ -66,6 +66,9 @@ namespace Flipsider.GUI.TilePlacementGUI
 
                 }
             }
+            TileGUIButton TGUIB = new TileGUIButton("AutoFrame");
+            TGUIB.dimensions = new Rectangle((int)Main.ScreenSize.X - 100, 200, 100, 40);
+            elements.Add(TGUIB);
         }
 
         protected override void OnUpdate()
@@ -80,7 +83,48 @@ namespace Flipsider.GUI.TilePlacementGUI
             //   DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
         }
     }
+    internal class TextButton : UIElement
+    {
+        public string Text = "";
+        protected string ExtraText = "";
+        public float alpha;
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            DrawMethods.DrawTextToLeft(Text + ExtraText, Color.White*alpha, dimensions.Location.ToVector2());
+        }
+        protected override void OnLeftClick()
+        {
 
+        }
+    }
+    internal class TileGUIButton : TextButton
+    {
+        public TileGUIButton(string Text)
+        {
+            this.Text = Text;
+        }
+        bool AutoFrame => Main.tileManager.AutoFrame;
+        protected override void OnLeftClick()
+        {
+            Main.tileManager.AutoFrame = !Main.tileManager.AutoFrame;
+        }
+        protected override void OnUpdate()
+        {
+            ExtraText = AutoFrame ? ":On" : ":Off";
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                alpha += (1 - alpha) / 16f;
+            }
+            else
+            {
+                alpha -= alpha / 16f;
+            }
+        }
+        protected override void OnHover()
+        {
+            CanPlace = false;
+        }
+    }
     internal class TilePanel : UIElement
     {
         public Tile tile = new Tile(0, Rectangle.Empty);
@@ -156,12 +200,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                         parent.chosen = index;
                     Rectangle chooseArea = new Rectangle(goToPoint, startingDimensions.Y, 128, 272);
                     MouseState mousestate = Mouse.GetState();
-                    int DimTileRes = tileRes / 2;
+                    int DimTileRes = tileRes/2;
                     if (chooseArea.Contains(mousestate.Position))
                     {
-                        Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
+                        Vector2 mousePos = mousestate.Position.ToVector2();
                         Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        Main.Editor.currentFrame = new Rectangle((int)tilePoint.X - chooseArea.X, (int)tilePoint.Y - chooseArea.Y, tileRes, tileRes);
+                        Main.Editor.currentFrame = new Rectangle(((int)tilePoint.X - chooseArea.X)*2, ((int)tilePoint.Y - chooseArea.Y)*2, tileRes, tileRes);
                     }
                 }
             }
