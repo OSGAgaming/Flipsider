@@ -70,12 +70,24 @@ namespace Flipsider
                         {
                             active = true
                         };
+                        
                     }
                     catch
                     {
                         Debug.Write("Just put the cursor in your ass next time eh?");
                     }
                 }
+            }
+            if (AutoFrame)
+            {
+                for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
+                    for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+                    {
+                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
+                        {
+                             tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
+                        }
+                    }
             }
             CanPlace = true;
         }
@@ -106,6 +118,17 @@ namespace Flipsider
                 {
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
+                if (AutoFrame)
+                {
+                    for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
+                        for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+                        {
+                            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
+                            {
+                                tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
+                            }
+                        }
+                }
             }
         }
 
@@ -130,8 +153,6 @@ namespace Flipsider
                             }
                             else
                             {
-                                if(AutoFrame)
-                                tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
                                 spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
                             }
                         }
