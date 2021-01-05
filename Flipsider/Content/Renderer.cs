@@ -84,7 +84,7 @@ namespace Flipsider
         public void Render()
         {
             //Todo: Events
-            RenderBG(Main.spriteBatch, TextureCache.skybox, -0.8f, 0.4f);
+            RenderBG(Main.spriteBatch, TextureCache.skybox, -0.9f, 0.8f);
             RenderBG(Main.spriteBatch, TextureCache.ForestBackground3, -0.6f, 0.4f);
             RenderBG(Main.spriteBatch, TextureCache.ForestBackground2, -0.5f, 0.4f);
             RenderBG(Main.spriteBatch,TextureCache.ForestBackground1,-0.4f,0.4f);
