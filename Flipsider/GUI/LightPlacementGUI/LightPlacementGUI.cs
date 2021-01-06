@@ -17,15 +17,15 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             LightUI LU1 = new LightUI
             {
-                dimensions = new Rectangle((int)Main.ScreenSize.X, 120, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)
+                dimensions = new Rectangle((int)Main.ActualScreenSize.X, 120, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)
             };
             LightUI LU2 = new LightUI
             {
-                dimensions = new Rectangle((int)Main.ScreenSize.X, 180, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)
+                dimensions = new Rectangle((int)Main.ActualScreenSize.X, 180, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)
             };
             LightUI LU3 = new LightUI
             {
-                dimensions = new Rectangle((int)Main.ScreenSize.X, 240, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)
+                dimensions = new Rectangle((int)Main.ActualScreenSize.X, 240, TextureCache.NPCPanel.Width, TextureCache.NPCPanel.Height)
             };
             elements.Add(LU1);
             elements.Add(LU2);
@@ -86,8 +86,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-            Vector2 activePos = Main.ScreenSize - new Vector2(80, -10);
-            Vector2 inactivePos = Main.ScreenSize;
+            Vector2 activePos = Main.ActualScreenSize - new Vector2(80, -10);
+            Vector2 inactivePos = Main.ActualScreenSize;
             if (Main.Editor.CurrentState == EditorUIState.LightEditorMode)
             {
                 dimensions.X += (int)(activePos.X - dimensions.X) / 16;

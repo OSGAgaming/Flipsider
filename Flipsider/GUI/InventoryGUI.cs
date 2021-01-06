@@ -19,7 +19,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         private readonly int paddingX = 5;
         private readonly int paddingY = 20;
         public int chosen = -1;
-        private Vector2 topRight = new Vector2(Main.ScreenSize.X, 0);
+        private Vector2 topRight = new Vector2(Main.ActualScreenSize.X, 0);
         public int lastInvSlot;
         protected override void OnLoad()
         {
@@ -28,7 +28,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < itemPanel.Length; i++)
                 {
-                    Vector2 panelPoint = new Vector2(Main.ScreenSize.X / 3.5f + widthOfPanel + (i % rows) * (widthOfPanel + paddingX) - paddingX, Main.ScreenSize.Y + topRight.Y + paddingY + (i / rows) * heightOfPanel);
+                    Vector2 panelPoint = new Vector2(Main.ActualScreenSize.X / 3.5f + widthOfPanel + (i % rows) * (widthOfPanel + paddingX) - paddingX, Main.ActualScreenSize.Y + topRight.Y + paddingY + (i / rows) * heightOfPanel);
                     itemPanel[i] = new ItemPanel();
                     itemPanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     itemPanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
@@ -72,7 +72,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         private float lerpage = 0;
         public Rectangle startingDimensions;
         private readonly bool chosen;
-        public int goToPoint = (int)Main.ScreenSize.X - 140;
+        public int goToPoint = (int)Main.ActualScreenSize.X - 140;
         public float alpha = 0;
         private float progression = 0;
         public bool active = true;
@@ -102,7 +102,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (Main.Editor.CurrentState == EditorUIState.Inventory)
             {
-                dimensions.Y += (int)(Main.ScreenSize.Y - 90 - dimensions.Y) / 32;
+                dimensions.Y += (int)(Main.ActualScreenSize.Y - 90 - dimensions.Y) / 32;
                 alpha += (1 - alpha) / 16f;
             }
             else
@@ -145,7 +145,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public Rectangle startingDimensions;
         private readonly bool chosen;
         private int delay;
-        public int goToPoint = (int)Main.ScreenSize.X - 140;
+        public int goToPoint = (int)Main.ActualScreenSize.X - 140;
         public float alpha = 0;
         private float progression = 0;
         public bool active = true;

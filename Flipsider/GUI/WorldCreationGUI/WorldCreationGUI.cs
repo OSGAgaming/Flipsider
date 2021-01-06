@@ -21,7 +21,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLoad()
         {
             UIStringInput textBox = new UIStringInput();
-            textBox.dimensions = new Rectangle((int)Main.ScreenSize.X - 150, 40, 16, 16);
+            textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40, 16, 16);
             elements.Add(textBox);
         }
 
@@ -162,7 +162,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
                 {
                     alpha += (1 - alpha) / 16f;
-                    dimensions.X += (int)(Main.ScreenSize.X - 150 - dimensions.X) / 16;
+                    dimensions.X += (int)(Main.ActualScreenSize.X - 150 - dimensions.X) / 16;
                     if (keyboard.IsKeyDown(Keys.Enter) && inputText != "")
                     {
                         SaveCurrentWorldAs(inputText);
@@ -207,7 +207,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     inputText = "";
                     alpha -= alpha / 16f;
-                    dimensions.X += (int)(Main.ScreenSize.X - dimensions.X) / 16;
+                    dimensions.X += (int)(Main.ActualScreenSize.X - dimensions.X) / 16;
                 }
 
 

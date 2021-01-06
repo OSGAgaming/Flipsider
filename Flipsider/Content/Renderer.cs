@@ -49,7 +49,7 @@ namespace Flipsider
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.ApplyChanges();
             mainCamera = new Camera();
-            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, (int)ScreenSize.X, (int)ScreenSize.Y);
+            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, (int)1980, (int)1080);
             spriteBatch = new SpriteBatch(graphics?.GraphicsDevice);
         }
 
@@ -87,21 +87,22 @@ namespace Flipsider
         {
             if (graphics != null)
             {
-                Debug.Write(PreferredSize);
-                Rectangle frame = new Rectangle(0, 0, (int)PreferredSize.X, (int)PreferredSize.Y);
-                Rectangle destination = new Rectangle((int)Vector2.Zero.ToScreen().X, (int)Vector2.Zero.ToScreen().Y, (int)(PreferredSize.X * 1 / ScreenScale), (int)(PreferredSize.Y * 1 / ScreenScale));
+                Rectangle frame = new Rectangle(0, 0, (int)ScreenSize.X, (int)ScreenSize.Y);
+                Rectangle destination = new Rectangle((int)Vector2.Zero.ToScreen().X, (int)Vector2.Zero.ToScreen().Y, (int)(ScreenSize.X * (1 / ScreenScale)), (int)(ScreenSize.Y * (1 / ScreenScale)));
                 spriteBatch.Draw(renderTarget, destination, frame, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
             }
         }
         public void Render()
         {
             //Todo: Events
-            RenderBG(Main.spriteBatch, TextureCache.skybox, -0.9f, 0.8f);
+            RenderBG(Main.spriteBatch, TextureCache.skybox, -0.9f, 0.4f);
             RenderBG(Main.spriteBatch, TextureCache.ForestBackground3, -0.6f, 0.4f);
             RenderBG(Main.spriteBatch, TextureCache.ForestBackground2, -0.5f, 0.4f);
             RenderBG(Main.spriteBatch,TextureCache.ForestBackground1,-0.4f,0.4f);
+
             layerHandler.DrawLayers(spriteBatch);
             spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+
             for (int k = 0; k < Main.entities.Count; k++)
             {
                 Entity entity = Main.entities[k];
@@ -111,21 +112,28 @@ namespace Flipsider
             {
                 Main.WaterBodies[i].Draw(spriteBatch);
             }
+
             NPC.DTH.Draw(spriteBatch);
             Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
             RenderUI();
+
             Main.Editor.Draw();
+            Debug.Write("SL:" + Main.ScreenSize);
+            Debug.Write(Main.ActualScreenSize);
             lighting?.DrawLightMap(Main.CurrentWorld);
+
             spriteBatch.End();
+
         }
         public void RenderBG(SpriteBatch spriteBatch,Texture2D Tex, float paralax, float scale)
         {
             spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for(int i = 0; i<6; i++)
-            spriteBatch.Draw(Tex, new Vector2(i* (Tex.Width * scale), 0).AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound*-paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height/1.3f * scale), scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Tex, new Vector2(i* (Tex.Width * scale), 0).AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound*-paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
             spriteBatch.End();
+
         }
         public void RenderUI()
         {

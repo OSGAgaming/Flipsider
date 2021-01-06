@@ -27,7 +27,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < tilePanel.Length; i++)
                 {
-                    Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * (heightOfPanel + paddingY));
+                    Vector2 panelPoint = new Vector2((int)Main.ActualScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * (heightOfPanel + paddingY));
                     tilePanel[i] = new PropPanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
@@ -52,7 +52,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         private float lerpage = 0;
         public Rectangle startingDimensions;
-        public int goToPoint = (int)Main.ScreenSize.X - 140;
+        public int goToPoint = (int)Main.ActualScreenSize.X - 140;
         private Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         private readonly float progression = 0;

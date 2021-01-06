@@ -14,21 +14,21 @@ namespace Flipsider.GUI.HUD
 
         protected override void OnLoad()
         {
-            leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 64, 48, 48);
+            leftIcon.SetDimensions(10, (int)Main.ActualScreenSize.Y - 64, 48, 48);
             //leftIcon.weapon = Main.player.leftWeapon;
             elements.Add(leftIcon);
 
-            rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
+            rightIcon.SetDimensions(64, (int)Main.ActualScreenSize.Y - 64, 48, 48);
             //rightIcon.weapon = Main.player.rightWeapon;
             elements.Add(rightIcon);
         }
 
         protected override void OnUpdate()
         {
-            leftIcon.SetDimensions(10, (int)Main.ScreenSize.Y - 64, 48, 48);
+            leftIcon.SetDimensions(10, (int)Main.ActualScreenSize.Y - 64, 48, 48);
             leftIcon.weapon = Main.player.leftWeapon;
 
-            rightIcon.SetDimensions(64, (int)Main.ScreenSize.Y - 64, 48, 48);
+            rightIcon.SetDimensions(64, (int)Main.ActualScreenSize.Y - 64, 48, 48);
             rightIcon.weapon = Main.player.rightWeapon;
         }
     }

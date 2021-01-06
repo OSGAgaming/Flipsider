@@ -68,6 +68,7 @@ namespace Flipsider
         }
         protected override void Initialize()
         {
+            AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
             CurrentWorld = new World(1000, 1000);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, 100)));
@@ -103,6 +104,7 @@ namespace Flipsider
 
         protected override void Update(GameTime gameTime)
         {
+            AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
             foreach (IUpdate updateable in Updateables.ToArray())
             {

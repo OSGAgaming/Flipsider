@@ -54,7 +54,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < tilePanel.Length; i++)
                 {
-                    Vector2 panelPoint = new Vector2((int)Main.ScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * heightOfPanel);
+                    Vector2 panelPoint = new Vector2((int)Main.ActualScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * heightOfPanel);
                     tilePanel[i] = new TilePanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
@@ -66,8 +66,9 @@ namespace Flipsider.GUI.TilePlacementGUI
 
                 }
             }
+            Debug.Write(Main.ScreenSize.X);
             TileGUIButton TGUIB = new TileGUIButton("AutoFrame");
-            TGUIB.dimensions = new Rectangle((int)Main.ScreenSize.X - 100, 200, 100, 40);
+            TGUIB.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 200, 100, 40);
             elements.Add(TGUIB);
         }
 
@@ -127,11 +128,15 @@ namespace Flipsider.GUI.TilePlacementGUI
     }
     internal class TilePanel : UIElement
     {
+        private readonly int widthOfPanel = 128 / 2;
+        private readonly int heightOfPanel = 272 / 2;
+        private readonly int paddingX = 5;
+        private readonly int paddingY = 20;
         public Tile tile = new Tile(0, Rectangle.Empty);
         private float lerpage = 0;
         public Rectangle startingDimensions;
         private bool chosen;
-        public int goToPoint = (int)Main.ScreenSize.X - 140;
+        public int goToPoint = (int)Main.ActualScreenSize.X - 140;
         private Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         private float progression = 0;
@@ -149,7 +154,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 progression -= progression / 16f;
 
             }
-            dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
+            dimensions.X = (int)MathHelper.Lerp((int)Main.ActualScreenSize.X - widthOfPanel - (index % 5) * (widthOfPanel + paddingX) - paddingX, (int)Main.ActualScreenSize.X - 140, progression);
             dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)

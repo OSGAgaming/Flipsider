@@ -25,8 +25,8 @@ namespace Flipsider
         bool inFrame => ParalaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParalaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
         Vector2 ParalaxedIJ => new Vector2(i, j).AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
         int ParalaxedI => (int)ParalaxedIJ.X;
-        Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ScreenSize.X / Main.ScreenScale) / 32;
-        Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ScreenSize.Y / Main.ScreenScale) / 32;
+        Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
+        Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
         public TileManager TM => Main.CurrentWorld.tileManager;
         public void Draw(SpriteBatch spriteBatch)
         {

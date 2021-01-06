@@ -20,13 +20,13 @@ namespace Flipsider.GUI.TilePlacementGUI
             for (int i = 0; i < Main.renderer.layerHandler.GetLayerCount(); i++)
             {
                 LayerGUIElement textBox = new LayerGUIElement(i);
-                textBox.dimensions = new Rectangle((int)Main.ScreenSize.X - 150, 40 + i * 20, 150, 10);
+                textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + i * 20, 150, 10);
                 elements.Add(textBox);
                 LayerGUIElementHide Hide = new LayerGUIElementHide(i);
-                Hide.dimensions = new Rectangle((int)Main.ScreenSize.X - 100, 40 + i * 20, 32, 64);
+                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 32, 64);
                 elements.Add(Hide);
                 LayerTextBox Box = new LayerTextBox(i);
-                Box.dimensions = new Rectangle((int)Main.ScreenSize.X - 50, 40 + i * 20, 16, 16);
+                Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + i * 20, 16, 16);
                 elements.Add(Box);
             }
 
