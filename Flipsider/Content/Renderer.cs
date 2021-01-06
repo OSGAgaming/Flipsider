@@ -25,8 +25,6 @@ namespace Flipsider
     public delegate void LayerEventDelegate(World world, SpriteBatch spriteBatch);
     public class Renderer
     {
-        public event LayerEventDelegate? OnPreDrawEntities;
-        public event LayerEventDelegate? OnPostDrawEntities;
         public LayerHandler layerHandler = new LayerHandler();
         internal Lighting? lighting;
         public GraphicsDeviceManager? graphics;
@@ -75,11 +73,25 @@ namespace Flipsider
             PrintRenderTarget();
             spriteBatch.End();
         }
+        public Vector2 PreferredSize
+        {
+            get
+            {
+                if(graphics != null)
+                return new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+                return Vector2.Zero;
+            }
+        }
 
         public void PrintRenderTarget()
         {
-            Rectangle frame = new Rectangle(0, 0, (int)(ScreenSize.X), (int)(ScreenSize.Y));
-            spriteBatch.Draw(renderTarget, Vector2.Zero.ToScreen() + (ScreenSize / ScreenScale) / 2, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1 / ScreenScale, SpriteEffects.None, 0f);
+            if (graphics != null)
+            {
+                Debug.Write(PreferredSize);
+                Rectangle frame = new Rectangle(0, 0, (int)PreferredSize.X, (int)PreferredSize.Y);
+                Rectangle destination = new Rectangle((int)Vector2.Zero.ToScreen().X, (int)Vector2.Zero.ToScreen().Y, (int)(PreferredSize.X * 1 / ScreenScale), (int)(PreferredSize.Y * 1 / ScreenScale));
+                spriteBatch.Draw(renderTarget, destination, frame, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            }
         }
         public void Render()
         {

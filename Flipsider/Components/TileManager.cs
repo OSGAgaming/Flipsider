@@ -21,7 +21,6 @@ namespace Flipsider
             Debug.Write("ran");
             tiles = new Tile[width, height];
             LoadTileTypes();
-            Main.renderer.OnPreDrawEntities += RenderTiles;
         }
         public void AddTileType(int type, Texture2D atlas, bool ifWall = false)
         {

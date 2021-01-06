@@ -40,7 +40,8 @@ namespace Flipsider
         public static List<Water> WaterBodies => CurrentWorld.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
         public static float ScreenScale => renderer.mainCamera.scale;
-        public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
+        public static Vector2 ScreenSize =>  graphics.GraphicsDevice == null ? Vector2.One : renderer.PreferredSize;
+        public static Vector2 ActualScreenSize => graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
     }
 }
