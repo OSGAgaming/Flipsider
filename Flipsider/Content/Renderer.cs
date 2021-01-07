@@ -119,8 +119,6 @@ namespace Flipsider
             RenderUI();
 
             Main.Editor.Draw();
-            Debug.Write("SL:" + Main.ScreenSize);
-            Debug.Write(Main.ActualScreenSize);
             lighting?.DrawLightMap(Main.CurrentWorld);
 
             spriteBatch.End();

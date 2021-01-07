@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading;
 using Flipsider.Weapons;
 using Flipsider.Engine.Interfaces;
+using System.Text;
 
 namespace Flipsider
 {
@@ -29,12 +30,14 @@ namespace Flipsider
         public SceneManager sceneManager;
         public static Random rand;
         public static Main instance;
+        public static bool isLoading = true;
         public static GameTime gameTime;
         public static SpriteFont font;
         public static Renderer renderer;
         public static World CurrentWorld;
         private ParticleSystem TestParticleSystem;
         PropInteraction PI = new PropInteraction();
+        public static Serializers serializers = new Serializers();
         public Main()
         {
             renderer = new Renderer(this);
@@ -66,6 +69,7 @@ namespace Flipsider
             rand = new Random();
 
         }
+        public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
         protected override void Initialize()
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
@@ -90,8 +94,9 @@ namespace Flipsider
             instance = this;
             PropManager.Instance.LoadProps();
             LoadGUI();
+            CurrentWorld.RetreiveLevelInfo("save1.txt");
+            isLoading = false;
         }
-
         private void LoadGUI()
         {
             foreach (Type type in ReflectionHelpers.GetInheritedClasses(typeof(UIScreen)))

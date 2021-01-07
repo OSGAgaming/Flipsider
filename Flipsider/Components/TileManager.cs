@@ -31,7 +31,7 @@ namespace Flipsider
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-            // Main.instance.ser.Serialize(tiles, Main.MainPath + Name + ".txt");
+             Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".txt");
         }
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
 
@@ -56,16 +56,15 @@ namespace Flipsider
 
         }
         public static bool CanPlace;
-        public void AddTile(World world, Vector2 XY)
+        public void AddTile(World world,int type, Vector2 XY)
         {
             if (CanPlace)
             {
-                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode || Main.isLoading)
                 {
                     try
                     {
-                        Debug.Write(Main.Editor.currentFrame);
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, XY)
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
                         {
                             active = true
                         };
@@ -84,7 +83,8 @@ namespace Flipsider
                     {
                         if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
                         {
-                             tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
+                             tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
+                             tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
                         }
                     }
             }

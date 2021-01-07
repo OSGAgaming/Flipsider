@@ -68,7 +68,7 @@ namespace Flipsider
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
-                Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, Main.MouseTile);
+                Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, Main.Editor.currentType, Main.MouseTile);
                 PropManager.AddProp(Main.CurrentWorld);
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
@@ -85,11 +85,11 @@ namespace Flipsider
             }
             if (IsActive)
             {
-                if (GameInput.Instance["EditorTileEditor"].IsJustPressed())
+                if (GameInput.Instance["EditorTileEditor"].IsJustPressed() && CurrentState != EditorUIState.WorldSaverMode)
                 {
                     SwitchToMode(EditorUIState.TileEditorMode);
                 }
-                if (GameInput.Instance["NPCEditor"].IsJustPressed())
+                if (GameInput.Instance["NPCEditor"].IsJustPressed() && CurrentState != EditorUIState.WorldSaverMode)
                 {
                     SwitchToMode(EditorUIState.NPCSpawnerMode);
                 }
@@ -97,11 +97,11 @@ namespace Flipsider
                 {
                     SwitchToMode(EditorUIState.WorldSaverMode);
                 }
-                if (GameInput.Instance["PropEditorMode"].IsJustPressed() && CanSwitch)
+                if (GameInput.Instance["PropEditorMode"].IsJustPressed() && CanSwitch && CurrentState != EditorUIState.WorldSaverMode)
                 {
                     SwitchToMode(EditorUIState.PropEditorMode);
                 }
-                if (GameInput.Instance["LightEditorMode"].IsJustPressed())
+                if (GameInput.Instance["LightEditorMode"].IsJustPressed() && CurrentState != EditorUIState.WorldSaverMode)
                 {
                     SwitchToMode(EditorUIState.LightEditorMode);
                 }
