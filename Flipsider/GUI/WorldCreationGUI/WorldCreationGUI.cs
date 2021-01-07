@@ -13,6 +13,7 @@ using static Flipsider.NPC;
 using static Flipsider.TileManager;
 using System.Windows.Input;
 using Flipsider.Engine.Input;
+using System.IO;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
@@ -24,6 +25,18 @@ namespace Flipsider.GUI.TilePlacementGUI
             UIStringInput textBox = new UIStringInput();
             textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40, 16, 16);
             elements.Add(textBox);
+            string[] files = Directory.GetFiles(Main.MainPath.Remove(Main.MainPath.Length - 1), "*.flip");
+            for (int i = 0; i<files.Length; i++)
+            {
+                WorldLoad wlpanel = new WorldLoad();
+                wlpanel.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 160, 150 + i * 40, 180, 30);
+                wlpanel.path = Path.GetFileName(files[i]);
+                wlpanel.index = i;
+                elements.Add(wlpanel);
+            }
+            Save Save = new Save();
+            Save.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 100, TextureCache.SaveTex.Width, TextureCache.SaveTex.Height);
+            elements.Add(Save);
         }
 
         protected override void OnUpdate()
@@ -188,6 +201,10 @@ namespace Flipsider.GUI.TilePlacementGUI
                       DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(26, 20));
                   }
             }
+            else
+            {
+                alpha += (-1 - alpha) / 16f;
+            }
         }
             protected override void OnUpdate()
             {
@@ -206,6 +223,77 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
             }
         }
+    internal class WorldLoad : UIElement
+    {
+        private float alpha = 0f;
+        private int delay = 0;
+        public string path = "";
+        public int index;
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Main.spriteBatch.Draw(TextureCache.Textbox, new Rectangle(dimensions.X, dimensions.Y, 180, 30), Color.White * alpha);
+            DrawMethods.DrawTextToLeft(path, Color.White * alpha, new Vector2(dimensions.X + 30, dimensions.Y + 10));
+            
+        }
+        protected override void OnUpdate()
+        {
+            if (delay > 0)
+                delay--;
+            if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+            {
+                alpha += (1 - alpha) / 16f;
+                dimensions.X += (int)(Main.ActualScreenSize.X - 180 - dimensions.X) / 16;
+            }
+            else
+            {
+                alpha += (-1 - alpha) / 16f;
+            }
+        }
+        protected override void OnLeftClick()
+        {
+            if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+            {
+                Main.CurrentWorld.RetreiveLevelInfo(path);
+            }
+        }
     }
+    internal class Save : UIElement
+    {
+        private float alpha = 0f;
+        private int delay = 0;
+        public string path = "";
+        public int index;
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Main.spriteBatch.Draw(TextureCache.SaveTex, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.White * alpha);
+        }
+        protected override void OnUpdate()
+        {
+            if (delay > 0)
+                delay--;
+            if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+            {
+                alpha += (1 - alpha) / 16f;
+                dimensions.X += (int)(Main.ActualScreenSize.X - 180 - dimensions.X) / 16;
+            }
+            else
+            {
+                alpha += (-1 - alpha) / 16f;
+            }
+        }
+        protected override void OnLeftClick()
+        {
+            if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+            {
+                int i = 1;
+                while (File.Exists(Main.MainPath + "FlipWorld" + i + ".flip"))
+                {
+                    i++;
+                }
+                SaveCurrentWorldAsWithExtension(Main.Editor.CurrentSaveFile ?? "FlipWorld" + i + ".flip");
+            }
+        }
+    }
+}
 
 

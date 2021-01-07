@@ -18,7 +18,6 @@ namespace Flipsider
         public bool AutoFrame = true;
         public TileManager(int width, int height)
         {
-            Debug.Write("ran");
             tiles = new Tile[width, height];
             LoadTileTypes();
         }
@@ -32,6 +31,10 @@ namespace Flipsider
         {
             //SAME NAME WORLDS WILL OVERRIDE
              Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
+        }
+        public static void SaveCurrentWorldAsWithExtension(string Name)
+        {
+            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
         }
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
 
@@ -60,10 +63,9 @@ namespace Flipsider
         {
             if (CanPlace)
             {
-                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode || Main.isLoading)
-                {
                     try
                     {
+                    Debug.Write(41);
                         tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
                         {
                             active = true
@@ -74,7 +76,6 @@ namespace Flipsider
                     {
                         Debug.Write("Just put the cursor in your ass next time eh?");
                     }
-                }
             }
             if (AutoFrame)
             {
@@ -117,17 +118,18 @@ namespace Flipsider
                 {
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
-                if (AutoFrame)
-                {
-                    for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
-                        for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+            }
+            if (AutoFrame)
+            {
+                for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
+                    for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+                    {
+                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
                         {
-                            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
-                            {
-                                tiles[i, j].frame = Framing.GetTileFrame(world, i, j);
-                            }
+                            tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
+                            tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
                         }
-                }
+                    }
             }
         }
 

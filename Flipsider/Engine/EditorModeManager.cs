@@ -30,6 +30,7 @@ namespace Flipsider
         public int currentType;
         public Rectangle currentFrame;
         public string? CurrentProp;
+        public string? CurrentSaveFile;
         public static EditorMode Instance;
         static EditorMode()
         {
@@ -69,14 +70,19 @@ namespace Flipsider
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
+                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+                    Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, Main.Editor.currentType, Main.MouseTile);
+            }
+            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed())
+            {
                 MouseState state = Mouse.GetState();
                 Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
                 int alteredRes = Main.CurrentWorld.TileRes / 4;
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, Main.Editor.currentType, Main.MouseTile);
-                Main.CurrentWorld.propManager.AddProp(Main.CurrentWorld, Main.Editor.CurrentProp ?? "", tilePoint2);
+                if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
+                    Main.CurrentWorld.propManager.AddProp(Main.CurrentWorld, Main.Editor.CurrentProp ?? "", tilePoint2);
             }
-            if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
+                if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
                 Main.CurrentWorld.tileManager.RemoveTile(Main.CurrentWorld, Main.MouseTile);
             }

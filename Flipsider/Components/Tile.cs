@@ -33,13 +33,16 @@ namespace Flipsider
         public TileManager TM => Main.CurrentWorld.tileManager;
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (i > 0 && i > 0 && i < world.MaxTilesX && i < world.MaxTilesY && TM.tiles[i, j] != null && inFrame)
+            if (i > 0 && i > 0 && i < world.MaxTilesX && i < world.MaxTilesY && inFrame)
             {
-                if (TM.tiles[i, j].active)
+                if (TM.tiles[i, j] != null)
                 {
-                    if (TM.tiles[i, j].type != -1)
+                    if (TM.tiles[i, j].active)
                     {
-                        spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX,frameY),new Point(32,32)), Color.White);
+                        if (TM.tiles[i, j].type != -1)
+                        {
+                            spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
+                        }
                     }
                 }
             }

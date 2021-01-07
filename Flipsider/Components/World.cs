@@ -46,6 +46,18 @@ namespace Flipsider
         {
             if (File.Exists(Main.MainPath + FileName))
             {
+                Main.Editor.CurrentSaveFile = FileName;
+                for (int i = 0; i < tiles.GetLength(0); i++)
+                {
+                    for (int j = 0; j < tiles.GetLength(1); j++)
+                    {
+                        tileManager.RemoveTile(this,new Vector2(i,j));
+                    }
+                }
+                for (int i = 0; i < propManager?.props.Count; i++)
+                {
+                    propManager.props[i].active = false;
+                }
                 LevelInfo LevelInfo = Main.serializers.Deserialize<LevelInfo>(Main.MainPath + FileName);
                 for (int i = 0; i < LevelInfo?.tiles?.GetLength(0); i++)
                 {
@@ -57,9 +69,10 @@ namespace Flipsider
                         }
                     }
                 }
-                for (int i = 0; i < LevelInfo?.props?.Count; i++)
+
+                for (int i = 0; i < LevelInfo?.props?.Length; i++)
                 {
-                    propManager.AddProp(this, LevelInfo.props[i].prop, LevelInfo.props[i].position);
+                    propManager?.AddProp(this, LevelInfo.props[i].prop, LevelInfo.props[i].position);
                 }
             }
         }

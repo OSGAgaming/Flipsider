@@ -12,12 +12,12 @@ namespace Flipsider.Engine
     public class LevelInfo
     {
         public Tile[,]? tiles;
-        public List<Prop> props;
+        public Prop[] props;
         public static LevelInfo Convert(World world)
         {
-            return new LevelInfo(world.tileManager.tiles, world.propManager.props);
+            return new LevelInfo(world.tileManager.tiles, world.propManager.props.ToArray());
         }
-        public LevelInfo(Tile[,] tiles, List<Prop> props)
+        public LevelInfo(Tile[,] tiles, Prop[] props)
         {
             this.tiles = tiles;
             this.props = props;

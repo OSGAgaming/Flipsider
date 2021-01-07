@@ -107,7 +107,10 @@ namespace Flipsider.GUI.TilePlacementGUI
         bool AutoFrame => Main.tileManager.AutoFrame;
         protected override void OnLeftClick()
         {
-            Main.tileManager.AutoFrame = !Main.tileManager.AutoFrame;
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                Main.tileManager.AutoFrame = !Main.tileManager.AutoFrame;
+            }
         }
         protected override void OnUpdate()
         {
@@ -217,9 +220,12 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnRightClick()
         {
-            chosen = false;
-            if (parent != null)
-                parent.chosen = -1;
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                chosen = false;
+                if (parent != null)
+                    parent.chosen = -1;
+            }
         }
         protected override void OnHover()
         {

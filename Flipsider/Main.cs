@@ -95,7 +95,6 @@ namespace Flipsider
             instance = this;
             CurrentWorld.propManager.LoadProps();
             LoadGUI();
-            CurrentWorld.RetreiveLevelInfo("dawd.flip");
             isLoading = false;
         }
         private void LoadGUI()
