@@ -11,14 +11,18 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
+    [Serializable]
     public class Prop : ILayeredComponent
     {
         public int noOfFrames;
         public int animSpeed;
-        public Vector2 position;
+        public float positionX;
+        public float positionY;
+        
         public int frameCounter;
         public string prop;
         public bool active = true;
+        public Vector2 position => new Vector2(positionX, positionY);
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
         public Vector2 Center => position + new Vector2(PropTypes[prop].Width / 2, PropTypes[prop].Height / 2);
         public Vector2 ParalaxedCenter => Center.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
@@ -45,7 +49,8 @@ namespace Flipsider
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
             this.Layer = LayerHandler.CurrentLayer;
-            position = pos.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
+            positionX = pos.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax).X;
+            positionY = pos.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax).Y;
             Main.renderer.layerHandler.AppendMethodToLayer(this);
         }
 

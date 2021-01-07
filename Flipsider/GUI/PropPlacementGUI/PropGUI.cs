@@ -84,7 +84,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            CurrentProp = PropTypes.Keys.ToArray()[index];
+            Main.Editor.CurrentProp = PropTypes.Keys.ToArray()[index];
         }
         protected override void OnRightClick()
         {

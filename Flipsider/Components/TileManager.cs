@@ -31,7 +31,7 @@ namespace Flipsider
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-             Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".txt");
+             Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
         }
         //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
 

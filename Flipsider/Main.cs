@@ -36,7 +36,7 @@ namespace Flipsider
         public static Renderer renderer;
         public static World CurrentWorld;
         private ParticleSystem TestParticleSystem;
-        PropInteraction PI = new PropInteraction();
+        PropInteraction PI;
         public static Serializers serializers = new Serializers();
         public Main()
         {
@@ -69,12 +69,13 @@ namespace Flipsider
             rand = new Random();
 
         }
-        public static string MainPath = @$"C:\Users\{Environment.UserName}\source\repos\Flipsider\Flipsider\";
+        public static string MainPath => Environment.CurrentDirectory + $@"\";
         protected override void Initialize()
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
             CurrentWorld = new World(1000, 1000);
+            PI = new PropInteraction(CurrentWorld.propManager);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, 100)));
             Instatiate();
             // Register controls
@@ -92,9 +93,9 @@ namespace Flipsider
             TestParticleSystem = new ParticleSystem(200);
             #endregion
             instance = this;
-            PropManager.Instance.LoadProps();
+            CurrentWorld.propManager.LoadProps();
             LoadGUI();
-            CurrentWorld.RetreiveLevelInfo("save1.txt");
+            CurrentWorld.RetreiveLevelInfo("dawd.flip");
             isLoading = false;
         }
         private void LoadGUI()

@@ -147,9 +147,10 @@ namespace Flipsider
 
             Main.graphics.GraphicsDevice.SetRenderTarget(miscMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
-            for (int i = 0; i < props.Count; i++)
+            for (int i = 0; i < world.propManager.props.Count; i++)
             {
-                Main.spriteBatch.Draw(PropTypes[props[i].prop], props[i].Center, PropEntites[props[i].prop].alteredFrame, Color.White, 0f, PropEntites[props[i].prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                var cprop = world.propManager.props[i];
+                Main.spriteBatch.Draw(PropTypes[cprop.prop], cprop.Center, PropEntites[cprop.prop].alteredFrame, Color.White, 0f, PropEntites[cprop.prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
             for (int k = 0; k < Main.entities.Count; k++)
             {

@@ -14,18 +14,10 @@ namespace Flipsider
 {
     public class PropManager : ILayeredComponent
     {
-        public static List<Prop> props = new List<Prop>();
+        public List<Prop> props = new List<Prop>();
 
         public delegate void TileInteraction();
 
-        public static string? CurrentProp;
-
-        public static PropManager? Instance;
-
-        static PropManager()
-        {
-            Instance = new PropManager();
-        }
         public void LoadProps()
         {
             Layer = 1;
@@ -69,24 +61,22 @@ namespace Flipsider
             return PropTypes.Count - 1;
         }
         public static int delay;
-        public static void AddProp(World world)
+        public void AddProp(World world,string PropType,Vector2 position)
         {
-            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode && delay == 0)
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode && delay == 0 || Main.isLoading)
             {
                 try
                 {
-                    MouseState state = Mouse.GetState();
-                    Vector2 mousePos = new Vector2(state.Position.X, state.Position.Y).ToScreen();
-                    int alteredRes = world.TileRes / 4;
-                    Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+
                     TileInteraction? currentInteraction = null;
-                    if (PropEntites.ContainsKey(CurrentProp ?? ""))
+                    if (PropEntites.ContainsKey(PropType ?? ""))
                     {
-                        currentInteraction = PropEntites[CurrentProp ?? ""].tileInteraction;
+                        currentInteraction = PropEntites[PropType ?? ""].tileInteraction;
                     }
-                    if (TileManager.UselessCanPlaceBool)
+                    if (TileManager.UselessCanPlaceBool || Main.isLoading)
                     {
-                        props.Add(new Prop(CurrentProp ?? "", tilePoint2 - PropTypes[CurrentProp ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction));
+                        int alteredRes = Main.CurrentWorld.TileRes / 4;
+                        props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction));
                         delay = 30;
                     }
                     TileManager.UselessCanPlaceBool = true;
@@ -107,9 +97,9 @@ namespace Flipsider
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
                 int alteredRes = Main.CurrentWorld.TileRes / 4;
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                if (CurrentProp != null)
+                if (Main.Editor.CurrentProp != null)
                 {
-                    Main.spriteBatch.Draw(PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropEntites[CurrentProp].alteredFrame, Color.White * Math.Abs(sine), 0f, PropEntites[CurrentProp].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(PropTypes[Main.Editor.CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropEntites[Main.Editor.CurrentProp].alteredFrame, Color.White * Math.Abs(sine), 0f, PropEntites[Main.Editor.CurrentProp].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
                 }
             }
         }
@@ -141,22 +131,25 @@ namespace Flipsider
         {
             Debug.Write("GraydeeIsDumb");
         }
-        public PropInteraction()
+        public PropInteraction(PropManager propManager)
         {
+            this.propManager = propManager;
             Main.Updateables.Add(this);
         }
+
+        PropManager? propManager;
         public void Update()
         {
-            for (int i = 0; i < props.Count; i++)
+            for (int i = 0; i < propManager?.props.Count; i++)
             {
-                if ((Main.MouseScreen.ToVector2() - props[i].ParalaxedCenter).Length() < props[i].interactRange)
+                if ((Main.MouseScreen.ToVector2() - propManager.props[i].ParalaxedCenter).Length() < propManager.props[i].interactRange)
                 {
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
                     {
-                        props[i].active = false;
+                        propManager.props[i].active = false;
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.E))
-                        props[i].tileInteraction?.Invoke();
+                        propManager.props[i].tileInteraction?.Invoke();
                 }
             }
         }
