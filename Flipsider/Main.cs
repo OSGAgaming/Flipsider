@@ -31,7 +31,6 @@ namespace Flipsider
         public static Random rand;
         public static Main instance;
         public static bool isLoading = true;
-        public static bool gameMenu = true;
         public static GameTime gameTime;
         public static SpriteFont font;
         public static Renderer renderer;
@@ -66,7 +65,7 @@ namespace Flipsider
         {
             GetAllTypes();
             sceneManager = new SceneManager();
-            sceneManager.SetNextScene(new DebugScene(), null);
+            sceneManager.SetNextScene(new MainMenu(), null);
             rand = new Random();
 
         }
@@ -113,19 +112,7 @@ namespace Flipsider
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
-            if (!gameMenu)
-            {
-                foreach (IUpdate updateable in Updateables.ToArray())
-                {
-                    if (updateable != null)
-                        updateable.Update();
-                }
-            }
-            foreach (IUpdate updateable in UpdateablesOffScreen.ToArray())
-            {
-                if (updateable != null)
-                    updateable.Update();
-            }
+            sceneManager.Update();
             base.Update(gameTime);
         }
         protected override void UnloadContent()

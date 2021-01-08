@@ -47,5 +47,7 @@ namespace Flipsider
         public static Vector2 AbsD => Main.ActualScreenSize - Main.ScreenSize;
 
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
+
+        public static Scene CurrentScene => instance.sceneManager.Scene;
     }
 }

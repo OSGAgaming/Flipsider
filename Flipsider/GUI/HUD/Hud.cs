@@ -48,7 +48,7 @@ namespace Flipsider.GUI.HUD
 
             Color color = Color.Lerp(Color.White, Color.Gray, progress);
             Color color2 = Color.Lerp(Color.Gray, Color.White, progress);
-            if (!Main.gameMenu)
+            if (Main.CurrentScene.Name != "Main Menu")
             {
                 spriteBatch.Draw(TextureCache.hudSlot, target2, color2);
                 spriteBatch.Draw(TextureCache.hudSlot, target, color);
@@ -67,7 +67,7 @@ namespace Flipsider.GUI.HUD
             Rectangle target = new Rectangle(dimensions.X + 2, dimensions.Y + 2, (int)((dimensions.Width - 4) * amount), dimensions.Height - 4);
 
             Color color = Color.Lerp(Color.Red, Color.LimeGreen, amount);
-            if (!Main.gameMenu)
+            if (Main.CurrentScene.Name == "Main Menu")
             {
                 spriteBatch.Draw(TextureCache.magicPixel, dimensions, Color.Black);
                 spriteBatch.Draw(TextureCache.magicPixel, target, color);

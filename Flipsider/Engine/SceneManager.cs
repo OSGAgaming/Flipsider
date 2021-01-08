@@ -12,7 +12,7 @@ namespace Flipsider.Engine
     {
         public SceneManager()
         {
-            Main.Updateables.Add(this);
+            
         }
 
         private Scene? _currentScene;

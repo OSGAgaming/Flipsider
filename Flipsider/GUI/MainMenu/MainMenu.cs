@@ -14,10 +14,11 @@ using static Flipsider.TileManager;
 using System.Windows.Input;
 using Flipsider.Engine.Input;
 using System.IO;
+using Flipsider.Scenes;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
-    internal class MainMenu : UIScreen
+    internal class MainMenuUI : UIScreen
     {
         protected override void OnLoad()
         {
@@ -34,7 +35,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         float alpha;
         protected override void OnDraw()
         {
-            if (Main.gameMenu)
+            if (Main.CurrentScene.Name == "Main Menu")
             {
                 alpha = 1;
 
@@ -81,7 +82,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-            if (Main.gameMenu)
+            if (Main.CurrentScene.Name == "Main Menu")
             {
                 alpha = 1;
             }
@@ -113,7 +114,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-            if (Main.gameMenu)
+            if (Main.CurrentScene.Name == "Main Menu")
             {
                 alpha = 1;
             }
@@ -125,7 +126,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            Main.gameMenu = false;
+            Main.instance.sceneManager.SetNextScene(new ForestArea(), null, true);
         }
     }
 }

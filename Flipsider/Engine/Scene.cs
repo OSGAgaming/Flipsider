@@ -11,6 +11,10 @@ namespace Flipsider.Engine
     public class Scene
     {
         /// <summary>
+        /// Name of the scene for easy Accessibility
+        /// </summary>
+        public virtual string? Name { get; set; }
+        /// <summary>
         /// Method called when the scene has just been activated.
         /// </summary>
         public virtual void OnActivate()
