@@ -14,10 +14,12 @@ namespace Flipsider
         public static int CurrentLayer = 0;
         public void DrawLayers(SpriteBatch spriteBatch)
         {
+            spriteBatch.End();
             foreach (Layer layer in Layers)
             {
                 layer.Draw(spriteBatch);
             }
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         }
         public void AppendMethodToLayer(ILayeredComponent Method)
         =>
