@@ -77,8 +77,8 @@ namespace Flipsider
         {
             get
             {
-                if(graphics != null)
-                return new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+                if (graphics != null)
+                    return new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                 return Vector2.Zero;
             }
         }
@@ -98,10 +98,10 @@ namespace Flipsider
             RenderBG(Main.spriteBatch, TextureCache.skybox, -0.9f, 0.4f);
             RenderBG(Main.spriteBatch, TextureCache.ForestBackground3, -0.6f, 0.4f);
             RenderBG(Main.spriteBatch, TextureCache.ForestBackground2, -0.5f, 0.4f);
-            RenderBG(Main.spriteBatch,TextureCache.ForestBackground1,-0.4f,0.4f);
+            RenderBG(Main.spriteBatch, TextureCache.ForestBackground1, -0.4f, 0.4f);
 
             layerHandler.DrawLayers(spriteBatch);
-            spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
 
             for (int k = 0; k < Main.entities.Count; k++)
             {
@@ -116,20 +116,19 @@ namespace Flipsider
             NPC.DTH.Draw(spriteBatch);
             Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             ShowPropCursor();
-            RenderUI();
-
             Main.Editor.Draw();
+            RenderUI();
             lighting?.DrawLightMap(Main.CurrentWorld);
-
+            RenderUI();
             spriteBatch.End();
 
         }
-        public void RenderBG(SpriteBatch spriteBatch,Texture2D Tex, float paralax, float scale)
+        public void RenderBG(SpriteBatch spriteBatch, Texture2D Tex, float paralax, float scale)
         {
             spriteBatch.Begin(transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
-            for(int i = 0; i<6; i++)
-            spriteBatch.Draw(Tex, new Vector2(i* (Tex.Width * scale), 0).AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound*-paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+            for (int i = 0; i < 6; i++)
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParralaxAcross(paralax) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0), dims, Color.White, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
             spriteBatch.End();
 
         }

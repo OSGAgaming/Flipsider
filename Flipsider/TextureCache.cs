@@ -49,6 +49,7 @@ namespace Flipsider
         public static Texture2D ForestBackground1;
         public static Texture2D ForestBackground2;
         public static Texture2D ForestBackground3;
+        public static Texture2D WhiteScreen;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -65,6 +66,7 @@ namespace Flipsider
             TileSet4 = content.Load<Texture2D>("Textures/TileSet4");
             player = content.Load<Texture2D>("Textures/char");
             hudSlot = content.Load<Texture2D>("Textures/GUI/HudSlot");
+            WhiteScreen = content.Load<Texture2D>("Textures/GUI/WhiteScreen");
             testGun = content.Load<Texture2D>("Textures/GUI/TestGun");
             magicPixel = content.Load<Texture2D>("Textures/GUI/MagicPixel");
             skybox = content.Load<Texture2D>("Textures/skybox");

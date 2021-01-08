@@ -26,9 +26,14 @@ namespace Flipsider
 {
     public class Manager<T> : IComponent where T : IComponent
     {
-        public Manager()
+        public Manager(bool ingame = true)
         {
+            if(ingame)
             Main.Updateables.Add(this);
+            else
+            {
+                Main.UpdateablesOffScreen.Add(this);
+            }
         }
         internal List<T> Components = new List<T>();
         public virtual void Update()

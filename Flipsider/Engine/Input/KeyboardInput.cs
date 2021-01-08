@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Flipsider.Engine.Input
-{ 
+{
     public class KeyboardInput
     {
         public static KeyboardInput? Instance;
@@ -14,7 +14,7 @@ namespace Flipsider.Engine.Input
         {
             Instance = new KeyboardInput();
         }
-       public KeyboardInput()
+        public KeyboardInput()
         {
 
         }
@@ -23,7 +23,7 @@ namespace Flipsider.Engine.Input
         /// <summary>
         /// The keys that are down.
         /// </summary>
-        
+
         /// <summary>
         /// Upon input.
         /// </summary>
@@ -31,7 +31,7 @@ namespace Flipsider.Engine.Input
         /// <param name="MouseState"></param>
         protected void Input(KeyboardState KeyboardState, MouseState MouseState)
         {
-           
+
         }
         /// <summary>
         /// Inputs a key to the textbox.
@@ -156,5 +156,5 @@ namespace Flipsider.Engine.Input
 
             }
         }
-        }
+    }
 }

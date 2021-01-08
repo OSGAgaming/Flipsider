@@ -8,6 +8,10 @@ namespace Flipsider.GUI
     public class UIScreenManager : Manager<UIScreen>
     {
         public static UIScreenManager? Instance;
+        public UIScreenManager()
+        {
+           Main.UpdateablesOffScreen.Add(this);
+        }
 
         static UIScreenManager()
         {

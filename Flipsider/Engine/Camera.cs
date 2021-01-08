@@ -41,7 +41,7 @@ namespace Flipsider
 
         public void FixateOnPlayer(Player player)
         {
-            
+
             //Temporarily here only
             if (screenShake > 0) screenShake--;
 

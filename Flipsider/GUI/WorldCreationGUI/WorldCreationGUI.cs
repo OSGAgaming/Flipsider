@@ -26,7 +26,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40, 16, 16);
             elements.Add(textBox);
             string[] files = Directory.GetFiles(Main.MainPath.Remove(Main.MainPath.Length - 1), "*.flip");
-            for (int i = 0; i<files.Length; i++)
+            for (int i = 0; i < files.Length; i++)
             {
                 WorldLoad wlpanel = new WorldLoad();
                 wlpanel.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 160, 150 + i * 40, 180, 30);
@@ -102,14 +102,14 @@ namespace Flipsider.GUI.TilePlacementGUI
             isActive = false;
         }
     }
-        internal class NumberBox : UIElement
-        {
-            public string inputText = "";
-            public float alpha = 1f;
-            private int delay = 0;
-            public bool isActive;
-            public float Number => float.Parse(inputText);
-            Texture2D? Texture;
+    internal class NumberBox : UIElement
+    {
+        public string inputText = "";
+        public float alpha = 1f;
+        private int delay = 0;
+        public bool isActive;
+        public float Number => float.Parse(inputText);
+        Texture2D? Texture;
         protected virtual void CustomDraw(SpriteBatch spriteBatch)
         {
 
@@ -136,31 +136,31 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
         }
         public override void Draw(SpriteBatch spriteBatch)
-            {
+        {
             dimensions.Width = 16 + (inputText.Length - 1) * 7;
-                if (delay > 0)
-                    delay--;
+            if (delay > 0)
+                delay--;
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
-                KeyboardState keyboard = Keyboard.GetState();
+            KeyboardState keyboard = Keyboard.GetState();
             Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Black * alpha);
             DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
             UpdateInput();
             CustomDraw(spriteBatch);
-            }
-            protected override void OnLeftClick()
-            {
-                isActive = true;
-            }
-            protected override void OnLeftClickAway()
-            {
-                isActive = false;
-            }
         }
-        internal class UIStringInput : UIElement
+        protected override void OnLeftClick()
         {
-            private string inputText = "";
-            private float alpha = 0f;
-            private int delay = 0;
+            isActive = true;
+        }
+        protected override void OnLeftClickAway()
+        {
+            isActive = false;
+        }
+    }
+    internal class UIStringInput : UIElement
+    {
+        private string inputText = "";
+        private float alpha = 0f;
+        private int delay = 0;
         KeyboardState oldKeyboardState = Keyboard.GetState();
         KeyboardState currentKeyboardState = Keyboard.GetState();
         private void UpdateInput()
@@ -175,7 +175,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 if (oldKeyboardState.IsKeyUp(key) && key != Keys.OemSemicolon)
                 {
-                    KeyboardInput.Instance?.InputKey(key,ref inputText);
+                    KeyboardInput.Instance?.InputKey(key, ref inputText);
                 }
             }
         }
@@ -191,38 +191,38 @@ namespace Flipsider.GUI.TilePlacementGUI
                 UpdateInput();
                 alpha += (1 - alpha) / 16f;
                 dimensions.X += (int)(Main.ActualScreenSize.X - 150 - dimensions.X) / 16;
-                  if (keyboard.IsKeyDown(Keys.Enter) && inputText != "")
-                  {
-                      SaveCurrentWorldAs(inputText);
-                      inputText = "";
-                  }
-                  else
-                  {
-                      DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(26, 20));
-                  }
+                if (keyboard.IsKeyDown(Keys.Enter) && inputText != "")
+                {
+                    SaveCurrentWorldAs(inputText);
+                    inputText = "";
+                }
+                else
+                {
+                    DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(26, 20));
+                }
             }
             else
             {
                 alpha += (-1 - alpha) / 16f;
             }
         }
-            protected override void OnUpdate()
-            {
+        protected override void OnUpdate()
+        {
 
-            }
-            protected override void OnLeftClick()
-            {
-
-            }
-            protected override void OnHover()
-            {
-
-            }
-
-            protected override void NotOnHover()
-            {
-            }
         }
+        protected override void OnLeftClick()
+        {
+
+        }
+        protected override void OnHover()
+        {
+
+        }
+
+        protected override void NotOnHover()
+        {
+        }
+    }
     internal class WorldLoad : UIElement
     {
         private float alpha = 0f;
@@ -233,7 +233,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             Main.spriteBatch.Draw(TextureCache.Textbox, new Rectangle(dimensions.X, dimensions.Y, 180, 30), Color.White * alpha);
             DrawMethods.DrawTextToLeft(path, Color.White * alpha, new Vector2(dimensions.X + 30, dimensions.Y + 10));
-            
+
         }
         protected override void OnUpdate()
         {

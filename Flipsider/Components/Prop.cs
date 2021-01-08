@@ -18,7 +18,7 @@ namespace Flipsider
         public int animSpeed;
         public float positionX;
         public float positionY;
-        
+
         public int frameCounter;
         public string prop;
         public bool active = true;

@@ -51,7 +51,6 @@ namespace Flipsider
                 Texture2D tex = Main.player.SelectedItem.inventoryIcon ?? TextureCache.magicPixel;
                 Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2 + Vector2.One * 4, Color.Black * 0.3f * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
                 Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2, Color.White * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
-
             }
             if (CurrentState == EditorUIState.LightEditorMode)
             {
@@ -61,8 +60,6 @@ namespace Flipsider
         public bool CanSwitch;
         public void Update()
         {
-            if (PropManager.delay > 0)
-                PropManager.delay--;
             if (!IsActive)
             {
                 Main.mainCamera.offset -= Main.mainCamera.offset / 16f;
@@ -82,7 +79,7 @@ namespace Flipsider
                 if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
                     Main.CurrentWorld.propManager.AddProp(Main.CurrentWorld, Main.Editor.CurrentProp ?? "", tilePoint2);
             }
-                if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
+            if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
                 Main.CurrentWorld.tileManager.RemoveTile(Main.CurrentWorld, Main.MouseTile);
             }

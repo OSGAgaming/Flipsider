@@ -30,7 +30,7 @@ namespace Flipsider
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-             Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
+            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
         }
         public static void SaveCurrentWorldAsWithExtension(string Name)
         {
@@ -59,23 +59,23 @@ namespace Flipsider
 
         }
         public static bool CanPlace;
-        public void AddTile(World world,int type, Vector2 XY)
+        public void AddTile(World world, int type, Vector2 XY)
         {
             if (CanPlace)
             {
-                    try
-                    {
+                try
+                {
                     Debug.Write(41);
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
-                        {
-                            active = true
-                        };
-                        
-                    }
-                    catch
+                    tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
                     {
-                        Debug.Write("Just put the cursor in your ass next time eh?");
-                    }
+                        active = true
+                    };
+
+                }
+                catch
+                {
+                    Debug.Write("Just put the cursor in your ass next time eh?");
+                }
             }
             if (AutoFrame)
             {
@@ -84,8 +84,8 @@ namespace Flipsider
                     {
                         if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
                         {
-                             tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
-                             tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
+                            tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
+                            tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
                         }
                     }
             }

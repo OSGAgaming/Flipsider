@@ -60,28 +60,28 @@ namespace Flipsider
             PropEntites.Add(Prop, new Prop(Prop, Vector2.One * -500, null));
             return PropTypes.Count - 1;
         }
-        public void AddProp(World world,string PropType,Vector2 position)
+        public void AddProp(World world, string PropType, Vector2 position)
         {
-                try
+            try
+            {
+                Debug.Write(PropType);
+                TileInteraction? currentInteraction = null;
+                if (PropEntites.ContainsKey(PropType ?? ""))
                 {
-                    Debug.Write(PropType);
-                    TileInteraction? currentInteraction = null;
-                    if (PropEntites.ContainsKey(PropType ?? ""))
-                    {
-                        currentInteraction = PropEntites[PropType ?? ""].tileInteraction;
-                    }
-                    if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
-                    {
-                        int alteredRes = Main.CurrentWorld.TileRes / 4;
-                        props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction));
-                    }
-                    TileManager.UselessCanPlaceBool = true;
+                    currentInteraction = PropEntites[PropType ?? ""].tileInteraction;
                 }
-                catch
+                if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
                 {
+                    int alteredRes = Main.CurrentWorld.TileRes / 4;
+                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction));
+                }
+                TileManager.UselessCanPlaceBool = true;
+            }
+            catch
+            {
 
 
-                }
+            }
         }
 
         public static void ShowPropCursor()

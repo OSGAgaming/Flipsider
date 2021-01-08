@@ -53,7 +53,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void CustomDraw(SpriteBatch spriteBatch)
         {
             KeyboardState keyboard = Keyboard.GetState();
-            if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText,out buffer))
+            if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out buffer))
             {
                 DrawMethods.DrawTextToLeft("Paralax in Layer " + Layer + " is set to: " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
                 if (isActive && keyboard.IsKeyDown(Keys.Enter))
@@ -65,13 +65,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-            if(isActive)
+            if (isActive)
             {
                 Main.Editor.CanSwitch = false;
             }
-            if(SetAlpha > 0)
+            if (SetAlpha > 0)
             { SetAlpha--; }
-           
+
             if (LayerHandler.CurrentLayer == Layer)
             {
                 dimensions.X += (150 - dimensions.X) / 16;

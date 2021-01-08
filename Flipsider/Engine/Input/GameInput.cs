@@ -34,7 +34,7 @@ namespace Flipsider.Engine.Input
 
         public GameInput()
         {
-            Main.Updateables.Add(this);
+            Main.UpdateablesOffScreen.Add(this);
             _controls = new Dictionary<string, InputBinding>();
         }
 

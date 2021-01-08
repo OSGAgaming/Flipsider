@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Flipsider.GUI
@@ -17,6 +18,7 @@ namespace Flipsider.GUI
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            OnDraw();
             if (active)
             {
                 foreach (UIElement element in elements)
@@ -24,7 +26,6 @@ namespace Flipsider.GUI
                     element.Draw(spriteBatch);
                 }
             }
-            OnDraw();
         }
 
         protected virtual void OnUpdate() { }

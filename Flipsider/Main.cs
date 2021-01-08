@@ -31,6 +31,7 @@ namespace Flipsider
         public static Random rand;
         public static Main instance;
         public static bool isLoading = true;
+        public static bool gameMenu = true;
         public static GameTime gameTime;
         public static SpriteFont font;
         public static Renderer renderer;
@@ -106,12 +107,21 @@ namespace Flipsider
         }
 
         public static List<IUpdate> Updateables = new List<IUpdate>();
+        public static List<IUpdate> UpdateablesOffScreen = new List<IUpdate>();
 
         protected override void Update(GameTime gameTime)
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
-            foreach (IUpdate updateable in Updateables.ToArray())
+            if (!gameMenu)
+            {
+                foreach (IUpdate updateable in Updateables.ToArray())
+                {
+                    if (updateable != null)
+                        updateable.Update();
+                }
+            }
+            foreach (IUpdate updateable in UpdateablesOffScreen.ToArray())
             {
                 if (updateable != null)
                     updateable.Update();

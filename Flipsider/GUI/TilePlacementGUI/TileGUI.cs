@@ -91,7 +91,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public float alpha;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawMethods.DrawTextToLeft(Text + ExtraText, Color.White*alpha, dimensions.Location.ToVector2());
+            DrawMethods.DrawTextToLeft(Text + ExtraText, Color.White * alpha, dimensions.Location.ToVector2());
         }
         protected override void OnLeftClick()
         {
@@ -208,12 +208,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                         parent.chosen = index;
                     Rectangle chooseArea = new Rectangle(goToPoint, startingDimensions.Y, 128, 272);
                     MouseState mousestate = Mouse.GetState();
-                    int DimTileRes = tileRes/2;
+                    int DimTileRes = tileRes / 2;
                     if (chooseArea.Contains(mousestate.Position))
                     {
                         Vector2 mousePos = mousestate.Position.ToVector2();
                         Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        Main.Editor.currentFrame = new Rectangle(((int)tilePoint.X - chooseArea.X)*2, ((int)tilePoint.Y - chooseArea.Y)*2, tileRes, tileRes);
+                        Main.Editor.currentFrame = new Rectangle(((int)tilePoint.X - chooseArea.X) * 2, ((int)tilePoint.Y - chooseArea.Y) * 2, tileRes, tileRes);
                     }
                 }
             }
