@@ -4,6 +4,7 @@ using System.Text;
 
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Scenes
 {
@@ -28,9 +29,23 @@ namespace Flipsider.Scenes
             }
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw();
+            Main.renderer.RenderBG(spriteBatch, TextureCache.skybox, -0.9f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch, TextureCache.ForestBackground3, -0.6f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch, TextureCache.ForestBackground2, -0.5f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch, TextureCache.ForestBackground1, -0.4f, 0.4f);
+            spriteBatch.End();
+            Main.renderer.layerHandler.DrawLayers(spriteBatch);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            Main.renderer.RenderEntities();
+            Main.renderer.RenderWater();
+            NPC.DTH.Draw(spriteBatch);
+            Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
+            PropManager.ShowPropCursor();
+            Main.Editor.Draw();
+            Main.renderer.RenderUI();
+            Main.renderer.lighting?.DrawLightMap(Main.CurrentWorld);
         }
     }
 }

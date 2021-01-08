@@ -54,44 +54,30 @@ namespace Flipsider.GUI.TilePlacementGUI
         private int delay = 0;
         public bool isActive;
         Texture2D? Texture;
+        KeyboardState oldKeyboardState = Keyboard.GetState();
+        KeyboardState currentKeyboardState = Keyboard.GetState();
+        private void UpdateInput()
+        {
+            oldKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+
+            Keys[] pressedKeys;
+            pressedKeys = currentKeyboardState.GetPressedKeys();
+
+            foreach (Keys key in pressedKeys)
+            {
+                if (oldKeyboardState.IsKeyUp(key) && key != Keys.OemSemicolon)
+                {
+                    KeyboardInput.Instance?.InputKey(key, ref inputText);
+                }
+            }
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (delay > 0)
-                delay--;
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
-            KeyboardState keyboard = Keyboard.GetState();
             Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Black * alpha);
             DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(GottenTexture.Height / 2, 7));
-            if (keyboard.GetPressedKeys().Length != 0 && delay == 0 && isActive)
-            {
-                for (int i = 0; i < keyboard.GetPressedKeys().Length; i++)
-                {
-                    bool CanType = keyboard.GetPressedKeys()[i] != Keys.LeftShift && keyboard.GetPressedKeys()[i] != Keys.OemSemicolon && keyboard.GetPressedKeys()[i] != Keys.Back &&
-                                keyboard.GetPressedKeys()[i] != Keys.LeftAlt &&
-                                keyboard.GetPressedKeys()[i] != Keys.RightAlt &&
-                                (keyboard.GetPressedKeys()[i] < Keys.D0
-                                 ||
-                                keyboard.GetPressedKeys()[i] > Keys.D9);
-                    bool IsNumber = (keyboard.GetPressedKeys()[i] >= Keys.D0
-                                     &&
-                                    keyboard.GetPressedKeys()[i] <= Keys.D9);
-                    Keys firstKey = keyboard.GetPressedKeys()[0];
-                    if (firstKey != Keys.Enter && inputText.Length < 15)
-                    {
-                        if (CanType)
-                            inputText += firstKey == Keys.LeftShift ? keyboard.GetPressedKeys()[i].ToString().ToUpper() : keyboard.GetPressedKeys()[i].ToString().ToLower();
-                        if (IsNumber)
-                            inputText += (firstKey == Keys.LeftShift ? keyboard.GetPressedKeys()[i].ToString().ToUpper() : keyboard.GetPressedKeys()[i].ToString().ToLower())[1];
-                    }
-                    if (firstKey == Keys.Back && delay == 0)
-                    {
-                        if (inputText.Length > 0)
-                            inputText = inputText.Remove(inputText.Length - 1);
-                    }
-                }
-                delay = 10;
-
-            }
+            UpdateInput();
         }
         protected override void OnLeftClick()
         {
@@ -106,7 +92,6 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         public string inputText = "";
         public float alpha = 1f;
-        private int delay = 0;
         public bool isActive;
         public float Number => float.Parse(inputText);
         Texture2D? Texture;
@@ -138,10 +123,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             dimensions.Width = 16 + (inputText.Length - 1) * 7;
-            if (delay > 0)
-                delay--;
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
-            KeyboardState keyboard = Keyboard.GetState();
             Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Black * alpha);
             DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
             UpdateInput();
@@ -181,8 +163,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (delay > 0)
-                delay--;
             KeyboardState keyboard = Keyboard.GetState();
             Main.spriteBatch.Draw(TextureCache.WorldSavePanel, new Rectangle(dimensions.X - 10, dimensions.Y - 20, 180, 90), Color.White * alpha);
             Main.spriteBatch.Draw(TextureCache.SaveTex, new Rectangle(dimensions.X + dimensions.Width / 4, dimensions.Y - 20 + (int)(Math.Sin(Main.gameTime.TotalGameTime.TotalMilliseconds / 120f) * 3), TextureCache.SaveTex.Width, TextureCache.SaveTex.Height), Color.White * alpha);

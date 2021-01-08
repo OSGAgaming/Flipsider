@@ -61,7 +61,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         public bool active = true;
         public override void Draw(SpriteBatch spriteBatch)
         {
-
+            int fluff = 5;
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
+            spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(PropTypes.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+        }
+        protected override void OnUpdate()
+        {
             dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
             dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
@@ -73,14 +79,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 alpha -= alpha / 16f;
             }
-            int fluff = 5;
-            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
-            spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-            spriteBatch.Draw(PropTypes.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-        }
-        protected override void OnUpdate()
-        {
-
         }
         protected override void OnLeftClick()
         {

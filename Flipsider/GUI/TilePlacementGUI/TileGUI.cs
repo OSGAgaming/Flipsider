@@ -148,26 +148,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         public bool active = true;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (chosen)
-            {
-                progression += (1 - progression) / 16f;
-            }
-            else
-            {
-                progression -= progression / 16f;
-
-            }
-            dimensions.X = (int)MathHelper.Lerp((int)Main.ActualScreenSize.X - widthOfPanel - (index % 5) * (widthOfPanel + paddingX) - paddingX, (int)Main.ActualScreenSize.X - 140, progression);
-            dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
-            dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
-            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-            {
-                alpha += (1 - alpha) / 16f;
-            }
-            else
-            {
-                alpha -= alpha / 16f;
-            }
             int fluff = 2;
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff, dimensions.Height + fluff);
             if (!chosen)
@@ -194,7 +174,26 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
+            if (chosen)
+            {
+                progression += (1 - progression) / 16f;
+            }
+            else
+            {
+                progression -= progression / 16f;
 
+            }
+            dimensions.X = (int)MathHelper.Lerp((int)Main.ActualScreenSize.X - widthOfPanel - (index % 5) * (widthOfPanel + paddingX) - paddingX, (int)Main.ActualScreenSize.X - 140, progression);
+            dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
+            dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                alpha += (1 - alpha) / 16f;
+            }
+            else
+            {
+                alpha -= alpha / 16f;
+            }
         }
         protected override void OnLeftClick()
         {

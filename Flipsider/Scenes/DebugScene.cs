@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Flipsider.Engine;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Scenes
 {
@@ -18,9 +19,9 @@ namespace Flipsider.Scenes
             base.Update();
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw();
+
         }
     }
 }

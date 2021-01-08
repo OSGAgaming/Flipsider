@@ -89,9 +89,9 @@ namespace Flipsider.Engine
             _nextScene = null;
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
-            _currentScene?.Draw();
+            _currentScene?.Draw(spriteBatch);
 
             if (_transitioning && _transitionToUse != null)
             {

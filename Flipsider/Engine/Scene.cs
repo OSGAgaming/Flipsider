@@ -38,7 +38,7 @@ namespace Flipsider.Engine
         /// <summary>
         /// Method called to draw the scene.
         /// </summary>
-        public virtual void Draw()
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
 
         }

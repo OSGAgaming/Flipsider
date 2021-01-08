@@ -4,6 +4,7 @@ using System.Text;
 
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Scenes
 {
@@ -23,9 +24,11 @@ namespace Flipsider.Scenes
             }
         }
 
-        public override void Draw()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw();
+            Main.renderer.RenderUI();
+            Main.renderer.lighting?.DrawLightMap(Main.CurrentWorld);
+            Main.renderer.RenderUI();
         }
     }
 }
