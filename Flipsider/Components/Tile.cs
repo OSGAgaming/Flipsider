@@ -57,8 +57,8 @@ namespace Flipsider
             this.frameY = frame.Location.Y;
             active = false;
             wall = ifWall;
-            i = (int)pos.X;
-            j = (int)pos.Y;
+            i = (int)pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).X;
+            j = (int)pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).Y;
             world = Main.CurrentWorld;
             Layer = LayerHandler.CurrentLayer;
             i = (int)ParalaxedI;

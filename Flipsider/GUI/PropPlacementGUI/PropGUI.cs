@@ -30,14 +30,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                     Vector2 panelPoint = new Vector2((int)Main.ActualScreenSize.X - widthOfPanel - (i % rows) * (widthOfPanel + paddingX) - paddingX, paddingY + (i / rows) * (heightOfPanel + paddingY));
                     tilePanel[i] = new PropPanel();
                     tilePanel[i].SetDimensions((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
-                    tilePanel[i].startingDimensions = new Rectangle((int)panelPoint.X, (int)panelPoint.Y, widthOfPanel, heightOfPanel);
                     tilePanel[i].parent = this;
                     tilePanel[i].index = i;
                     elements.Add(tilePanel[i]);
                 }
             }
         }
-
         protected override void OnUpdate()
         {
 
@@ -50,9 +48,10 @@ namespace Flipsider.GUI.TilePlacementGUI
 
     internal class PropPanel : UIElement
     {
+        Vector2 panelPoint => new Vector2((int)Main.ActualScreenSize.X - dimensions.Width - (index % 5) * (dimensions.Width + 5) - 5, 20 + (index / 5) * (dimensions.Height + 20));
         private float lerpage = 0;
-        public Rectangle startingDimensions;
-        public int goToPoint = (int)Main.ActualScreenSize.X - 140;
+        public Rectangle startingDimensions => new Rectangle((int)panelPoint.X, (int)panelPoint.Y, dimensions.Width, dimensions.Height);
+        public int goToPoint => (int)Main.ActualScreenSize.X - 140;
         private Vector2 sizeOfAtlas = new Vector2(128, 272);
         public float alpha = 0;
         private readonly float progression = 0;
@@ -94,7 +93,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (active)
             {
                 TileManager.UselessCanPlaceBool = false;
-
                 lerpage += (0.5f - lerpage) / 16f;
             }
         }

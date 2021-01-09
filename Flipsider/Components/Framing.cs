@@ -11,6 +11,58 @@ namespace Flipsider
 {
     public static class Framing
     {
+        public static Vector2 GetSlantLeft(World world, int i, int j)
+        {
+            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY)
+            {
+                int ManhattanX = world.tileManager.tiles[i, j].frame.X / 32;
+                int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
+                if(ManhattanX == 0 && ManhattanY == 7)
+                {
+                    return new Vector2(0,32);
+                }
+                if (ManhattanX == 1 && ManhattanY == 7)
+                {
+                    return new Vector2(0, 16);
+                }
+                if (ManhattanX == 2 && ManhattanY == 7)
+                {
+                    return new Vector2(0, 0);
+                }
+                if (ManhattanX == 3 && ManhattanY == 7)
+                {
+                    return new Vector2(0, 16);
+                }
+                return new Vector2(0, 0);
+            }
+            return new Vector2(0, 0);
+        }
+        public static Vector2 GetSlantRight(World world, int i, int j)
+        {
+            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY)
+            {
+                int ManhattanX = world.tileManager.tiles[i, j].frame.X / 32;
+                int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
+                if (ManhattanX == 0 && ManhattanY == 7)
+                {
+                    return new Vector2(32, 16);
+                }
+                if (ManhattanX == 1 && ManhattanY == 7)
+                {
+                    return new Vector2(32, 0);
+                }
+                if (ManhattanX == 2 && ManhattanY == 7)
+                {
+                    return new Vector2(32, 16);
+                }
+                if (ManhattanX == 3 && ManhattanY == 7)
+                {
+                    return new Vector2(32, 32);
+                }
+                return new Vector2(32, 0);
+            }
+            return new Vector2(32, 0);
+        }
         public static Rectangle GetTileFrame(World world, int i, int j)
         {
             try

@@ -94,8 +94,8 @@ namespace Flipsider
                             if (CollisionFrame.Intersects(tileRect))
                             {
                                 float lerpFuncMid = MathHelper.Clamp((position.X + width / 2 - tileRect.X) / res, 0, 1);
-                                Vector2 firstVec = tileRect.Location.ToVector2() + new Vector2(0, 0);
-                                Vector2 secondVec = tileRect.Location.ToVector2() + new Vector2(res, 0);
+                                Vector2 firstVec = tileRect.Location.ToVector2() + Framing.GetSlantLeft(world,i,j);
+                                Vector2 secondVec = tileRect.Location.ToVector2() + Framing.GetSlantRight(world, i, j);
                                 float grad = (secondVec - firstVec).Slope();
                                 Vector2 MapMid = Vector2.Lerp(firstVec, secondVec, lerpFuncMid);
                                 Vector2 positionPreCollision = position - velocity * Time.DeltaVar(120);
