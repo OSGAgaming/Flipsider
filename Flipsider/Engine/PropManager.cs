@@ -21,25 +21,50 @@ namespace Flipsider
         public void LoadProps()
         {
             Layer = 1;
-            AddPropType("Sky", TextureCache.GreenSlime);
-            AddPropType("Player", TextureCache.player);
-            AddPropType("Blob", TextureCache.Blob);
-            AddPropInteraction("Blob", BlobInteractable);
-            AddPropType("HudSlot", TextureCache.hudSlot);
-            AddPropType("TestGun", TextureCache.testGun);
-            AddPropType("SaveTex", TextureCache.SaveTex);
-            AddPropType("TrafficLight", TextureCache.TrafficLight);
-            AddPropType("BusStop", TextureCache.BusStop);
-            AddPropType("BigBusStop", TextureCache.BigBusStop);
-            AddPropType("BikeRack", TextureCache.BikeRack);
-            AddPropType("StopSigns", TextureCache.StopSigns);
-            AddPropType("StreetLights", TextureCache.StreetLights);
-            AddPropType("ForestTree1", TextureCache.ForestTree1);
-            AddPropType("ForestTree2", TextureCache.ForestTree2);
-            ChangeFrames("StreetLights", 5);
-            ChangeFrames("StopSigns", 3);
-            ChangeAnimSpeed("StreetLights", 20);
-            ChangeAnimSpeed("StopSigns", 20);
+            AddPropType("Misc_Sky", TextureCache.GreenSlime);
+           
+            AddPropType("City_TrafficLight", TextureCache.TrafficLight);
+            AddPropType("City_BusStop", TextureCache.BusStop);
+            AddPropType("City_BigBusStop", TextureCache.BigBusStop);
+            AddPropType("City_BikeRack", TextureCache.BikeRack);
+            AddPropType("City_StopSigns", TextureCache.StopSigns);
+            AddPropType("City_StreetLights", TextureCache.StreetLights);
+
+            AddPropType("Forest_ForestTree1", TextureCache.ForestTree1);
+            AddPropType("Forest_ForestTree2", TextureCache.ForestTree2);
+            AddPropType("Forest_ForestFlowerOne", TextureCache.ForestFlowerOne);
+            AddPropType("Forest_ForestFlowerTwo", TextureCache.ForestFlowerTwo);
+            AddPropType("Forest_ForestFlowerThree", TextureCache.ForestFlowerThree);
+            AddPropType("Forest_ForestFlowerFour", TextureCache.ForestFlowerFour);
+            AddPropType("Forest_ForestFlowerFive", TextureCache.ForestFlowerFive);
+            AddPropType("Forest_ForestFlowerSix", TextureCache.ForestFlowerSix);
+
+            AddPropType("Forest_ForestGrassOne", TextureCache.ForestGrassOne);
+            AddPropType("Forest_ForestGrassTwo", TextureCache.ForestGrassTwo);
+            AddPropType("Forest_ForestGrassThree", TextureCache.ForestGrassThree);
+            AddPropType("Forest_ForestGrassFour", TextureCache.ForestGrassFour);
+            AddPropType("Forest_ForestGrassFive", TextureCache.ForestGrassFive);
+            AddPropType("Forest_ForestGrassSix", TextureCache.ForestGrassSix);
+            AddPropType("Forest_ForestGrassSeven", TextureCache.ForestGrassSeven);
+            AddPropType("Forest_ForestGrassEight", TextureCache.ForestGrassEight);
+            AddPropType("Forest_ForestGrassNine", TextureCache.ForestGrassNine);
+
+            AddPropType("Forest_ForestBushOne", TextureCache.ForestBushOne);
+            AddPropType("Forest_ForestLogOne", TextureCache.ForestLogOne);
+            AddPropType("Forest_ForestDecoOne", TextureCache.ForestDecoOne);
+            AddPropType("Forest_ForestDecoTwo", TextureCache.ForestDecoTwo);
+
+            AddPropType("Debug_Player", TextureCache.player);
+            AddPropType("Debug_Blob", TextureCache.Blob);
+            AddPropInteraction("Debug_Blob", BlobInteractable);
+            AddPropType("Debug_HudSlot", TextureCache.hudSlot);
+            AddPropType("Debug_TestGun", TextureCache.testGun);
+            AddPropType("Debug_SaveTex", TextureCache.SaveTex);
+
+            ChangeFrames("City_StreetLights", 5);
+            ChangeFrames("City_StopSigns", 3);
+            ChangeAnimSpeed("City_StreetLights", 20);
+            ChangeAnimSpeed("City_StopSigns", 20);
         }
         public int Layer { get; set; }
         public void Draw(SpriteBatch spriteBatch)
