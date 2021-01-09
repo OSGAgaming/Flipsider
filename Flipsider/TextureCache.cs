@@ -54,6 +54,28 @@ namespace Flipsider
         public static Texture2D TitleScreenOverlay;
         public static Texture2D MainMenuPanel;
         public static Texture2D MainMenuPanelOverlay;
+        public static Texture2D ForestFlowerOne;
+        public static Texture2D ForestFlowerTwo;
+        public static Texture2D ForestFlowerThree;
+        public static Texture2D ForestFlowerFour;
+        public static Texture2D ForestFlowerFive;
+        public static Texture2D ForestFlowerSix;
+
+        public static Texture2D ForestGrassOne;
+        public static Texture2D ForestGrassTwo;
+        public static Texture2D ForestGrassThree;
+        public static Texture2D ForestGrassFour;
+        public static Texture2D ForestGrassFive;
+        public static Texture2D ForestGrassSix;
+        public static Texture2D ForestGrassSeven;
+        public static Texture2D ForestGrassEight;
+        public static Texture2D ForestGrassNine;
+
+        public static Texture2D ForestBushOne;
+        public static Texture2D ForestLogOne;
+        public static Texture2D ForestDecoOne;
+        public static Texture2D ForestDecoTwo;
+
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -94,6 +116,29 @@ namespace Flipsider
             StopSigns = content.Load<Texture2D>("Textures/Props/StopSigns");
             BikeRack = content.Load<Texture2D>("Textures/Props/BikeRack");
             StreetLights = content.Load<Texture2D>("Textures/Props/StreetLights");
+
+            ForestFlowerOne = content.Load<Texture2D>("Textures/Props/ForestFlowerOne");
+            ForestFlowerTwo = content.Load<Texture2D>("Textures/Props/ForestFlowerTwo");
+            ForestFlowerThree = content.Load<Texture2D>("Textures/Props/ForestFlowerThree");
+            ForestFlowerFour = content.Load<Texture2D>("Textures/Props/ForestFlowerFour");
+            ForestFlowerFive = content.Load<Texture2D>("Textures/Props/ForestFlowerFive");
+            ForestFlowerSix = content.Load<Texture2D>("Textures/Props/ForestFlowerSix");
+
+            ForestGrassOne = content.Load<Texture2D>("Textures/Props/ForestGrassOne");
+            ForestGrassTwo = content.Load<Texture2D>("Textures/Props/ForestGrassTwo");
+            ForestGrassThree = content.Load<Texture2D>("Textures/Props/ForestGrassThree");
+            ForestGrassFour = content.Load<Texture2D>("Textures/Props/ForestGrassFour");
+            ForestGrassFive = content.Load<Texture2D>("Textures/Props/ForestGrassFive");
+            ForestGrassSix = content.Load<Texture2D>("Textures/Props/ForestGrassSix");
+            ForestGrassSeven = content.Load<Texture2D>("Textures/Props/ForestGrassSeven");
+            ForestGrassEight = content.Load<Texture2D>("Textures/Props/ForestGrassEight");
+            ForestGrassNine = content.Load<Texture2D>("Textures/Props/ForestGrassNine");
+
+            ForestBushOne = content.Load<Texture2D>("Textures/Props/ForestBushOne");
+            ForestLogOne = content.Load<Texture2D>("Textures/Props/ForestLogOne");
+            ForestDecoOne = content.Load<Texture2D>("Textures/Props/ForestDecoOne");
+            ForestDecoTwo = content.Load<Texture2D>("Textures/Props/ForestDecoTwo");
+
             //FrontBicep = content.Load<Texture2D>("BodyParts/FrontBicep");
             //FrontForearm = content.Load<Texture2D>("BodyParts/FrontForearm");
             //BackBicep = content.Load<Texture2D>("BodyParts/BackBicep");
