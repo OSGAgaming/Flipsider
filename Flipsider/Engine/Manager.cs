@@ -28,8 +28,8 @@ namespace Flipsider
     {
         public Manager(bool ingame = true)
         {
-            if(ingame)
-            Main.Updateables.Add(this);
+            if (ingame)
+                Main.Updateables.Add(this);
             else
             {
                 Main.UpdateablesOffScreen.Add(this);

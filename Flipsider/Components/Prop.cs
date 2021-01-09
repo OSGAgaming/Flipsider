@@ -25,7 +25,7 @@ namespace Flipsider
         public Vector2 position => new Vector2(positionX, positionY);
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
         public Vector2 Center => position + new Vector2(PropTypes[prop].Width / 2, PropTypes[prop].Height / 2);
-        public Vector2 ParalaxedCenter => Center.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax);
+        public Vector2 ParalaxedCenter => Center.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax);
         public int frameX => PropEntites[prop].animSpeed == -1 ? 0 : (frameCounter / PropEntites[prop].animSpeed) % PropEntites[prop].noOfFrames;
         public Rectangle alteredFrame => new Rectangle(frameX * alteredWidth, 0, alteredWidth, PropTypes[prop].Height);
         public int interactRange;
@@ -49,8 +49,8 @@ namespace Flipsider
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
             this.Layer = LayerHandler.CurrentLayer;
-            positionX = pos.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax).X;
-            positionY = pos.AddParralaxAcross(Main.layerHandler.Layers[Layer].paralax).Y;
+            positionX = pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).X;
+            positionY = pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).Y;
             Main.renderer.layerHandler.AppendMethodToLayer(this);
         }
 

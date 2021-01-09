@@ -50,6 +50,10 @@ namespace Flipsider
         public static Texture2D ForestBackground2;
         public static Texture2D ForestBackground3;
         public static Texture2D WhiteScreen;
+        public static Texture2D TitleScreen;
+        public static Texture2D TitleScreenOverlay;
+        public static Texture2D MainMenuPanel;
+        public static Texture2D MainMenuPanelOverlay;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -57,8 +61,12 @@ namespace Flipsider
             ForestBackground1 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground1");
             ForestBackground2 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground2");
             ForestBackground3 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground3");
+            MainMenuPanelOverlay = content.Load<Texture2D>("Textures/GUI/MainMenuPanelOverlay");
             TileGUIPanels = content.Load<Texture2D>("Textures/TGUI");
             LayerHide = content.Load<Texture2D>("Textures/GUI/LayerHide");
+            TitleScreen = content.Load<Texture2D>("Textures/GUI/TitleScreen");
+            TitleScreenOverlay = content.Load<Texture2D>("Textures/GUI/TitleScreenOverlay");
+            MainMenuPanel = content.Load<Texture2D>("Textures/GUI/MainMenuPanel");
             TextLine = content.Load<Texture2D>("Textures/GUI/TextLine");
             TileSet2 = content.Load<Texture2D>("Textures/TileSet2");
             TileSet1 = content.Load<Texture2D>("Textures/TileSet1");

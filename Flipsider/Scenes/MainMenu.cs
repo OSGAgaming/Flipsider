@@ -22,6 +22,7 @@ namespace Flipsider.Scenes
                 if (updateable != null)
                     updateable.Update();
             }
+            Main.Editor.Update();
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -22,11 +22,15 @@ namespace Flipsider
         {
             return (float)(random.NextDouble() * max);
         }
-        public static float ReciprocateTo(this ref float num, float target, float ease)
+        public static bool IsBetween(this float num, float min,float max)
         {
-            return (target - num) / ease;
+            return num > min && num < max;
         }
-        public static float ReciprocateTo(this ref int num, float target, float ease)
+        public static float ReciprocateTo(this float num, float target, float ease)
+        {
+            return num + (target - num) / ease;
+        }
+        public static float ReciprocateTo(this int num, float target, float ease)
         {
             return (target - num - 16) / ease;
         }
@@ -47,12 +51,16 @@ namespace Flipsider
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.mainCamera.CamPos) * Main.mainCamera.scale);
 
         public static Point ToScreen(this Point v) => (v.ToVector2() / new Vector2(Main.mainCamera.scale, Main.mainCamera.scale) + Main.mainCamera.CamPos).ToPoint();
-        public static Vector2 AddParralaxAcross(this Vector2 v, float traversingPixels)
+        public static Vector2 AddParalaxAcrossX(this Vector2 v, float traversingPixels)
         {
             float traverseFunction = Math.Clamp(Main.mainCamera.playerpos.X * traversingPixels, -100000, 100000);
             return v - new Vector2(traverseFunction, 0);
         }
-
+        public static Vector2 AddParalaxAcrossY(this Vector2 v, float traversingPixels)
+        {
+            float traverseFunction = Math.Clamp(Main.mainCamera.playerpos.Y * traversingPixels, -100000, 100000);
+            return v - new Vector2(0, traverseFunction);
+        }
         public static Vector2 ToTile(this Vector2 v)
         {
             return v / TileManager.tileRes;

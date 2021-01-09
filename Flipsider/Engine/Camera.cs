@@ -13,7 +13,7 @@ namespace Flipsider
     {
         public Matrix ParalaxedTransform(float Paralax)
         {
-            return Matrix.CreateTranslation(new Vector3(-playerpos.AddParralaxAcross(Paralax), 0)) *
+            return Matrix.CreateTranslation(new Vector3(-playerpos.AddParalaxAcrossX(Paralax), 0)) *
                       Matrix.CreateScale(GetScreenScale()) *
                       Matrix.CreateRotationZ(rotation) *
                       Matrix.CreateTranslation(Main.ActualScreenSize.X / 2, Main.ActualScreenSize.Y / 2, 0);
@@ -52,7 +52,7 @@ namespace Flipsider
             int height = (int)Main.ActualScreenSize.Y;
 
             playerpos += offset;
-            if (!Main.Editor.IsActive)
+            if (!Main.Editor.IsActive && Main.CurrentScene.Name != "Main Menu")
             {
                 if (scale >= 1)
                 {

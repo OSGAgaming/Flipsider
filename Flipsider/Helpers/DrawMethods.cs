@@ -13,7 +13,7 @@ namespace Flipsider
         public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.mainCamera.CamPos - center) * strenght;
 
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);
-        public static void DrawBoxFill(Vector2 pos,int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos,new Rectangle(0,0,width,height), tint);
+        public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
         public static void DrawLine(Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
         {
             /*

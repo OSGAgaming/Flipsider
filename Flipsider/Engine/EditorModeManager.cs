@@ -36,6 +36,7 @@ namespace Flipsider
         {
             Instance = new EditorMode();
             Main.Updateables.Add(Instance);
+            Main.mainCamera.scale = 1;
         }
         public void ControlEditorScreen()
         {
@@ -60,7 +61,7 @@ namespace Flipsider
         public bool CanSwitch;
         public void Update()
         {
-            if (!IsActive)
+            if (!IsActive && Main.CurrentScene.Name != "Main Menu")
             {
                 Main.mainCamera.offset -= Main.mainCamera.offset / 16f;
             }

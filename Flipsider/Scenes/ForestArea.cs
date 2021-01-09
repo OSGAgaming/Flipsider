@@ -4,6 +4,7 @@ using System.Text;
 
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Scenes
@@ -31,10 +32,10 @@ namespace Flipsider.Scenes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Main.renderer.RenderBG(spriteBatch, TextureCache.skybox, -0.9f, 0.4f);
-            Main.renderer.RenderBG(spriteBatch, TextureCache.ForestBackground3, -0.6f, 0.4f);
-            Main.renderer.RenderBG(spriteBatch, TextureCache.ForestBackground2, -0.5f, 0.4f);
-            Main.renderer.RenderBG(spriteBatch, TextureCache.ForestBackground1, -0.4f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch,Color.White, TextureCache.skybox, -0.9f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.6f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.4f);
+            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.4f);
             Main.renderer.layerHandler.DrawLayers(spriteBatch);
             Main.renderer.RenderEntities();
             Main.renderer.RenderWater();

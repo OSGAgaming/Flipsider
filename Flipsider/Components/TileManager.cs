@@ -167,14 +167,15 @@ namespace Flipsider
         {
             if (Main.Editor.IsActive)
             {
-                int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
-                Vector2 mousePos = Main.MouseScreen.ToVector2();
-                Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
-                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
-                Rectangle TileFrame = Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes);
                 if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
                 {
+                    int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
+                    Vector2 mousePos = Main.MouseScreen.ToVector2();
+                    Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
+                    float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
+                    Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
+                    Rectangle TileFrame = AutoFrame ? Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : Main.Editor.currentFrame;
+
                     if (Main.Editor.currentType == -1)
                     {
                         DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
