@@ -1,4 +1,5 @@
 ﻿using Flipsider.Engine.Interfaces;
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +12,7 @@ namespace Flipsider
 
         public int width;
         public Texture2D? texture;
-
+        public Polygon CollideBox => new Polygon(new Vector2[] {new Vector2(-width/2,-height/2), new Vector2(width / 2, -height / 2), new Vector2(width / 2, height / 2), new Vector2(-width / 2, height / 2) },Center);
         public int frameY;
         public int framewidth;
         public int frameCounter;
@@ -21,6 +22,7 @@ namespace Flipsider
         public float friction = 0.982f;
         public void ResetVars()
         {
+            noGravity = false;
             onGround = false;
             isColliding = false;
         }
@@ -30,7 +32,7 @@ namespace Flipsider
         protected virtual void PostAI() { }
         protected virtual void PreDraw() { }
         public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y + maxHeight - height, width, height);
-
+        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y + maxHeight - height, width, height);
         public bool Wet
         {
             get;
@@ -90,51 +92,30 @@ namespace Flipsider
                         if (world.tiles[i, j].active && !world.tiles[i, j].wall)
                         {
                             Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
+                            Polygon tileCollideBox = new Polygon(new Vector2[] {new Vector2(-res/2, -res/2), new Vector2(res / 2, -res / 2), new Vector2(res / 2, res / 2), new Vector2(-res / 2, res / 2) },new Vector2(i * res + res/2, j * res + res / 2));
 
-                            if (CollisionFrame.Intersects(tileRect))
+                                CollisionInfo collisionInfo = Collision.AABBResolve(CollisionFrame,PreCollisionFrame,tileRect);
+                                
+                            if(collisionInfo.AABB == Bound.Top)
                             {
-                                float lerpFuncMid = MathHelper.Clamp((position.X + width / 2 - tileRect.X) / res, 0, 1);
-                                Vector2 firstVec = tileRect.Location.ToVector2() + Framing.GetSlantLeft(world,i,j);
-                                Vector2 secondVec = tileRect.Location.ToVector2() + Framing.GetSlantRight(world, i, j);
-                                float grad = (secondVec - firstVec).Slope();
-                                Vector2 MapMid = Vector2.Lerp(firstVec, secondVec, lerpFuncMid);
-                                Vector2 positionPreCollision = position - velocity * Time.DeltaVar(120);
-                                isColliding = true;
-                                if (positionPreCollision.Y + height - Math.Abs((res / 2) * grad) > MapMid.Y + 1 && positionPreCollision.Y < tileRect.Y + res)
-                                {
-                                    if (positionPreCollision.X + width >= tileRect.X && positionPreCollision.X < tileRect.X && velocity.X > 0)
-                                    {
-                                        position.X = tileRect.X - width + 1;
-                                        velocity.X = 0;
-                                        isColliding = true;
-                                    }
-                                    if (positionPreCollision.X <= tileRect.X + res && positionPreCollision.X > tileRect.X && velocity.X < 0)
-                                    {
-                                        position.X = tileRect.X + res;
-                                        velocity.X = 0;
-                                        isColliding = true;
-                                    }
-
-                                }
-                                else if (positionPreCollision.X + width + (2 * (Math.Abs(grad) - 0.5)) - (Math.Abs(grad) * (res / 2)) > tileRect.X && positionPreCollision.X - (2 * (Math.Abs(grad) - 0.5)) + (Math.Abs(grad) * (res / 2)) < tileRect.X + res)
-                                {
-                                    if (position.Y + height > MapMid.Y && position.Y < MapMid.Y && velocity.Y >= 0)
-                                    {
-                                        position.Y = MapMid.Y - height + 1;
-                                        onGround = true;
-                                        velocity.Y = 0;
-                                        isColliding = true;
-                                    }
-                                    if (position.Y < tileRect.Y + res && position.Y > MapMid.Y && velocity.Y < 0)
-                                    {
-                                        position.Y = tileRect.Y + res;
-                                        velocity.Y = 0;
-                                        isColliding = true;
-                                    }
-                                }
-
-
+                                velocity.Y = 0;
+                                onGround = true;
                             }
+                            if (collisionInfo.AABB == Bound.Bottom)
+                            {
+                                velocity.Y = 0;
+                                onGround = true;
+                            }
+                            if (collisionInfo.AABB == Bound.Left)
+                            {
+                                velocity.X = 0;
+                            }
+                            if (collisionInfo.AABB == Bound.Right)
+                            {
+                                velocity.X = 0;
+                            }
+                            isColliding = true;
+                            position += collisionInfo.d;
                         }
                     }
                 }
@@ -194,10 +175,12 @@ namespace Flipsider
         {
             frameCounter++;
             ResetVars();
+           
             if (!noGravity)
                 velocity.Y += gravity * Time.DeltaVar(120);
             if (!noAirResistance)
                 velocity *= airResistance;
+            oldPosition = position;
             position += velocity * Time.DeltaVar(120);
             OnUpdate();
             PreAI();
