@@ -1,5 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/PrimtiveShader.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/PrimtiveShader.xnb","EffectProcessor","CompiledEffectContent",6815,12074,0.4396624
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/Noise/Noise.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/Noise/Noise.xnb","TextureProcessor","Texture2DContent",176606,956569,0.1344291
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/Noise/Noise2.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/Noise/Noise2.xnb","TextureProcessor","Texture2DContent",554178,3797725,0.2050031
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/Noise/RandomPolkaDots.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/Noise/RandomPolkaDots.xnb","TextureProcessor","Texture2DContent",90764,438329,0.0109117

@@ -97,9 +97,8 @@ namespace Flipsider
             CurrentWorld.propManager.LoadProps();
             LoadGUI();
             isLoading = false;
-            CurrentWorld.WaterBodies.AddComponent(new Water(new Rectangle(0,300,1000,100)));
             Primitives = new PrimTrailManager();
-            Primitives.AddComponent(new RainbowLightTrail());
+            CurrentWorld.WaterBodies.AddComponent(new Water(new Rectangle(0, 300, 1000, 100)));
         }
         private void LoadGUI()
         {

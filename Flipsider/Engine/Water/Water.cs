@@ -27,8 +27,8 @@ namespace Flipsider
     public class Water : IComponent
     {
         public List<Water> WaterBodies = new List<Water>();
-        private int accuracy;
-        private Vector2[] Pos;
+        public int accuracy;
+        public Vector2[] Pos;
         private Vector2[] accel;
         private Vector2[] vel;
         private Vector2[] targetHeight;
@@ -38,7 +38,7 @@ namespace Flipsider
         private float dampening;
         private float constant;
         private float viscosity;
-
+        public Color color = Color.DarkSeaGreen;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(Rectangle vertices) => frame = vertices;
 
@@ -46,6 +46,7 @@ namespace Flipsider
         {
             SetFrame(_frame);
             Initialize();
+            Main.Primitives.AddComponent(new WaterPrimtives(this));
         }
         public void Update()
         {
@@ -83,10 +84,7 @@ namespace Flipsider
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < accuracy; i++)
-            {
-                DrawMethods.DrawLine(Pos[i], Pos[i] - new Vector2(0, Pos[i].Y - frame.Bottom), Color.Blue * 0.5f);
-            }
+
         }
         public void Splash(int index, float speed) => vel[index].Y = speed;
         public void SplashPerc(float perc, float speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)].Y = speed;

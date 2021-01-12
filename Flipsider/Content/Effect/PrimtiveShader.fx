@@ -77,22 +77,17 @@ float4 SideFallOff(VertexShaderOutput input) : COLOR
 {
 	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
 }
-float4 Web(VertexShaderOutput input) : COLOR
-{
-	float2 coords2 = float2(input.TextureCoordinates.x/3 + 0.1f,(input.TextureCoordinates.y/15) + 0.1f);
-	float2 coords = float2(input.TextureCoordinates.x / 2, (input.TextureCoordinates.y / 10));
-	float polkaColor = tex2D(polkaSampler, coords).r;
-	float polkaColor2 = tex2D(polkaSampler, coords2).r;
-	input.Color *= polkaColor;
-	input.Color *= polkaColor2;
-	return input.Color * sin(GetHeight(input.TextureCoordinates.y)) * sin(input.TextureCoordinates.y * 5);
-}
+
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	input.Color.r += sin(input.TextureCoordinates.x * 4 + progress);
-	input.Color.g -= cos(input.TextureCoordinates.x * 4 + progress);
-	input.Color.b += cos(input.TextureCoordinates.x * 4 + progress);
-	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
+	if (input.TextureCoordinates.y < 0.01f + abs(GetHeight(input.TextureCoordinates)/30))
+	input.Color.rgb += 0.1f;
+	float2 coords = input.TextureCoordinates;
+    float2 japanese = float2(coords.x + cos(progress) + GetHeight(coords / 2), coords.y/4 + sin(progress) - GetHeight(coords/2));
+    input.Color.rgb -= input.TextureCoordinates.y / 2 * (1 + clamp(GetHeight(japanese), -0.9f, 0.9f)/2));
+	input.Color *= 0.4f;
+
+	return input.Color;
 }
 float hue2rgb(float p, float q, float t){
             if(t < 0) t += 1;
@@ -123,50 +118,11 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
 	input.Color.r += sin(input.TextureCoordinates.x * 5);
 	return input.Color;
 }
-float4 Laser(VertexShaderOutput input) : COLOR
-{
-	float rand = GetHeight(float2(0.5f,(input.TextureCoordinates.x/2 + sin(progress / 40)*0.5f)) % 1);
-	float sineInterp = (1000 * abs(rand));
-	input.Color *= pow(sin(input.TextureCoordinates.y * 3.14159265),sineInterp*(1 + abs(rand)));
-	input.Color.rgb *= 1 + max(0,(abs(progress / 15 % 4 - 2 - input.TextureCoordinates.x)));
-	input.Color *= 1 + abs(rand)* abs(rand);
-	return input.Color;
-}
+
 float4 AlphaFadeOff(VertexShaderOutput input) : COLOR
 {
 	input.Color *= input.TextureCoordinates.x;
 	input.Color *= (1 + (abs((input.TextureCoordinates.y - 0.5f) * 2) * -1));
-	return input.Color;
-}
-float4 Basic(VertexShaderOutput input) : COLOR
-{
-	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
-	float4 spotColor = tex2D(spotSampler, coords).r;
-	input.Color *= GetHeight(coords/2 + float2(sin(progress)/5 + 0.5f,cos(progress)/5 + 0.5f))*3;
-	input.Color *= 1 + coords.x * abs(sin(input.TextureCoordinates.y * 20))*5;
-	input.Color *= sin(input.TextureCoordinates.y * 3.14f);
-	input.Color.rgb -= float3(1 + spotColor.r, 1 - spotColor.g, spotColor.b);
-	input.Color *= 5 - distance(float2(1,0.5f),input.TextureCoordinates)*4;
-
-	return input.Color;
-}
-float4 Basic2(VertexShaderOutput input) : COLOR
-{
-	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
-	float4 spotColor = tex2D(spotSampler, coords).r;
-	float lerper = pow(sin(input.TextureCoordinates.y * 3.14f - 1.2f),50 + GetHeight(input.TextureCoordinates.x)*50 - 25) + pow(sin(input.TextureCoordinates.x * 3.14f - 1.2f + (progress/3* progress/3)), 30 + GetHeight(input.TextureCoordinates.y/2 + progress) * 50 - 25);
-	input.Color *= lerp(float4(0,0,0,0),float4(0.2f, 0.8f,1,0)*10, lerper);
-	input.Color *= sin(input.TextureCoordinates.x * 3.14f);
-	return input.Color;
-}
-float4 WaterPogPass(VertexShaderOutput input) : COLOR
-{
-	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
-	float4 spotColor = tex2D(spotSampler, coords).r;
-	input.Color *= GetHeight(coords / 2 + float2(sin(progress) / 5 + 0.5f,cos(progress) / 5 + 0.5f)) * 3;
-	input.Color *= 1 + coords.x * abs(sin(input.TextureCoordinates.y * 20)) * 5;
-	input.Color *= sin(input.TextureCoordinates.y * 3.14f);
-	input.Color.rgb -= float3(1 + spotColor.r, 1 - spotColor.g, spotColor.b);
 	return input.Color;
 }
 
@@ -190,29 +146,14 @@ technique BasicColorDrawing
 	{
 		PixelShader = compile ps_3_0 MainPS();
 	}
-	pass Edge
-	{
-		PixelShader = compile ps_3_0 Basic();
-	}
-	pass Edge2
-	{
-		PixelShader = compile ps_3_0 Basic2();
-	}
 	pass AquaLightPass
 	{
 		PixelShader = compile ps_3_0 MainPSA();
 	}
-	pass WebPass
-	{
-		PixelShader = compile ps_3_0 Web();
-	}
+
 	pass SideFallOff
 	{
 		PixelShader = compile ps_3_0 SideFallOff();
-	}
-	pass Lazor
-	{
-		PixelShader = compile ps_3_0 Laser();
 	}
 	pass BasicImagePass
 	{

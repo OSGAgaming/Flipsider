@@ -60,8 +60,8 @@ namespace Flipsider.Engine
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
             effects.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
-            effects.Parameters["spotTexture"].SetValue(TextureCache.Spot);
-            effects.Parameters["polkaTexture"].SetValue(TextureCache.RandomPolkaDots);
+            //effects.Parameters["spotTexture"].SetValue(TextureCache.Spot);
+            //effects.Parameters["polkaTexture"].SetValue(TextureCache.RandomPolkaDots);
             //effects.Parameters["Voronoi"].SetValue(TextureCache.Voronoi);
             _trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
