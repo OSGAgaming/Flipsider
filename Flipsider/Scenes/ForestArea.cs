@@ -37,6 +37,11 @@ namespace Flipsider.Scenes
             Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.4f);
             Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.4f);
             Main.renderer.layerHandler.DrawLayers(spriteBatch);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            Main.Primitives.Draw(spriteBatch);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Main.renderer.RenderEntities();
             Main.renderer.RenderWater();
             NPC.DTH.Draw(spriteBatch);

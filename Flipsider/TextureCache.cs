@@ -76,10 +76,25 @@ namespace Flipsider
         public static Texture2D ForestDecoOne;
         public static Texture2D ForestDecoTwo;
 
+        public static Texture2D Noise;
+        public static Texture2D Noise2;
+        public static Texture2D RandomPolkaDots;
+        public static Texture2D Spot;
+        public static Texture2D Voronoi;
+        public static Texture2D WormNoisePixelated;
+
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
+
+            Noise = content.Load<Texture2D>("Textures/Noise/Noise");
+            Noise2 = content.Load<Texture2D>("Textures/Noise/Noise2");
+            RandomPolkaDots = content.Load<Texture2D>("Textures/Noise/RandomPolkaDots");
+            Spot = content.Load<Texture2D>("Textures/Noise/Spot");
+            Voronoi = content.Load<Texture2D>("Textures/Noise/VoronoiNoise");
+            WormNoisePixelated = content.Load<Texture2D>("Textures/Noise/WormNoisePixelated");
+
             ForestBackground1 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground1");
             ForestBackground2 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground2");
             ForestBackground3 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground3");

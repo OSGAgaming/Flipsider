@@ -53,6 +53,7 @@ namespace Flipsider
         public Lighting(ContentManager Content, float baseLight = 1f, float GD = 1.3f, float TD = 2f)
         {
             LightingEffect = Content.Load<Effect>(@"Effect/Lighting");
+            PrimtiveShader = Content.Load<Effect>(@"Effect/PrimtiveShader");
             LoadLightMap();
             LoadTileMap();
             LoadMiscMap();
@@ -61,6 +62,7 @@ namespace Flipsider
             tileDiffusion = TD;
         }
         public static Effect? LightingEffect;
+        public static Effect? PrimtiveShader;
         internal void Load(ContentManager Content)
         {
 

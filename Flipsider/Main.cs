@@ -36,6 +36,7 @@ namespace Flipsider
         public static Renderer renderer;
         public static World CurrentWorld;
         private ParticleSystem TestParticleSystem;
+        public static PrimTrailManager Primitives;
         PropInteraction PI;
         public static Serializers serializers = new Serializers();
         public Main()
@@ -67,7 +68,7 @@ namespace Flipsider
             sceneManager = new SceneManager();
             sceneManager.SetNextScene(new MainMenu(), null);
             rand = new Random();
-
+            
         }
         public static string MainPath => Environment.CurrentDirectory + $@"\";
         protected override void Initialize()
@@ -96,6 +97,9 @@ namespace Flipsider
             CurrentWorld.propManager.LoadProps();
             LoadGUI();
             isLoading = false;
+            CurrentWorld.WaterBodies.AddComponent(new Water(new Rectangle(0,300,1000,100)));
+            Primitives = new PrimTrailManager();
+            Primitives.AddComponent(new RainbowLightTrail());
         }
         private void LoadGUI()
         {
