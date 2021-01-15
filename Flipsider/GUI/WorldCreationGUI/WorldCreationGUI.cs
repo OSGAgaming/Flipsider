@@ -93,6 +93,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public string inputText = "";
         public float alpha = 1f;
         public bool isActive;
+        public float lerp;
         public float Number => float.Parse(inputText);
         Texture2D? Texture;
         protected virtual void CustomDraw(SpriteBatch spriteBatch)
@@ -108,23 +109,33 @@ namespace Flipsider.GUI.TilePlacementGUI
 
             Keys[] pressedKeys;
             pressedKeys = currentKeyboardState.GetPressedKeys();
-
-            foreach (Keys key in pressedKeys)
+            if (isActive)
             {
-                bool IsNumber = (key >= Keys.D0
-                                         &&
-                                        key <= Keys.D9 || key == Keys.Back || key == Keys.OemPeriod);
-                if (oldKeyboardState.IsKeyUp(key) && IsNumber)
+                foreach (Keys key in pressedKeys)
                 {
-                    KeyboardInput.Instance?.InputKey(key, ref inputText);
+                    bool IsNumber = (key >= Keys.D0
+                                             &&
+                                            key <= Keys.D9 || key == Keys.OemPeriod || key == Keys.OemMinus);
+                    if (oldKeyboardState.IsKeyUp(key) && (IsNumber && !(inputText.Contains(".") && key == Keys.OemPeriod) || key == Keys.Back))
+                    {
+                        KeyboardInput.Instance?.InputKey(key, ref inputText);
+                    }
                 }
             }
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if(isActive)
+            {
+                lerp = lerp.ReciprocateTo(1, 16);
+            }
+            else
+            {
+                lerp = lerp.ReciprocateTo(0, 16);
+            }
             dimensions.Width = 16 + (inputText.Length - 1) * 7;
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
-            Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Black * alpha);
+            Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Lerp(Color.Black,Color.Gray,lerp) * alpha);
             DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
             UpdateInput();
             CustomDraw(spriteBatch);

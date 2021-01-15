@@ -18,6 +18,7 @@ namespace Flipsider.Scenes
 
         public override void Update()
         {
+            Main.renderer.RenderingWater = true;
             foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
             {
                 if (updateable != null)
@@ -37,15 +38,14 @@ namespace Flipsider.Scenes
             Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.4f);
             Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.4f);
             Main.renderer.RenderEntities();
-            Main.Primitives.Draw(spriteBatch);
             Main.renderer.layerHandler.DrawLayers(spriteBatch);
-            Main.renderer.RenderWater();
             NPC.DTH.Draw(spriteBatch);
             Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             PropManager.ShowPropCursor();
             Main.Editor.Draw();
             Main.renderer.RenderUI();
-            Main.renderer.lighting?.DrawLightMap(Main.CurrentWorld);
+            spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle(0,0,800/5,480/5),Color.White);
+            Main.renderer?.lighting?.DrawLightMap(Main.CurrentWorld);
         }
     }
 }

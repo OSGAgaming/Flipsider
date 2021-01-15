@@ -77,14 +77,22 @@ float4 SideFallOff(VertexShaderOutput input) : COLOR
 {
 	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
 }
-
-float4 MainPS(VertexShaderOutput input) : COLOR
+float4 WaterDamp(VertexShaderOutput input) : COLOR
 {
-	if (input.TextureCoordinates.y < 0.01f + abs(GetHeight(input.TextureCoordinates)/30))
-	input.Color.rgb += 0.1f;
+	float2 coords = input.TextureCoordinates;
+	float2 japanese = float2(coords.x + cos(progress) + GetHeight(coords / 2), coords.y / 4 + sin(progress) - GetHeight(coords / 2));
+	input.Color.rgb += 0.35f * sin(coords.x * 5 + GetHeight(coords / 2 + progress)/20);
+	input.Color *= 0.4f;
+
+	return input.Color;
+}
+float4 WaterMain(VertexShaderOutput input) : COLOR
+{
+	if (input.TextureCoordinates.y < 0.01f + abs(GetHeight(input.TextureCoordinates)/400))
+	input.Color.rgb += 0.2f;
 	float2 coords = input.TextureCoordinates;
     float2 japanese = float2(coords.x + cos(progress) + GetHeight(coords / 2), coords.y/4 + sin(progress) - GetHeight(coords/2));
-    input.Color.rgb -= input.TextureCoordinates.y / 2 * (1 + clamp(GetHeight(japanese), -0.9f, 0.9f)/2));
+    input.Color.rgb -= input.TextureCoordinates.y / 2;
 	input.Color *= 0.4f;
 
 	return input.Color;
@@ -142,9 +150,13 @@ technique BasicColorDrawing
 	{
 		VertexShader = compile vs_3_0 MainVS();
 	}
-	pass RainbowLightPass
+	pass WaterMain
 	{
-		PixelShader = compile ps_3_0 MainPS();
+		PixelShader = compile ps_3_0 WaterMain();
+	}
+	pass WaterDamp
+	{
+		PixelShader = compile ps_3_0 WaterDamp();
 	}
 	pass AquaLightPass
 	{

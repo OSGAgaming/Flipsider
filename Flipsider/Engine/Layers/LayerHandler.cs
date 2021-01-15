@@ -24,6 +24,9 @@ namespace Flipsider
         public void AppendMethodToLayer(ILayeredComponent Method)
         =>
         Layers[Method.Layer].Drawables.Add(Method);
+        public void AppendPrimitiveToLayer(ILayeredComponent Method)
+        =>
+        Layers[Method.Layer].PrimitiveDrawables.Add(Method);
         public void AddLayer()
         {
             Layers.Add(new Layer(Layers.Count));

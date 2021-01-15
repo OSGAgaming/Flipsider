@@ -60,7 +60,6 @@ namespace Flipsider.Engine
         {
             vertices = new VertexPositionColorTexture[_noOfPoints];
             currentIndex = 0;
-            Debug.Write(1);
             PrimStructure(spriteBatch);
             SetShaders();
             if (_noOfPoints >= 1)

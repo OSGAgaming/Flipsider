@@ -24,11 +24,14 @@ using Flipsider.Engine.Interfaces;
 // TODO fix this..
 namespace Flipsider
 {
-    public class Water : IComponent
+    public class Water : IComponent,ILayeredComponent
     {
+        protected Primitive PrimitiveInstance;
+        protected Primitive PrimitiveInstanceDamp;
         public List<Water> WaterBodies = new List<Water>();
         public int accuracy;
         public Vector2[] Pos;
+        public Vector2[] PosDampened;
         private Vector2[] accel;
         private Vector2[] vel;
         private Vector2[] targetHeight;
@@ -41,23 +44,35 @@ namespace Flipsider
         public Color color = Color.DarkSeaGreen;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(Rectangle vertices) => frame = vertices;
-
+        public int Layer { get; set; }
         public Water(Rectangle _frame)
         {
             SetFrame(_frame);
             Initialize();
-            Main.Primitives.AddComponent(new WaterPrimtives(this));
+            PrimitiveInstance = new WaterPrimtives(this);
+            PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
+            Layer = LayerHandler.CurrentLayer;
+            Main.Primitives.AddComponent(PrimitiveInstance);
+            Main.Primitives.AddComponent(PrimitiveInstanceDamp);
+            Main.AppendPrimitiveToLayer(this);
         }
         public void Update()
         {
             foreach (Entity entity in Main.CurrentWorld.entityManager.Components)
             {
                 float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
-                if (preContact < frame.Y && entity.Wet)
-                    SplashPerc((entity.Center.X - frame.X) / frame.Width, entity.velocity.Y * 4);
+                if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
+                    SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X/4, entity.velocity.Y*4));
+                if(entity.Wet && frame.Intersects(entity.CollisionFrame))
+                {
+                    Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));
+                    SplashPerc((entity.Center.X - frame.X + entity.velocity.X*12) / frame.Width, new Vector2(0,-v.X/4 * Main.rand.NextFloat(1,1.5f)));
+                    SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X/7 * Main.rand.NextFloat(1, 1.5f)));
+                }
             }
             for (int i = 0; i < accuracy + 1; i++)
             {
+                
                 Pos[i].X += vel[i].X;
                 Pos[i].Y += vel[i].Y;
                 vel[i].X += accel[i].X;
@@ -72,22 +87,32 @@ namespace Flipsider
                     disLeft[i] = (Pos[i].Y - Pos[i - 1].Y) * viscosity;
                     vel[i - 1].Y += disLeft[i];
                     Pos[i - 1].Y += disLeft[i];
+                    disLeft[i] = (Pos[i].X - Pos[i - 1].X) * viscosity;
+                    vel[i - 1].X += disLeft[i];
+                    Pos[i - 1].X += disLeft[i];
                 }
                 if (i < accuracy)
                 {
                     disRight[i] = (Pos[i].Y - Pos[i + 1].Y) * viscosity;
                     vel[i + 1].Y += disRight[i];
                     Pos[i + 1].Y += disRight[i];
+                    disLeft[i] = (Pos[i].X - Pos[i + 1].X) * viscosity;
+                    vel[i + 1].X += disLeft[i];
+                    Pos[i + 1].X += disLeft[i];
                 }
+                float dY = Pos[i].Y - frame.Top;
+                PosDampened[i].X = Pos[i].X;
+                PosDampened[i].Y = frame.Top + dY * 0.5f;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
+            PrimitiveInstanceDamp.Draw(spriteBatch);
+            PrimitiveInstance.Draw(spriteBatch);
         }
         public void Splash(int index, float speed) => vel[index].Y = speed;
-        public void SplashPerc(float perc, float speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)].Y = speed;
+        public void SplashPerc(float perc, Vector2 speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)] += speed;
 
         public void Initialize()
         {
@@ -98,6 +123,7 @@ namespace Flipsider
             disLeft = new float[accuracy + 1];
             disRight = new float[accuracy + 1];
             Pos = new Vector2[accuracy + 1];
+            PosDampened = new Vector2[accuracy + 1];
             vel = new Vector2[accuracy + 1];
             accel = new Vector2[accuracy + 1];
             targetHeight = new Vector2[accuracy + 1];
@@ -107,7 +133,7 @@ namespace Flipsider
             }
             for (int i = 0; i < accuracy + 1; i++)
             {
-                targetHeight[i].X = i * (frame.Width / accuracy) + frame.X;
+                targetHeight[i].X = i * (frame.Width / (float)accuracy) + frame.X;
             }
             for (int i = 0; i < accuracy + 1; i++)
             {
@@ -115,7 +141,7 @@ namespace Flipsider
             }
             for (int i = 0; i < accuracy + 1; i++)
             {
-                Pos[i].X = i * (frame.Width / accuracy) + frame.X;
+                Pos[i].X = i * (frame.Width / (float)accuracy) + frame.X;
             }
         }
     }

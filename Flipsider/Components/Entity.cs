@@ -104,7 +104,6 @@ namespace Flipsider
                             if (collisionInfo.AABB == Bound.Bottom)
                             {
                                 velocity.Y = 0;
-                                onGround = true;
                             }
                             if (collisionInfo.AABB == Bound.Left)
                             {

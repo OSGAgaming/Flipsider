@@ -31,6 +31,7 @@ namespace Flipsider.GUI
         protected virtual void OnUpdate() { }
 
         protected virtual void OnDraw() { }
+        internal virtual void DrawToScreen() { }
         protected virtual void OnLoad() { }
 
         public void Update()

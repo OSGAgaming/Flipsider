@@ -32,6 +32,7 @@ namespace Flipsider
         public Game? instance;
         public SpriteBatch spriteBatch;
         public Camera? mainCamera;
+        public bool RenderingWater { get; set; }
         public float ScreenScale
         {
             get
@@ -70,7 +71,8 @@ namespace Flipsider
             graphics?.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
             lighting?.ApplyShader();
-            PrintRenderTarget();
+            if(renderTarget != null)
+            PrintRenderTarget(renderTarget);
             spriteBatch.End();
         }
         public Vector2 PreferredSize
@@ -83,7 +85,7 @@ namespace Flipsider
             }
         }
 
-        public void PrintRenderTarget()
+        public void PrintRenderTarget(RenderTarget2D renderTarget)
         {
             if (graphics != null)
             {
@@ -109,9 +111,9 @@ namespace Flipsider
         }
         public void RenderWater()
         {
-            for (int i = 0; i < Main.WaterBodies.Count; i++)
+            if (RenderingWater)
             {
-                Main.WaterBodies[i].Draw(spriteBatch);
+                Main.Primitives.Draw(spriteBatch);
             }
         }
         public void RenderBG(SpriteBatch spriteBatch,Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)
@@ -132,6 +134,7 @@ namespace Flipsider
             }
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            UIScreenManager.Instance?.DrawOnScreen();
             //debuganthinghere
             // Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, new Vector2(10, 36), Color.Black);
         }

@@ -9,11 +9,11 @@ using System.Diagnostics;
 
 namespace Flipsider
 {
-    class WaterPrimtives : Primitive
+    class WaterPrimitivesDampened : Primitive
     {
         Vector2[] Points;
         Water water;
-        public WaterPrimtives(Water water)
+        public WaterPrimitivesDampened(Water water)
         {
             this.water = water;
             Points = new Vector2[water.Pos.Length];
@@ -26,27 +26,27 @@ namespace Flipsider
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-
+            int dXY = 5;
             Color colour = water.color;
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                AddVertex(_points[i], colour, new Vector2(i/(float)(_points.Count),0));
-                AddVertex(new Vector2(_points[i + 1].X, water.frame.Bottom), colour, new Vector2((i + 1) / (float)(_points.Count),1));
-                AddVertex(new Vector2(_points[i].X, water.frame.Bottom), colour, new Vector2(i / (float)(_points.Count), 1));
+                AddVertex(_points[i] + new Vector2(dXY, -dXY), colour, new Vector2(i/(float)(_points.Count),0));
+                AddVertex(new Vector2(_points[i + 1].X, Points[i + 1].Y + 2), colour, new Vector2((i + 1) / (float)(_points.Count),1));
+                AddVertex(new Vector2(_points[i].X, Points[i].Y + 2), colour, new Vector2(i / (float)(_points.Count), 1));
 
-                AddVertex(_points[i], colour, new Vector2(i / (float)(_points.Count), 0));
-                AddVertex(_points[i + 1], colour, new Vector2((i + 1) / (float)(_points.Count), 0));
-                AddVertex(new Vector2(_points[i + 1].X, water.frame.Bottom), colour, new Vector2((i + 1) / (float)(_points.Count), 1));
+                AddVertex(_points[i] + new Vector2(dXY, -dXY), colour, new Vector2(i / (float)(_points.Count), 0));
+                AddVertex(_points[i + 1] + new Vector2(dXY, -dXY), colour, new Vector2((i + 1) / (float)(_points.Count), 0));
+                AddVertex(new Vector2(_points[i + 1].X, Points[i+1].Y + 2), colour, new Vector2((i + 1) / (float)(_points.Count), 1));
             }
         }
         public override void SetShaders()
         {
-            PrepareShader(Lighting.PrimtiveShader ?? new BasicEffect(Main.graphics.GraphicsDevice), "WaterMain", _counter / 40f);
+            PrepareShader(Lighting.PrimtiveShader ?? new BasicEffect(Main.graphics.GraphicsDevice), "WaterDamp", _counter / 40f);
         }
         public override void OnUpdate()
         {
-            
-            _points = water.Pos.ToList();
+            _points = water.PosDampened.ToList();
+            Points = water.Pos;
             _counter++;
             _noOfPoints = _points.Count() * 6;
             if (_cap < _noOfPoints / 6)

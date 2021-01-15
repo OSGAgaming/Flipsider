@@ -87,7 +87,8 @@ namespace Flipsider
         {
             onGround = false;
             isColliding = false;
-
+            gravity = 0.08f;
+            airResistance.Y = 0.99f;
             leftWeapon?.UpdatePassive();
             rightWeapon?.UpdatePassive();
 
@@ -126,6 +127,11 @@ namespace Flipsider
         private void PostUpdates()
         {
             KeyboardState state = Keyboard.GetState();
+            if(Wet)
+            {
+                airResistance.X = 0.94f;
+                gravity = 0.03f;
+            }
             if (onGround)
             {
                 velocity.X *= friction;
@@ -229,7 +235,6 @@ namespace Flipsider
                 int velFunc = (int)(Math.Round(10 / Math.Abs(vel * 0.6f)) * Time.DeltaTimeRoundedVar(600, 10) / 1600);
                 Animate(velFunc, 8, 48, 1);
             }
-
             if (!onGround)
             {
                 frame = new Rectangle(48 * 2, velocity.Y > 0 ? 48 : 0, framewidth, 48);

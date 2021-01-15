@@ -82,7 +82,6 @@ namespace Flipsider
             // Register controls
             RegisterControls.Invoke();
             mainCamera.targetScale = 1.2f;
-            //  NPC.SpawnNPC<Blob>(player.position);
             base.Initialize();
         }
 
@@ -98,7 +97,6 @@ namespace Flipsider
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();
-            CurrentWorld.WaterBodies.AddComponent(new Water(new Rectangle(0, 300, 1000, 100)));
         }
         private void LoadGUI()
         {

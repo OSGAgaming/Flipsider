@@ -33,7 +33,7 @@ namespace Flipsider
         public TileManager TM => Main.CurrentWorld.tileManager;
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (i > 0 && i > 0 && i < world.MaxTilesX && i < world.MaxTilesY && inFrame)
+            if (i > 0 && j > 0 && i < world.MaxTilesX && i < world.MaxTilesY && inFrame)
             {
                 if (TM.tiles[i, j] != null)
                 {
@@ -57,12 +57,11 @@ namespace Flipsider
             this.frameY = frame.Location.Y;
             active = false;
             wall = ifWall;
+            Layer = LayerHandler.CurrentLayer;
             i = (int)pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).X;
             j = (int)pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).Y;
             world = Main.CurrentWorld;
-            Layer = LayerHandler.CurrentLayer;
-            i = (int)ParalaxedI;
-            Debug.Write(1);
+            i = ParalaxedI;
             Main.AppendToLayer(this);
         }
         public Tile(int type, Rectangle frame, bool ifWall = false)

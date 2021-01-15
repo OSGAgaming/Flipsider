@@ -8,6 +8,7 @@ namespace Flipsider
         WorldSaverMode,
         PropEditorMode,
         LightEditorMode,
-        Inventory
+        Inventory,
+        WaterEditorMode
     }
 }

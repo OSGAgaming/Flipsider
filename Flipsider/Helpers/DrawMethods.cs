@@ -14,6 +14,7 @@ namespace Flipsider
 
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);
         public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
+        public static void DrawBoxFill(Rectangle rectangle, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, rectangle.Location.ToVector2(), new Rectangle(0, 0, rectangle.Width, rectangle.Height), tint);
         public static void DrawLine(Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
         {
             /*
@@ -54,12 +55,12 @@ namespace Flipsider
             DrawLine(point, new Vector2(point.X + size, point.Y), color);
         }
 
-        public static void DrawRectangle(Vector2 point, float sizeX, float sizeY, Color color)
+        public static void DrawRectangle(Vector2 point, float sizeX, float sizeY, Color color, float thickness = 1)
         {
-            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color);
-            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color);
-            DrawLine(point, new Vector2(point.X, point.Y + sizeY), color);
-            DrawLine(point, new Vector2(point.X + sizeX, point.Y), color);
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
+            DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
         }
     }
 }

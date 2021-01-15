@@ -45,17 +45,18 @@ namespace Flipsider
                 input[i] = value;
             }
         }
-
+        public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap)*snap, (int)(v.Y / snap)*snap);
         public static Vector2 ToScreen(this Vector2 v) => (v / Main.mainCamera.scale + Main.mainCamera.CamPos);
 
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.mainCamera.CamPos) * Main.mainCamera.scale);
 
         public static Point ToScreen(this Point v) => (v.ToVector2() / new Vector2(Main.mainCamera.scale, Main.mainCamera.scale) + Main.mainCamera.CamPos).ToPoint();
         public static Vector2 AddParalaxAcrossX(this Vector2 v, float traversingPixels)
-        {
-            float traverseFunction = Math.Clamp(Main.mainCamera.playerpos.X * traversingPixels, -100000, 100000);
-            return v - new Vector2(traverseFunction, 0);
-        }
+       =>
+            v - new Vector2(Math.Clamp(Main.mainCamera.playerpos.X * traversingPixels, -100000, 100000), 0);
+        public static Vector2 InvParalaxAcrossX(this Vector2 v, float traversingPixels)
+        =>
+             v + new Vector2(Math.Clamp(Main.mainCamera.playerpos.X * traversingPixels, -100000, 100000), 0);
         public static Vector2 AddParalaxAcrossY(this Vector2 v, float traversingPixels)
         {
             float traverseFunction = Math.Clamp(Main.mainCamera.playerpos.Y * traversingPixels, -100000, 100000);

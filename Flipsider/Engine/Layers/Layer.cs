@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Flipsider
 {
     public class Layer : IComponent
     {
         public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
+        public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
         public int LayerDepth;
         public float paralax;
         public bool visible = true;
@@ -21,6 +23,13 @@ namespace Flipsider
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (visible)
+            {
+                foreach (ILayeredComponent draw in PrimitiveDrawables)
+                {
+                    draw.Draw(spriteBatch);
+                }
+            }
             spriteBatch.Begin(transformMatrix: Main.mainCamera.ParalaxedTransform(paralax), samplerState: SamplerState.PointClamp);
             if (visible)
             {

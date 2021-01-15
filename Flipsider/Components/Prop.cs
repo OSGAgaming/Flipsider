@@ -48,7 +48,7 @@ namespace Flipsider
             interactRange = 100;
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
-            this.Layer = LayerHandler.CurrentLayer;
+            this.Layer = Layer;
             positionX = pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).X;
             positionY = pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).Y;
             Main.renderer.layerHandler.AppendMethodToLayer(this);

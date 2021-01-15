@@ -59,6 +59,10 @@ namespace Flipsider
             }
         }
         public bool CanSwitch;
+        internal EditorUIState GetState()
+            => CurrentState;
+        internal bool StateCheck(EditorUIState EUS)
+            => EUS == CurrentState;
         public void Update()
         {
             if (!IsActive && Main.CurrentScene.Name != "Main Menu")
@@ -113,6 +117,10 @@ namespace Flipsider
                 if (GameInput.Instance["LightEditorMode"].IsJustPressed() && CurrentState != EditorUIState.WorldSaverMode)
                 {
                     SwitchToMode(EditorUIState.LightEditorMode);
+                }
+                if (GameInput.Instance["WaterEditorMode"].IsJustPressed() && CurrentState != EditorUIState.WorldSaverMode)
+                {
+                    SwitchToMode(EditorUIState.WaterEditorMode);
                 }
                 float scrollSpeed = 0.02f;
                 float camMoveSpeed = 0.2f;

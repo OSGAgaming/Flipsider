@@ -39,16 +39,6 @@ namespace Flipsider
             AddPropType("Forest_ForestFlowerFive", TextureCache.ForestFlowerFive);
             AddPropType("Forest_ForestFlowerSix", TextureCache.ForestFlowerSix);
 
-            AddPropType("Forest_ForestGrassOne", TextureCache.ForestGrassOne);
-            AddPropType("Forest_ForestGrassTwo", TextureCache.ForestGrassTwo);
-            AddPropType("Forest_ForestGrassThree", TextureCache.ForestGrassThree);
-            AddPropType("Forest_ForestGrassFour", TextureCache.ForestGrassFour);
-            AddPropType("Forest_ForestGrassFive", TextureCache.ForestGrassFive);
-            AddPropType("Forest_ForestGrassSix", TextureCache.ForestGrassSix);
-            AddPropType("Forest_ForestGrassSeven", TextureCache.ForestGrassSeven);
-            AddPropType("Forest_ForestGrassEight", TextureCache.ForestGrassEight);
-            AddPropType("Forest_ForestGrassNine", TextureCache.ForestGrassNine);
-
             AddPropType("Forest_ForestBushOne", TextureCache.ForestBushOne);
             AddPropType("Forest_ForestLogOne", TextureCache.ForestLogOne);
             AddPropType("Forest_ForestDecoOne", TextureCache.ForestDecoOne);
@@ -98,7 +88,7 @@ namespace Flipsider
                 if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
                 {
                     int alteredRes = Main.CurrentWorld.TileRes / 4;
-                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction));
+                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction, 1,-1,0,LayerHandler.CurrentLayer));
                 }
                 TileManager.UselessCanPlaceBool = true;
             }
@@ -162,7 +152,7 @@ namespace Flipsider
         {
             for (int i = 0; i < propManager?.props.Count; i++)
             {
-                if ((Main.MouseScreen.ToVector2() - propManager.props[i].ParalaxedCenter).Length() < propManager.props[i].interactRange)
+                if ((Main.MouseScreen.ToVector2() - propManager.props[i].Center).Length() < propManager.props[i].interactRange)
                 {
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
                     {
