@@ -52,11 +52,12 @@ namespace Flipsider.Scenes
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y);
-            Main.renderer.RenderBG(spriteBatch,Color.White, TextureCache.skybox, -0.9f, 0.4f, offset);
-            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.6f, 0.4f, offset);
-            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.4f, offset);
-            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.4f, offset);
+            Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 50);
+            Main.renderer.RenderBG(spriteBatch,Color.White, TextureCache.skybox, -0.9f, 0.8f, offset);
+            Main.renderer.RenderBGMoving(spriteBatch,6f, Color.White, TextureCache.SkyboxFront, -0.9f, 0.8f, offset + new Vector2(0, -400));
+            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.6f, 0.7f, offset + new Vector2(0, 100));
+            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.7f, offset);
+            Main.renderer.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.7f, offset);
             Main.renderer.RenderEntities();
             Main.renderer.layerHandler.DrawLayers(spriteBatch);
             NPC.DTH.Draw(spriteBatch);

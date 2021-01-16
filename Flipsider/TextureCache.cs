@@ -19,6 +19,7 @@ namespace Flipsider
         public static Texture2D testGun;
         public static Texture2D magicPixel;
         public static Texture2D skybox;
+        public static Texture2D SkyboxFront;
         public static Texture2D TileSet1;
         public static Texture2D TileSet2;
         public static Texture2D TileSet3;
@@ -114,7 +115,8 @@ namespace Flipsider
             WhiteScreen = content.Load<Texture2D>("Textures/GUI/WhiteScreen");
             testGun = content.Load<Texture2D>("Textures/GUI/TestGun");
             magicPixel = content.Load<Texture2D>("Textures/GUI/MagicPixel");
-            skybox = content.Load<Texture2D>("Textures/skybox");
+            skybox = content.Load<Texture2D>("Textures/Backgrounds/Skybox");
+            SkyboxFront = content.Load<Texture2D>("Textures/Backgrounds/SkyboxFront");
             Blob = content.Load<Texture2D>("Textures/Blob");
             NPCPanel = content.Load<Texture2D>("Textures/NPCPanel");
             Textbox = content.Load<Texture2D>("Textures/Textbox");
