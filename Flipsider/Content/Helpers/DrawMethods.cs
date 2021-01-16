@@ -62,5 +62,15 @@ namespace Flipsider
             DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
         }
+        public static void DrawRectangle(Rectangle rectangle, Color color, float thickness = 1)
+        {
+            Vector2 point = rectangle.Location.ToVector2();
+            int sizeX = rectangle.Size.X;
+            int sizeY = rectangle.Size.Y;
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
+            DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
+        }
     }
 }

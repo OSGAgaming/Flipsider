@@ -26,7 +26,6 @@ namespace Flipsider
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-
             Color colour = water.color;
             for (int i = 0; i < _points.Count - 1; i++)
             {
@@ -52,6 +51,10 @@ namespace Flipsider
             if (_cap < _noOfPoints / 6)
             {
                 _points.RemoveAt(0);
+            }
+            if(water == null)
+            {
+                Dispose();
             }
         }
         public override void OnDestroy()

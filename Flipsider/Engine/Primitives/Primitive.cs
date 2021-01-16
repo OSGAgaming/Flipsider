@@ -46,7 +46,8 @@ namespace Flipsider.Engine
 
         public void Dispose()
         {
-            //EEMod.primitives._trails.Remove(this);
+            Main.Primitives.Components.Remove(this);
+
         }
         public void Update()
         {

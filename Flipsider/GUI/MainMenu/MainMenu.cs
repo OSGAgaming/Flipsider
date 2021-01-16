@@ -73,7 +73,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         Color colorOfLine; 
         protected override void OnDraw()
         {
-            
             if (Main.CurrentScene.Name == "Main Menu")
             {
                 alpha = 1;

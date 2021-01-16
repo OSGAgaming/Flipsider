@@ -28,7 +28,6 @@ namespace Flipsider
     {
         protected Primitive PrimitiveInstance;
         protected Primitive PrimitiveInstanceDamp;
-        public List<Water> WaterBodies = new List<Water>();
         public int accuracy;
         public Vector2[] Pos;
         public Vector2[] PosDampened;
@@ -45,6 +44,12 @@ namespace Flipsider
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(Rectangle vertices) => frame = vertices;
         public int Layer { get; set; }
+        public void Dispose()
+        {
+            Utils.layerHandler.Layers[Layer].PrimitiveDrawables.Remove(this);
+            PrimitiveInstance.Dispose();
+            PrimitiveInstanceDamp.Dispose();
+        }
         public Water(Rectangle _frame)
         {
             SetFrame(_frame);

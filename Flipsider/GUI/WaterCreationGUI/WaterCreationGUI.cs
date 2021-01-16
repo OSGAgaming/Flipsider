@@ -62,6 +62,18 @@ namespace Flipsider.GUI
         {
             if (Main.Editor.CurrentState == EditorUIState.WaterEditorMode)
             {
+                for (int i = 0; i < Utils.WaterBodies.Count; i++)
+                {
+                    if (Utils.WaterBodies[i].frame.Contains(Main.MouseScreen))
+                    {
+                        DrawMethods.DrawRectangle(Utils.WaterBodies[i].frame, Color.White, 3);
+                        if(Mouse.GetState().RightButton == ButtonState.Pressed)
+                        {
+                            Utils.WaterBodies[i].Dispose();
+                            Utils.WaterBodies.RemoveAt(i);
+                        }
+                    }
+                }
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(8);
