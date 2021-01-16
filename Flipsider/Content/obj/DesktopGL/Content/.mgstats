@@ -1,5 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/Lighting.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/Lighting.xnb","EffectProcessor","CompiledEffectContent",1791,2064,0.3890809
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/Lighting.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/Lighting.xnb","EffectProcessor","CompiledEffectContent",1768,1891,0.382546
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/PrimtiveShader.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/PrimtiveShader.xnb","EffectProcessor","CompiledEffectContent",4676,6943,0.5075987
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/char.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/char.xnb","TextureProcessor","Texture2DContent",48355,1917013,0.164227
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/Noise/Noise.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/Noise/Noise.xnb","TextureProcessor","Texture2DContent",176606,956569,0.1344291

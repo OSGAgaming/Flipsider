@@ -175,9 +175,9 @@ namespace Flipsider
         public bool isNPC;
         public void Constraints()
         {
-            position.Y = MathHelper.Clamp(position.Y, -200, Main.ScreenSize.Y - maxHeight);
+            position.Y = MathHelper.Clamp(position.Y, -200, Utils.BOTTOM - maxHeight);
             position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if (Bottom >= Main.ScreenSize.Y)
+            if (Bottom >= Utils.BOTTOM)
             {
                 onGround = true;
                 velocity.Y = 0;

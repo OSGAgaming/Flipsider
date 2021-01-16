@@ -38,6 +38,37 @@ namespace Flipsider.Engine.Particles
             particles[index].Center += _amount;
         }
     }
+    public class ModifyPositionRand : IParticleModifier
+    {
+        private Random _rand;
+        private Vector2 randomX;
+        private Vector2 randomY;
+        public ModifyPositionRand(Vector2 randomNessX, Vector2 randomNessY, Random rand)
+        {
+            randomX = randomNessX;
+            randomY = randomNessY;
+            _rand = rand;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Center += new Vector2(_rand.NextFloat(randomX.X,randomX.Y), _rand.NextFloat(randomY.X, randomY.Y));
+        }
+    }
+    public class ModifyPositionToEntity : IParticleModifier
+    {
+        private Entity _amount;
+
+        public ModifyPositionToEntity(Entity amount)
+        {
+            _amount = amount;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Center += _amount.Center;
+        }
+    }
     public class FloatUp : IParticleModifier
     {
         private readonly float _speed;
@@ -198,7 +229,31 @@ namespace Flipsider.Engine.Particles
             particles[index].Velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * speed;
         }
     }
+    public class TurnRand : IParticleModifier
+    {
+        private float _turnRadians;
+        private float lower;
+        private float upper;
+        public TurnRand(float lower, float upper)
+        {
+            this.lower = lower;
+            this.upper = upper;
+            _turnRadians = Main.rand.NextFloat(lower,upper);
+        }
 
+        public void Invoke(Particle[] particles, int index)
+        {
+            if (particles[index].Age <= Time.DeltaT)
+            {
+                _turnRadians = Main.rand.NextFloat(lower, upper);
+            }
+            Vector2 v = particles[index].Velocity;
+            float speed = v.Length();
+            float angle = (float)Math.Atan2(v.Y, v.X);
+            angle += _turnRadians * Time.DeltaT;
+            particles[index].Velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * speed;
+        }
+    }
     public class OpacityOverLifetime : IParticleModifier
     {
         private readonly EaseFunction _interp;

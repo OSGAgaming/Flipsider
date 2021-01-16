@@ -35,7 +35,6 @@ namespace Flipsider
         public static SpriteFont font;
         public static Renderer renderer;
         public static World CurrentWorld;
-        public static ParticleSystem TestParticleSystem;
         public static PrimTrailManager Primitives;
         PropInteraction PI;
         public static Serializers serializers = new Serializers();
@@ -77,7 +76,7 @@ namespace Flipsider
             TextureCache.LoadTextures(Content);
             CurrentWorld = new World(1000, 1000);
             PI = new PropInteraction(CurrentWorld.propManager);
-            CurrentWorld.AppendPlayer(new Player(new Vector2(100, 100)));
+            CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             Instatiate();
             // Register controls
             RegisterControls.Invoke();
@@ -90,24 +89,13 @@ namespace Flipsider
             renderer.Load();
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
-            TestParticleSystem = new ParticleSystem(200);
             #endregion
             instance = this;
             CurrentWorld.propManager.LoadProps();
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();
-
-            TestParticleSystem = new ParticleSystem(200);
-            TestParticleSystem.SpawnRate = 10f;
-            //TestParticleSystem.WorldSpace = true;
-            TestParticleSystem.SpawnModules.Add(new SetTexture(TextureCache.pixel));
-            TestParticleSystem.SpawnModules.Add(new SetScale(1f));
-            TestParticleSystem.SpawnModules.Add(new ModifyPosition(player.Center));
-            TestParticleSystem.SpawnModules.Add(new SetColorBetweenTwoColours(Color.DarkGreen, Color.Lime, rand));
-            TestParticleSystem.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -80f));
-            TestParticleSystem.SpawnModules.Add(new SetLifetime(5f));
-            TestParticleSystem.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
+            
         }
         private void LoadGUI()
         {
@@ -125,7 +113,7 @@ namespace Flipsider
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
             sceneManager.Update();
-base.Update(gameTime);
+            base.Update(gameTime);
         }
         protected override void UnloadContent()
         {

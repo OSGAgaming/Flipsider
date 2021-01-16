@@ -65,7 +65,6 @@ namespace Flipsider
             {
                 try
                 {
-                    Debug.Write(41);
                     tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
                     {
                         active = true

@@ -20,14 +20,10 @@ namespace Flipsider
         }
         public Matrix Transform { get; set; }
         public float scale { get; set; }
-
-        public float VarScaleX => scale * (Main.ActualScreenSize.X / Main.ScreenSize.X);
-        public float VarScaleY => scale * (Main.ActualScreenSize.Y / Main.ScreenSize.Y);
         public float rotation { get; set; }
 
         public static int screenShake;
         public Vector2 CamPos => playerpos - new Vector2(Main.ActualScreenSize.X / 2, Main.ActualScreenSize.Y / 2) / scale;
-        public Vector2 CamPosPrimitive => playerpos - new Vector2(1980 / 2, 1080 / 2) / scale;
         public float targetScale;
         public Vector3 GetScreenScale()
         {
@@ -48,22 +44,13 @@ namespace Flipsider
             var shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
 
             playerpos += (player.Center - playerpos) / 16f;
-            int width = (int)Main.ActualScreenSize.X;
             int height = (int)Main.ActualScreenSize.Y;
 
             playerpos += offset;
             if (!Main.Editor.IsActive && Main.CurrentScene.Name != "Main Menu")
             {
-                if (scale >= 1)
-                {
-                    playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
-                    playerpos.Y = Math.Clamp(playerpos.Y, -100000, height - (height / (2 * scale)) - (Main.ActualScreenSize.Y - Main.ScreenSize.Y));
-                }
-                else
-                {
-                    playerpos.X = width / 2;
-                    playerpos.Y = height / 2;
-                }
+               playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
+               playerpos.Y = Math.Clamp(playerpos.Y, -100000, height - (height / (2 * scale)) - (Main.ActualScreenSize.Y - Utils.BOTTOM));
             }
             else
             {

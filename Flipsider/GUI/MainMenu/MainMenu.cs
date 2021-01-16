@@ -88,10 +88,10 @@ namespace Flipsider.GUI.TilePlacementGUI
                 DrawMethods.DrawBoxFill(Vector2.Zero, 1980, 1080, Color.Lerp(Color.Black,Color.White,lerp) * alpha);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
-                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f, new Vector2(-200, lerp));
-                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f, new Vector2(-900, 0), - 0.6f);
-                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f, new Vector2(-900, 0), -0.5f);
-                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f, new Vector2(-900, 0), -0.4f);
+                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f, new Vector2(-200, lerp + Utils.BOTTOM));
+                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f, new Vector2(-900, Utils.BOTTOM -1300), - 0.6f);
+                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f, new Vector2(-900, Utils.BOTTOM - 1300), -0.5f);
+                Main.renderer.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f, new Vector2(-900, Utils.BOTTOM -1300), -0.4f);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 DrawMethods.DrawBoxFill(new Vector2(200 - widthOfLeftPanel / 2, 0), (int)widthOfLeftPanel, (int)Main.ScreenSize.Y, colorOfLine * alpha);
