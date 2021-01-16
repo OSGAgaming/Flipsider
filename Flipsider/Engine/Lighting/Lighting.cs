@@ -8,38 +8,25 @@ using System.Net.Mime;
 using static Flipsider.Prop;
 using static Flipsider.TileManager;
 using static Flipsider.PropManager;
+using System.Diagnostics;
+
 namespace Flipsider
 {
     delegate void LightTargetEvent();
     public class Lighting
     {
-        event LightTargetEvent? TileMapEvent;
-        event LightTargetEvent? MiscMapEvent;
-        event LightTargetEvent? WaterMapEvent;
+        public Manager<LightSource> lightSources = new Manager<LightSource>(); 
         public RenderTarget2D? lightMap;
         public RenderTarget2D? tileMap;
         public RenderTarget2D? miscMap;
         public RenderTarget2D? waterMap;
         public float tileDiffusion;
         public float generalDiffusion;
-        public List<LightSource> lightSources = new List<LightSource>();
         public List<DirectionalLightSource> directionalLightSources = new List<DirectionalLightSource>();
         public static float baseLight
         {
             get;
             private set;
-        }
-        public struct LightSource
-        {
-            public int strength;
-            public Vector2 position;
-            public Color colour;
-            public LightSource(int str, Vector2 pos, Color col)
-            {
-                strength = str;
-                position = pos;
-                colour = col;
-            }
         }
         public struct DirectionalLightSource
         {
@@ -74,8 +61,8 @@ namespace Flipsider
 
         }
         public static void SetBaseLight(float bl) => baseLight = bl;
-        public void AddLight(int str, Vector2 pos, Color col) => lightSources.Add(new LightSource(str, pos, col));
-        public void AddDirectionalLight(Vector2 p1, Vector2 p2, Color col) => directionalLightSources.Add(new DirectionalLightSource(p1, p2, col));
+        public void AddLight(float str, Vector2 p, Color col, float ang) => lightSources.AddComponent(new DirectionalLight(str, p, col,ang,0));
+        public void AddLight(float str, Vector2 p, Color col, float ang, float rotation) => lightSources.AddComponent(new DirectionalLight(str, p, col,ang, rotation));
         public void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
         public void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
         public void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
@@ -98,35 +85,14 @@ namespace Flipsider
         {
             Main.graphics.GraphicsDevice.SetRenderTarget(lightMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
-            foreach (LightSource ls in lightSources)
-            {
-                Main.spriteBatch.Draw(TextureCache.PointLight, ls.position, ls.colour);
-            }
-            foreach (DirectionalLightSource dl in directionalLightSources)
-            {
-                Vector2 origin = dl.position1;
-                for (int i = -50; i < 50; i++)
-                {
-                    Vector2 diffVec = dl.position2 - origin;
-                    Vector2 secondPos = origin + diffVec.RotatedBy(i / (100 / dl.angularCoverage));
-                    Vector2 intersection = NumericalHelpers.ReturnIntersectionTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
-                    bool intersectionState = NumericalHelpers.LineIntersectsTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
-                    if (intersectionState)
-                    {
-                        DrawMethods.DrawLine(origin, intersection - (origin - intersection) / 10f, Color.White * 0.2f, 4);
-                    }
-                    else
-                    {
-                        DrawMethods.DrawLine(origin, secondPos, Color.White * 0.2f, 4);
-                    }
 
-                }
-            }
             //  Main.spriteBatch.Draw(TextureCache.magicPixel, intersection,new Rectangle(0,0,5,5), Color.White);
 
             Main.graphics.GraphicsDevice.SetRenderTarget(tileMap);
+
             for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
             {
+                
                 for (int i = 0; i < Main.WaterBodies.Count; i++)
                 {
                     if (Main.WaterBodies[i].Layer == a)
@@ -148,20 +114,36 @@ namespace Flipsider
                                 if (world.tiles[i, j].type != -1)
                                 {
                                     int TR = Main.CurrentWorld.TileRes;
-                                    DrawMethods.DrawBoxFill(new Rectangle(i * TR - 5, j * TR - 5, TR + 10, TR + 10), Color.Red);
+                                    DrawMethods.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
                                 }
                             }
                         }
                     }
                 }
             }
+            Main.spriteBatch.End();
+            for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
+            {
+
+                foreach (LightSource ls in lightSources.Components)
+                {
+                    if (ls.Layer == a)
+                    {
+                        ls.Draw(Main.spriteBatch);
+                    }
+                }
+            }
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Main.graphics.GraphicsDevice.SetRenderTarget(miscMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
-            for (int i = 0; i < world.propManager.props.Count; i++)
+            for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
             {
-                var cprop = world.propManager.props[i];
-                if(cprop.active)
-                Main.spriteBatch.Draw(PropTypes[cprop.prop], cprop.Center, PropEntites[cprop.prop].alteredFrame, Color.White, 0f, PropEntites[cprop.prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                for (int i = 0; i < world.propManager.props.Count; i++)
+                {
+                    var cprop = world.propManager.props[i];
+                    if (cprop.active && cprop.Layer == a)
+                        Main.spriteBatch.Draw(PropTypes[cprop.prop], cprop.Center, PropEntites[cprop.prop].alteredFrame, Color.White, 0f, PropEntites[cprop.prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                }
             }
             for (int k = 0; k < Main.entities.Count; k++)
             {

@@ -77,6 +77,12 @@ float4 SideFallOff(VertexShaderOutput input) : COLOR
 {
 	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
 }
+float4 DirLight(VertexShaderOutput input) : COLOR
+{
+	float2 coords = input.TextureCoordinates;
+	input.Color *= 1 - distance(float2(0,0.5f),coords);
+	return input.Color;
+}
 float4 WaterDamp(VertexShaderOutput input) : COLOR
 {
 	float2 coords = input.TextureCoordinates;
@@ -162,10 +168,13 @@ technique BasicColorDrawing
 	{
 		PixelShader = compile ps_3_0 MainPSA();
 	}
-
 	pass SideFallOff
 	{
 		PixelShader = compile ps_3_0 SideFallOff();
+	}
+	pass DirLight
+	{
+		PixelShader = compile ps_3_0 DirLight();
 	}
 	pass BasicImagePass
 	{

@@ -142,11 +142,12 @@ namespace Flipsider
                 Main.CurrentWorld.entityManager.AddComponent(this);
         }
 
-        public void Animate(int per, int noOfFrames, int frameHeight, int column = 0)
+        public bool Animate(int per, int noOfFrames, int frameHeight, int column = 0, bool repeat = true, int startingFrame = 0)
         {
-            if (frameY >= noOfFrames)
+            bool hasEnded = false;
+            if (frameY >= noOfFrames && repeat)
             {
-                frameY = 0;
+                frameY = startingFrame;
             }
             if (per != 0)
             {
@@ -154,10 +155,22 @@ namespace Flipsider
                 {
                     frameY++;
                     if (frameY >= noOfFrames)
-                        frameY = 0;
+                    {
+                        if (repeat)
+                        {
+                            frameY = startingFrame;
+                        }
+                        else
+                        {
+                            hasEnded = true;
+                            frameY = noOfFrames - 1;
+                        }
+                    }
+                    
                 }
             }
             frame = new Rectangle(framewidth * column, frameY * frameHeight, framewidth, frameHeight);
+            return hasEnded;
         }
         public bool isNPC;
         public void Constraints()
@@ -173,8 +186,8 @@ namespace Flipsider
         public void Update()
         {
             frameCounter++;
+            oldVelocity = velocity;
             ResetVars();
-           
             if (!noGravity)
                 velocity.Y += gravity * Time.DeltaVar(120);
             if (!noAirResistance)

@@ -222,22 +222,62 @@ namespace Flipsider
                 }
             }
         }
-
+        bool FreeFall;
+        bool isRecovering;
+        float VelYCache;
         private void FindFrame()
         {
-            if (friction != 0.99f)
+            if (onGround)
             {
-                Animate(6, 11, 48);
+                if(FreeFall)
+                {
+                    frameY = 0;
+                    isRecovering = true;
+                    VelYCache = oldVelocity.Y;
+                }
+                if (isRecovering)
+                {
+                    if (VelYCache > 4)
+                    {
+                        velocity.X *= 0.9f;
+                        isRecovering = !Animate(4, 7, 48, 8, false);
+                    }
+                    else if(VelYCache > 0)
+                    {
+                        velocity.X *= 0.97f;
+                        isRecovering = !Animate(7, 2, 48, 7, false);
+                    }
+                }
+                else
+                {
+                    if (friction != 0.99f)
+                    {
+                        Animate(6, 11, 48);
+                    }
+                    else
+                    {
+                        float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
+                        int velFunc = (int)(Math.Round(10 / Math.Abs(vel * 0.6f)) * Time.DeltaTimeRoundedVar(600, 10) / 1600);
+                        Animate(velFunc, 8, 48, 1);
+                    }
+                }
+                FreeFall = false;
             }
             else
             {
-                float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                int velFunc = (int)(Math.Round(10 / Math.Abs(vel * 0.6f)) * Time.DeltaTimeRoundedVar(600, 10) / 1600);
-                Animate(velFunc, 8, 48, 1);
-            }
-            if (!onGround)
-            {
-                frame = new Rectangle(48 * 2, velocity.Y > 0 ? 48 : 0, framewidth, 48);
+                if (velocity.Y < 0)
+                {
+                    Animate(1, 1, 48, 2, false);
+                }
+                else
+                {
+                    if(!FreeFall)
+                        FreeFall = Animate(2, 7, 48, 11, false, 1);
+                    if(FreeFall)
+                    {
+                        Animate(4, 4, 48, 12, true);
+                    }
+                }
             }
         }
     }

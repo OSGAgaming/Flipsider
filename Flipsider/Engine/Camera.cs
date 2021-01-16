@@ -27,7 +27,7 @@ namespace Flipsider
 
         public static int screenShake;
         public Vector2 CamPos => playerpos - new Vector2(Main.ActualScreenSize.X / 2, Main.ActualScreenSize.Y / 2) / scale;
-
+        public Vector2 CamPosPrimitive => playerpos - new Vector2(1980 / 2, 1080 / 2) / scale;
         public float targetScale;
         public Vector3 GetScreenScale()
         {

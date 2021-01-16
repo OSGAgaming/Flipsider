@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Flipsider.Engine;
+using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,6 +30,7 @@ namespace Flipsider.Scenes
                 if (updateable != null)
                     updateable.Update();
             }
+            Main.TestParticleSystem.Position = Vector2.Zero;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -43,8 +45,9 @@ namespace Flipsider.Scenes
             Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             PropManager.ShowPropCursor();
             Main.Editor.Draw();
+            Main.TestParticleSystem.Draw(spriteBatch);
             Main.renderer.RenderUI();
-            spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle(0,0,800/5,480/5),Color.White);
+            spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.DrawLightMap(Main.CurrentWorld);
         }
     }

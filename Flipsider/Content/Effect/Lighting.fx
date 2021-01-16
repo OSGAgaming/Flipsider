@@ -42,16 +42,16 @@ float tileDiffusion;
 float generalDiffusion;
 float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
 {
-  
-  float4 lightColor = tex2D(lightSampler, coords);
   float4 tileColor = tex2D(tileSampler, coords);
+  float4 tileColoralt = tex2D(tileSampler, float2(coords.x,coords.y));
+  float4 lightColor = tex2D(lightSampler, float2(coords.x, coords.y));
   float4 miscColor = tex2D(miscSampler, coords);
-  float4 waterMap = tex2D(waterSampler, coords);
+  float4 waterMap = tex2D(waterSampler, float2(coords.x,coords.y));
   float water = waterMap.g > 0 ? 1 : 0;
   float tile = tileColor.r > 0 ? 1 : 0;
   float2 japanese = float2(coords.x + cos(Time/60) + GetHeight(coords / 2), coords.y / 4 + sin(Time / 60) - GetHeight(coords / 2));
   float4 color = tex2D(s0, coords + tileColor.b * float2(GetHeight(japanese)/700,GetHeight(japanese)/700));
-  return (color * baseLight) + (lightColor * ((tileColor.r + tileColor.b)/ tileDiffusion + miscColor/ generalDiffusion));
+  return (color * baseLight) + (tileColoralt.g * ((tileColor.r + tileColor.b)/ tileDiffusion + miscColor/ generalDiffusion));
 }
 technique Technique1
 {

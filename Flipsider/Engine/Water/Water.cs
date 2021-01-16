@@ -62,7 +62,7 @@ namespace Flipsider
             {
                 float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
                 if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
-                    SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X/4, entity.velocity.Y*4));
+                    SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X/4, entity.velocity.Y*2));
                 if(entity.Wet && frame.Intersects(entity.CollisionFrame))
                 {
                     Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));

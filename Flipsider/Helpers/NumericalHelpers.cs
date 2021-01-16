@@ -20,7 +20,10 @@ namespace Flipsider
                    LineIntersectsLine(p1, p2, new Point(r.X, r.Y + r.Height), new Point(r.X, r.Y)) ||
                    (r.Contains(p1) && r.Contains(p2));
         }
-
+        public static float ToRotation(this Vector2 v)
+        {
+            return (float)Math.Atan2(v.Y, v.X);
+        }
         public static Vector2 ReturnIntersectRect(Vector2 p1, Vector2 p2, Rectangle r)
         {
             Vector2[] a = { ReturnIntersectionLine(p1, p2, new Vector2(r.X, r.Y), new Vector2(r.X + r.Width, r.Y)),
