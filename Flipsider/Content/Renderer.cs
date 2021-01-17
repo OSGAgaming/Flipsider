@@ -50,7 +50,7 @@ namespace Flipsider
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.ApplyChanges();
             mainCamera = new Camera();
-            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, 1980, 1080);
+            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, 2560, 1440);
             spriteBatch = new SpriteBatch(graphics?.GraphicsDevice);
         }
 

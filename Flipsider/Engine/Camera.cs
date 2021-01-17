@@ -47,6 +47,7 @@ namespace Flipsider
             int height = (int)Main.ActualScreenSize.Y;
 
             playerpos += offset;
+            rotation = offset.X;
             if (!Main.Editor.IsActive && Main.CurrentScene.Name != "Main Menu")
             {
                playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
@@ -59,7 +60,7 @@ namespace Flipsider
             Transform =
                  Matrix.CreateTranslation(new Vector3(-playerpos + shake, 0)) *
                  Matrix.CreateScale(GetScreenScale()) *
-                 Matrix.CreateRotationZ(rotation) *
+                 Matrix.CreateRotationX(rotation) *
                  Matrix.CreateTranslation(Main.ActualScreenSize.X / 2, Main.ActualScreenSize.Y / 2, 0);
         }
 

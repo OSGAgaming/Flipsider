@@ -63,10 +63,10 @@ namespace Flipsider
         public static void SetBaseLight(float bl) => baseLight = bl;
         public void AddLight(float str, Vector2 p, Color col, float ang) => lightSources.AddComponent(new DirectionalLight(str, p, col,ang,0));
         public void AddLight(float str, Vector2 p, Color col, float ang, float rotation) => lightSources.AddComponent(new DirectionalLight(str, p, col,ang, rotation));
-        public void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
-        public void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
-        public void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
-        public void LoadWaterMap() => waterMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 1980, 1080);
+        public void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+        public void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+        public void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+        public void LoadWaterMap() => waterMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
 
         public void ApplyShader()
         {
