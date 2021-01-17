@@ -155,7 +155,7 @@ namespace Flipsider
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
-            friction = 0.92f;
+            friction = 0.87f;
 
             if (crouching) airResistance.X = 0.99f;
             else if (!onGround) airResistance.X = 0.97f;
@@ -205,6 +205,7 @@ namespace Flipsider
         {
             if (onGround)
             {
+                
                 velocity.Y -= jumpheight;
             }
         }

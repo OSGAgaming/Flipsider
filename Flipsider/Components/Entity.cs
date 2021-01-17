@@ -75,8 +75,8 @@ namespace Flipsider
             set => position.Y = value - maxHeight;
         }
         protected internal virtual void Initialize() { }
-        public float acceleration = 0.07f;
-        public float gravity = 0.08f;
+        public float acceleration = 0.11f;
+        public float gravity = 0.8f;
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
 
