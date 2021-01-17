@@ -14,6 +14,14 @@ namespace Flipsider
     public class TextureCache
     {
         public static Texture2D BrickStructure1;
+        public static Texture2D BrickStructure2;
+        public static Texture2D MediumTree1;
+        public static Texture2D MediumTree2;
+        public static Texture2D BackgroundTree1;
+        public static Texture2D BackgroundTree2;
+        public static Texture2D BackgroundTree3;
+        public static Texture2D BackgroundTree4;
+        public static Texture2D ForegroundGrass1;
         public static Texture2D pixel;
         public static Texture2D player;
         public static Texture2D hudSlot;
@@ -91,13 +99,20 @@ namespace Flipsider
             pixel.SetData(new Color[] { Color.White });
 
             BrickStructure1 = content.Load<Texture2D>("Textures/Props/BrickStructure1");
+            BrickStructure2 = content.Load<Texture2D>("Textures/Props/BrickStructure2");
             Noise = content.Load<Texture2D>("Textures/Noise/Noise");
             Noise2 = content.Load<Texture2D>("Textures/Noise/Noise2");
             RandomPolkaDots = content.Load<Texture2D>("Textures/Noise/RandomPolkaDots");
             Spot = content.Load<Texture2D>("Textures/Noise/Spot");
             Voronoi = content.Load<Texture2D>("Textures/Noise/VoronoiNoise");
             WormNoisePixelated = content.Load<Texture2D>("Textures/Noise/WormNoisePixelated");
-
+            BackgroundTree1 = content.Load<Texture2D>("Textures/Props/BackgroundTree1");
+            BackgroundTree2 = content.Load<Texture2D>("Textures/Props/BackgroundTree2");
+            BackgroundTree3 = content.Load<Texture2D>("Textures/Props/BackgroundTree3");
+            BackgroundTree4 = content.Load<Texture2D>("Textures/Props/BackgroundTree4");
+            MediumTree1 = content.Load<Texture2D>("Textures/Props/MediumTree1");
+            MediumTree2 = content.Load<Texture2D>("Textures/Props/MediumTree2");
+            ForegroundGrass1 = content.Load<Texture2D>("Textures/Props/ForegroundGrass1");
             ForestBackground1 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground1");
             ForestBackground2 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground2");
             ForestBackground3 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground3");

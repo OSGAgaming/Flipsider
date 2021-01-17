@@ -22,7 +22,15 @@ namespace Flipsider
         {
             Layer = 1;
             AddPropType("Misc_Sky", TextureCache.GreenSlime);
-           
+            AddPropType("Ruins_1", TextureCache.BrickStructure1);
+            AddPropType("Ruins_2", TextureCache.BrickStructure2);
+            AddPropType("MediumTree_1", TextureCache.MediumTree1);
+            AddPropType("MediumTree_2", TextureCache.MediumTree2);
+            AddPropType("BackgroundTree_1", TextureCache.BackgroundTree1);
+            AddPropType("BackgroundTree_2", TextureCache.BackgroundTree2);
+            AddPropType("BackgroundTree_3", TextureCache.BackgroundTree3);
+            AddPropType("BackgroundTree_4", TextureCache.BackgroundTree4);
+            AddPropType("Foreground_Grass", TextureCache.ForegroundGrass1);
             AddPropType("City_TrafficLight", TextureCache.TrafficLight);
             AddPropType("City_BusStop", TextureCache.BusStop);
             AddPropType("City_BigBusStop", TextureCache.BigBusStop);
