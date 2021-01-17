@@ -13,6 +13,7 @@ namespace Flipsider
 #nullable disable
     public class TextureCache
     {
+        public static Texture2D BrickStructure1;
         public static Texture2D pixel;
         public static Texture2D player;
         public static Texture2D hudSlot;
@@ -89,6 +90,7 @@ namespace Flipsider
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
 
+            BrickStructure1 = content.Load<Texture2D>("Textures/Props/BrickStructure1");
             Noise = content.Load<Texture2D>("Textures/Noise/Noise");
             Noise2 = content.Load<Texture2D>("Textures/Noise/Noise2");
             RandomPolkaDots = content.Load<Texture2D>("Textures/Noise/RandomPolkaDots");
