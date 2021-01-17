@@ -26,7 +26,7 @@ namespace Flipsider
         {
             return num > min && num < max;
         }
-        public static float ReciprocateTo(this float num, float target, float ease)
+        public static float ReciprocateTo(this float num, float target, float ease = 16f)
         {
             return num + (target - num) / ease;
         }

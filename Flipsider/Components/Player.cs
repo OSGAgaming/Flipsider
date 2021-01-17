@@ -180,20 +180,6 @@ namespace Flipsider
                 }
             }
 
-            if (crouching)
-            {
-                //  height = 48;
-                // friction = Math.Abs(velocity.X) > 0.2f ? 1 : 0.96f;
-            }
-            else
-            {
-                if (height != 72)
-                {
-                    //  height = 72;
-                    // position.Y -= (72 - 48);
-                }
-            }
-
             if (mouseState.LeftButton == ButtonState.Pressed)
                 leftWeapon?.Activate(this);
 

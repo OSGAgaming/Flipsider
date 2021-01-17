@@ -74,7 +74,7 @@ namespace Flipsider
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
-            CurrentWorld = new World(1000, 1000);
+            CurrentWorld = new World(200, 200);
             PI = new PropInteraction(CurrentWorld.propManager);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             Instatiate();

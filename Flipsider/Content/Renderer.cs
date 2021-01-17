@@ -57,9 +57,6 @@ namespace Flipsider
         public void Load()
         {
             layerHandler.AddLayer();
-            layerHandler.AddLayer();
-            layerHandler.AddLayer();
-            layerHandler.AddLayer();
             if (instance != null)
                 lighting = new Lighting(instance.Content, 1f);
         }

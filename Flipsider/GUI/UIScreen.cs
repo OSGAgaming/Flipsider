@@ -9,7 +9,7 @@ namespace Flipsider.GUI
 {
     public class UIScreen : IComponent
     {
-        protected List<UIElement> elements = new List<UIElement>();
+        public List<UIElement> elements = new List<UIElement>();
         public bool active;
         public UIScreen()
         {
@@ -39,7 +39,7 @@ namespace Flipsider.GUI
             if (active)
             {
                 OnUpdate();
-                foreach (UIElement element in elements)
+                foreach (UIElement element in elements.ToArray())
                 {
                     element.Update();
                 }

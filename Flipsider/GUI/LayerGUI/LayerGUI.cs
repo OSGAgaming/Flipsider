@@ -29,7 +29,13 @@ namespace Flipsider.GUI.TilePlacementGUI
                 Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + i * 20, 16, 16);
                 elements.Add(Box);
             }
-
+            LayerAddition LayerAddition = new LayerAddition(this);
+            LayerAddition.dimensions = new Rectangle(20, 10, 16, 16);
+            elements.Add(LayerAddition);
+            LayerAddition LayerAddition2 = new LayerAddition(this);
+            LayerAddition2.dimensions = new Rectangle(40, 10, 16, 16);
+            LayerAddition2.isAdding = true;
+            elements.Add(LayerAddition2);
         }
 
         protected override void OnUpdate()
@@ -89,6 +95,10 @@ namespace Flipsider.GUI.TilePlacementGUI
                 dimensions.Y += (-100 - dimensions.Y) / 16;
             }
         }
+        protected override void OnHover()
+        {
+            CanPlace = false;
+        }
     }
     internal class LayerGUIElement : UIElement
     {
@@ -129,12 +139,71 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnHover()
         {
+            CanPlace = false;
             lerp += (1 - lerp) / 16f;
         }
 
         protected override void NotOnHover()
         {
             lerp += (0 - lerp) / 16f;
+        }
+    }
+    internal class LayerAddition : UIElement
+    {
+        float lerp;
+        public bool isAdding;
+        public UIScreen parent;
+        public LayerAddition(UIScreen parent)
+        {
+            this.parent = parent;
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (isAdding)
+            {
+                spriteBatch.Draw(TextureCache.AddLayer, dimensions, new Rectangle(0, 0, 32, 32), Color.White*lerp);
+            }
+            else
+            {
+                spriteBatch.Draw(TextureCache.RemoveLayer, dimensions, new Rectangle(0, 0, 32, 32), Color.White * lerp);
+            }
+        }
+        protected override void OnUpdate()
+        {
+            if(Main.Editor.IsActive)
+            {
+                lerp = lerp.ReciprocateTo(1);
+            }
+            else
+            {
+                lerp = lerp.ReciprocateTo(0);
+            }
+        }
+        protected override void OnLeftClick()
+        {
+            if (isAdding)
+            {
+                Main.layerHandler.AddLayer();
+                int i = Main.layerHandler.GetLayerCount() - 1;
+                LayerGUIElement textBox = new LayerGUIElement(i);
+                textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + (i - 1) * 20, 150, 10);
+                parent.elements.Add(textBox);
+                LayerGUIElementHide Hide = new LayerGUIElementHide(i);
+                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 32, 64);
+                parent.elements.Add(Hide);
+                LayerTextBox Box = new LayerTextBox(i);
+                Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + (i - 1) * 20, 16, 16);
+                parent.elements.Add(Box);
+            }
+        }
+        protected override void OnHover()
+        {
+            CanPlace = false;
+        }
+
+        protected override void NotOnHover()
+        {
+
         }
     }
     internal class LayerGUIElementHide : UIElement

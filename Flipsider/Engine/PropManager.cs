@@ -160,7 +160,9 @@ namespace Flipsider
         {
             for (int i = 0; i < propManager?.props.Count; i++)
             {
-                if ((Main.MouseScreen.ToVector2() - propManager.props[i].Center).Length() < propManager.props[i].interactRange)
+                Point size = PropTypes[propManager.props[i].prop].Bounds.Size;
+                Rectangle rect = new Rectangle(propManager.props[i].ParalaxedCenter.ToPoint() - new Point(size.X/2, size.Y/2),size);
+                if (rect.Contains(Main.MouseScreen))
                 {
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
                     {

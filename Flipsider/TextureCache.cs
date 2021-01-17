@@ -93,10 +93,15 @@ namespace Flipsider
         public static Texture2D Voronoi;
         public static Texture2D WormNoisePixelated;
 
+        public static Texture2D AddLayer;
+        public static Texture2D RemoveLayer;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
+
+            AddLayer = content.Load<Texture2D>("Textures/GUI/AddLayer");
+            RemoveLayer = content.Load<Texture2D>("Textures/GUI/RemoveLayer");
 
             BrickStructure1 = content.Load<Texture2D>("Textures/Props/BrickStructure1");
             BrickStructure2 = content.Load<Texture2D>("Textures/Props/BrickStructure2");
