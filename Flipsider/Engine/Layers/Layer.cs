@@ -25,9 +25,9 @@ namespace Flipsider
         {
             if (visible)
             {
-                foreach (ILayeredComponent draw in PrimitiveDrawables)
+                foreach (ILayeredComponent layeredComponent in PrimitiveDrawables)
                 {
-                    draw.Draw(spriteBatch);
+                    layeredComponent.Draw(spriteBatch);
                 }
             }
             spriteBatch.Begin(transformMatrix: Main.mainCamera.ParalaxedTransform(paralax), samplerState: SamplerState.PointClamp);

@@ -12,7 +12,7 @@ namespace Flipsider.Engine
     {
         public SceneManager()
         {
-
+            //because you suck
         }
 
         private Scene? _currentScene;
