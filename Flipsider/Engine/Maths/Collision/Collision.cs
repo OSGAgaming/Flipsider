@@ -68,7 +68,7 @@ namespace Flipsider.Engine.Maths
         public static Vector2 TestForCollisions(Polygon shape1, Polygon shape2)
         {
             Polygon[] shapes = new Polygon[] { shape1, shape2 };
-            float overlap = 1000000;
+            float overlap = float.PositiveInfinity;
             for (int a = 0; a < 2; a++)
             {
                 for (int i = 0; i < shapes[a].numberOfPoints; i++)
@@ -76,8 +76,8 @@ namespace Flipsider.Engine.Maths
                     int b = (i + 1) % shapes[a].numberOfPoints;
                     Vector2 axis = shapes[a].varpoints[b] - shapes[a].varpoints[i];
                     Vector2 axisNormal = Vector2.Normalize(new Vector2(-axis.Y, axis.X));
-                    float aMax = -1000000;
-                    float aMin = 1000000;
+                    float aMax = float.NegativeInfinity;
+                    float aMin = float.PositiveInfinity;
                     for (int j = 0; j < shape1.numberOfPoints; j++)
                     {
                         float projection = Vector2.Dot(axisNormal, shape1.varpoints[j]);
@@ -85,8 +85,8 @@ namespace Flipsider.Engine.Maths
                         aMin = Math.Min(projection, aMin);
                         
                     }
-                    float bMax = -1000000;
-                    float bMin = 1000000;
+                    float bMax = float.NegativeInfinity;
+                    float bMin = float.PositiveInfinity;
                     for (int j = 0; j < shape2.numberOfPoints; j++)
                     {
                         float projection = Vector2.Dot(axisNormal,shape2.varpoints[j]);

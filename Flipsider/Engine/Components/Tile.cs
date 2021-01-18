@@ -25,28 +25,21 @@ namespace Flipsider
         public World world;
         public int frameX;
         public int frameY;
-        bool inFrame => ParalaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParalaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
-        Vector2 ParalaxedIJ => new Vector2(i, j).AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax);
-        int ParalaxedI => (int)ParalaxedIJ.X;
+        public bool inFrame => ParallaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParallaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
+        Vector2 ParallaxedIJ => new Vector2(i, j).AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
+        int ParallaxedI => (int)ParallaxedIJ.X;
         Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
         Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
         public TileManager TM => Main.CurrentWorld.tileManager;
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (i > 0 && j > 0 && i < world.MaxTilesX && i < world.MaxTilesY && inFrame)
+            if (world.IsTileInBounds(i, j))
             {
-                if (TM.tiles[i, j] != null)
+                if (TM.tiles[i, j].type != -1)
                 {
-                    if (TM.tiles[i, j].active)
-                    {
-                        if (TM.tiles[i, j].type != -1)
-                        {
-                            spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
-                        }
-                    }
+                    spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
                 }
             }
-
         }
         public int Layer { get; set; }
         public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false)
@@ -58,10 +51,10 @@ namespace Flipsider
             active = false;
             wall = ifWall;
             Layer = LayerHandler.CurrentLayer;
-            i = (int)pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).X;
-            j = (int)pos.AddParalaxAcrossX(Main.layerHandler.Layers[Layer].paralax).Y;
+            i = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
+            j = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
             world = Main.CurrentWorld;
-            i = ParalaxedI;
+            i = ParallaxedI;
             Main.AppendToLayer(this);
         }
         public Tile(int type, Rectangle frame, bool ifWall = false)

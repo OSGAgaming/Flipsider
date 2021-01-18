@@ -38,6 +38,21 @@ namespace Flipsider
                 return false;
             return true;
         }
+
+        public bool IsTileInBounds(int i, int j)
+        {
+            if (i >= 0 && j >= 0 && i < MaxTilesX && j < MaxTilesY && tiles[i, j] != null)
+            {
+                if (tiles[i, j].active && !tiles[i, j].wall)
+                {
+                    if (tiles[i, j].type != -1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public void RetreiveLevelInfo(LevelInfo levelInfo)
         {
             tileManager.tiles = levelInfo.tiles ?? tileManager.tiles;

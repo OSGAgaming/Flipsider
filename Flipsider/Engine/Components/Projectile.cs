@@ -59,6 +59,8 @@ namespace Flipsider
         public static void SpawnProjectile<T>(Vector2 position) where T : Projectile, new()
         {
             T Projectile = new T();
+            Projectile.Layer = LayerHandler.CurrentLayer;
+            Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
             Projectile.position = position;
         }
@@ -66,6 +68,8 @@ namespace Flipsider
         public static void ShootProjectileAtCursor<T>(Vector2 position, float vel) where T : Projectile, new()
         {
             T Projectile = new T();
+            Projectile.Layer = LayerHandler.CurrentLayer;
+            Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
             Projectile.position = position;
             Projectile.velocity = Vector2.Normalize(Main.MouseScreen.ToVector2() - Main.player.Center) * vel;

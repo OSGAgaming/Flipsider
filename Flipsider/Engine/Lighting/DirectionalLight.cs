@@ -33,7 +33,7 @@ namespace Flipsider
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 origin = position ;
+            Vector2 origin = position;
             Mesh?.Draw(spriteBatch);
             for (int i = -Accuracy/2; i < Accuracy / 2; i++)
             {

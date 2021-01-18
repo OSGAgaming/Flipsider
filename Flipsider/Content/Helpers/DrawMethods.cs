@@ -40,11 +40,12 @@ namespace Flipsider
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
-        public static void DrawTextToLeft(string text, Color colour, Vector2 position)
+        public static float DrawTextToLeft(string text, Color colour, Vector2 position)
         {
             SpriteFont font = Main.font;
             float textPositionLeft = position.X;
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            return font.MeasureString(text).X;
         }
 
         public static void DrawSquare(Vector2 point, float size, Color color)
@@ -66,14 +67,14 @@ namespace Flipsider
         {
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
-                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParalaxAcrossX(paralax).AddParalaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }
         public static void RenderBGMoving(SpriteBatch spriteBatch, float speed, Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)
         {
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
-                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParalaxAcrossX(paralax).AddParalaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }
         public static void DrawRectangle(Rectangle rectangle, Color color, float thickness = 1)

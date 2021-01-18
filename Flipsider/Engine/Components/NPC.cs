@@ -111,6 +111,8 @@ namespace Flipsider
         public static void SpawnNPC(Vector2 position, Type type)
         {
             NPC NPC = Activator.CreateInstance(type) as NPC ?? throw new InvalidOperationException("Type wasn't an NPC");
+            NPC.Layer = LayerHandler.CurrentLayer;
+            Main.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.position = position;
@@ -128,6 +130,8 @@ namespace Flipsider
         public static void SpawnNPC<T>(Vector2 position) where T : NPC, new()
         {
             T NPC = new T();
+            NPC.Layer = LayerHandler.CurrentLayer;
+            Main.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.position = position;

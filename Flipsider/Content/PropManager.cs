@@ -161,12 +161,15 @@ namespace Flipsider
             for (int i = 0; i < propManager?.props.Count; i++)
             {
                 Point size = PropTypes[propManager.props[i].prop].Bounds.Size;
-                Rectangle rect = new Rectangle(propManager.props[i].ParalaxedCenter.ToPoint() - new Point(size.X/2, size.Y/2),size);
+                Rectangle rect = new Rectangle(propManager.props[i].ParallaxedCenter.ToPoint() - new Point(size.X/2, size.Y/2),size);
                 if (rect.Contains(Main.MouseScreen))
                 {
-                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                    if (Main.Editor.StateCheck(EditorUIState.PropEditorMode) && propManager.props[i].Layer == LayerHandler.CurrentLayer)
                     {
-                        propManager.props[i].active = false;
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        {
+                            propManager.props[i].active = false;
+                        }
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.E))
                         propManager.props[i].tileInteraction?.Invoke();

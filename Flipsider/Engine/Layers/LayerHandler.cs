@@ -12,6 +12,7 @@ namespace Flipsider
     {
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
+        public int PlayerLayer => Main.player.Layer;
         public void DrawLayers(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
@@ -36,10 +37,14 @@ namespace Flipsider
             if (Layer < Layers.Count)
                 Layers[Layer].visible = !Layers[Layer].visible;
         }
-        public void SetLayerParalax(int Layer, float paralax)
+        public void SetEntityDrawLayer()
+        {
+
+        }
+        public void SetLayerParallax(int Layer, float paralax)
         {
             if (Layer < Layers.Count)
-                Layers[Layer].paralax = paralax;
+                Layers[Layer].parallax = paralax;
         }
         public int GetLayerCount() => Layers.Count;
     }

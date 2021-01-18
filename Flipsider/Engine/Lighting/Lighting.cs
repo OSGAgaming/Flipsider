@@ -92,7 +92,16 @@ namespace Flipsider
 
             for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
             {
-                
+                Main.spriteBatch.End();
+                foreach (LightSource ls in lightSources.Components)
+                {
+                    if (ls.Layer == a)
+                    {
+                        ls.Draw(Main.spriteBatch);
+                    }
+                }
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+
                 for (int i = 0; i < Main.WaterBodies.Count; i++)
                 {
                     if (Main.WaterBodies[i].Layer == a)
@@ -107,33 +116,15 @@ namespace Flipsider
                 {
                     for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
                     {
-                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && world.tiles[i, j] != null)
+                        if (world.IsTileInBounds(i, j))
                         {
-                            if (world.tiles[i, j].active && world.tiles[i, j].Layer == a)
-                            {
-                                if (world.tiles[i, j].type != -1)
-                                {
-                                    int TR = Main.CurrentWorld.TileRes;
-                                    DrawMethods.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
-                                }
-                            }
+                           int TR = Main.CurrentWorld.TileRes;
+                           DrawMethods.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
                         }
                     }
                 }
             }
-            Main.spriteBatch.End();
-            for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
-            {
 
-                foreach (LightSource ls in lightSources.Components)
-                {
-                    if (ls.Layer == a)
-                    {
-                        ls.Draw(Main.spriteBatch);
-                    }
-                }
-            }
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
             Main.graphics.GraphicsDevice.SetRenderTarget(miscMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
             for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)

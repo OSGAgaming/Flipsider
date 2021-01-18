@@ -14,12 +14,12 @@ namespace Flipsider
         public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
         public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
         public int LayerDepth;
-        public float paralax;
+        public float parallax;
         public bool visible = true;
         public Layer(int ld, float paralax = 0)
         {
             LayerDepth = ld;
-            this.paralax = paralax;
+            this.parallax = paralax;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -30,12 +30,16 @@ namespace Flipsider
                     layeredComponent.Draw(spriteBatch);
                 }
             }
-            spriteBatch.Begin(transformMatrix: Main.mainCamera.ParalaxedTransform(paralax), samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(transformMatrix: Main.mainCamera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
             if (visible)
             {
                 foreach (ILayeredComponent draw in Drawables)
                 {
                     draw.Draw(spriteBatch);
+                }
+                if(Main.player.Layer == LayerDepth + 1)
+                {
+                    Main.player.Draw(spriteBatch);
                 }
             }
             spriteBatch.End();

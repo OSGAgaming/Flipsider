@@ -7,9 +7,9 @@ using System.Diagnostics;
 
 namespace Flipsider
 {
-    public abstract class Entity : IComponent
+    public abstract class Entity : IComponent,ILayeredComponent
     {
-
+        public int Layer { get; set; }
         public int width;
         public Texture2D? texture;
         public Polygon CollideBox => new Polygon(new Vector2[] {new Vector2(-width/2,-height/2), new Vector2(width / 2, -height / 2), new Vector2(width / 2, height / 2), new Vector2(-width / 2, height / 2) },Center);
@@ -87,14 +87,11 @@ namespace Flipsider
             {
                 for (int j = (int)position.Y / res - (height / res + 2); j < (int)position.Y / res + (height / res + 2); j++)
                 {
-                    if (i >= 0 && j >= 0 && i < world.MaxTilesX && j < world.MaxTilesY && world.tiles[i, j] != null)
+                    if (world.IsTileInBounds(i,j))
                     {
-                        if (world.tiles[i, j].active && !world.tiles[i, j].wall)
-                        {
-                            Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
-                            Polygon tileCollideBox = new Polygon(new Vector2[] {new Vector2(-res/2, -res/2), new Vector2(res / 2, -res / 2), new Vector2(res / 2, res / 2), new Vector2(-res / 2, res / 2) },new Vector2(i * res + res/2, j * res + res / 2));
+                       Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
 
-                                CollisionInfo collisionInfo = Collision.AABBResolve(CollisionFrame,PreCollisionFrame,tileRect);
+                       CollisionInfo collisionInfo = Collision.AABBResolve(CollisionFrame,PreCollisionFrame,tileRect);
                                 
                             if(collisionInfo.AABB == Bound.Top)
                             {
@@ -115,7 +112,6 @@ namespace Flipsider
                             }
                             isColliding = true;
                             position += collisionInfo.d;
-                        }
                     }
                 }
             }

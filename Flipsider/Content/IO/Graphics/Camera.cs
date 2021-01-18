@@ -8,12 +8,11 @@ using System.Diagnostics;
 
 namespace Flipsider
 {
-
     public class Camera
     {
-        public Matrix ParalaxedTransform(float Paralax)
+        public Matrix ParallaxedTransform(float Paralax)
         {
-            return Matrix.CreateTranslation(new Vector3(-playerpos.AddParalaxAcrossX(Paralax), 0)) *
+            return Matrix.CreateTranslation(new Vector3(-playerpos.AddParallaxAcrossX(Paralax), 0)) *
                       Matrix.CreateScale(GetScreenScale()) *
                       Matrix.CreateRotationZ(rotation) *
                       Matrix.CreateTranslation(Main.ActualScreenSize.X / 2, Main.ActualScreenSize.Y / 2, 0);
