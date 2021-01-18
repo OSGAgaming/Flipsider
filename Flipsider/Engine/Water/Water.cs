@@ -40,7 +40,7 @@ namespace Flipsider
         private float dampening;
         private float constant;
         private float viscosity;
-        public Color color = Color.DarkSeaGreen;
+        public Color color = Color.LightBlue;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(Rectangle vertices) => frame = vertices;
         public int Layer { get; set; }

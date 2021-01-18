@@ -87,7 +87,6 @@ float4 WaterDamp(VertexShaderOutput input) : COLOR
 {
 	float2 coords = input.TextureCoordinates;
 	float2 japanese = float2(coords.x + cos(progress) + GetHeight(coords / 2), coords.y / 4 + sin(progress) - GetHeight(coords / 2));
-	input.Color.rgb += 0.35f * sin(coords.x * 5 + GetHeight(coords / 2 + progress)/20);
 	input.Color *= 0.4f;
 
 	return input.Color;

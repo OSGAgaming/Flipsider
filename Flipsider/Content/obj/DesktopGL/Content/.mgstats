@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/PrimtiveShader.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/PrimtiveShader.xnb","EffectProcessor","CompiledEffectContent",4590,6301,0.5604906
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/GUI/AddLayer.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/GUI/AddLayer.xnb","TextureProcessor","Texture2DContent",469,8277,0.1382058
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/GUI/RemoveLayer.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/GUI/RemoveLayer.xnb","TextureProcessor","Texture2DContent",267,8277,0.0022164
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/Props/BackgroundTree1.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/Props/BackgroundTree1.xnb","TextureProcessor","Texture2DContent",13664,512277,0.0140775
