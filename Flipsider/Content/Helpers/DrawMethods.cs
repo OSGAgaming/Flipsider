@@ -62,6 +62,20 @@ namespace Flipsider
             DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
         }
+        public static void RenderBG(SpriteBatch spriteBatch, Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)
+        {
+            Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
+            for (int i = 0; i < 6; i++)
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParalaxAcrossX(paralax).AddParalaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+
+        }
+        public static void RenderBGMoving(SpriteBatch spriteBatch, float speed, Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)
+        {
+            Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
+            for (int i = 0; i < 6; i++)
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParalaxAcrossX(paralax).AddParalaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+
+        }
         public static void DrawRectangle(Rectangle rectangle, Color color, float thickness = 1)
         {
             Vector2 point = rectangle.Location.ToVector2();
