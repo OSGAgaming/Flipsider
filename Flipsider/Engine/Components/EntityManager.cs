@@ -17,6 +17,14 @@ namespace Flipsider
                         foo.Update();
                 }
             }
+            else
+            {
+                foreach (Entity foo in Components.ToArray())
+                {
+                    if (foo != null)
+                        foo.UpdateInEditor();
+                }
+            }
         }
     }
 }
