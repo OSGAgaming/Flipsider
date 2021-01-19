@@ -18,11 +18,26 @@ namespace Flipsider
         public int animSpeed;
         public float positionX;
         public float positionY;
-
+        public bool draggable;
         public int frameCounter;
         public string prop;
         public bool active = true;
-        public Vector2 position => new Vector2(positionX, positionY);
+
+        //dragging stuff
+        public bool isDragging = false;
+        public Vector2 offsetFromMouseWhileDragging;
+        public Vector2 position 
+        {
+            get
+            {
+                return new Vector2(positionX, positionY);
+            }
+            set
+            {
+                positionX = value.X;
+                positionY = value.Y;
+            }
+        }
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
         public Vector2 Center => position + new Vector2(PropTypes[prop].Width / 2, PropTypes[prop].Height / 2);
         public Vector2 ParallaxedCenter => Center.AddParallaxAcrossX(-Main.layerHandler.Layers[Layer].parallax);
@@ -40,7 +55,7 @@ namespace Flipsider
         }
 
         public int Layer { get; set; }
-        public Prop(string prop, Vector2 pos, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0, int Layer = 0)
+        public Prop(string prop, Vector2 pos, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0, int Layer = 0, bool Draggable = true)
         {
             this.noOfFrames = noOfFrames;
             this.animSpeed = animSpeed;
@@ -49,6 +64,7 @@ namespace Flipsider
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
             this.Layer = Layer;
+            this.draggable = Draggable;
             positionX = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
             positionY = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
             Main.renderer.layerHandler.AppendMethodToLayer(this);

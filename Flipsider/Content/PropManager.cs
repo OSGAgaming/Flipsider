@@ -156,6 +156,8 @@ namespace Flipsider
         }
 
         PropManager? propManager;
+        bool mousePressedRight = false;
+
         public void Update()
         {
             for (int i = 0; i < propManager?.props.Count; i++)
@@ -166,15 +168,33 @@ namespace Flipsider
                 {
                     if (Main.Editor.StateCheck(EditorUIState.PropEditorMode) && propManager.props[i].Layer == LayerHandler.CurrentLayer)
                     {
-                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
                         {
                             propManager.props[i].active = false;
+                        }
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        {
+                            if (!mousePressedRight && !propManager.props[i].isDragging)
+                            {
+                                propManager.props[i].offsetFromMouseWhileDragging = Main.MouseScreen.ToVector2() - propManager.props[i].position;
+                                propManager.props[i].isDragging = true;
+                            }
                         }
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.E))
                         propManager.props[i].tileInteraction?.Invoke();
                 }
+
+                if (propManager.props[i].isDragging)
+                {
+                    propManager.props[i].position = Main.MouseScreen.ToVector2() - propManager.props[i].offsetFromMouseWhileDragging;
+                    if (Mouse.GetState().RightButton != ButtonState.Pressed)
+                    {
+                        propManager.props[i].isDragging = false;
+                    }
+                }
             }
+            mousePressedRight = Mouse.GetState().RightButton == ButtonState.Pressed;
         }
 
     }

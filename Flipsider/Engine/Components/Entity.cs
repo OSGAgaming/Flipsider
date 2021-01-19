@@ -1,6 +1,7 @@
 ﻿using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
@@ -207,7 +208,53 @@ namespace Flipsider
             }
             UpdateTrailCache();
         }
+        public void UpdateInEditor()
+        {
+            OnUpdateInEditor();
+            if (isDraggable && Layer == LayerHandler.CurrentLayer)
+                CheckDrag();
+            else
+                isDragging = false;
+        }
+        public bool isDraggable = true; //dragging stuff
+        public bool isDragging = false;
+        public bool mousePressed = false; //this is so you have to click on it, instead of overlapping with click
+        public Vector2 offsetFromMouseWhileDragging;
+        public bool mouseOverlap //touch up please
+        {
+            get
+            {
+                return CollisionFrame.Contains(Main.MouseScreen.ToVector2());
+            }
+        }
+        public void CheckDrag()
+        {
+            if (mouseOverlap && !mousePressed && !isDragging)
+            {
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    offsetFromMouseWhileDragging = Main.MouseScreen.ToVector2() - Center;
+                    isDragging = true;
+                }
+            }
+            if (isDragging)
+            {
+                Center = Main.MouseScreen.ToVector2() + offsetFromMouseWhileDragging;
+                if (Mouse.GetState().LeftButton != ButtonState.Pressed)
+                {
+                    isDragging = false;
+                }
+            }
 
+            mousePressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
+        }
+        public void DrawConstant(SpriteBatch spriteBatch) //for stuff that really shouldn't be overridden
+        {
+            if (isDraggable && Main.Editor.IsActive && mouseOverlap && !mousePressed && !isDragging)
+            {
+                Utils.DrawRectangle(CollisionFrame, Color.White, 3);
+            }
+        }
         public void Init()
         {
 
@@ -216,6 +263,8 @@ namespace Flipsider
         }
 
         protected virtual void OnUpdate() { }
+
+        protected virtual void OnUpdateInEditor() { }
 
         protected virtual void OnCollide() { }
 
@@ -226,7 +275,6 @@ namespace Flipsider
             PreDraw();
             spriteBatch.Draw(texture, position, frame, Color.White);
         }
-
         public Vector2 Center
         {
             get

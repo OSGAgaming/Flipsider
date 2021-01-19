@@ -104,6 +104,7 @@ namespace Flipsider
             {
                 Entity entity = Main.entities[k];
                 entity.Draw(spriteBatch);
+                entity.DrawConstant(spriteBatch);
             }
         }
 
