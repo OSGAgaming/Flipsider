@@ -27,7 +27,7 @@ namespace Flipsider
         }
         protected override void PreDraw()
         {
-            DrawMethods.DrawText(life.ToString(), Color.White, Center + new Vector2(0, height / 2 + 10));
+            Utils.DrawText(life.ToString(), Color.White, Center + new Vector2(0, height / 2 + 10));
         }
         protected override void AI()
         {

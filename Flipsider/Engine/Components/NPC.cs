@@ -62,7 +62,7 @@ namespace Flipsider
             public float rotationSpeed;
             public void Draw(SpriteBatch spriteBatch)
             {
-                DrawMethods.DrawText(Text, Color.Red * alpha, position, rotation);
+                Utils.DrawText(Text, Color.Red * alpha, position, rotation);
             }
             public void Update()
             {
@@ -171,7 +171,7 @@ namespace Flipsider
         {
             PreDraw();
             spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            DrawMethods.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
+            Utils.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
         }
 
     }

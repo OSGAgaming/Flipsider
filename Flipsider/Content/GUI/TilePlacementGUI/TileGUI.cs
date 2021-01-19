@@ -91,7 +91,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public float alpha;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawMethods.DrawTextToLeft(Text + ExtraText, Color.White * alpha, dimensions.Location.ToVector2());
+            Utils.DrawTextToLeft(Text + ExtraText, Color.White * alpha, dimensions.Location.ToVector2());
         }
         protected override void OnLeftClick()
         {
@@ -168,7 +168,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     Vector2 mousePos = new Vector2(mousestate.Position.X, mousestate.Position.Y);
                     Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
                     float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                    DrawMethods.DrawSquare(tilePoint, DimTileRes, Color.Yellow * Math.Abs(sine) * alpha);
+                    Utils.DrawSquare(tilePoint, DimTileRes, Color.Yellow * Math.Abs(sine) * alpha);
                 }
             }
         }

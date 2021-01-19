@@ -149,7 +149,7 @@ namespace Flipsider
                         {
                             if (tiles[i, j].type == -1)
                             {
-                                DrawMethods.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
+                                Utils.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
                             }
                             else
                             {
@@ -177,7 +177,7 @@ namespace Flipsider
 
                     if (Main.Editor.currentType == -1)
                     {
-                        DrawMethods.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
+                        Utils.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
                     }
                     else
                     {

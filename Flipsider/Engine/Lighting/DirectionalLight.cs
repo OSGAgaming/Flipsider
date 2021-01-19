@@ -39,8 +39,8 @@ namespace Flipsider
             {
                 Vector2 diffVec = (Vector2.UnitX * strength).RotatedBy(rotation);
                 Vector2 secondPos = origin + diffVec.RotatedBy(i / (Accuracy / angularCoverage));
-                Vector2 intersection = NumericalHelpers.ReturnIntersectionTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
-                bool intersectionState = NumericalHelpers.LineIntersectsTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
+                Vector2 intersection = Utils.ReturnIntersectionTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
+                bool intersectionState = Utils.LineIntersectsTile(Main.CurrentWorld, origin.ToPoint(), secondPos.ToPoint());
                 if (intersectionState)
                 {
                     points[i + Accuracy / 2] = intersection;

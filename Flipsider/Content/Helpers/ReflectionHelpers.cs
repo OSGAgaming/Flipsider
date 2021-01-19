@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Flipsider
 {
-    public static class ReflectionHelpers
+    public static partial class Utils
     {
         public static Type[] GetInheritedClasses(Type MyType)
         {

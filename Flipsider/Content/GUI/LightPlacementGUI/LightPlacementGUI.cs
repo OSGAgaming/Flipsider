@@ -67,12 +67,12 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed && Main.Editor.CurrentState == EditorUIState.LightEditorMode)
                 {
-                    DrawMethods.DrawLine(pos1Inv, Mouse.GetState().Position.ToVector2(), Color.White, 2);
+                    Utils.DrawLine(pos1Inv, Mouse.GetState().Position.ToVector2(), Color.White, 2);
                 }
                 for (int i = 0; i < Main.lighting.directionalLightSources.Count; i++)
                 {
                     float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 2);
-                    DrawMethods.DrawLine(Main.lighting.directionalLightSources[i].position1.ToScreenInv(), Main.lighting.directionalLightSources[i].position2.ToScreenInv(), Color.White * 0.2f, sine + 1);
+                    Utils.DrawLine(Main.lighting.directionalLightSources[i].position1.ToScreenInv(), Main.lighting.directionalLightSources[i].position2.ToScreenInv(), Color.White * 0.2f, sine + 1);
                 }
             }
         }

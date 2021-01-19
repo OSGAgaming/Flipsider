@@ -62,7 +62,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 alpha = 1;
                 string text = "Set Player Layer:";
-                DrawMethods.DrawTextToLeft(text, Color.Black, dimensions.Location.ToVector2() - new Vector2(Main.font.MeasureString(text).X, 0));
+                Utils.DrawTextToLeft(text, Color.Black, dimensions.Location.ToVector2() - new Vector2(Main.font.MeasureString(text).X, 0));
             }
             else
             {
@@ -71,7 +71,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             KeyboardState keyboard = Keyboard.GetState();
             if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out buffer))
             {
-                DrawMethods.DrawTextToLeft("Player Layer is set to " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
+                Utils.DrawTextToLeft("Player Layer is set to " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
                 if (isActive && keyboard.IsKeyDown(Keys.Enter))
                 {
                     SetAlpha = 60;
@@ -108,7 +108,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             KeyboardState keyboard = Keyboard.GetState();
             if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out buffer))
             {
-                DrawMethods.DrawTextToLeft("Paralax in Layer " + Layer + " is set to: " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
+                Utils.DrawTextToLeft("Paralax in Layer " + Layer + " is set to: " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
                 if (isActive && keyboard.IsKeyDown(Keys.Enter))
                 {
                     SetAlpha = 60;
@@ -158,7 +158,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawMethods.DrawTextToLeft("Layer " + (Layer + 1), Color.Lerp(Color.Black, Color.BlanchedAlmond, lerp), dimensions.Location.ToVector2());
+            Utils.DrawTextToLeft("Layer " + (Layer + 1), Color.Lerp(Color.Black, Color.BlanchedAlmond, lerp), dimensions.Location.ToVector2());
         }
         protected override void OnUpdate()
         {

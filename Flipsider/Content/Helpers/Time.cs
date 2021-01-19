@@ -11,7 +11,7 @@ namespace Flipsider
 
         public static float DeltaVar(float mult) => (float)Main.gameTime.DeltaTime() * mult;
 
-        public static float DeltaTimeRoundedVar(float mult, int nearest) => NumericalHelpers.Round(mult, nearest);
+        public static float DeltaTimeRoundedVar(float mult, int nearest) => Utils.Round(mult, nearest);
         public static float TotalTimeMil => (float)Main.gameTime.TotalGameTime.TotalMilliseconds;
         public static float TotalTimeSec => (float)Main.gameTime.TotalGameTime.TotalSeconds;
 

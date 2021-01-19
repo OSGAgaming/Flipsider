@@ -123,7 +123,7 @@ namespace Flipsider.Engine.Input
                     case Keys.NumPad4: return '4';
                     case Keys.NumPad5: return '5';
                     case Keys.NumPad6: return '6';
-                    case Keys.NumPad7: return '7'; ;
+                    case Keys.NumPad7: return '7'; 
                     case Keys.NumPad8: return '8';
                     case Keys.NumPad9: return '9';
 

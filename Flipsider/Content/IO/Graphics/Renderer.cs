@@ -87,7 +87,7 @@ namespace Flipsider
             if (graphics != null)
             {
                 Rectangle frame = new Rectangle(0, 0, (int)ScreenSize.X, (int)ScreenSize.Y);
-                Rectangle destination = new Rectangle((int)Vector2.Zero.ToScreen().X, (int)Vector2.Zero.ToScreen().Y, (int)(ScreenSize.X * (1 / ScreenScale)), (int)(ScreenSize.Y * (1 / ScreenScale)));
+                Rectangle destination = new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, (int)(ScreenSize.X / ScreenScale), (int)(ScreenSize.Y / ScreenScale));
                 spriteBatch.Draw(renderTarget, destination, frame, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
             }
         }

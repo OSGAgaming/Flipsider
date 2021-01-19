@@ -112,7 +112,7 @@ namespace Flipsider.Engine.Maths
                 {
                     for(int j = 0; j<shapes[(a+1) % 2].numberOfPoints; j++)
                     {
-                        Vector2 intersectionPoint = NumericalHelpers.ReturnIntersectionLine(shapes[a].varpoints[i], shapes[a].Center, shapes[(a + 1) % 2].varpoints[j], shapes[(a + 1) % 2].varpoints[(j + 1) % shapes[(a + 1) % 2].numberOfPoints]);
+                        Vector2 intersectionPoint = Utils.ReturnIntersectionLine(shapes[a].varpoints[i], shapes[a].Center, shapes[(a + 1) % 2].varpoints[j], shapes[(a + 1) % 2].varpoints[(j + 1) % shapes[(a + 1) % 2].numberOfPoints]);
                         if (intersectionPoint != Vector2.Zero)
                         {
                             displacement += intersectionPoint - shapes[a].varpoints[i];

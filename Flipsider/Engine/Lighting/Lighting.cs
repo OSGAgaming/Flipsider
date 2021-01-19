@@ -106,7 +106,7 @@ namespace Flipsider
                 {
                     if (Main.WaterBodies[i].Layer == a)
                     {
-                        DrawMethods.DrawBoxFill(Main.WaterBodies[i].frame, Color.Blue);
+                        Utils.DrawBoxFill(Main.WaterBodies[i].frame, Color.Blue);
                     }
                 }
                 int fluff = 10;
@@ -119,7 +119,7 @@ namespace Flipsider
                         if (world.IsTileInBounds(i, j))
                         {
                            int TR = Main.CurrentWorld.TileRes;
-                           DrawMethods.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
+                           Utils.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
                         }
                     }
                 }

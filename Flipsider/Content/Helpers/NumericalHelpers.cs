@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Flipsider
 {
-    public static class NumericalHelpers
+    public static partial class Utils
     {
         public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
@@ -29,7 +29,7 @@ namespace Flipsider
             Vector2[] a = { ReturnIntersectionLine(p1, p2, new Vector2(r.X, r.Y), new Vector2(r.X + r.Width, r.Y)),
             ReturnIntersectionLine(p1, p2, new Vector2(r.X + r.Width, r.Y), new Vector2(r.X + r.Width, r.Y + r.Height)),
             ReturnIntersectionLine(p1, p2, new Vector2(r.X + r.Width, r.Y + r.Height), new Vector2(r.X, r.Y + r.Height)),
-             ReturnIntersectionLine(p1, p2, new Vector2(r.X, r.Y + r.Height), new Vector2(r.X, r.Y)) };
+            ReturnIntersectionLine(p1, p2, new Vector2(r.X, r.Y + r.Height), new Vector2(r.X, r.Y)) };
             Vector2 chosen = Vector2.Zero;
             for (int i = 0; i < a.Length; i++)
             {

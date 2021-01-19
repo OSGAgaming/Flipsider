@@ -171,7 +171,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (item != null)
             {
                 spriteBatch.Draw(item.inventoryIcon, dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-                DrawMethods.DrawTextToLeft(GetStats(), Color.White * lerpage * 2, Mouse.GetState().Position.ToVector2() + new Vector2(20, 0));
+                Utils.DrawTextToLeft(GetStats(), Color.White * lerpage * 2, Mouse.GetState().Position.ToVector2() + new Vector2(20, 0));
             }
         }
         protected override void OnUpdate()

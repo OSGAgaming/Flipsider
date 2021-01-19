@@ -84,22 +84,22 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (alpha > 0.01f)
             {
                 Main.mainCamera.offset.Y += (12 - Main.mainCamera.offset.Y) / 16f;
-                DrawMethods.DrawBoxFill(Vector2.Zero, 1980, 1080, Color.Lerp(Color.Black,Color.White,lerp) * alpha);
+                Utils.DrawBoxFill(Vector2.Zero, 1980, 1080, Color.Lerp(Color.Black,Color.White,lerp) * alpha);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
-                DrawMethods.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f, new Vector2(-200, lerp + Utils.BOTTOM));
-                DrawMethods.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f, new Vector2(-900, Utils.BOTTOM -1300), - 0.6f);
-                DrawMethods.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f, new Vector2(-900, Utils.BOTTOM - 1300), -0.5f);
-                DrawMethods.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f, new Vector2(-900, Utils.BOTTOM -1300), -0.4f);
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f, new Vector2(-200, lerp + Utils.BOTTOM));
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f, new Vector2(-900, Utils.BOTTOM -1300), - 0.6f);
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f, new Vector2(-900, Utils.BOTTOM - 1300), -0.5f);
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f, new Vector2(-900, Utils.BOTTOM -1300), -0.4f);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                DrawMethods.DrawBoxFill(new Vector2(200 - widthOfLeftPanel / 2, 0), (int)widthOfLeftPanel, (int)Main.ScreenSize.Y, colorOfLine * alpha);
+                Utils.DrawBoxFill(new Vector2(200 - widthOfLeftPanel / 2, 0), (int)widthOfLeftPanel, (int)Main.ScreenSize.Y, colorOfLine * alpha);
             }
            
             if (progression > T + 50)
             {
                 titleStreak = titleStreak.ReciprocateTo(0,15);
-                DrawMethods.DrawBoxFill(new Vector2(0, 120 - titleStreak / 2), (int)Main.ScreenSize.X, (int)titleStreak, Color.White * alpha);
+                Utils.DrawBoxFill(new Vector2(0, 120 - titleStreak / 2), (int)Main.ScreenSize.X, (int)titleStreak, Color.White * alpha);
                 Main.spriteBatch.Draw(TextureCache.TitleScreen, new Rectangle(10, 20, 385, 200), Color.White * alpha);
               Main.spriteBatch.Draw(TextureCache.TitleScreenOverlay, new Rectangle(10, 20, 385, 200),Color.White * (titleStreak/10f * alpha));
             }
@@ -169,7 +169,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (parent?.progression > Trigger && Main.CurrentScene.Name == "Main Menu")
             {
-                DrawMethods.DrawBoxFill(Center - new Vector2(150,-5 - ((1 - alpha) * 5) / 2), 300, (int)((1 - alpha) * 5), Color.White * alpha);
+                Utils.DrawBoxFill(Center - new Vector2(150,-5 - ((1 - alpha) * 5) / 2), 300, (int)((1 - alpha) * 5), Color.White * alpha);
             }
             if (alpha > 0.01f)
             {

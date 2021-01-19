@@ -199,9 +199,9 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            if ((CollisionFrame.Contains(Main.MouseScreen.ToVector2()) && Main.Editor.IsActive)
+            if ((CollisionFrame.Contains(Main.MouseScreen.ToVector2()) && Main.Editor.IsActive))
             {
-                DrawMethods.DrawRectangle(CollisionFrame, Color.White, 3);
+                Utils.DrawRectangle(CollisionFrame, Color.White, 3);
                 if(Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Center = Main.MouseScreen.ToVector2();

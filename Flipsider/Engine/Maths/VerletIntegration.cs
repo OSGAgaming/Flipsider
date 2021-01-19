@@ -256,7 +256,7 @@ namespace Flipsider
             {
                 if (i == 0)
                 {
-                    DrawMethods.DrawPixel(points[i].point, Color.Black);
+                    Utils.DrawPixel(points[i].point, Color.Black);
                 }
                 else
                 {
@@ -273,7 +273,7 @@ namespace Flipsider
                 {
                     Vector2 p1 = points[stickPoints[i].a].point;
                     Vector2 p2 = points[stickPoints[i].b].point;
-                    DrawMethods.DrawLine(p1, p2, stickPoints[i].color);
+                    Utils.DrawLine(p1, p2, stickPoints[i].color);
                 }
             }
         }

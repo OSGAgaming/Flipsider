@@ -48,13 +48,13 @@ namespace Flipsider
         }
         private void GetAllTypes()
         {
-            Type[] NPCTypes = ReflectionHelpers.GetInheritedClasses(typeof(NPC));
+            Type[] NPCTypes = Utils.GetInheritedClasses(typeof(NPC));
 
             NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
             for (int i = 0; i < NPCTypes.Length; i++)
                 NPC.NPCTypes[i].type = NPCTypes[i];
 
-            Type[] StoreableTypes = ReflectionHelpers.GetInheritedClasses(typeof(IStoreable));
+            Type[] StoreableTypes = Utils.GetInheritedClasses(typeof(IStoreable));
 
             Item.ItemTypes = new Type[StoreableTypes.Length];
             for (int i = 0; i < StoreableTypes.Length; i++)
@@ -99,7 +99,7 @@ namespace Flipsider
         }
         private void LoadGUI()
         {
-            foreach (Type type in ReflectionHelpers.GetInheritedClasses(typeof(UIScreen)))
+            foreach (Type type in Utils.GetInheritedClasses(typeof(UIScreen)))
             {
                 Activator.CreateInstance(type);
             }

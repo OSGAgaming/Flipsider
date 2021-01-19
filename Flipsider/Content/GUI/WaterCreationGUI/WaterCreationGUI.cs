@@ -66,7 +66,7 @@ namespace Flipsider.GUI
                 {
                     if (Utils.WaterBodies[i].frame.Contains(Main.MouseScreen))
                     {
-                        DrawMethods.DrawRectangle(Utils.WaterBodies[i].frame, Color.White, 3);
+                        Utils.DrawRectangle(Utils.WaterBodies[i].frame, Color.White, 3);
                         if(Mouse.GetState().RightButton == ButtonState.Pressed)
                         {
                             Utils.WaterBodies[i].Dispose();
@@ -78,7 +78,7 @@ namespace Flipsider.GUI
                 {
                     Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(8);
                     if(!flag)
-                    DrawMethods.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White,3);
+                    Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White,3);
                 }
                 
             }
@@ -87,7 +87,7 @@ namespace Flipsider.GUI
         {
             if (Main.Editor.CurrentState == EditorUIState.WaterEditorMode)
             {
-                DrawMethods.DrawText("PLACE WATER YOU FUCKING MORON. DO IT!", Color.Blue, new Vector2(Main.ActualScreenSize.X / 2, position));
+                Utils.DrawText("PLACE WATER YOU FUCKING MORON. DO IT!", Color.Blue, new Vector2(Main.ActualScreenSize.X / 2, position));
             }
         }
     }

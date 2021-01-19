@@ -76,7 +76,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
             Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Black * alpha);
-            DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(GottenTexture.Height / 2, 7));
+            Utils.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(GottenTexture.Height / 2, 7));
             UpdateInput();
         }
         protected override void OnLeftClick()
@@ -136,7 +136,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             dimensions.Width = 16 + (inputText.Length - 1) * 7;
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
             Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Lerp(Color.Black,Color.Gray,lerp) * alpha);
-            DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
+            Utils.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
             UpdateInput();
             CustomDraw(spriteBatch);
         }
@@ -189,7 +189,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 }
                 else
                 {
-                    DrawMethods.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(26, 20));
+                    Utils.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(26, 20));
                 }
             }
             else
@@ -223,7 +223,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             Main.spriteBatch.Draw(TextureCache.Textbox, new Rectangle(dimensions.X, dimensions.Y, 180, 30), Color.White * alpha);
-            DrawMethods.DrawTextToLeft(path, Color.White * alpha, new Vector2(dimensions.X + 30, dimensions.Y + 10));
+            Utils.DrawTextToLeft(path, Color.White * alpha, new Vector2(dimensions.X + 30, dimensions.Y + 10));
 
         }
         protected override void OnUpdate()

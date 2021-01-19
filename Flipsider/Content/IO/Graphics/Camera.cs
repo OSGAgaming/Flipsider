@@ -42,7 +42,7 @@ namespace Flipsider
 
             var shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
 
-            playerpos += (player.Center - playerpos) / 16f;
+            playerpos = playerpos.ReciprocateToInt(player.Center,16f);
             int height = (int)Main.ActualScreenSize.Y;
 
             playerpos += offset;
