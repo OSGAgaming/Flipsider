@@ -199,13 +199,12 @@ namespace Flipsider
         {
             texture = TextureCache.player;
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            if (Math.Abs(velocity.LengthSquared()) > 1)
+            if ((CollisionFrame.Contains(Main.MouseScreen.ToVector2()) && Main.Editor.IsActive)
             {
-                for (int i = 0; i < oldPositions.Length; i++)
+                DrawMethods.DrawRectangle(CollisionFrame, Color.White, 3);
+                if(Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
-                    int length = oldPositions.Length;
-                    float alpha = (length - i) / length;
-                    spriteBatch.Draw(texture, oldPositions[i] - new Vector2(-width / 2, 18 - height / 2), frame, Color.White * alpha * 0.3f, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                    Center = Main.MouseScreen.ToVector2();
                 }
             }
         }

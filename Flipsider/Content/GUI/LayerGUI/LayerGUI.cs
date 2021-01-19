@@ -23,8 +23,11 @@ namespace Flipsider.GUI.TilePlacementGUI
                 textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + i * 20, 150, 10);
                 elements.Add(textBox);
                 LayerGUIElementHide Hide = new LayerGUIElementHide(i);
-                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 32, 64);
+                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 32, 32);
                 elements.Add(Hide);
+                LayerElementSwitch Switch = new LayerElementSwitch(i);
+                Switch.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 30, 16);
+                elements.Add(Switch);
                 LayerTextBox Box = new LayerTextBox(i);
                 Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + i * 20, 16, 16);
                 elements.Add(Box);
@@ -233,11 +236,14 @@ namespace Flipsider.GUI.TilePlacementGUI
                 textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + (i - 1) * 20, 150, 10);
                 parent.elements.Add(textBox);
                 LayerGUIElementHide Hide = new LayerGUIElementHide(i);
-                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 32, 64);
+                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 32, 32);
                 parent.elements.Add(Hide);
                 LayerTextBox Box = new LayerTextBox(i);
                 Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + (i - 1) * 20, 16, 16);
                 parent.elements.Add(Box);
+                LayerElementSwitch Switch = new LayerElementSwitch(i);
+                Switch.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 30, 16);
+                parent.elements.Add(Switch);
             }
         }
         protected override void OnHover()
@@ -287,6 +293,68 @@ namespace Flipsider.GUI.TilePlacementGUI
             CanPlace = false;
             Main.layerHandler.SwitchLayerVisibility(Layer);
             Hide = !Hide;
+        }
+        protected override void OnHover()
+        {
+            lerp += (1 - lerp) / 16f;
+        }
+
+        protected override void NotOnHover()
+        {
+            lerp += (0 - lerp) / 16f;
+        }
+    }
+    internal class LayerElementSwitch : UIElement
+    {
+        private int Layer;
+        float lerp;
+        bool isSelected;
+        public LayerElementSwitch(int Layer)
+        {
+            this.Layer = Layer;
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(TextureCache.SwitchLayer, dimensions.Location.ToVector2(), new Rectangle(0,0, 30, 16), isSelected ? Color.Yellow*0.5f : Color.White);
+        }
+        protected override void OnUpdate()
+        {
+            if (LayerHandler.CurrentLayer == Layer)
+            {
+                dimensions.X += (200 - dimensions.X) / 16;
+            }
+            else
+            {
+                dimensions.X += (150 - dimensions.X) / 16;
+            }
+            if (Main.Editor.IsActive)
+            {
+                dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 16;
+            }
+            else
+            {
+                dimensions.Y += (-100 - dimensions.Y) / 16;
+            }
+            if(LayerHandler.LayerCache[1] == -1 && LayerHandler.LayerCache[0] == -1)
+            {
+                isSelected = false;
+            }
+        }
+        protected override void OnLeftClick()
+        {
+            CanPlace = false;
+            if(LayerHandler.LayerCache[0] == -1)
+            {
+                LayerHandler.LayerCache[0] = Layer;
+                isSelected = true;
+            }
+            else
+            {
+                LayerHandler.LayerCache[1] = Layer;
+                Main.layerHandler.SwitchLayers(LayerHandler.LayerCache[0], LayerHandler.LayerCache[1]);
+                LayerHandler.LayerCache[0] = -1;
+                LayerHandler.LayerCache[1] = -1;
+            }
         }
         protected override void OnHover()
         {

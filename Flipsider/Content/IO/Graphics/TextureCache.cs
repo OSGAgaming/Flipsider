@@ -13,6 +13,7 @@ namespace Flipsider
 #nullable disable
     public class TextureCache
     {
+        public static Texture2D SwitchLayer;
         public static Texture2D BrickStructure1;
         public static Texture2D BrickStructure2;
         public static Texture2D MediumTree1;
@@ -124,6 +125,7 @@ namespace Flipsider
             MainMenuPanelOverlay = content.Load<Texture2D>("Textures/GUI/MainMenuPanelOverlay");
             TileGUIPanels = content.Load<Texture2D>("Textures/TGUI");
             LayerHide = content.Load<Texture2D>("Textures/GUI/LayerHide");
+            SwitchLayer = content.Load<Texture2D>("Textures/GUI/SwitchLayer");
             TitleScreen = content.Load<Texture2D>("Textures/GUI/TitleScreen");
             TitleScreenOverlay = content.Load<Texture2D>("Textures/GUI/TitleScreenOverlay");
             MainMenuPanel = content.Load<Texture2D>("Textures/GUI/MainMenuPanel");
