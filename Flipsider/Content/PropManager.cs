@@ -20,6 +20,7 @@ namespace Flipsider
 
         public void LoadProps()
         {
+            # region death
             Layer = 1;
             AddPropType("Misc_Sky", TextureCache.GreenSlime);
             AddPropType("Ruins_1", TextureCache.BrickStructure1);
@@ -63,6 +64,7 @@ namespace Flipsider
             ChangeFrames("City_StopSigns", 3);
             ChangeAnimSpeed("City_StreetLights", 20);
             ChangeAnimSpeed("City_StopSigns", 20);
+            # endregion
         }
         public int Layer { get; set; }
         public void Draw(SpriteBatch spriteBatch)
