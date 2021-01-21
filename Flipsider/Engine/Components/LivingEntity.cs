@@ -21,8 +21,6 @@ namespace Flipsider
         protected virtual void AI() { }
         protected virtual void PreAI() { }
         protected virtual void PostAI() { }
-        protected virtual void PreDraw() { }
-
         public bool Wet
         {
             get;

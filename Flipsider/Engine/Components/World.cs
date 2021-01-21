@@ -68,21 +68,7 @@ namespace Flipsider
                     propManager.props[i].active = false;
                 }
                 LevelInfo LevelInfo = Main.serializers.Deserialize<LevelInfo>(Main.MainPath + FileName);
-                for (int i = 0; i < LevelInfo?.tiles?.GetLength(0); i++)
-                {
-                    for (int j = 0; j < LevelInfo?.tiles?.GetLength(1); j++)
-                    {
-                        if (LevelInfo.tiles[i, j] != null)
-                        {
-                            tileManager.AddTile(this, LevelInfo.tiles[i, j].type, new Vector2(i, j));
-                        }
-                    }
-                }
-
-                for (int i = 0; i < LevelInfo?.props?.Length; i++)
-                {
-                    propManager?.AddProp(this, LevelInfo.props[i].prop, LevelInfo.props[i].position);
-                }
+                LevelInfo.LoadToWorld(this);
             }
         }
         public bool AppendPlayer(Player player)

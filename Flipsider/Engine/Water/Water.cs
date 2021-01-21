@@ -8,15 +8,23 @@ using System;
 // TODO fix this..
 namespace Flipsider
 {
+    [Serializable]
     public class Water : IComponent, ILayeredComponent
     {
+        [NonSerialized]
         protected Primitive PrimitiveInstance;
+        [NonSerialized]
         protected Primitive PrimitiveInstanceDamp;
         public int accuracy;
+        [NonSerialized]
         public Vector2[] Pos;
+        [NonSerialized]
         public Vector2[] PosDampened;
+        [NonSerialized]
         private Vector2[] accel;
+        [NonSerialized]
         private Vector2[] vel;
+        [NonSerialized]
         private Vector2[] targetHeight;
         public Rectangle frame;
         private float[] disLeft;
@@ -24,6 +32,7 @@ namespace Flipsider
         private float dampening;
         private float constant;
         private float viscosity;
+        [NonSerialized]
         public Color color = Color.LightBlue;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(Rectangle vertices) => frame = vertices;

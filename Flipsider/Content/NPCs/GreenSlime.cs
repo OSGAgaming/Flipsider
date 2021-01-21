@@ -19,7 +19,7 @@ namespace Flipsider
             hostile = true;
             Collides = true;
         }
-        protected override void PreDraw()
+        protected override void PreDraw(SpriteBatch spriteBatch)
         {
             Utils.DrawText(life.ToString(), Color.White, Center + new Vector2(0, height / 2 + 10));
         }
