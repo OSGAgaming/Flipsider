@@ -49,7 +49,7 @@ namespace Flipsider
         public bool Animate(int per, int noOfFrames, int frameHeight, int column = 0, bool repeat = true, int startingFrame = 0)
         {
             bool hasEnded = false;
-            if (frameY > noOfFrames && repeat)
+            if (frameY >= noOfFrames && repeat)
             {
                 frameY = startingFrame;
             }

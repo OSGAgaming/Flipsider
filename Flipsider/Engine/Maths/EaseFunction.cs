@@ -176,7 +176,6 @@ namespace Flipsider.Engine.Maths
         }
 
         public void AddPoint(float x, float y, EaseFunction function) => AddPoint(new Vector2(x, y), function);
-
         public void AddPoint(Vector2 vector, EaseFunction function)
         {
             if (vector.X > 1f || vector.X < 0f) throw new ArgumentException("X value of point is not in valid range!");

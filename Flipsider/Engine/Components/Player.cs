@@ -236,7 +236,7 @@ namespace Flipsider
                     else
                     {
                         float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                        int velFunc = (int)(Math.Round(8 / Math.Abs(vel)));
+                        int velFunc = Math.Max((int)(Math.Round(5 / Math.Abs(vel))),3);
                         Animate(velFunc, 8, 48, 1);
                     }
                 }
@@ -254,7 +254,7 @@ namespace Flipsider
                         FreeFall = Animate(2, 7, 48, 11, false, 1);
                     if (FreeFall)
                     {
-                        Animate(4, 4, 48, 12, true);
+                        Animate(4, 4, 48, 12);
                     }
                 }
             }
