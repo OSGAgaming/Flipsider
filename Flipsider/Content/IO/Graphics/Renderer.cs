@@ -1,24 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.GUI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework.Content;
-using System.Diagnostics;
-using System.Collections.Generic;
-
-using Flipsider.GUI;
-using Flipsider.GUI.HUD;
-using Flipsider.Scenes;
-using Flipsider.Engine.Particles;
-using Flipsider.Engine;
-using Flipsider.Engine.Audio;
-using Flipsider.Engine.Input;
-using Flipsider.GUI.TilePlacementGUI;
-using static Flipsider.TileManager;
-using static Flipsider.PropManager;
-using System.Reflection;
-using System.Linq;
-using System.Threading;
 
 namespace Flipsider
 {
@@ -46,8 +28,10 @@ namespace Flipsider
         public Renderer(Game game)
         {
             instance = game;
-            graphics = new GraphicsDeviceManager(instance);
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics = new GraphicsDeviceManager(instance)
+            {
+                GraphicsProfile = GraphicsProfile.HiDef
+            };
             graphics.ApplyChanges();
             mainCamera = new Camera();
             renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, 2560, 1440);

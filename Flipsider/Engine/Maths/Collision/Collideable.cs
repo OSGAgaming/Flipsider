@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
+﻿
+using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Flipsider.Engine.Interfaces;
-using System.Diagnostics;
 
 namespace Flipsider.Engine.Maths
 {
@@ -35,7 +30,7 @@ namespace Flipsider.Engine.Maths
         {
             if (!isStatic && BindableEntity is LivingEntity)
             {
-                var LivingEntity = (LivingEntity)BindableEntity;
+                LivingEntity? LivingEntity = (LivingEntity)BindableEntity;
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
                 foreach (Collideable collideable2 in Main.Colliedables.collideables)

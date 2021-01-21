@@ -1,12 +1,8 @@
 ﻿
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-
-using System.Collections.Generic;
-
-using System.Reflection;
 using Flipsider.Engine.Interfaces;
-using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Flipsider.Engine
 {
@@ -37,8 +33,10 @@ namespace Flipsider.Engine
             _effect = Lighting.PrimtiveShader ?? new BasicEffect(_device);
             _trailShader = new DefaultShader();
             _device = Main.graphics.GraphicsDevice;
-            _basicEffect = new BasicEffect(_device);
-            _basicEffect.VertexColorEnabled = true;
+            _basicEffect = new BasicEffect(_device)
+            {
+                VertexColorEnabled = true
+            };
             SetDefaults();
             vertices = new VertexPositionColorTexture[_cap];
         }

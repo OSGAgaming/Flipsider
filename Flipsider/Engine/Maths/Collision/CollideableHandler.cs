@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Flipsider.Engine.Interfaces;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 
 namespace Flipsider.Engine.Maths
 {
@@ -23,7 +15,7 @@ namespace Flipsider.Engine.Maths
         {
             for (int i = 0; i < collideables.Count; i++)
             {
-                if (entity.GetHashCode() ==  collideables[i].BindableEntity.GetHashCode())
+                if (entity.GetHashCode() == collideables[i].BindableEntity.GetHashCode())
                 {
                     collideables.RemoveAt(i);
                 }

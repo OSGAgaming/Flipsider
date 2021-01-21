@@ -1,20 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
-using Flipsider.Weapons;
+﻿using Flipsider.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
-using static Flipsider.NPC;
-using static Flipsider.TileManager;
-using System.Windows.Input;
-using Flipsider.Engine.Input;
-using System.IO;
-using Flipsider.Scenes;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
@@ -24,20 +10,29 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLoad()
         {
             active = true;
-            StartGame SGB1 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 80);
-            SGB1.parent = this;
+            StartGame SGB1 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 80)
+            {
+                parent = this
+            };
             elements.Add(SGB1);
-            StartGame SGB2 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 50), T + 90);
-            SGB2.parent = this;
+            StartGame SGB2 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 50), T + 90)
+            {
+                parent = this
+            };
             elements.Add(SGB2);
-            StartGame SGB3 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 100), T + 100);
-            SGB3.parent = this;
+            StartGame SGB3 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 100), T + 100)
+            {
+                parent = this
+            };
             elements.Add(SGB3);
-            StartGame SGB4 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 150), T + 110);
-            SGB4.parent = this;
+            StartGame SGB4 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 150), T + 110)
+            {
+                parent = this
+            };
             elements.Add(SGB4);
         }
-        int T = 10;
+
+        private int T = 10;
         protected override void OnUpdate()
         {
             progression++;
@@ -66,11 +61,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                 widthOfLeftPanel = widthOfLeftPanel.ReciprocateTo(390, 16);
             }
         }
-        float alpha;
-        float widthOfLeftPanel;
-        float titleStreak = 20;
-        float lerp;
-        Color colorOfLine;
+
+        private float alpha;
+        private float widthOfLeftPanel;
+        private float titleStreak = 20;
+        private float lerp;
+        private Color colorOfLine;
         protected override void OnDraw()
         {
             if (Main.CurrentScene.Name == "Main Menu")
@@ -108,9 +104,9 @@ namespace Flipsider.GUI.TilePlacementGUI
     }
     internal class BasicUI : UIElement
     {
-        float alpha;
-        Texture2D tex;
-        Vector2 Center;
+        private float alpha;
+        private Texture2D tex;
+        private Vector2 Center;
         public BasicUI(Texture2D tex, Vector2 Center)
         {
             this.tex = tex;
@@ -123,9 +119,9 @@ namespace Flipsider.GUI.TilePlacementGUI
     }
     internal class TitleScreen : UIElement
     {
-        float alpha = 1;
-        Texture2D tex = TextureCache.TitleScreen;
-        Vector2 Center;
+        private float alpha = 1;
+        private Texture2D tex = TextureCache.TitleScreen;
+        private Vector2 Center;
         public TitleScreen(Vector2 Center)
         {
             this.Center = Center;
@@ -151,9 +147,9 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class StartGame : UIElement
     {
         public MainMenuUI? parent;
-        float alpha = 0;
-        Texture2D tex;
-        Vector2 Center;
+        private float alpha = 0;
+        private Texture2D tex;
+        private Vector2 Center;
         public int Trigger;
         public StartGame(Texture2D tex, Vector2 Center, int Trigger)
         {

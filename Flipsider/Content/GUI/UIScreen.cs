@@ -1,9 +1,6 @@
 ﻿using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace Flipsider.GUI
 {

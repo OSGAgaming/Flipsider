@@ -8,9 +8,7 @@
 /* ======================================================================================== */
 
 using System;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Collections;
 
 namespace FMOD.Studio
 {
@@ -192,7 +190,7 @@ namespace FMOD.Studio
             {
                 using (StringHelper.ThreadSafeEncoding encoding = StringHelper.GetFreeHelper())
                 {
-                    return ((mode & (MODE.OPENMEMORY | MODE.OPENMEMORY_POINT)) == 0) ? encoding.stringFromNative(name_or_data) : String.Empty;
+                    return ((mode & (MODE.OPENMEMORY | MODE.OPENMEMORY_POINT)) == 0) ? encoding.stringFromNative(name_or_data) : string.Empty;
                 }
             }
         }
@@ -350,8 +348,8 @@ namespace FMOD.Studio
         public float frametime;                                            /* The playback time at which this command will be executed */
         public INSTANCETYPE instancetype;                                  /* The type of object that this command uses as an instance */
         public INSTANCETYPE outputtype;                                    /* The type of object that this command outputs, if any */
-        public UInt32 instancehandle;                                      /* The original handle value of the instance.  This will no longer correspond to any actual object in playback. */
-        public UInt32 outputhandle;                                        /* The original handle value of the command output.  This will no longer correspond to any actual object in playback. */
+        public uint instancehandle;                                      /* The original handle value of the instance.  This will no longer correspond to any actual object in playback. */
+        public uint outputhandle;                                        /* The original handle value of the command output.  This will no longer correspond to any actual object in playback. */
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -487,8 +485,7 @@ namespace FMOD.Studio
         }
         public RESULT getParameterByID(PARAMETER_ID id, out float value)
         {
-            float finalValue;
-            return getParameterByID(id, out value, out finalValue);
+            return getParameterByID(id, out value, out float finalValue);
         }
         public RESULT getParameterByID(PARAMETER_ID id, out float value, out float finalvalue)
         {
@@ -504,8 +501,7 @@ namespace FMOD.Studio
         }
         public RESULT getParameterByName(string name, out float value)
         {
-            float finalValue;
-            return getParameterByName(name, out value, out finalValue);
+            return getParameterByName(name, out value, out float finalValue);
         }
         public RESULT getParameterByName(string name, out float value, out float finalvalue)
         {
@@ -535,8 +531,7 @@ namespace FMOD.Studio
             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 IntPtr stringMem = Marshal.AllocHGlobal(256);
-                int retrieved = 0;
-                RESULT result = FMOD_Studio_System_LookupPath(this.handle, ref id, stringMem, 256, out retrieved);
+                RESULT result = FMOD_Studio_System_LookupPath(this.handle, ref id, stringMem, 256, out int retrieved);
 
                 if (result == RESULT.ERR_TRUNCATED)
                 {
@@ -645,8 +640,7 @@ namespace FMOD.Studio
             array = null;
 
             RESULT result;
-            int capacity;
-            result = FMOD_Studio_System_GetBankCount(this.handle, out capacity);
+            result = FMOD_Studio_System_GetBankCount(this.handle, out int capacity);
             if (result != RESULT.OK)
             {
                 return result;
@@ -658,8 +652,7 @@ namespace FMOD.Studio
             }
 
             IntPtr[] rawArray = new IntPtr[capacity];
-            int actualCount;
-            result = FMOD_Studio_System_GetBankList(this.handle, rawArray, capacity, out actualCount);
+            result = FMOD_Studio_System_GetBankList(this.handle, rawArray, capacity, out int actualCount);
             if (result != RESULT.OK)
             {
                 return result;
@@ -683,8 +676,7 @@ namespace FMOD.Studio
         {
             array = null;
 
-            int capacity;
-            RESULT result = FMOD_Studio_System_GetParameterDescriptionCount(this.handle, out capacity);
+            RESULT result = FMOD_Studio_System_GetParameterDescriptionCount(this.handle, out int capacity);
             if (result != RESULT.OK)
             {
                 return result;
@@ -696,8 +688,7 @@ namespace FMOD.Studio
             }
 
             PARAMETER_DESCRIPTION[] tempArray = new PARAMETER_DESCRIPTION[capacity];
-            int actualCount;
-            result = FMOD_Studio_System_GetParameterDescriptionList(this.handle, tempArray, capacity, out actualCount);
+            result = FMOD_Studio_System_GetParameterDescriptionList(this.handle, tempArray, capacity, out int actualCount);
             if (result != RESULT.OK)
             {
                 return result;
@@ -885,8 +876,7 @@ namespace FMOD.Studio
             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 IntPtr stringMem = Marshal.AllocHGlobal(256);
-                int retrieved = 0;
-                RESULT result = FMOD_Studio_EventDescription_GetPath(this.handle, stringMem, 256, out retrieved);
+                RESULT result = FMOD_Studio_EventDescription_GetPath(this.handle, stringMem, 256, out int retrieved);
 
                 if (result == RESULT.ERR_TRUNCATED)
                 {
@@ -988,8 +978,7 @@ namespace FMOD.Studio
             array = null;
 
             RESULT result;
-            int capacity;
-            result = FMOD_Studio_EventDescription_GetInstanceCount(this.handle, out capacity);
+            result = FMOD_Studio_EventDescription_GetInstanceCount(this.handle, out int capacity);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1001,8 +990,7 @@ namespace FMOD.Studio
             }
 
             IntPtr[] rawArray = new IntPtr[capacity];
-            int actualCount;
-            result = FMOD_Studio_EventDescription_GetInstanceList(this.handle, rawArray, capacity, out actualCount);
+            result = FMOD_Studio_EventDescription_GetInstanceList(this.handle, rawArray, capacity, out int actualCount);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1137,8 +1125,7 @@ namespace FMOD.Studio
         }
         public RESULT getVolume(out float volume)
         {
-            float finalVolume;
-            return getVolume(out volume, out finalVolume);
+            return getVolume(out volume, out float finalVolume);
         }
         public RESULT getVolume(out float volume, out float finalvolume)
         {
@@ -1150,8 +1137,7 @@ namespace FMOD.Studio
         }
         public RESULT getPitch(out float pitch)
         {
-            float finalPitch;
-            return getPitch(out pitch, out finalPitch);
+            return getPitch(out pitch, out float finalPitch);
         }
         public RESULT getPitch(out float pitch, out float finalpitch)
         {
@@ -1235,8 +1221,7 @@ namespace FMOD.Studio
         }
         public RESULT getParameterByID(PARAMETER_ID id, out float value)
         {
-            float finalvalue;
-            return getParameterByID(id, out value, out finalvalue);
+            return getParameterByID(id, out value, out float finalvalue);
         }
         public RESULT getParameterByID(PARAMETER_ID id, out float value, out float finalvalue)
         {
@@ -1252,8 +1237,7 @@ namespace FMOD.Studio
         }
         public RESULT getParameterByName(string name, out float value)
         {
-            float finalValue;
-            return getParameterByName(name, out value, out finalValue);
+            return getParameterByName(name, out value, out float finalValue);
         }
         public RESULT getParameterByName(string name, out float value, out float finalvalue)
         {
@@ -1395,8 +1379,7 @@ namespace FMOD.Studio
             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 IntPtr stringMem = Marshal.AllocHGlobal(256);
-                int retrieved = 0;
-                RESULT result = FMOD_Studio_Bus_GetPath(this.handle, stringMem, 256, out retrieved);
+                RESULT result = FMOD_Studio_Bus_GetPath(this.handle, stringMem, 256, out int retrieved);
 
                 if (result == RESULT.ERR_TRUNCATED)
                 {
@@ -1416,8 +1399,7 @@ namespace FMOD.Studio
         }
         public RESULT getVolume(out float volume)
         {
-            float finalVolume;
-            return getVolume(out volume, out finalVolume);
+            return getVolume(out volume, out float finalVolume);
         }
         public RESULT getVolume(out float volume, out float finalvolume)
         {
@@ -1530,8 +1512,7 @@ namespace FMOD.Studio
             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 IntPtr stringMem = Marshal.AllocHGlobal(256);
-                int retrieved = 0;
-                RESULT result = FMOD_Studio_VCA_GetPath(this.handle, stringMem, 256, out retrieved);
+                RESULT result = FMOD_Studio_VCA_GetPath(this.handle, stringMem, 256, out int retrieved);
 
                 if (result == RESULT.ERR_TRUNCATED)
                 {
@@ -1550,8 +1531,7 @@ namespace FMOD.Studio
         }
         public RESULT getVolume(out float volume)
         {
-            float finalVolume;
-            return getVolume(out volume, out finalVolume);
+            return getVolume(out volume, out float finalVolume);
         }
         public RESULT getVolume(out float volume, out float finalvolume)
         {
@@ -1606,8 +1586,7 @@ namespace FMOD.Studio
             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 IntPtr stringMem = Marshal.AllocHGlobal(256);
-                int retrieved = 0;
-                RESULT result = FMOD_Studio_Bank_GetPath(this.handle, stringMem, 256, out retrieved);
+                RESULT result = FMOD_Studio_Bank_GetPath(this.handle, stringMem, 256, out int retrieved);
 
                 if (result == RESULT.ERR_TRUNCATED)
                 {
@@ -1658,8 +1637,7 @@ namespace FMOD.Studio
             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 IntPtr stringMem = Marshal.AllocHGlobal(256);
-                int retrieved = 0;
-                RESULT result = FMOD_Studio_Bank_GetStringInfo(this.handle, index, out id, stringMem, 256, out retrieved);
+                RESULT result = FMOD_Studio_Bank_GetStringInfo(this.handle, index, out id, stringMem, 256, out int retrieved);
 
                 if (result == RESULT.ERR_TRUNCATED)
                 {
@@ -1686,8 +1664,7 @@ namespace FMOD.Studio
             array = null;
 
             RESULT result;
-            int capacity;
-            result = FMOD_Studio_Bank_GetEventCount(this.handle, out capacity);
+            result = FMOD_Studio_Bank_GetEventCount(this.handle, out int capacity);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1699,8 +1676,7 @@ namespace FMOD.Studio
             }
 
             IntPtr[] rawArray = new IntPtr[capacity];
-            int actualCount;
-            result = FMOD_Studio_Bank_GetEventList(this.handle, rawArray, capacity, out actualCount);
+            result = FMOD_Studio_Bank_GetEventList(this.handle, rawArray, capacity, out int actualCount);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1725,8 +1701,7 @@ namespace FMOD.Studio
             array = null;
 
             RESULT result;
-            int capacity;
-            result = FMOD_Studio_Bank_GetBusCount(this.handle, out capacity);
+            result = FMOD_Studio_Bank_GetBusCount(this.handle, out int capacity);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1738,8 +1713,7 @@ namespace FMOD.Studio
             }
 
             IntPtr[] rawArray = new IntPtr[capacity];
-            int actualCount;
-            result = FMOD_Studio_Bank_GetBusList(this.handle, rawArray, capacity, out actualCount);
+            result = FMOD_Studio_Bank_GetBusList(this.handle, rawArray, capacity, out int actualCount);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1764,8 +1738,7 @@ namespace FMOD.Studio
             array = null;
 
             RESULT result;
-            int capacity;
-            result = FMOD_Studio_Bank_GetVCACount(this.handle, out capacity);
+            result = FMOD_Studio_Bank_GetVCACount(this.handle, out int capacity);
             if (result != RESULT.OK)
             {
                 return result;
@@ -1777,8 +1750,7 @@ namespace FMOD.Studio
             }
 
             IntPtr[] rawArray = new IntPtr[capacity];
-            int actualCount;
-            result = FMOD_Studio_Bank_GetVCAList(this.handle, rawArray, capacity, out actualCount);
+            result = FMOD_Studio_Bank_GetVCAList(this.handle, rawArray, capacity, out int actualCount);
             if (result != RESULT.OK)
             {
                 return result;

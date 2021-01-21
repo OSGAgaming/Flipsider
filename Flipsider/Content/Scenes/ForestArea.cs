@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 using Flipsider.Engine;
-using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Particles;
 using Microsoft.Xna.Framework;

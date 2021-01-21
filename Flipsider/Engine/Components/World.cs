@@ -1,13 +1,6 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using static Flipsider.Prop;
-using static Flipsider.PropManager;
-using static Flipsider.PropInteraction;
 using Flipsider.Engine;
+using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 
 namespace Flipsider
@@ -35,8 +28,8 @@ namespace Flipsider
             if (tiles[i, j] == null)
                 return false;
             if (!tiles[i, j].Active)
-            if (!tiles[i, j].Active)
-                return false;
+                if (!tiles[i, j].Active)
+                    return false;
             return true;
         }
 

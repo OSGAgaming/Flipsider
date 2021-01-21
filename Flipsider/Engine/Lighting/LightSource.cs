@@ -1,15 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using static Flipsider.Prop;
-using static Flipsider.TileManager;
-using static Flipsider.PropManager;
+﻿using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
-using Flipsider.Engine;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider
 {

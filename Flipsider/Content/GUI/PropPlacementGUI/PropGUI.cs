@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using Flipsider.Weapons;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using System.Linq;
 using static Flipsider.PropManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
@@ -48,7 +42,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
     internal class PropPanel : UIElement
     {
-        Vector2 panelPoint => new Vector2((int)Main.ActualScreenSize.X - dimensions.Width - (index % 5) * (dimensions.Width + 5) - 5, 20 + (index / 5) * (dimensions.Height + 20));
+        private Vector2 panelPoint => new Vector2((int)Main.ActualScreenSize.X - dimensions.Width - (index % 5) * (dimensions.Width + 5) - 5, 20 + (index / 5) * (dimensions.Height + 20));
         private float lerpage = 0;
         public Rectangle startingDimensions => new Rectangle((int)panelPoint.X, (int)panelPoint.Y, dimensions.Width, dimensions.Height);
         public int goToPoint => (int)Main.ActualScreenSize.X - 140;

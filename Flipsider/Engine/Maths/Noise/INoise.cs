@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Flipsider.Maths.Noise
+﻿namespace Flipsider.Maths.Noise
 {
     public interface INoise
     {

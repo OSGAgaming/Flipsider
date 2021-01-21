@@ -7,7 +7,7 @@ namespace Flipsider
         [STAThread]
         private static void Main()
         {
-            using (var game = new Main())
+            using (Main? game = new Main())
                 game.Run();
         }
     }

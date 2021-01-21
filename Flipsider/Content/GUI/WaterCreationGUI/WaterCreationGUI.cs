@@ -1,26 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
-using Flipsider.Weapons;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using static Flipsider.NPC;
-using static Flipsider.TileManager;
-using System.Windows.Input;
-using Flipsider.Engine.Input;
-using System.IO;
 
 namespace Flipsider.GUI
 {
     internal class WaterCrationGUI : UIScreen
     {
         public int chosen = -1;
-        float position;
+        private float position;
         protected override void OnLoad()
         {
 
@@ -28,7 +14,8 @@ namespace Flipsider.GUI
         private bool flag = true;
         private bool mouseStateBuffer;
         private Vector2 pos1;
-        Vector2 MouseSnap => Main.MouseScreen.ToVector2().Snap(8);
+
+        private Vector2 MouseSnap => Main.MouseScreen.ToVector2().Snap(8);
         protected override void OnUpdate()
         {
             if (Main.Editor.CurrentState == EditorUIState.WaterEditorMode)

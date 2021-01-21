@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using FMOD;
-using FMOD.Studio;
+﻿using FMOD.Studio;
 
 namespace Flipsider.Engine.Audio
 {

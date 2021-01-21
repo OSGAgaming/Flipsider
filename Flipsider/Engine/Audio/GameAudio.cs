@@ -1,9 +1,6 @@
-﻿using System;
+﻿using FMOD.Studio;
+using System;
 using System.Collections.Generic;
-using System.Text;
-
-using FMOD;
-using FMOD.Studio;
 
 namespace Flipsider.Engine.Audio
 {
@@ -109,7 +106,7 @@ namespace Flipsider.Engine.Audio
 
         public EventInstance GetEventInstance(string path)
         {
-            _eventDict[path].createInstance(out var instance).CheckOK();
+            _eventDict[path].createInstance(out EventInstance instance).CheckOK();
             return instance;
         }
 

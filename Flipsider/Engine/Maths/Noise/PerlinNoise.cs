@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Flipsider.Maths.Noise
 {
@@ -35,7 +30,7 @@ namespace Flipsider.Maths.Noise
         {
             int X = (int)Math.Floor(x) & PMASK;
             x -= (float)Math.Floor(x);
-            var u = Fade(x);
+            float u = Fade(x);
             return 0.5f + MathHelper.Lerp(u, Grad(_permutation[X], x), Grad(_permutation[X + 1], x - 1));
         }
 

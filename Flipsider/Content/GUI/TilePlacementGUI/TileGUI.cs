@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Flipsider.Weapons;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Diagnostics;
 using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
@@ -67,8 +64,10 @@ namespace Flipsider.GUI.TilePlacementGUI
                 }
             }
             Debug.Write(Main.ScreenSize.X);
-            TileGUIButton TGUIB = new TileGUIButton("AutoFrame");
-            TGUIB.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 200, 100, 40);
+            TileGUIButton TGUIB = new TileGUIButton("AutoFrame")
+            {
+                dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 200, 100, 40)
+            };
             elements.Add(TGUIB);
         }
 
@@ -104,7 +103,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             this.Text = Text;
         }
-        bool AutoFrame => Main.tileManager.AutoFrame;
+
+        private bool AutoFrame => Main.tileManager.AutoFrame;
         protected override void OnLeftClick()
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)

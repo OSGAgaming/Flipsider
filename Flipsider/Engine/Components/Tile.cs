@@ -1,13 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using static Flipsider.Prop;
-using static Flipsider.PropManager;
-using static Flipsider.PropInteraction;
-using Flipsider.Engine.Interfaces;
 
 namespace Flipsider
 {
@@ -25,10 +18,14 @@ namespace Flipsider
         public int frameX;
         public int frameY;
         public bool inFrame => ParallaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParallaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
-        Vector2 ParallaxedIJ => new Vector2(i, j).AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-        int ParallaxedI => (int)ParallaxedIJ.X;
-        Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
-        Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
+
+        private Vector2 ParallaxedIJ => new Vector2(i, j).AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
+
+        private int ParallaxedI => (int)ParallaxedIJ.X;
+
+        private Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
+
+        private Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
         public TileManager TM => Main.CurrentWorld.tileManager;
         public override void Draw(SpriteBatch spriteBatch)
         {

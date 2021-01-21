@@ -1,18 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Net.Mime;
-using static Flipsider.Prop;
-using static Flipsider.TileManager;
 using static Flipsider.PropManager;
-using System.Diagnostics;
 
 namespace Flipsider
 {
-    delegate void LightTargetEvent();
+    internal delegate void LightTargetEvent();
     public class Lighting
     {
         public Manager<LightSource> lightSources = new Manager<LightSource>();
@@ -131,7 +125,7 @@ namespace Flipsider
             {
                 for (int i = 0; i < world.propManager.props.Count; i++)
                 {
-                    var cprop = world.propManager.props[i];
+                    Prop? cprop = world.propManager.props[i];
                     if (cprop.active && cprop.Layer == a)
                         Main.spriteBatch.Draw(PropTypes[cprop.prop], cprop.Center, PropEntites[cprop.prop].alteredFrame, Color.White, 0f, PropEntites[cprop.prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
                 }

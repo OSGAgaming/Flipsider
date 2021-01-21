@@ -1,13 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using static Flipsider.IStoreable;
-using static Flipsider.PropInteraction;
-using static Flipsider.PropManager;
 
 namespace Flipsider
 {

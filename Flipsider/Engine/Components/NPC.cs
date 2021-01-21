@@ -1,12 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
-
-using Flipsider.Engine.Input;
-using Flipsider.Weapons;
-using Flipsider.Engine.Interfaces;
 using System.Collections.Generic;
 
 namespace Flipsider
@@ -129,8 +124,10 @@ namespace Flipsider
         }
         public static void SpawnNPC<T>(Vector2 position) where T : NPC, new()
         {
-            T NPC = new T();
-            NPC.Layer = LayerHandler.CurrentLayer;
+            T NPC = new T
+            {
+                Layer = LayerHandler.CurrentLayer
+            };
             Main.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;

@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using Flipsider.Engine.Input;
-using Flipsider.Weapons;
 
 namespace Flipsider
 {
@@ -58,8 +52,10 @@ namespace Flipsider
         }
         public static void SpawnProjectile<T>(Vector2 position) where T : Projectile, new()
         {
-            T Projectile = new T();
-            Projectile.Layer = LayerHandler.CurrentLayer;
+            T Projectile = new T
+            {
+                Layer = LayerHandler.CurrentLayer
+            };
             Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
             Projectile.position = position;
@@ -67,8 +63,10 @@ namespace Flipsider
 
         public static void ShootProjectileAtCursor<T>(Vector2 position, float vel) where T : Projectile, new()
         {
-            T Projectile = new T();
-            Projectile.Layer = LayerHandler.CurrentLayer;
+            T Projectile = new T
+            {
+                Layer = LayerHandler.CurrentLayer
+            };
             Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
             Projectile.position = position;

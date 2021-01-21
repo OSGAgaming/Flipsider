@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
-using Flipsider.Weapons;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static Flipsider.NPC;
+using System;
 using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
@@ -19,28 +13,42 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             for (int i = 0; i < Main.renderer.layerHandler.GetLayerCount(); i++)
             {
-                LayerGUIElement textBox = new LayerGUIElement(i);
-                textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + i * 20, 150, 10);
+                LayerGUIElement textBox = new LayerGUIElement(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + i * 20, 150, 10)
+                };
                 elements.Add(textBox);
-                LayerGUIElementHide Hide = new LayerGUIElementHide(i);
-                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 32, 32);
+                LayerGUIElementHide Hide = new LayerGUIElementHide(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 32, 32)
+                };
                 elements.Add(Hide);
-                LayerElementSwitch Switch = new LayerElementSwitch(i);
-                Switch.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 30, 16);
+                LayerElementSwitch Switch = new LayerElementSwitch(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 30, 16)
+                };
                 elements.Add(Switch);
-                LayerTextBox Box = new LayerTextBox(i);
-                Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + i * 20, 16, 16);
+                LayerTextBox Box = new LayerTextBox(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + i * 20, 16, 16)
+                };
                 elements.Add(Box);
             }
-            LayerAddition LayerAddition = new LayerAddition(this);
-            LayerAddition.dimensions = new Rectangle(20, 10, 16, 16);
+            LayerAddition LayerAddition = new LayerAddition(this)
+            {
+                dimensions = new Rectangle(20, 10, 16, 16)
+            };
             elements.Add(LayerAddition);
-            LayerAddition LayerAddition2 = new LayerAddition(this);
-            LayerAddition2.dimensions = new Rectangle(40, 10, 16, 16);
-            LayerAddition2.isAdding = true;
+            LayerAddition LayerAddition2 = new LayerAddition(this)
+            {
+                dimensions = new Rectangle(40, 10, 16, 16),
+                isAdding = true
+            };
             elements.Add(LayerAddition2);
-            PlayerLayerTextBox PLTB = new PlayerLayerTextBox();
-            PLTB.dimensions = new Rectangle(200, 10, 16, 16);
+            PlayerLayerTextBox PLTB = new PlayerLayerTextBox
+            {
+                dimensions = new Rectangle(200, 10, 16, 16)
+            };
             elements.Add(PLTB);
         }
 
@@ -54,8 +62,8 @@ namespace Flipsider.GUI.TilePlacementGUI
     }
     internal class PlayerLayerTextBox : NumberBox
     {
-        float SetAlpha;
-        float buffer;
+        private float SetAlpha;
+        private float buffer;
         protected override void CustomDraw(SpriteBatch spriteBatch)
         {
             if (Main.Editor.IsActive)
@@ -97,8 +105,8 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerTextBox : NumberBox
     {
         private int Layer;
-        float SetAlpha;
-        float buffer;
+        private float SetAlpha;
+        private float buffer;
         public LayerTextBox(int Layer)
         {
             this.Layer = Layer;
@@ -150,7 +158,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerGUIElement : UIElement
     {
         private int Layer;
-        float lerp;
+        private float lerp;
 
         public LayerGUIElement(int Layer)
         {
@@ -197,7 +205,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     }
     internal class LayerAddition : UIElement
     {
-        float lerp;
+        private float lerp;
         public bool isAdding;
         public UIScreen parent;
         public LayerAddition(UIScreen parent)
@@ -232,17 +240,25 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 Main.layerHandler.AddLayer();
                 int i = Main.layerHandler.GetLayerCount() - 1;
-                LayerGUIElement textBox = new LayerGUIElement(i);
-                textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + (i - 1) * 20, 150, 10);
+                LayerGUIElement textBox = new LayerGUIElement(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + (i - 1) * 20, 150, 10)
+                };
                 parent.elements.Add(textBox);
-                LayerGUIElementHide Hide = new LayerGUIElementHide(i);
-                Hide.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 32, 32);
+                LayerGUIElementHide Hide = new LayerGUIElementHide(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 32, 32)
+                };
                 parent.elements.Add(Hide);
-                LayerTextBox Box = new LayerTextBox(i);
-                Box.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + (i - 1) * 20, 16, 16);
+                LayerTextBox Box = new LayerTextBox(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + (i - 1) * 20, 16, 16)
+                };
                 parent.elements.Add(Box);
-                LayerElementSwitch Switch = new LayerElementSwitch(i);
-                Switch.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 30, 16);
+                LayerElementSwitch Switch = new LayerElementSwitch(i)
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 30, 16)
+                };
                 parent.elements.Add(Switch);
             }
         }
@@ -259,8 +275,8 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerGUIElementHide : UIElement
     {
         private int Layer;
-        float lerp;
-        bool Hide;
+        private float lerp;
+        private bool Hide;
         public LayerGUIElementHide(int Layer)
         {
             this.Layer = Layer;
@@ -307,8 +323,8 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerElementSwitch : UIElement
     {
         private int Layer;
-        float lerp;
-        bool isSelected;
+        private float lerp;
+        private bool isSelected;
         public LayerElementSwitch(int Layer)
         {
             this.Layer = Layer;

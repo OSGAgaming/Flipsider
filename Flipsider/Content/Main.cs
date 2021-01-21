@@ -1,26 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using Microsoft.Xna.Framework.Content;
-using System.Diagnostics;
-using System.Collections.Generic;
-
-using Flipsider.GUI;
-using Flipsider.GUI.HUD;
-using Flipsider.Scenes;
-using Flipsider.Engine.Particles;
-using Flipsider.Engine;
-using Flipsider.Engine.Audio;
-using Flipsider.Engine.Input;
-using Flipsider.GUI.TilePlacementGUI;
-using System.Reflection;
-using System.Linq;
-using System.Threading;
-using Flipsider.Weapons;
+﻿using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
-using System.Text;
 using Flipsider.Engine.Maths;
+using Flipsider.GUI;
+using Flipsider.Scenes;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace Flipsider
 {
@@ -37,7 +23,7 @@ namespace Flipsider
         public static Renderer renderer;
         public static World CurrentWorld;
         public static PrimTrailManager Primitives;
-        PropInteraction PI;
+        private PropInteraction PI;
         public static CollideableHanlder Colliedables;
         public static Serializers serializers = new Serializers();
         public Main()

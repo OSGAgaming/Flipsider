@@ -1,18 +1,15 @@
 ﻿
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 using Flipsider.Engine;
-using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace Flipsider
 {
-    class WaterPrimtives : Primitive
+    internal class WaterPrimtives : Primitive
     {
-        Vector2[] Points;
-        Water water;
+        private Vector2[] Points;
+        private Water water;
         public WaterPrimtives(Water water)
         {
             this.water = water;

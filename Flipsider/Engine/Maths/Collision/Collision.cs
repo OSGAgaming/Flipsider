@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Flipsider.Engine.Maths
 {

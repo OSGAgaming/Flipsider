@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Flipsider.Engine.Interfaces;
+﻿using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Flipsider.Engine.Input
 {

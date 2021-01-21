@@ -1,14 +1,11 @@
 ﻿
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 using Flipsider.Engine;
+using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace Flipsider
 {
-    class RainbowLightTrail : Primitive
+    internal class RainbowLightTrail : Primitive
     {
         public RainbowLightTrail()
         {

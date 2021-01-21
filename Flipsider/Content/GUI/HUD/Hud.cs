@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Flipsider.Weapons;
+﻿using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -72,7 +69,7 @@ namespace Flipsider.GUI.HUD
                 spriteBatch.Draw(TextureCache.magicPixel, dimensions, Color.Black);
                 spriteBatch.Draw(TextureCache.magicPixel, target, color);
 
-                var msg = (int)(amount * 100) + "%";
+                string? msg = (int)(amount * 100) + "%";
                 spriteBatch.DrawString(Main.font, msg, dimensions.Center.ToVector2(), Color.White, 0, Main.font.MeasureString(msg) * 0.5f, 0.5f, 0, 0);
             }
         }

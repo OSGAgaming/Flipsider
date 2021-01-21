@@ -1,13 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using static Flipsider.Prop;
-using static Flipsider.TileManager;
-using static Flipsider.PropManager;
 namespace Flipsider
 {
     public class PointLight : LightSource

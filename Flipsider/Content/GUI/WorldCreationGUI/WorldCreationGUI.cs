@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
-using Flipsider.Weapons;
+﻿using Flipsider.Engine.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
-using static Flipsider.NPC;
-using static Flipsider.TileManager;
-using System.Windows.Input;
-using Flipsider.Engine.Input;
+using System;
 using System.IO;
+using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
 {
@@ -22,20 +13,26 @@ namespace Flipsider.GUI.TilePlacementGUI
         public int chosen = -1;
         protected override void OnLoad()
         {
-            UIStringInput textBox = new UIStringInput();
-            textBox.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40, 16, 16);
+            UIStringInput textBox = new UIStringInput
+            {
+                dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40, 16, 16)
+            };
             elements.Add(textBox);
             string[] files = Directory.GetFiles(Main.MainPath.Remove(Main.MainPath.Length - 1), "*.flip");
             for (int i = 0; i < files.Length; i++)
             {
-                WorldLoad wlpanel = new WorldLoad();
-                wlpanel.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 160, 150 + i * 40, 180, 30);
-                wlpanel.path = Path.GetFileName(files[i]);
-                wlpanel.index = i;
+                WorldLoad wlpanel = new WorldLoad
+                {
+                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 160, 150 + i * 40, 180, 30),
+                    path = Path.GetFileName(files[i]),
+                    index = i
+                };
                 elements.Add(wlpanel);
             }
-            Save Save = new Save();
-            Save.dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 100, TextureCache.SaveTex.Width, TextureCache.SaveTex.Height);
+            Save Save = new Save
+            {
+                dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 100, TextureCache.SaveTex.Width, TextureCache.SaveTex.Height)
+            };
             elements.Add(Save);
         }
 
@@ -53,9 +50,9 @@ namespace Flipsider.GUI.TilePlacementGUI
         public float alpha = 1f;
         private int delay = 0;
         public bool isActive;
-        Texture2D? Texture;
-        KeyboardState oldKeyboardState = Keyboard.GetState();
-        KeyboardState currentKeyboardState = Keyboard.GetState();
+        private Texture2D? Texture;
+        private KeyboardState oldKeyboardState = Keyboard.GetState();
+        private KeyboardState currentKeyboardState = Keyboard.GetState();
         private void UpdateInput()
         {
             oldKeyboardState = currentKeyboardState;
@@ -95,13 +92,15 @@ namespace Flipsider.GUI.TilePlacementGUI
         public bool isActive;
         public float lerp;
         public float Number => float.Parse(inputText);
-        Texture2D? Texture;
+
+        private Texture2D? Texture;
         protected virtual void CustomDraw(SpriteBatch spriteBatch)
         {
 
         }
-        KeyboardState oldKeyboardState = Keyboard.GetState();
-        KeyboardState currentKeyboardState = Keyboard.GetState();
+
+        private KeyboardState oldKeyboardState = Keyboard.GetState();
+        private KeyboardState currentKeyboardState = Keyboard.GetState();
         private void UpdateInput()
         {
             oldKeyboardState = currentKeyboardState;
@@ -154,8 +153,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         private string inputText = "";
         private float alpha = 0f;
         private int delay = 0;
-        KeyboardState oldKeyboardState = Keyboard.GetState();
-        KeyboardState currentKeyboardState = Keyboard.GetState();
+        private KeyboardState oldKeyboardState = Keyboard.GetState();
+        private KeyboardState currentKeyboardState = Keyboard.GetState();
         private void UpdateInput()
         {
             oldKeyboardState = currentKeyboardState;

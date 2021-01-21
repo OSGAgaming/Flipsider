@@ -8,9 +8,9 @@
 /* ======================================================================================== */
 
 using System;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace FMOD
 {
@@ -1207,7 +1207,7 @@ namespace FMOD
         {
             return FMOD5_System_GetCPUUsageEx(this.handle, out convolutionThread1, out convolutionThread2);
         }
-        public RESULT getFileUsage(out Int64 sampleBytesRead, out Int64 streamBytesRead, out Int64 otherBytesRead)
+        public RESULT getFileUsage(out long sampleBytesRead, out long streamBytesRead, out long otherBytesRead)
         {
             return FMOD5_System_GetFileUsage(this.handle, out sampleBytesRead, out streamBytesRead, out otherBytesRead);
         }
@@ -1556,7 +1556,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_System_GetCPUUsageEx(IntPtr system, out float convolutionThread1, out float convolutionThread2);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD5_System_GetFileUsage(IntPtr system, out Int64 sampleBytesRead, out Int64 streamBytesRead, out Int64 otherBytesRead);
+        private static extern RESULT FMOD5_System_GetFileUsage(IntPtr system, out long sampleBytesRead, out long streamBytesRead, out long otherBytesRead);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_System_CreateSound(IntPtr system, byte[] name_or_data, MODE mode, ref CREATESOUNDEXINFO exinfo, out IntPtr sound);
         [DllImport(VERSION.dll)]
@@ -3281,8 +3281,7 @@ namespace FMOD
         }
         public RESULT getParameterInfo(int index, out DSP_PARAMETER_DESC desc)
         {
-            IntPtr descPtr;
-            RESULT result = FMOD5_DSP_GetParameterInfo(this.handle, index, out descPtr);
+            RESULT result = FMOD5_DSP_GetParameterInfo(this.handle, index, out IntPtr descPtr);
 #if (UNITY_2017_4_OR_NEWER) && !NET_4_6
             desc = (DSP_PARAMETER_DESC)Marshal.PtrToStructure(descPtr, typeof(DSP_PARAMETER_DESC));
 #else
@@ -3878,7 +3877,7 @@ namespace FMOD
 
                 int charCount = encoding.GetChars(encodedBuffer, 0, nativeLen, decodedBuffer, 0);
 
-                return new String(decodedBuffer, 0, charCount);
+                return new string(decodedBuffer, 0, charCount);
             }
 
             public void Dispose()

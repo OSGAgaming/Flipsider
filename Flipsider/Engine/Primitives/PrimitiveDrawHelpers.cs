@@ -1,9 +1,8 @@
 ﻿
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 
 namespace Flipsider.Engine
@@ -112,7 +111,7 @@ namespace Flipsider.Engine
         }
         protected void MakePrimHelix(int i, int Width, float alphaValue, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)
         {
-            float _cap = (float)this._cap;
+            float _cap = this._cap;
             Color c = (baseColour == default ? Color.White : baseColour) * (i / _cap) * fadeValue;
             Vector2 normal = CurveNormal(_points, i);
             Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -138,7 +137,7 @@ namespace Flipsider.Engine
         }
         protected void MakePrimMidFade(int i, int Width, float alphaValue, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)
         {
-            float _cap = (float)this._cap;
+            float _cap = this._cap;
             Color c = (baseColour == default ? Color.White : baseColour) * (i / _cap) * fadeValue;
             Vector2 normal = CurveNormal(_points, i);
             Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -159,7 +158,6 @@ namespace Flipsider.Engine
         }
         protected void DrawBasicTrail(Color c1, float widthVar)
         {
-            int currentIndex = 0;
             VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_noOfPoints];
             for (int i = 0; i < _points.Count; i++)
             {

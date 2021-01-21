@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Flipsider.Engine.Maths;
+using System;
+using System.Collections.Generic;
 
 namespace Flipsider.Engine.Particles
 {

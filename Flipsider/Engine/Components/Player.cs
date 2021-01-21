@@ -1,12 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Input;
+using Flipsider.Weapons;
+using Flipsider.Weapons.Ranged.Pistol;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
-
-using Flipsider.Engine.Input;
-using Flipsider.Weapons;
-using Flipsider.Weapons.Ranged.Pistol;
 
 #nullable enable
 // TODO fix this..
@@ -78,7 +76,7 @@ namespace Flipsider
 
         private void SwapWeapon(ref Weapon first, ref Weapon second)
         {
-            var temp = first;
+            Weapon? temp = first;
             first = second;
             second = temp;
         }
@@ -202,9 +200,10 @@ namespace Flipsider
             texture = TextureCache.player;
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
         }
-        bool FreeFall;
-        bool isRecovering;
-        float VelYCache;
+
+        private bool FreeFall;
+        private bool isRecovering;
+        private float VelYCache;
         private void FindFrame()
         {
             if (onGround)

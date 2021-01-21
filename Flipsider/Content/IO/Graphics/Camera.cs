@@ -1,10 +1,5 @@
-
-using Flipsider;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -40,7 +35,7 @@ namespace Flipsider
             //Temporarily here only
             if (screenShake > 0) screenShake--;
 
-            var shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
+            Vector2 shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
 
             playerpos = playerpos.ReciprocateToInt(player.Center, 16f);
             int height = (int)Main.ActualScreenSize.Y;

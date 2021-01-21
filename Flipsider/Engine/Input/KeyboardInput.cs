@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Flipsider.Engine.Input
 {
@@ -47,7 +43,7 @@ namespace Flipsider.Engine.Input
                 return;
             }
 
-            var Char = KeyToChar(Key, Shift);
+            char Char = KeyToChar(Key, Shift);
 
             if (Char != 0)
                 Text += Char;
@@ -59,7 +55,7 @@ namespace Flipsider.Engine.Input
         /// <param name="Key">They key to convert.</param>
         /// <param name="Shift">Whether or not shift is pressed.</param>
         /// <returns>The key in a char.</returns>
-        private Char KeyToChar(Keys Key, bool Shift = false)
+        private char KeyToChar(Keys Key, bool Shift = false)
         {
             /* It's the space key. */
             if (Key == Keys.Space)
@@ -73,7 +69,7 @@ namespace Flipsider.Engine.Input
                 /* It's a letter. */
                 if (String.Length == 1)
                 {
-                    Char Character = Char.Parse(String);
+                    char Character = char.Parse(String);
                     byte Byte = Convert.ToByte(Character);
 
                     if (
@@ -152,7 +148,7 @@ namespace Flipsider.Engine.Input
                 }
                 #endregion
 
-                return (Char)0;
+                return (char)0;
 
             }
         }

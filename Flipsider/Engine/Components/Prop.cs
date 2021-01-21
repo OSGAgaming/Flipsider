@@ -2,11 +2,7 @@
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using static Flipsider.PropInteraction;
 using static Flipsider.PropManager;
 
 namespace Flipsider

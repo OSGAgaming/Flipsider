@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework.Graphics;

@@ -1,20 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using static Flipsider.Prop;
-using static Flipsider.TileManager;
-using static Flipsider.PropManager;
-using Flipsider.Engine.Interfaces;
 
 namespace Flipsider
 {
     public class DirectionalLight : LightSource
     {
-        float angularCoverage;
+        private float angularCoverage;
         private int Accuracy => 100;
         public Vector2[] points;
         public DirectionalLight(float str, Vector2 pos, Color col, float angularCoverage, float rotation) : base(str, pos, col)

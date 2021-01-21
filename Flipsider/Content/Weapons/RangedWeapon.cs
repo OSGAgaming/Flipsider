@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Flipsider.Weapons
+﻿namespace Flipsider.Weapons
 {
     internal abstract class RangedWeapon : Weapon
     {

@@ -1,14 +1,13 @@
 ﻿
+using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static Flipsider.PropManager;
 using static Flipsider.PropInteraction;
-using System.Reflection;
-using Flipsider.Engine.Interfaces;
+using static Flipsider.PropManager;
 
 namespace Flipsider
 {
@@ -157,8 +156,8 @@ namespace Flipsider
             Main.Updateables.Add(this);
         }
 
-        PropManager? propManager;
-        bool mousePressedRight = false;
+        private PropManager? propManager;
+        private bool mousePressedRight = false;
 
         public void Update()
         {
