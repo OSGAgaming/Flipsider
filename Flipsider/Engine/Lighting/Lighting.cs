@@ -15,7 +15,7 @@ namespace Flipsider
     delegate void LightTargetEvent();
     public class Lighting
     {
-        public Manager<LightSource> lightSources = new Manager<LightSource>(); 
+        public Manager<LightSource> lightSources = new Manager<LightSource>();
         public RenderTarget2D? lightMap;
         public RenderTarget2D? tileMap;
         public RenderTarget2D? miscMap;
@@ -61,8 +61,8 @@ namespace Flipsider
 
         }
         public static void SetBaseLight(float bl) => baseLight = bl;
-        public void AddLight(float str, Vector2 p, Color col, float ang) => lightSources.AddComponent(new DirectionalLight(str, p, col,ang,0));
-        public void AddLight(float str, Vector2 p, Color col, float ang, float rotation) => lightSources.AddComponent(new DirectionalLight(str, p, col,ang, rotation));
+        public void AddLight(float str, Vector2 p, Color col, float ang) => lightSources.AddComponent(new DirectionalLight(str, p, col, ang, 0));
+        public void AddLight(float str, Vector2 p, Color col, float ang, float rotation) => lightSources.AddComponent(new DirectionalLight(str, p, col, ang, rotation));
         public void LoadLightMap() => lightMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
         public void LoadTileMap() => tileMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
         public void LoadMiscMap() => miscMap = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
@@ -78,7 +78,7 @@ namespace Flipsider
             LightingEffect?.Parameters["baseLight"]?.SetValue(baseLight);
             LightingEffect?.Parameters["waterMap"]?.SetValue(waterMap);
             LightingEffect?.Parameters["noiseTexture"]?.SetValue(TextureCache.Noise);
-            LightingEffect?.Parameters["Time"]?.SetValue(Time.TotalTimeMil/60f);
+            LightingEffect?.Parameters["Time"]?.SetValue(Time.TotalTimeMil / 60f);
             LightingEffect?.CurrentTechnique.Passes[0].Apply();
         }
         public void DrawLightMap(World world)
@@ -118,8 +118,8 @@ namespace Flipsider
                     {
                         if (world.IsTileInBounds(i, j))
                         {
-                           int TR = Main.CurrentWorld.TileRes;
-                           Utils.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
+                            int TR = Main.CurrentWorld.TileRes;
+                            Utils.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);
                         }
                     }
                 }

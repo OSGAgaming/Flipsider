@@ -24,7 +24,7 @@ using Flipsider.Engine.Interfaces;
 // TODO fix this..
 namespace Flipsider
 {
-    public class Water : IComponent,ILayeredComponent
+    public class Water : IComponent, ILayeredComponent
     {
         protected Primitive PrimitiveInstance;
         protected Primitive PrimitiveInstanceDamp;
@@ -63,21 +63,25 @@ namespace Flipsider
         }
         public void Update()
         {
-            foreach (Entity entity in Main.CurrentWorld.entityManager.Components)
+            foreach (Entity Entity in Main.CurrentWorld.entityManager.Components)
             {
-                float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
-                if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
-                    SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X/4, entity.velocity.Y*2));
-                if(entity.Wet && frame.Intersects(entity.CollisionFrame))
+                if (Entity is LivingEntity)
                 {
-                    Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));
-                    SplashPerc((entity.Center.X - frame.X + entity.velocity.X*12) / frame.Width, new Vector2(0,-v.X/4 * Main.rand.NextFloat(1,1.5f)));
-                    SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X/7 * Main.rand.NextFloat(1, 1.5f)));
+                    var entity = (LivingEntity)Entity;
+                    float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
+                    if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
+                        SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X / 4, entity.velocity.Y * 2));
+                    if (entity.Wet && frame.Intersects(entity.CollisionFrame))
+                    {
+                        Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));
+                        SplashPerc((entity.Center.X - frame.X + entity.velocity.X * 12) / frame.Width, new Vector2(0, -v.X / 4 * Main.rand.NextFloat(1, 1.5f)));
+                        SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X / 7 * Main.rand.NextFloat(1, 1.5f)));
+                    }
                 }
             }
             for (int i = 0; i < accuracy + 1; i++)
             {
-                
+
                 Pos[i].X += vel[i].X;
                 Pos[i].Y += vel[i].Y;
                 vel[i].X += accel[i].X;

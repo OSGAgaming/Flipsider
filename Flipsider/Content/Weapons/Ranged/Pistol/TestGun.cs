@@ -40,7 +40,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
         }
     }
 
-    internal class TestBullet : Entity
+    internal class TestBullet : LivingEntity
     {
         public TestBullet()
         {

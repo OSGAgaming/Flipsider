@@ -95,7 +95,7 @@ namespace Flipsider.Engine
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
             Vector2 zoom = new Vector2(Main.ScreenScale);
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2* Main.ScreenScale) + Main.mainCamera.CamPos.X, height / -(2* Main.ScreenScale) - Main.mainCamera.CamPos.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * Main.ScreenScale) + Main.mainCamera.CamPos.X, height / -(2 * Main.ScreenScale) - Main.mainCamera.CamPos.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
             _basicEffect.View = view;

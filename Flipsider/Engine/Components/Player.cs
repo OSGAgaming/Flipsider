@@ -12,7 +12,7 @@ using Flipsider.Weapons.Ranged.Pistol;
 // TODO fix this..
 namespace Flipsider
 {
-    public class Player : Entity
+    public class Player : LivingEntity
     {
 
         public IStoreable? SelectedItem;
@@ -85,8 +85,6 @@ namespace Flipsider
 
         private new void ResetVars()
         {
-            onGround = false;
-            isColliding = false;
             gravity = 0.08f;
             airResistance.Y = 0.99f;
             leftWeapon?.UpdatePassive();
@@ -94,19 +92,22 @@ namespace Flipsider
 
             if (Swapping) SwapWeapons(); //TODO: move this
         }
+        protected override void PreUpdate()
+        {
+            ResetVars();
+        }
         protected override void OnUpdate()
         {
-            PlayerInputs();
-            ResetVars();
             CoreUpdates();
-            Constraints();
-            TileCollisions(Main.CurrentWorld);
+            PlayerInputs();
+        }
+        protected override void PostUpdate()
+        {
             PostUpdates();
             FindFrame();
             leftWeapon?.UpdatePassive();
             rightWeapon?.UpdatePassive();
         }
-
         private void CoreUpdates()
         {
             KeyboardState state = Keyboard.GetState();
@@ -121,13 +122,12 @@ namespace Flipsider
 
             if (mouseState.RightButton == ButtonState.Pressed)
                 rightWeapon?.Activate(this);
-
         }
 
         private void PostUpdates()
         {
             KeyboardState state = Keyboard.GetState();
-            if(Wet)
+            if (Wet)
             {
                 airResistance.X = 0.94f;
                 gravity = 0.03f;
@@ -138,7 +138,7 @@ namespace Flipsider
             }
             if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !crouching)
             {
-                Jump();
+                // Jump();
             }
             if (velocity.X >= acceleration)
             {
@@ -162,7 +162,13 @@ namespace Flipsider
             else airResistance.X = 0.985f;
 
             crouching = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
-
+            if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !crouching)
+            {
+                if (onGround)
+                {
+                    velocity.Y -= jumpheight;
+                }
+            }
             if (!(crouching && onGround))
             {
                 if (GameInput.Instance["MoveRight"].IsDown())
@@ -189,11 +195,7 @@ namespace Flipsider
 
         private void Jump()
         {
-            if (onGround)
-            {
-                
-                velocity.Y -= jumpheight;
-            }
+
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -207,7 +209,7 @@ namespace Flipsider
         {
             if (onGround)
             {
-                if(FreeFall)
+                if (FreeFall)
                 {
                     frameY = 0;
                     isRecovering = true;
@@ -220,7 +222,7 @@ namespace Flipsider
                         velocity.X *= 0.9f;
                         isRecovering = !Animate(4, 7, 48, 8, false);
                     }
-                    else if(VelYCache > 0)
+                    else if (VelYCache > 0)
                     {
                         velocity.X *= 0.97f;
                         isRecovering = !Animate(7, 2, 48, 7, false);
@@ -235,7 +237,7 @@ namespace Flipsider
                     else
                     {
                         float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                        int velFunc = (int)(Math.Round(10 / Math.Abs(vel * 0.6f)) * Time.DeltaTimeRoundedVar(600, 10) / 1600);
+                        int velFunc = (int)(Math.Round(8 / Math.Abs(vel)));
                         Animate(velFunc, 8, 48, 1);
                     }
                 }
@@ -249,9 +251,9 @@ namespace Flipsider
                 }
                 else
                 {
-                    if(!FreeFall)
+                    if (!FreeFall)
                         FreeFall = Animate(2, 7, 48, 11, false, 1);
-                    if(FreeFall)
+                    if (FreeFall)
                     {
                         Animate(4, 4, 48, 12, true);
                     }

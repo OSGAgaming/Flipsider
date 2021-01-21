@@ -98,7 +98,7 @@ namespace Flipsider
                 if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
                 {
                     int alteredRes = Main.CurrentWorld.TileRes / 4;
-                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction, 1,-1,0,LayerHandler.CurrentLayer));
+                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction, 1, -1, 0, LayerHandler.CurrentLayer));
                 }
                 TileManager.UselessCanPlaceBool = true;
             }
@@ -165,7 +165,7 @@ namespace Flipsider
             for (int i = 0; i < propManager?.props.Count; i++)
             {
                 Point size = PropTypes[propManager.props[i].prop].Bounds.Size;
-                Rectangle rect = new Rectangle(propManager.props[i].ParallaxedCenter.ToPoint() - new Point(size.X/2, size.Y/2),size);
+                Rectangle rect = new Rectangle(propManager.props[i].ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
                 if (rect.Contains(Main.MouseScreen))
                 {
                     if (Main.Editor.StateCheck(EditorUIState.PropEditorMode) && propManager.props[i].Layer == LayerHandler.CurrentLayer)

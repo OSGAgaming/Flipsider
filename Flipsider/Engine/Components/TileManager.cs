@@ -48,8 +48,9 @@ namespace Flipsider
                 {
                     tiles[X, Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, new Vector2(X, Y))
                     {
-                        active = true
+                        Active = true
                     };
+
                 }
                 catch
                 {
@@ -65,11 +66,21 @@ namespace Flipsider
             {
                 try
                 {
-                    tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
+                    if (world.IsTileActive((int)XY.X, (int)XY.Y))
                     {
-                        active = true
-                    };
-
+                        tiles[(int)XY.X, (int)XY.Y].Kill();
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, new Vector2((int)XY.X, (int)XY.Y))
+                        {
+                            Active = true
+                        };
+                    }
+                    else
+                    {
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
+                        {
+                            Active = true
+                        };
+                    }
                 }
                 catch
                 {
@@ -96,7 +107,7 @@ namespace Flipsider
             {
                 try
                 {
-                    tiles[X, Y].active = false;
+                    tiles[X, Y].Kill();
                 }
                 catch
                 {
@@ -111,7 +122,7 @@ namespace Flipsider
                 try
                 {
                     if (tiles[(int)XY.X, (int)XY.Y] != null)
-                        tiles[(int)XY.X, (int)XY.Y].active = false;
+                        tiles[(int)XY.X, (int)XY.Y].Active = false;
                 }
                 catch
                 {
@@ -129,35 +140,6 @@ namespace Flipsider
                             tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
                         }
                     }
-            }
-        }
-
-        public void RenderTiles(World world, SpriteBatch spriteBatch)
-        {
-            float scale = Main.mainCamera.scale;
-            scale = Math.Clamp(scale, 0.5f, 1);
-            int fluff = 10;
-            Vector2 SafeBoundX = new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
-            Vector2 SafeBoundY = new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
-            for (int i = (int)SafeBoundX.X - fluff; i < (int)SafeBoundX.Y + fluff; i++)
-            {
-                for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
-                {
-                    if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
-                    {
-                        if (tiles[i, j].active)
-                        {
-                            if (tiles[i, j].type == -1)
-                            {
-                                Utils.DrawSquare(new Vector2(i * tileRes, j * tileRes), tileRes, Color.White);
-                            }
-                            else
-                            {
-                                spriteBatch.Draw(tileDict[tiles[i, j].type], new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes), tiles[i, j].frame, Color.White);
-                            }
-                        }
-                    }
-                }
             }
         }
 

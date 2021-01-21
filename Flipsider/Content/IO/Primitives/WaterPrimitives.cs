@@ -29,8 +29,8 @@ namespace Flipsider
             Color colour = water.color;
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                AddVertex(_points[i], colour, new Vector2(i/(float)(_points.Count),0));
-                AddVertex(new Vector2(_points[i + 1].X, water.frame.Bottom), colour, new Vector2((i + 1) / (float)(_points.Count),1));
+                AddVertex(_points[i], colour, new Vector2(i / (float)(_points.Count), 0));
+                AddVertex(new Vector2(_points[i + 1].X, water.frame.Bottom), colour, new Vector2((i + 1) / (float)(_points.Count), 1));
                 AddVertex(new Vector2(_points[i].X, water.frame.Bottom), colour, new Vector2(i / (float)(_points.Count), 1));
 
                 AddVertex(_points[i], colour, new Vector2(i / (float)(_points.Count), 0));
@@ -44,7 +44,7 @@ namespace Flipsider
         }
         public override void OnUpdate()
         {
-            
+
             _points = water.Pos.ToList();
             _counter++;
             _noOfPoints = _points.Count() * 6;
@@ -52,7 +52,7 @@ namespace Flipsider
             {
                 _points.RemoveAt(0);
             }
-            if(water == null)
+            if (water == null)
             {
                 Dispose();
             }

@@ -27,8 +27,8 @@ namespace Flipsider
             Color colour = light.colour;
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                AddVertex(new Vector2(light.position.X, light.position.Y), colour, new Vector2(0,0.5f));
-                AddVertex(light.points[i], colour, new Vector2((light.points[i] - light.position).Length()/light.strength, i / (float)(_points.Count)));
+                AddVertex(new Vector2(light.position.X, light.position.Y), colour, new Vector2(0, 0.5f));
+                AddVertex(light.points[i], colour, new Vector2((light.points[i] - light.position).Length() / light.strength, i / (float)(_points.Count)));
                 AddVertex(light.points[i + 1], colour, new Vector2((light.points[i + 1] - light.position).Length() / light.strength, i / (float)(_points.Count)));
             }
         }

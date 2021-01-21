@@ -13,7 +13,7 @@ using Flipsider.Engine;
 
 namespace Flipsider
 {
-    public abstract class LightSource : IComponent,ILayeredComponent
+    public abstract class LightSource : IComponent, ILayeredComponent
     {
         public Primitive? Mesh;
         public int Layer { get; set; }

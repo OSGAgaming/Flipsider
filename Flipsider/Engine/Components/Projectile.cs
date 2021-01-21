@@ -9,7 +9,7 @@ using Flipsider.Weapons;
 
 namespace Flipsider
 {
-    public class Projectile : Entity
+    public class Projectile : LivingEntity
     {
         public bool pickable;
         public bool hostile;
@@ -20,7 +20,7 @@ namespace Flipsider
         public bool isHittingEntity => EntityCollide();
         public bool EntityCollide()
         {
-            foreach (Entity entity in Main.entities)
+            foreach (LivingEntity entity in Main.entities)
             {
                 if (entity.isNPC)
                 {

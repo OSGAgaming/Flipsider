@@ -35,7 +35,7 @@ namespace Flipsider
         {
             Vector2 origin = position;
             Mesh?.Draw(spriteBatch);
-            for (int i = -Accuracy/2; i < Accuracy / 2; i++)
+            for (int i = -Accuracy / 2; i < Accuracy / 2; i++)
             {
                 Vector2 diffVec = (Vector2.UnitX * strength).RotatedBy(rotation);
                 Vector2 secondPos = origin + diffVec.RotatedBy(i / (Accuracy / angularCoverage));

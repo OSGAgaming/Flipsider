@@ -17,9 +17,9 @@ namespace Flipsider
             {
                 int ManhattanX = world.tileManager.tiles[i, j].frame.X / 32;
                 int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
-                if(ManhattanX == 0 && ManhattanY == 7)
+                if (ManhattanX == 0 && ManhattanY == 7)
                 {
-                    return new Vector2(0,32);
+                    return new Vector2(0, 32);
                 }
                 if (ManhattanX == 1 && ManhattanY == 7)
                 {

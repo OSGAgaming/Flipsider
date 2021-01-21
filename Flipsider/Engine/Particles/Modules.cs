@@ -52,14 +52,14 @@ namespace Flipsider.Engine.Particles
 
         public void Invoke(Particle[] particles, int index)
         {
-            particles[index].Center += new Vector2(_rand.NextFloat(randomX.X,randomX.Y), _rand.NextFloat(randomY.X, randomY.Y));
+            particles[index].Center += new Vector2(_rand.NextFloat(randomX.X, randomX.Y), _rand.NextFloat(randomY.X, randomY.Y));
         }
     }
     public class ModifyPositionToEntity : IParticleModifier
     {
-        private Entity _amount;
+        private LivingEntity _amount;
 
-        public ModifyPositionToEntity(Entity amount)
+        public ModifyPositionToEntity(LivingEntity amount)
         {
             _amount = amount;
         }
@@ -238,7 +238,7 @@ namespace Flipsider.Engine.Particles
         {
             this.lower = lower;
             this.upper = upper;
-            _turnRadians = Main.rand.NextFloat(lower,upper);
+            _turnRadians = Main.rand.NextFloat(lower, upper);
         }
 
         public void Invoke(Particle[] particles, int index)
@@ -273,11 +273,11 @@ namespace Flipsider.Engine.Particles
 
     public class FollowEntity : IParticleModifier
     {
-        private readonly Entity _entity;
+        private readonly LivingEntity _entity;
         private readonly float _speed;
         private readonly bool _useVel;
 
-        public FollowEntity(Entity entity, float speed, bool changeVelocity = true)
+        public FollowEntity(LivingEntity entity, float speed, bool changeVelocity = true)
         {
             _entity = entity;
             _speed = speed;

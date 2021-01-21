@@ -12,7 +12,7 @@ namespace Flipsider
 {
     public class PointLight : LightSource
     {
-        public PointLight(float str, Vector2 pos, Color col) : base(str,pos,col)
+        public PointLight(float str, Vector2 pos, Color col) : base(str, pos, col)
         {
 
         }

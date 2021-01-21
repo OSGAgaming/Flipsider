@@ -44,7 +44,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     flag = true;
                     Vector2 dXY = Main.MouseScreen.ToVector2() - pos1;
-                    Main.lighting.AddLight(dXY.Length(), pos1, Color.Green,0.5f,dXY.ToRotation());
+                    Main.lighting.AddLight(dXY.Length(), pos1, Color.Green, 0.5f, dXY.ToRotation());
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
                 if (mouseStateBuffer && flag)

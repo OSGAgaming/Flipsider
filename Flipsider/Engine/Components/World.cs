@@ -34,7 +34,8 @@ namespace Flipsider
         {
             if (tiles[i, j] == null)
                 return false;
-            if (!tiles[i, j].active)
+            if (!tiles[i, j].Active)
+            if (!tiles[i, j].Active)
                 return false;
             return true;
         }
@@ -43,7 +44,7 @@ namespace Flipsider
         {
             if (i >= 0 && j >= 0 && i < MaxTilesX && j < MaxTilesY && tiles[i, j] != null)
             {
-                if (tiles[i, j].active && !tiles[i, j].wall)
+                if (tiles[i, j].Active && !tiles[i, j].wall)
                 {
                     if (tiles[i, j].type != -1)
                     {

@@ -13,7 +13,7 @@ namespace Flipsider.GUI
         }
         public void DrawOnScreen()
         {
-            foreach(UIScreen UIS in Components)
+            foreach (UIScreen UIS in Components)
             {
                 UIS.DrawToScreen();
             }

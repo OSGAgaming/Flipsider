@@ -23,7 +23,7 @@ namespace Flipsider.GUI
         float position;
         protected override void OnLoad()
         {
-            
+
         }
         private bool flag = true;
         private bool mouseStateBuffer;
@@ -36,7 +36,7 @@ namespace Flipsider.GUI
                 if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
                     flag = true;
-                    Main.WaterBodies.Add(new Water(new Rectangle(pos1.ToPoint(),new Point((int)(MouseSnap.X - pos1.X) + 4, (int)(MouseSnap.Y - pos1.Y) + 4))));
+                    Main.WaterBodies.Add(new Water(new Rectangle(pos1.ToPoint(), new Point((int)(MouseSnap.X - pos1.X) + 4, (int)(MouseSnap.Y - pos1.Y) + 4))));
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
                 if (mouseStateBuffer && flag)
@@ -67,7 +67,7 @@ namespace Flipsider.GUI
                     if (Utils.WaterBodies[i].frame.Contains(Main.MouseScreen))
                     {
                         Utils.DrawRectangle(Utils.WaterBodies[i].frame, Color.White, 3);
-                        if(Mouse.GetState().RightButton == ButtonState.Pressed)
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
                         {
                             Utils.WaterBodies[i].Dispose();
                             Utils.WaterBodies.RemoveAt(i);
@@ -77,10 +77,10 @@ namespace Flipsider.GUI
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(8);
-                    if(!flag)
-                    Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White,3);
+                    if (!flag)
+                        Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White, 3);
                 }
-                
+
             }
         }
         protected override void OnDraw()
@@ -91,9 +91,9 @@ namespace Flipsider.GUI
             }
         }
     }
-   
 
-   
+
+
 }
 
 

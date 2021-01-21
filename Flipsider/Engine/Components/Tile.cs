@@ -12,12 +12,11 @@ using Flipsider.Engine.Interfaces;
 namespace Flipsider
 {
     [Serializable]
-    public class Tile : ILayeredComponent
+    public class Tile : NonLivingEntity
     {
         public int type;
         [NonSerialized]
         public Rectangle frame;
-        public bool active;
         public bool wall;
         public int i;
         public int j;
@@ -31,37 +30,51 @@ namespace Flipsider
         Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
         Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
         public TileManager TM => Main.CurrentWorld.tileManager;
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if (world.IsTileInBounds(i, j))
+            if (world != null)
             {
-                if (TM.tiles[i, j].type != -1)
+                if (world.IsTileInBounds(i, j))
                 {
-                    spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
+                    if (TM.tiles[i, j].type != -1)
+                    {
+                        spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
+                    }
                 }
             }
         }
-        public int Layer { get; set; }
-        public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false)
+        public void Kill()
         {
+            Active = false;
+            Main.CurrentWorld.entityManager.RemoveComponent(this);
+            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            Main.Colliedables.RemoveThroughEntity(this);
+            UpdateModules.Clear();
+            Main.Updateables.Remove(this);
+        }
+        public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false) : base()
+        {
+            width = 32;
+            height = 32;
+            maxHeight = 32;
             this.type = type;
             this.frame = frame;
-            this.frameX = frame.Location.X;
-            this.frameY = frame.Location.Y;
-            active = false;
+            frameX = frame.Location.X;
+            frameY = frame.Location.Y;
+            Active = false;
             wall = ifWall;
-            Layer = LayerHandler.CurrentLayer;
             i = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
             j = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
             world = Main.CurrentWorld;
             i = ParallaxedI;
-            Main.AppendToLayer(this);
+            Main.AutoAppendToLayer(this);
+            position = new Vector2(i * TileManager.tileRes, j * TileManager.tileRes);
         }
-        public Tile(int type, Rectangle frame, bool ifWall = false)
+        public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {
             this.type = type;
             this.frame = frame;
-            active = false;
+            Active = false;
             wall = ifWall;
             world = Main.CurrentWorld;
         }

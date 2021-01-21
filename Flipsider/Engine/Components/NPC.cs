@@ -81,7 +81,7 @@ namespace Flipsider
             }
         }
     }
-    public class NPC : Entity
+    public class NPC : LivingEntity
     {
         public static DamageTextHandler DTH = new DamageTextHandler();
         public int life;

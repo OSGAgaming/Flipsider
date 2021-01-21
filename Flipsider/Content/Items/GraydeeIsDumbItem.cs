@@ -12,7 +12,7 @@ namespace Flipsider
 {
     public class GraydeeIsDumbItem : Item
     {
-        protected internal override void Initialize()
+        protected override void OnLoad()
         {
             SetInventoryIcon(TextureCache.Birb);
             texture = TextureCache.BigBusStop;
@@ -21,7 +21,7 @@ namespace Flipsider
     }
     public class GraydeeIsDumbItem2 : Item
     {
-        protected internal override void Initialize()
+        protected override void OnLoad()
         {
             SetInventoryIcon(TextureCache.Blob);
             texture = TextureCache.BigBusStop;

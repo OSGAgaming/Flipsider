@@ -42,15 +42,15 @@ namespace Flipsider
 
             var shake = new Vector2(Main.rand.Next(-screenShake, screenShake), Main.rand.Next(-screenShake, screenShake));
 
-            playerpos = playerpos.ReciprocateToInt(player.Center,16f);
+            playerpos = playerpos.ReciprocateToInt(player.Center, 16f);
             int height = (int)Main.ActualScreenSize.Y;
 
             playerpos += offset;
-            rotation = Main.rand.Next(-screenShake, screenShake)/300f;
+            rotation = Main.rand.Next(-screenShake, screenShake) / 300f;
             if (!Main.Editor.IsActive && Main.CurrentScene.Name != "Main Menu")
             {
-               playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
-               playerpos.Y = Math.Clamp(playerpos.Y, -100000, height - (height / (2 * scale)) - (Main.ActualScreenSize.Y - Utils.BOTTOM));
+                playerpos.X = Math.Clamp(playerpos.X, LeftBound, 100000);
+                playerpos.Y = Math.Clamp(playerpos.Y, -100000, height - (height / (2 * scale)) - (Main.ActualScreenSize.Y - Utils.BOTTOM));
             }
             else
             {

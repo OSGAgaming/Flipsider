@@ -12,7 +12,7 @@ namespace Flipsider.Engine
 {
     public class PrimTrailManager : Manager<Primitive>
     {
-        
+
 
     }
     public partial class Primitive : IComponent

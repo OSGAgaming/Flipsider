@@ -13,16 +13,16 @@ namespace Flipsider
             {
                 foreach (Entity foo in Components.ToArray())
                 {
-                    if (foo != null)
-                        foo.Update();
+                    // if (foo != null)
+                    foo.Update();
                 }
             }
             else
             {
                 foreach (Entity foo in Components.ToArray())
                 {
-                    if (foo != null)
-                        foo.UpdateInEditor();
+                    //    if (foo != null)
+                    //    foo.UpdateInEditor();
                 }
             }
         }

@@ -68,8 +68,8 @@ namespace Flipsider
             graphics?.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
             lighting?.ApplyShader();
-            if(renderTarget != null)
-            PrintRenderTarget(renderTarget);
+            if (renderTarget != null)
+                PrintRenderTarget(renderTarget);
             spriteBatch.End();
         }
         public Vector2 PreferredSize
@@ -104,7 +104,7 @@ namespace Flipsider
             {
                 Entity entity = Main.entities[k];
                 entity.Draw(spriteBatch);
-                entity.DrawConstant(spriteBatch);
+                //entity.DrawConstant(spriteBatch);
             }
         }
 

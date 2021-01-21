@@ -40,7 +40,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             LayerAddition2.isAdding = true;
             elements.Add(LayerAddition2);
             PlayerLayerTextBox PLTB = new PlayerLayerTextBox();
-            PLTB.dimensions = new Rectangle(200,10, 16, 16);
+            PLTB.dimensions = new Rectangle(200, 10, 16, 16);
             elements.Add(PLTB);
         }
 
@@ -208,7 +208,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (isAdding)
             {
-                spriteBatch.Draw(TextureCache.AddLayer, dimensions, new Rectangle(0, 0, 32, 32), Color.White*lerp);
+                spriteBatch.Draw(TextureCache.AddLayer, dimensions, new Rectangle(0, 0, 32, 32), Color.White * lerp);
             }
             else
             {
@@ -217,7 +217,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-            if(Main.Editor.IsActive)
+            if (Main.Editor.IsActive)
             {
                 lerp = lerp.ReciprocateTo(1);
             }
@@ -315,7 +315,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureCache.SwitchLayer, dimensions.Location.ToVector2(), new Rectangle(0,0, 30, 16), isSelected ? Color.Yellow*0.5f : Color.White);
+            spriteBatch.Draw(TextureCache.SwitchLayer, dimensions.Location.ToVector2(), new Rectangle(0, 0, 30, 16), isSelected ? Color.Yellow * 0.5f : Color.White);
         }
         protected override void OnUpdate()
         {
@@ -335,7 +335,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 dimensions.Y += (-100 - dimensions.Y) / 16;
             }
-            if(LayerHandler.LayerCache[1] == -1 && LayerHandler.LayerCache[0] == -1)
+            if (LayerHandler.LayerCache[1] == -1 && LayerHandler.LayerCache[0] == -1)
             {
                 isSelected = false;
             }
@@ -343,7 +343,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLeftClick()
         {
             CanPlace = false;
-            if(LayerHandler.LayerCache[0] == -1)
+            if (LayerHandler.LayerCache[0] == -1)
             {
                 LayerHandler.LayerCache[0] = Layer;
                 isSelected = true;

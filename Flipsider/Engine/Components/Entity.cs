@@ -5,286 +5,64 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Flipsider
 {
-    public abstract class Entity : IComponent,ILayeredComponent
+    public abstract class Entity : IComponent, ILayeredComponent
     {
+        public Texture2D texture = TextureCache.magicPixel;
         public int Layer { get; set; }
-        public int width;
-        public Texture2D? texture;
-        public Polygon CollideBox => new Polygon(new Vector2[] {new Vector2(-width/2,-height/2), new Vector2(width / 2, -height / 2), new Vector2(width / 2, height / 2), new Vector2(-width / 2, height / 2) },Center);
-        public int frameY;
-        public int framewidth;
-        public int frameCounter;
-        public Rectangle frame;
-        public bool noGravity;
-        public bool noAirResistance;
-        public float friction = 0.982f;
-        public void ResetVars()
-        {
-            noGravity = false;
-            onGround = false;
-            isColliding = false;
-        }
+        public bool Active { get; set; }
 
-        protected virtual void AI() { }
-        protected virtual void PreAI() { }
-        protected virtual void PostAI() { }
-        protected virtual void PreDraw() { }
-        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y + maxHeight - height, width, height);
-        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y + maxHeight - height, width, height);
-        public bool Wet
-        {
-            get;
-            private set;
-        }
-
+        public Vector2 position;
+        public Vector2 oldPosition;
         public int height;
         public int maxHeight;
-        public bool Collides;
-        public bool onGround;
-        public Vector2 position;
-        public int spriteDirection;
+        public int width;
+        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y + maxHeight - height, width, height);
+        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y + maxHeight - height, width, height);
+        protected virtual void PreDraw(SpriteBatch spriteBatch) { }
+        protected virtual void OnDraw(SpriteBatch spriteBatch) { }
+        protected virtual void PostDraw(SpriteBatch spriteBatch) { }
+        protected virtual void PreUpdate() { }
+        protected virtual void OnUpdate() { }
+        protected virtual void PostUpdate() { }
+        protected virtual void OnLoad() { }
 
-        public Vector2 velocity;
-
-        public Vector2 oldPosition;
-
-        public Vector2 oldVelocity;
-
-        public Vector2[] oldPositions;
-
-        protected internal virtual int TrailLength => 5;
-
-        private int a;
-        public void UpdateTrailCache()
+        protected readonly HashSet<IEntityModifier> UpdateModules = new HashSet<IEntityModifier>();
+        public void AddModule(IEntityModifier IEM) => UpdateModules.Add(IEM);
+        public Entity()
         {
-            if (active)
-            {
-                a++;
-                if (a > TrailLength - 1)
-                    a = 0;
-                oldPositions[a] = position;
-            }
-        }
-
-        public bool isColliding;
-        public float Bottom
-        {
-            get => position.Y + maxHeight;
-            set => position.Y = value - maxHeight;
-        }
-        protected internal virtual void Initialize() { }
-        public float acceleration = 0.11f;
-        public float gravity = 0.8f;
-
-        public Vector2 airResistance = new Vector2(0.985f, 0.999f);
-
-        public void TileCollisions(World world)
-        {
-            int res = world.TileRes;
-            for (int i = (int)position.X / res - (width / res + 2); i < (int)position.X / res + (width / res + 2); i++)
-            {
-                for (int j = (int)position.Y / res - (height / res + 2); j < (int)position.Y / res + (height / res + 2); j++)
-                {
-                    if (world.IsTileInBounds(i,j))
-                    {
-                       Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
-
-                       CollisionInfo collisionInfo = Collision.AABBResolve(CollisionFrame,PreCollisionFrame,tileRect);
-                                
-                            if(collisionInfo.AABB == Bound.Top)
-                            {
-                                velocity.Y = 0;
-                                onGround = true;
-                            }
-                            if (collisionInfo.AABB == Bound.Bottom)
-                            {
-                                velocity.Y = 0;
-                            }
-                            if (collisionInfo.AABB == Bound.Left)
-                            {
-                                velocity.X = 0;
-                            }
-                            if (collisionInfo.AABB == Bound.Right)
-                            {
-                                velocity.X = 0;
-                            }
-                            isColliding = true;
-                            position += collisionInfo.d;
-                    }
-                }
-            }
-
-        }
-
-        protected Entity()
-        {
-            oldPositions = new Vector2[TrailLength];
-            Init();
-        }
-
-        private bool active = true;
-        public void Kill()
-        {
-            active = false;
-            Main.CurrentWorld.entityManager.RemoveComponent(this);
-            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
-            OnKill();
-        }
-
-        public void Spawn()
-        {
+            OnLoad();
             if (Main.CurrentWorld != null)
                 Main.CurrentWorld.entityManager.AddComponent(this);
+            Main.AutoAppendToLayer(this);
         }
-
-        public bool Animate(int per, int noOfFrames, int frameHeight, int column = 0, bool repeat = true, int startingFrame = 0)
+        protected void UpdateEntityModifiers()
         {
-            bool hasEnded = false;
-            if (frameY > noOfFrames && repeat)
+            foreach (IEntityModifier IEM in UpdateModules)
             {
-                frameY = startingFrame;
-            }
-            if (per != 0)
-            {
-                if (frameCounter % per == 0)
-                {
-                    frameY++;
-                    if (frameY >= noOfFrames)
-                    {
-                        if (repeat)
-                        {
-                            frameY = startingFrame;
-                        }
-                        else
-                        {
-                            hasEnded = true;
-                            frameY = noOfFrames - 1;
-                        }
-                    }
-                    
-                }
-            }
-            frame = new Rectangle(framewidth * column, frameY * frameHeight, framewidth, frameHeight);
-            return hasEnded;
-        }
-        public bool isNPC;
-        public void Constraints()
-        {
-            position.Y = MathHelper.Clamp(position.Y, -200, Utils.BOTTOM - maxHeight);
-            position.X = MathHelper.Clamp(position.X, 0, 100000);
-            if (Bottom >= Utils.BOTTOM)
-            {
-                onGround = true;
-                velocity.Y = 0;
+                IEM.Update(this);
             }
         }
-        public void Update()
+        public virtual void Update()
         {
-            frameCounter++;
-            oldVelocity = velocity;
-            ResetVars();
-            if (!noGravity)
-                velocity.Y += gravity * Time.DeltaVar(120);
-            if (!noAirResistance)
-                velocity *= airResistance;
             oldPosition = position;
-            position += velocity * Time.DeltaVar(120);
+            PreUpdate();
             OnUpdate();
-            PreAI();
-            AI();
-            PostAI();
-            if (Collides)
-                TileCollisions(Main.CurrentWorld);
-            if (isColliding)
-                OnCollide();
-            Wet = false;
-            foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
-            {
-                if (water.frame.Intersects(CollisionFrame))
-                    Wet = true;
-            }
-            UpdateTrailCache();
+            UpdateEntityModifiers();
+            PostUpdate();
         }
-        public void UpdateInEditor()
-        {
-            OnUpdateInEditor();
-            if (isDraggable && Layer == LayerHandler.CurrentLayer)
-                CheckDrag();
-            else
-                isDragging = false;
-        }
-        public bool isDraggable = true; //dragging stuff
-        public bool isDragging = false;
-        public bool mousePressed = false; //this is so you have to click on it, instead of overlapping with click
-        public Vector2 offsetFromMouseWhileDragging;
-        public bool mouseOverlap //touch up please
-        {
-            get
-            {
-                return CollisionFrame.Contains(Main.MouseScreen.ToVector2());
-            }
-        }
-        public void CheckDrag()
-        {
-            if (mouseOverlap && !mousePressed && !isDragging)
-            {
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                {
-                    offsetFromMouseWhileDragging = Main.MouseScreen.ToVector2() - Center;
-                    isDragging = true;
-                }
-            }
-            if (isDragging)
-            {
-                Center = Main.MouseScreen.ToVector2() + offsetFromMouseWhileDragging;
-                if (Mouse.GetState().LeftButton != ButtonState.Pressed)
-                {
-                    isDragging = false;
-                }
-            }
-
-            mousePressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
-        }
-        public void DrawConstant(SpriteBatch spriteBatch) //for stuff that really shouldn't be overridden
-        {
-            if (isDraggable && Main.Editor.IsActive && mouseOverlap && !mousePressed && !isDragging)
-            {
-                Utils.DrawRectangle(CollisionFrame, Color.White, 3);
-            }
-        }
-        public void Init()
-        {
-
-            Initialize();
-            Spawn();
-        }
-
-        protected virtual void OnUpdate() { }
-
-        protected virtual void OnUpdateInEditor() { }
-
-        protected virtual void OnCollide() { }
-
-        protected virtual void OnKill() { }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            PreDraw();
-            spriteBatch.Draw(texture, position, frame, Color.White);
+            PreDraw(spriteBatch);
+
+            OnDraw(spriteBatch);
+
+            PostDraw(spriteBatch);
         }
-        public Vector2 Center
-        {
-            get
-            {
-                return new Vector2(position.X + width * 0.5f, position.Y + height * 0.5f);
-            }
-            set
-            {
-                position = new Vector2(value.X - width * 0.5f, value.Y - height * 0.5f);
-            }
-        }
+
     }
 }

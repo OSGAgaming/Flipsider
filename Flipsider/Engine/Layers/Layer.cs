@@ -19,7 +19,7 @@ namespace Flipsider
         public Layer(int ld, float paralax = 0)
         {
             LayerDepth = ld;
-            this.parallax = paralax;
+            parallax = paralax;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -37,13 +37,12 @@ namespace Flipsider
                 {
                     draw.Draw(spriteBatch);
                 }
-                if(Main.player.Layer == LayerDepth + 1)
+                if (Main.player.Layer == LayerDepth + 1)
                 {
                     Main.player.Draw(spriteBatch);
                 }
             }
             spriteBatch.End();
-
         }
         public void Update()
         {

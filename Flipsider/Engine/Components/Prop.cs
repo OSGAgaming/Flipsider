@@ -26,7 +26,7 @@ namespace Flipsider
         //dragging stuff
         public bool isDragging = false;
         public Vector2 offsetFromMouseWhileDragging;
-        public Vector2 position 
+        public Vector2 position
         {
             get
             {

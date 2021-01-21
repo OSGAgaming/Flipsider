@@ -125,7 +125,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if(isActive)
+            if (isActive)
             {
                 lerp = lerp.ReciprocateTo(1, 16);
             }
@@ -135,7 +135,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             dimensions.Width = 16 + (inputText.Length - 1) * 7;
             Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
-            Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Lerp(Color.Black,Color.Gray,lerp) * alpha);
+            Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Lerp(Color.Black, Color.Gray, lerp) * alpha);
             Utils.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
             UpdateInput();
             CustomDraw(spriteBatch);

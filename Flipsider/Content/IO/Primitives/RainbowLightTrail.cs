@@ -12,7 +12,7 @@ namespace Flipsider
     {
         public RainbowLightTrail()
         {
-           
+
         }
         public override void SetDefaults()
         {

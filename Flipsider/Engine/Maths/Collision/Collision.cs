@@ -17,11 +17,12 @@ namespace Flipsider.Engine.Maths
         Left,
         Right
     }
+
     public struct CollisionInfo
     {
         public Bound AABB;
         public Vector2 d;
-
+        public static CollisionInfo Default => new CollisionInfo(Vector2.Zero, Bound.None);
         public CollisionInfo(Vector2 d, Bound AABB)
         {
             this.AABB = AABB;
@@ -47,7 +48,7 @@ namespace Flipsider.Engine.Maths
             get
             {
                 Vector2[] bufferArray = new Vector2[points.Length];
-                for(int i = 0; i<points.Length; i++)
+                for (int i = 0; i < points.Length; i++)
                 {
                     bufferArray[i] = points[i] + Center;
                 }
@@ -56,6 +57,34 @@ namespace Flipsider.Engine.Maths
         }
         public Vector2 Center;
         public int numberOfPoints;
+        public Rectangle Rectangle
+        {
+            get
+            {
+                if (points.Length == 4)
+                {
+                    return new Rectangle(
+                        varpoints[0].ToPoint(),
+                        new Point((int)(varpoints[1].X - varpoints[0].X),
+                        (int)(varpoints[2].Y - varpoints[0].Y)));
+                }
+                return Rectangle.Empty;
+            }
+        }
+        public static Polygon operator +(Polygon x, Polygon y)
+        {
+            if (x.numberOfPoints == y.numberOfPoints)
+            {
+                Vector2[] points = new Vector2[x.numberOfPoints];
+                for (int i = 0; i < x.numberOfPoints; i++)
+                {
+                    points[i] = x.points[i] + y.points[i];
+                }
+                return new Polygon(points, x.Center + y.Center);
+            }
+            return new Polygon(new Vector2[] { }, Vector2.Zero);
+        }
+
         public Polygon(Vector2[] points, Vector2 position)
         {
             this.points = points;
@@ -63,8 +92,26 @@ namespace Flipsider.Engine.Maths
             numberOfPoints = points.Length;
         }
     }
-    public class Collision
+    public static class Collision
     {
+        public static Polygon Add(this Polygon x, Vector2[] y)
+        {
+            Vector2[] points = new Vector2[x.numberOfPoints];
+            for (int i = 0; i < x.numberOfPoints; i++)
+            {
+                points[i] = x.points[i] + y[i];
+            }
+            x.points = points;
+            return x;
+        }
+        public static Polygon ToPolygon(this Rectangle r)
+        {
+            Vector2[] points = {new Vector2(-r.Width / 2, -r.Height / 2),
+              new Vector2(r.Width / 2, -r.Height / 2),
+              new Vector2(r.Width / 2, r.Height / 2),
+              new Vector2(-r.Width / 2, r.Height / 2)};
+            return new Polygon(points, r.Center.ToVector2());
+        }
         public static Vector2 TestForCollisions(Polygon shape1, Polygon shape2)
         {
             Polygon[] shapes = new Polygon[] { shape1, shape2 };
@@ -83,24 +130,24 @@ namespace Flipsider.Engine.Maths
                         float projection = Vector2.Dot(axisNormal, shape1.varpoints[j]);
                         aMax = Math.Max(projection, aMax);
                         aMin = Math.Min(projection, aMin);
-                        
+
                     }
                     float bMax = float.NegativeInfinity;
                     float bMin = float.PositiveInfinity;
                     for (int j = 0; j < shape2.numberOfPoints; j++)
                     {
-                        float projection = Vector2.Dot(axisNormal,shape2.varpoints[j]);
+                        float projection = Vector2.Dot(axisNormal, shape2.varpoints[j]);
                         bMax = Math.Max(projection, bMax);
                         bMin = Math.Min(projection, bMin);
                     }
-                    overlap = Math.Min(Math.Min(bMax,aMax) - Math.Max(bMin,aMin),overlap);
+                    overlap = Math.Min(Math.Min(bMax, aMax) - Math.Max(bMin, aMin), overlap);
                     if (!(bMax >= aMin && aMax >= bMin))
                         return Vector2.Zero;
                 }
             }
             Vector2 disp = shape2.Center - shape1.Center;
             float s = disp.Length();
-            return new Vector2(overlap*disp.X/s, overlap * disp.Y / s);
+            return new Vector2(overlap * disp.X / s, overlap * disp.Y / s);
         }
         public static Vector2 TestForCollisionsDiag(Polygon shape1, Polygon shape2)
         {
@@ -110,7 +157,7 @@ namespace Flipsider.Engine.Maths
             {
                 for (int i = 0; i < shapes[a].numberOfPoints; i++)
                 {
-                    for(int j = 0; j<shapes[(a+1) % 2].numberOfPoints; j++)
+                    for (int j = 0; j < shapes[(a + 1) % 2].numberOfPoints; j++)
                     {
                         Vector2 intersectionPoint = Utils.ReturnIntersectionLine(shapes[a].varpoints[i], shapes[a].Center, shapes[(a + 1) % 2].varpoints[j], shapes[(a + 1) % 2].varpoints[(j + 1) % shapes[(a + 1) % 2].numberOfPoints]);
                         if (intersectionPoint != Vector2.Zero)
@@ -122,12 +169,12 @@ namespace Flipsider.Engine.Maths
                             }
                         }
                     }
-                    
+
                 }
             }
             return displacement;
         }
-        public bool AABB(Rectangle A, Rectangle B)
+        public static bool AABB(Rectangle A, Rectangle B)
         {
             return A.Intersects(B);
         }
@@ -135,11 +182,11 @@ namespace Flipsider.Engine.Maths
         {
             Vector2 d = Vector2.Zero;
             Bound bound = Bound.None;
-            if (!A.Intersects(new Rectangle(B.X - 1,B.Y - 1,B.Width + 2,B.Height + 2)))
+            if (!A.Intersects(new Rectangle(B.X - 1, B.Y - 1, B.Width + 2, B.Height + 2)))
                 return new CollisionInfo(d, bound);
             else
             {
-                if(A.Center.X > B.Center.X && A.Bottom > B.Center.Y && A.Top < B.Center.Y)
+                if (A.Center.X > B.Center.X && A.Bottom > B.Center.Y && A.Top < B.Center.Y)
                 {
                     bound = Bound.Left;
                     d = new Vector2(B.Right - A.Left, 0);
@@ -166,7 +213,7 @@ namespace Flipsider.Engine.Maths
         {
             Vector2 d = Vector2.Zero;
             Bound bound = Bound.None;
-            if (!A.Intersects(new Rectangle(B.X , B.Y - 1, B.Width, B.Height + 2)))
+            if (!A.Intersects(new Rectangle(B.X, B.Y - 1, B.Width, B.Height + 2)))
                 return new CollisionInfo(d, bound);
             else
             {
@@ -199,12 +246,52 @@ namespace Flipsider.Engine.Maths
             }
             return new CollisionInfo(d, bound);
         }
-        public bool CirclevsCircle(Circle a, Circle b)
+        public static CollisionInfo AABBResolvePoly(Polygon _A, Polygon _ALast, Polygon _B)
+        {
+            Vector2 d = Vector2.Zero;
+            Bound bound = Bound.None;
+            Rectangle A = _A.Rectangle;
+            Rectangle ALast = _ALast.Rectangle;
+            Rectangle B = _B.Rectangle;
+            if (!A.Intersects(new Rectangle(B.X, B.Y - 1, B.Width, B.Height + 2)))
+                return CollisionInfo.Default;
+            else
+            {
+                if (ALast.Bottom > B.Top && ALast.Top < B.Bottom)
+                {
+                    if (ALast.Left > B.Center.X)
+                    {
+                        bound = Bound.Left;
+                        d = new Vector2(B.Right - A.Left, 0);
+                    }
+                    if (ALast.Right < B.Center.X)
+                    {
+                        bound = Bound.Right;
+                        d = new Vector2(B.Left - A.Right, 0);
+                    }
+                }
+                if (ALast.Left < B.Right && ALast.Right > B.Left)
+                {
+                    if (ALast.Top > B.Center.Y)
+                    {
+                        bound = Bound.Bottom;
+                        d = new Vector2(0, B.Bottom - A.Top);
+                    }
+                    if (ALast.Bottom < B.Center.Y)
+                    {
+                        bound = Bound.Top;
+                        d = new Vector2(0, B.Top - A.Bottom);
+                    }
+                }
+            }
+            return new CollisionInfo(d, bound);
+        }
+        public static bool CirclevsCircle(Circle a, Circle b)
         {
             float r = a.radius + b.radius;
             r *= r;
-            return r < (a.position.X + b.position.X)* (a.position.X + b.position.X) + 
-                       (a.position.Y + b.position.Y)* (a.position.Y + b.position.Y);
+            return r < (a.position.X + b.position.X) * (a.position.X + b.position.X) +
+                       (a.position.Y + b.position.Y) * (a.position.Y + b.position.Y);
         }
     }
 }

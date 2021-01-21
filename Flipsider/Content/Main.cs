@@ -20,6 +20,7 @@ using System.Threading;
 using Flipsider.Weapons;
 using Flipsider.Engine.Interfaces;
 using System.Text;
+using Flipsider.Engine.Maths;
 
 namespace Flipsider
 {
@@ -37,6 +38,7 @@ namespace Flipsider
         public static World CurrentWorld;
         public static PrimTrailManager Primitives;
         PropInteraction PI;
+        public static CollideableHanlder Colliedables;
         public static Serializers serializers = new Serializers();
         public Main()
         {
@@ -67,16 +69,12 @@ namespace Flipsider
             sceneManager = new SceneManager();
             sceneManager.SetNextScene(new MainMenu(), null);
             rand = new Random();
-            
         }
         public static string MainPath => Environment.CurrentDirectory + $@"\";
         protected override void Initialize()
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
-            CurrentWorld = new World(200, 200);
-            PI = new PropInteraction(CurrentWorld.propManager);
-            CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             Instatiate();
             // Register controls
             RegisterControls.Invoke();
@@ -87,6 +85,10 @@ namespace Flipsider
         protected override void LoadContent()
         {
             renderer.Load();
+            Colliedables = new CollideableHanlder();
+            CurrentWorld = new World(200, 200);
+            PI = new PropInteraction(CurrentWorld.propManager);
+            CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
             #endregion
@@ -95,7 +97,6 @@ namespace Flipsider
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();
-            
         }
         private void LoadGUI()
         {
@@ -104,10 +105,8 @@ namespace Flipsider
                 Activator.CreateInstance(type);
             }
         }
-
         public static List<IUpdate> Updateables = new List<IUpdate>();
         public static List<IUpdate> UpdateablesOffScreen = new List<IUpdate>();
-
         protected override void Update(GameTime gameTime)
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();

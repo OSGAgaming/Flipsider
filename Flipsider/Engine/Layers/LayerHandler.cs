@@ -26,6 +26,11 @@ namespace Flipsider
         public void AppendMethodToLayer(ILayeredComponent Method)
         =>
         Layers[Method.Layer].Drawables.Add(Method);
+        public void AutoAppendMethodToLayer(ref ILayeredComponent Method)
+        {
+            Method.Layer = CurrentLayer;
+            Layers[Method.Layer].Drawables.Add(Method);
+        }
         public void AppendPrimitiveToLayer(ILayeredComponent Method)
         =>
         Layers[Method.Layer].PrimitiveDrawables.Add(Method);
@@ -43,7 +48,7 @@ namespace Flipsider
 
             List<ILayeredComponent> L1 = new List<ILayeredComponent>();
             List<ILayeredComponent> L2 = new List<ILayeredComponent>();
-            for (int i = 0; i<Layers[Layer1].Drawables.Count; i++)
+            for (int i = 0; i < Layers[Layer1].Drawables.Count; i++)
             {
                 Layers[Layer1].Drawables[i].Layer = Layer2;
                 L1.Add(Layers[Layer1].Drawables[i]);
@@ -65,8 +70,8 @@ namespace Flipsider
             }
             float buffer1 = Layers[Layer1].parallax;
             float buffer2 = Layers[Layer2].parallax;
-            SetLayerParallax(Layer1,buffer2);
-            SetLayerParallax(Layer2,buffer1);
+            SetLayerParallax(Layer1, buffer2);
+            SetLayerParallax(Layer2, buffer1);
         }
         public void SetLayerParallax(int Layer, float paralax)
         {

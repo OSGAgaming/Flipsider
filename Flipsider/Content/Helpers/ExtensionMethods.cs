@@ -22,7 +22,7 @@ namespace Flipsider
         {
             return (float)(random.NextDouble() * max);
         }
-        public static bool IsBetween(this float num, float min,float max)
+        public static bool IsBetween(this float num, float min, float max)
         {
             return num > min && num < max;
         }
@@ -51,9 +51,9 @@ namespace Flipsider
         }
         public static Vector2 ReciprocateToInt(this Vector2 v, Vector2 target, float ease = 16f)
         {
-            return v + new Vector2((int)((target - v) / ease).X,(int)((target - v) / ease).Y);
+            return v + new Vector2((int)((target - v) / ease).X, (int)((target - v) / ease).Y);
         }
-        public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap)*snap, (int)(v.Y / snap)*snap);
+        public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap) * snap, (int)(v.Y / snap) * snap);
         public static Vector2 ToScreen(this Vector2 v) => (v / Main.mainCamera.scale + Main.mainCamera.CamPos);
 
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.mainCamera.CamPos) * Main.mainCamera.scale);
