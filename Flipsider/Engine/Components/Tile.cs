@@ -68,6 +68,25 @@ namespace Flipsider
             Main.AutoAppendToLayer(this);
             position = new Vector2(i * TileManager.tileRes, j * TileManager.tileRes);
         }
+        public Tile(int type, Rectangle frame, Vector2 pos, int Layer, bool ifWall = false) : base()
+        {
+            width = 32;
+            height = 32;
+            maxHeight = 32;
+            this.type = type;
+            this.frame = frame;
+            frameX = frame.Location.X;
+            frameY = frame.Location.Y;
+            Active = false;
+            wall = ifWall;
+            i = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
+            j = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
+            world = Main.CurrentWorld;
+            i = ParallaxedI;
+            this.Layer = Layer;
+            Main.AppendToLayer(this);
+            position = new Vector2(i * TileManager.tileRes, j * TileManager.tileRes);
+        }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {
             this.type = type;

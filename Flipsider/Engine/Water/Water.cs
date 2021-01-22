@@ -1,5 +1,6 @@
 ﻿using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,7 +27,8 @@ namespace Flipsider
         private Vector2[] vel;
         [NonSerialized]
         private Vector2[] targetHeight;
-        public Rectangle frame;
+        public RectangleF _frame;
+        public Rectangle frame => _frame.ToR();
         private float[] disLeft;
         private float[] disRight;
         private float dampening;
@@ -35,7 +37,7 @@ namespace Flipsider
         [NonSerialized]
         public Color color = Color.LightBlue;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
-        public void SetFrame(Rectangle vertices) => frame = vertices;
+        public void SetFrame(RectangleF vertices) => _frame = vertices;
         public int Layer { get; set; }
         public void Dispose()
         {
@@ -43,13 +45,24 @@ namespace Flipsider
             PrimitiveInstance.Dispose();
             PrimitiveInstanceDamp.Dispose();
         }
-        public Water(Rectangle _frame)
+        public Water(RectangleF _frame)
         {
             SetFrame(_frame);
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
             Layer = LayerHandler.CurrentLayer;
+            Main.Primitives.AddComponent(PrimitiveInstance);
+            Main.Primitives.AddComponent(PrimitiveInstanceDamp);
+            Main.AppendPrimitiveToLayer(this);
+        }
+        public Water(RectangleF _frame, int Layer)
+        {
+            SetFrame(_frame);
+            Initialize();
+            PrimitiveInstance = new WaterPrimtives(this);
+            PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
+            this.Layer = Layer;
             Main.Primitives.AddComponent(PrimitiveInstance);
             Main.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
@@ -74,7 +87,6 @@ namespace Flipsider
             }
             for (int i = 0; i < accuracy + 1; i++)
             {
-
                 Pos[i].X += vel[i].X;
                 Pos[i].Y += vel[i].Y;
                 vel[i].X += accel[i].X;

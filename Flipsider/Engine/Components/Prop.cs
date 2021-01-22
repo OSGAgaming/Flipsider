@@ -3,6 +3,7 @@ using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Text;
 using static Flipsider.PropManager;
 
 namespace Flipsider
@@ -16,11 +17,12 @@ namespace Flipsider
         public float positionY;
         public bool draggable;
         public int frameCounter;
-        public string prop;
+        public string prop => Encoding.UTF8.GetString(propEncode, 0, propEncode.Length);
         public bool active = true;
-
+        public byte[] propEncode;
         //dragging stuff
         public bool isDragging = false;
+        [NonSerialized]
         public Vector2 offsetFromMouseWhileDragging;
         public Vector2 position
         {
@@ -33,6 +35,12 @@ namespace Flipsider
                 positionX = value.X;
                 positionY = value.Y;
             }
+        }
+        public void Dispose()
+        {
+            Main.CurrentWorld.layerHandler.Layers[Layer].Drawables.Remove(this);
+            Main.CurrentWorld.propManager.props.Remove(this);
+            active = false;
         }
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
         public Vector2 Center => position + new Vector2(PropTypes[prop].Width / 2, PropTypes[prop].Height / 2);
@@ -49,13 +57,12 @@ namespace Flipsider
                 spriteBatch.Draw(PropTypes[prop], Center, alteredFrame, Color.White, 0f, alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
-
         public int Layer { get; set; }
         public Prop(string prop, Vector2 pos, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0, int Layer = 0, bool Draggable = true)
         {
             this.noOfFrames = noOfFrames;
             this.animSpeed = animSpeed;
-            this.prop = prop;
+            propEncode = Encoding.UTF8.GetBytes(prop);
             interactRange = 100;
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
@@ -63,9 +70,22 @@ namespace Flipsider
             this.draggable = Draggable;
             positionX = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
             positionY = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
-            Main.renderer.layerHandler.AppendMethodToLayer(this);
+            Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
         }
-
+        public Prop(string prop, Vector2 pos, int layer, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0)
+        {
+            this.noOfFrames = noOfFrames;
+            this.animSpeed = animSpeed;
+            propEncode = new byte[prop.Length];
+            propEncode = Encoding.UTF8.GetBytes(prop);
+            interactRange = 100;
+            tileInteraction = TileInteraction;
+            frameCounter = frameCount;
+            Layer = layer;
+            positionX = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
+            positionY = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
+            Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
+        }
 
     }
 }

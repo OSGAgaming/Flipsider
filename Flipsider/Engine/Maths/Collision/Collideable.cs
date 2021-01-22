@@ -28,6 +28,10 @@ namespace Flipsider.Engine.Maths
             BindableEntity = entity;
         public void Update(in Entity entity)
         {
+            if(!BindableEntity.Active)
+            {
+                Main.Colliedables.collideables.Remove(this);
+            }
             if (!isStatic && BindableEntity is LivingEntity)
             {
                 LivingEntity? LivingEntity = (LivingEntity)BindableEntity;

@@ -27,7 +27,6 @@ namespace Flipsider.Engine.Maths
     {
         public float radius;
         public Vector2 position;
-
         public Circle(float radius, Vector2 position)
         {
             this.radius = radius;
@@ -88,6 +87,10 @@ namespace Flipsider.Engine.Maths
     }
     public static class Collision
     {
+        public static Rectangle ToR(this RectangleF x)
+        {
+            return new Rectangle((int)x.x, (int)x.y, (int)x.w, (int)x.h);
+        }
         public static Polygon Add(this Polygon x, Vector2[] y)
         {
             Vector2[] points = new Vector2[x.numberOfPoints];

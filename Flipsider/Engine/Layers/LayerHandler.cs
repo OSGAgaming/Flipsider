@@ -1,17 +1,62 @@
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Flipsider
 {
+    [Serializable]
+    public struct LayerManagerInfo
+    {
+        public int NumberOfLayers;
+        public float[] LayerParalax;
+        public LayerManagerInfo(int N, float[] L)
+        {
+            NumberOfLayers = N;
+            LayerParalax = L;
+        }
+        public LayerHandler Load()
+        {
+            LayerHandler layerHandler = new LayerHandler();
+            for(int i = 1; i<NumberOfLayers; i++)
+            {
+                layerHandler.AddLayer();
+            }
+            for (int i = 0; i < NumberOfLayers; i++)
+            {
+                layerHandler.SetLayerParallax(i,LayerParalax[i]);
+            }
+            return layerHandler;
+        }
+    }
+    [Serializable]
     public class LayerHandler
     {
+        public LayerHandler()
+        {
+            AddLayer();
+        }
+        [NonSerialized]
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
         public static int[] LayerCache = { 1, 1 };
         public int PlayerLayer => Main.player.Layer;
+        internal LayerManagerInfo Info
+        {
+            get
+            {
+                float[] paralaxLayer = new float[Layers.Count];
+                for (int i = 0; i < Layers.Count; i++)
+                {
+                    paralaxLayer[i] = Layers[i].parallax;
+                }
+                return new LayerManagerInfo(Layers.Count, paralaxLayer);
+            }
+        }
+        public LayerManagerInfo InfoCache;
         public void DrawLayers(SpriteBatch spriteBatch)
         {
+            InfoCache = Info;
             spriteBatch.End();
             foreach (Layer layer in Layers)
             {
@@ -24,8 +69,11 @@ namespace Flipsider
         Layers[Method.Layer].Drawables.Add(Method);
         public void AutoAppendMethodToLayer(ref ILayeredComponent Method)
         {
-            Method.Layer = CurrentLayer;
-            Layers[Method.Layer].Drawables.Add(Method);
+            if (Layers.Count > 0)
+            {
+                Method.Layer = CurrentLayer;
+                Layers[Method.Layer].Drawables.Add(Method);
+            }
         }
         public void AppendPrimitiveToLayer(ILayeredComponent Method)
         =>
@@ -33,6 +81,12 @@ namespace Flipsider
         public void AddLayer()
         {
             Layers.Add(new Layer(Layers.Count));
+        }
+        public void AddLayer(float paralax)
+        {
+            Layer layer = new Layer(Layers.Count);
+            layer.parallax = paralax;
+            Layers.Add(layer);
         }
         public void SwitchLayerVisibility(int Layer)
         {

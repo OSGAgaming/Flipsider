@@ -1,12 +1,16 @@
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Flipsider
 {
+    [Serializable]
     public class Layer : IComponent
     {
+        [NonSerialized]
         public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
+        [NonSerialized]
         public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
         public int LayerDepth;
         public float parallax;

@@ -1,17 +1,21 @@
 ﻿using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Flipsider
 {
+    [Serializable]
     public abstract class Entity : IComponent, ILayeredComponent
     {
+        [NonSerialized]
         public Texture2D texture = TextureCache.magicPixel;
         public int Layer { get; set; }
         public bool Active { get; set; }
-
+        [NonSerialized]
         public Vector2 position;
+        [NonSerialized]
         public Vector2 oldPosition;
         public int height;
         public int maxHeight;
@@ -25,15 +29,17 @@ namespace Flipsider
         protected virtual void OnUpdate() { }
         protected virtual void PostUpdate() { }
         protected virtual void OnLoad() { }
-
+        [NonSerialized]
         protected readonly HashSet<IEntityModifier> UpdateModules = new HashSet<IEntityModifier>();
         public void AddModule(IEntityModifier IEM) => UpdateModules.Add(IEM);
         public Entity()
         {
             OnLoad();
             if (Main.CurrentWorld != null)
+            {
                 Main.CurrentWorld.entityManager.AddComponent(this);
-            Main.AutoAppendToLayer(this);
+                Main.AutoAppendToLayer(this);
+            }
         }
         protected void UpdateEntityModifiers()
         {

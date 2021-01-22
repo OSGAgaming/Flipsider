@@ -55,7 +55,7 @@ namespace Flipsider.Scenes
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.7f, offset);
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.7f, offset);
             Main.renderer.RenderEntities();
-            Main.renderer.layerHandler.DrawLayers(spriteBatch);
+            Main.CurrentWorld.layerHandler.DrawLayers(spriteBatch);
             NPC.DTH.Draw(spriteBatch);
             Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             PropManager.ShowPropCursor();

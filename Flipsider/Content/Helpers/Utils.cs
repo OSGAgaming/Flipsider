@@ -12,9 +12,9 @@ namespace Flipsider
         public static readonly int BOTTOM = 3000;
         public static readonly int PrefferedWidth = 1980;
         public static readonly int PrefferedHeight = 1080;
-        public static void AppendToLayer(ILayeredComponent ilc) => Main.renderer.layerHandler.AppendMethodToLayer(ilc);
-        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => Main.renderer.layerHandler.AppendPrimitiveToLayer(ilc);
-        public static LayerHandler layerHandler => Main.renderer.layerHandler;
+        public static void AppendToLayer(ILayeredComponent ilc) => Main.CurrentWorld.layerHandler.AppendMethodToLayer(ilc);
+        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => Main.CurrentWorld.layerHandler.AppendPrimitiveToLayer(ilc);
+        public static LayerHandler layerHandler => Main.CurrentWorld.layerHandler;
         public static EditorMode Editor => EditorMode.Instance;
         public static float targetScale => Main.mainCamera.targetScale;
         public static TileManager tileManager => Main.CurrentWorld.tileManager;

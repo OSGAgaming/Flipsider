@@ -8,6 +8,7 @@ namespace Flipsider
     [Serializable]
     public class World
     {
+        public LayerHandler layerHandler = new LayerHandler();
         public LevelInfo levelInfo => LevelInfo.Convert(this);
         public Tile[,] tiles => tileManager.tiles;
         public int TileRes => TileManager.tileRes;
@@ -32,7 +33,24 @@ namespace Flipsider
                     return false;
             return true;
         }
-
+        public void ClearWorld()
+        {
+            for (int i = 0; i < tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < tiles.GetLength(1); j++)
+                {
+                    tileManager.RemoveTile(this, new Vector2(i, j));
+                }
+            }
+            for (int i = 0; i < propManager?.props.Count; i++)
+            {
+                propManager.props[i].Dispose();
+            }
+            for (int i = 0; i < WaterBodies?.Components.Count; i++)
+            {
+                WaterBodies.Components[i].Dispose();
+            }
+        }
         public bool IsTileInBounds(int i, int j)
         {
             if (i >= 0 && j >= 0 && i < MaxTilesX && j < MaxTilesY && tiles[i, j] != null)
@@ -55,18 +73,8 @@ namespace Flipsider
         {
             if (File.Exists(Main.MainPath + FileName))
             {
+                ClearWorld();
                 Main.Editor.CurrentSaveFile = FileName;
-                for (int i = 0; i < tiles.GetLength(0); i++)
-                {
-                    for (int j = 0; j < tiles.GetLength(1); j++)
-                    {
-                        tileManager.RemoveTile(this, new Vector2(i, j));
-                    }
-                }
-                for (int i = 0; i < propManager?.props.Count; i++)
-                {
-                    propManager.props[i].active = false;
-                }
                 LevelInfo LevelInfo = Main.serializers.Deserialize<LevelInfo>(Main.MainPath + FileName);
                 LevelInfo.LoadToWorld(this);
             }

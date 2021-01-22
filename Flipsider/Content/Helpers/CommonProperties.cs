@@ -11,10 +11,10 @@ namespace Flipsider
 #nullable disable
     internal partial class Main : Game
     {
-        public static void AppendToLayer(ILayeredComponent ilc) => renderer.layerHandler.AppendMethodToLayer(ilc);
-        public static void AutoAppendToLayer(ILayeredComponent ilc) => renderer.layerHandler.AutoAppendMethodToLayer(ref ilc);
-        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => renderer.layerHandler.AppendPrimitiveToLayer(ilc);
-        public static LayerHandler layerHandler => renderer.layerHandler;
+        public static void AppendToLayer(ILayeredComponent ilc) => CurrentWorld.layerHandler.AppendMethodToLayer(ilc);
+        public static void AutoAppendToLayer(ILayeredComponent ilc) => CurrentWorld.layerHandler.AutoAppendMethodToLayer(ref ilc);
+        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => CurrentWorld.layerHandler.AppendPrimitiveToLayer(ilc);
+        public static LayerHandler layerHandler => CurrentWorld.layerHandler;
         public static EditorMode Editor => EditorMode.Instance;
         public static float targetScale => mainCamera.targetScale;
         public static TileManager tileManager => CurrentWorld.tileManager;

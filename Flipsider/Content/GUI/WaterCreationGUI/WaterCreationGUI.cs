@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Maths;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Flipsider.GUI
@@ -23,7 +24,7 @@ namespace Flipsider.GUI
                 if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
                     flag = true;
-                    Main.WaterBodies.Add(new Water(new Rectangle(pos1.ToPoint(), new Point((int)(MouseSnap.X - pos1.X) + 4, (int)(MouseSnap.Y - pos1.Y) + 4))));
+                    Main.WaterBodies.Add(new Water(new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4))));
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
                 if (mouseStateBuffer && flag)

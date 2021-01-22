@@ -97,6 +97,47 @@ namespace Flipsider
             }
             CanPlace = true;
         }
+        public void AddTile(World world, int type, Vector2 XY, int Layer)
+        {
+            if (CanPlace)
+            {
+                try
+                {
+                    if (world.IsTileActive((int)XY.X, (int)XY.Y))
+                    {
+                        tiles[(int)XY.X, (int)XY.Y].Kill();
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, XY, Layer)
+                        {
+                            Active = true
+                        };
+                    }
+                    else
+                    {
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY, Layer)
+                        {
+                            Active = true
+                        };
+                    }
+                }
+                catch
+                {
+                    Debug.Write("Just put the cursor in your ass next time eh?");
+                }
+            }
+            if (AutoFrame)
+            {
+                for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
+                    for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+                    {
+                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
+                        {
+                            tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
+                            tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
+                        }
+                    }
+            }
+            CanPlace = true;
+        }
         public void RemoveTile(World world, int X, int Y)
         {
             if (Main.Editor.IsActive)

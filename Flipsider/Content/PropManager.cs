@@ -88,7 +88,6 @@ namespace Flipsider
         {
             try
             {
-                Debug.Write(PropType);
                 TileInteraction? currentInteraction = null;
                 if (PropEntites.ContainsKey(PropType ?? ""))
                 {
@@ -107,7 +106,28 @@ namespace Flipsider
 
             }
         }
+        public void AddProp(World world, string PropType, Vector2 position, int Layer)
+        {
+            try
+            {
+                TileInteraction? currentInteraction = null;
+                if (PropEntites.ContainsKey(PropType ?? ""))
+                {
+                    currentInteraction = PropEntites[PropType ?? ""].tileInteraction;
+                }
+                if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+                {
+                    int alteredRes = Main.CurrentWorld.TileRes / 4;
+                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction, 1, -1, 0, Layer));
+                }
+                TileManager.UselessCanPlaceBool = true;
+            }
+            catch
+            {
 
+
+            }
+        }
         public static void ShowPropCursor()
         {
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
@@ -148,7 +168,7 @@ namespace Flipsider
     {
         public static void BlobInteractable()
         {
-            Debug.Write("GraydeeIsDumb");
+ 
         }
         public PropInteraction(PropManager propManager)
         {
@@ -171,7 +191,7 @@ namespace Flipsider
                     {
                         if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
                         {
-                            propManager.props[i].active = false;
+                            propManager.props[i].Dispose();
                         }
                         if (Mouse.GetState().RightButton == ButtonState.Pressed)
                         {

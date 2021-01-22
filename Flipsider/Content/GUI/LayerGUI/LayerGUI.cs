@@ -9,9 +9,10 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerGUI : UIScreen
     {
         public int chosen = -1;
+        public int LayerCount => Main.CurrentWorld.layerHandler.GetLayerCount();
         protected override void OnLoad()
         {
-            for (int i = 0; i < Main.renderer.layerHandler.GetLayerCount(); i++)
+            for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
             {
                 LayerGUIElement textBox = new LayerGUIElement(i)
                 {
@@ -51,9 +52,53 @@ namespace Flipsider.GUI.TilePlacementGUI
             };
             elements.Add(PLTB);
         }
-
+        private int Buffer;
         protected override void OnUpdate()
         {
+            if(Buffer != LayerCount)
+            {
+                elements.Clear();
+                for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
+                {
+                    LayerGUIElement textBox = new LayerGUIElement(i)
+                    {
+                        dimensions = new Rectangle( - 150, 40 + i * 20, 150, 10)
+                    };
+                    elements.Add(textBox);
+                    LayerGUIElementHide Hide = new LayerGUIElementHide(i)
+                    {
+                        dimensions = new Rectangle(- 100, 40 + i * 20, 32, 32)
+                    };
+                    elements.Add(Hide);
+                    LayerElementSwitch Switch = new LayerElementSwitch(i)
+                    {
+                        dimensions = new Rectangle(- 100, 40 + i * 20, 30, 16)
+                    };
+                    elements.Add(Switch);
+                    LayerTextBox Box = new LayerTextBox(i)
+                    {
+                        dimensions = new Rectangle( - 50, 40 + i * 20, 16, 16)
+                    };
+                    elements.Add(Box);
+                }
+                LayerAddition LayerAddition = new LayerAddition(this)
+                {
+                    dimensions = new Rectangle(20, 10, 16, 16)
+                };
+                elements.Add(LayerAddition);
+                LayerAddition LayerAddition2 = new LayerAddition(this)
+                {
+                    dimensions = new Rectangle(40, 10, 16, 16),
+                    isAdding = true
+                };
+                elements.Add(LayerAddition2);
+                PlayerLayerTextBox PLTB = new PlayerLayerTextBox
+                {
+                    dimensions = new Rectangle(200, 10, 16, 16)
+                };
+                elements.Add(PLTB);
+            }
+            Buffer = LayerCount;
         }
         protected override void OnDraw()
         {
@@ -239,27 +284,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (isAdding)
             {
                 Main.layerHandler.AddLayer();
-                int i = Main.layerHandler.GetLayerCount() - 1;
-                LayerGUIElement textBox = new LayerGUIElement(i)
-                {
-                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + (i - 1) * 20, 150, 10)
-                };
-                parent.elements.Add(textBox);
-                LayerGUIElementHide Hide = new LayerGUIElementHide(i)
-                {
-                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 32, 32)
-                };
-                parent.elements.Add(Hide);
-                LayerTextBox Box = new LayerTextBox(i)
-                {
-                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 50, 40 + (i - 1) * 20, 16, 16)
-                };
-                parent.elements.Add(Box);
-                LayerElementSwitch Switch = new LayerElementSwitch(i)
-                {
-                    dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + (i - 1) * 20, 30, 16)
-                };
-                parent.elements.Add(Switch);
             }
         }
         protected override void OnHover()

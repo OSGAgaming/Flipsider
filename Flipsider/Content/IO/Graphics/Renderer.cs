@@ -7,7 +7,6 @@ namespace Flipsider
     public delegate void LayerEventDelegate(World world, SpriteBatch spriteBatch);
     public class Renderer
     {
-        public LayerHandler layerHandler = new LayerHandler();
         internal Lighting? lighting;
         public GraphicsDeviceManager? graphics;
         public RenderTarget2D? renderTarget;
@@ -40,7 +39,6 @@ namespace Flipsider
 
         public void Load()
         {
-            layerHandler.AddLayer();
             if (instance != null)
                 lighting = new Lighting(instance.Content, 1f);
         }
