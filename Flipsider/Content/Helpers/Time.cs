@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+
 namespace Flipsider
 {
     public static class Time
     {
         public static double DeltaTime(this GameTime gt) => gt.ElapsedGameTime.TotalSeconds;
-
+        public static float SineTime(float period) => (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * period);
         public static float DeltaT => (float)Main.gameTime.DeltaTime();
 
         public static float DeltaVar(float mult) => (float)Main.gameTime.DeltaTime() * mult;

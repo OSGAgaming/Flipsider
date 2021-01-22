@@ -9,6 +9,7 @@ namespace Flipsider
         PropEditorMode,
         LightEditorMode,
         Inventory,
-        WaterEditorMode
+        WaterEditorMode,
+        CollideablesEditorMode
     }
 }

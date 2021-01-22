@@ -21,6 +21,10 @@ namespace Flipsider.Engine.Maths
                 }
             }
         }
+        public void AddCustomHitBox(bool isStatic, bool HasBindableEntity, RectangleF frame)
+        {
+            new Collideable(Main.player, isStatic, HasBindableEntity, frame);
+        }
         public void Update()
         {
 

@@ -185,6 +185,14 @@ namespace Flipsider
             {
                 Point size = PropTypes[propManager.props[i].prop].Bounds.Size;
                 Rectangle rect = new Rectangle(propManager.props[i].ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
+                if (propManager.props[i].isDragging)
+                {
+                    propManager.props[i].position = Main.MouseScreen.ToVector2() - propManager.props[i].offsetFromMouseWhileDragging;
+                    if (Mouse.GetState().RightButton != ButtonState.Pressed)
+                    {
+                        propManager.props[i].isDragging = false;
+                    }
+                }
                 if (rect.Contains(Main.MouseScreen))
                 {
                     if (Main.Editor.StateCheck(EditorUIState.PropEditorMode) && propManager.props[i].Layer == LayerHandler.CurrentLayer)
@@ -206,14 +214,7 @@ namespace Flipsider
                         propManager.props[i].tileInteraction?.Invoke();
                 }
 
-                if (propManager.props[i].isDragging)
-                {
-                    propManager.props[i].position = Main.MouseScreen.ToVector2() - propManager.props[i].offsetFromMouseWhileDragging;
-                    if (Mouse.GetState().RightButton != ButtonState.Pressed)
-                    {
-                        propManager.props[i].isDragging = false;
-                    }
-                }
+
             }
             mousePressedRight = Mouse.GetState().RightButton == ButtonState.Pressed;
         }

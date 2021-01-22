@@ -106,6 +106,10 @@ namespace Flipsider
                 {
                     SwitchToMode(EditorUIState.WaterEditorMode);
                 }
+                if (GameInput.Instance["CollideablesEditorMode"].IsJustPressed() && CurrentState != EditorUIState.CollideablesEditorMode)
+                {
+                    SwitchToMode(EditorUIState.CollideablesEditorMode);
+                }
                 float scrollSpeed = 0.02f;
                 float camMoveSpeed = 0.2f;
                 if (GameInput.Instance["EditorZoomIn"].IsDown())

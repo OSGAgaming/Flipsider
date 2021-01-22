@@ -1,3 +1,4 @@
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -60,6 +61,7 @@ namespace Flipsider
             DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
         }
+
         public static void RenderBG(SpriteBatch spriteBatch, Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)
         {
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
@@ -79,6 +81,16 @@ namespace Flipsider
             Vector2 point = rectangle.Location.ToVector2();
             int sizeX = rectangle.Size.X;
             int sizeY = rectangle.Size.Y;
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
+            DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
+        }
+        public static void DrawRectangle(RectangleF rectangle, Color color, float thickness = 1)
+        {
+            Vector2 point = rectangle.TL;
+            float sizeX = rectangle.w;
+            float sizeY = rectangle.h;
             DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
             DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);

@@ -2,6 +2,7 @@
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Flipsider.Engine.Maths
 {
@@ -15,10 +16,12 @@ namespace Flipsider.Engine.Maths
     public class Collideable : IEntityModifier, ILayeredComponent
     {
         public Entity BindableEntity;
+        public bool HasBindableEntity;
         public PolyType PolyType;
         public bool Collides;
         public CollisionInfo collisionInfo;
-        private Rectangle r => BindableEntity.CollisionFrame;
+        public RectangleF CustomHitBox;
+        private Rectangle r => HasBindableEntity ? BindableEntity.CollisionFrame : CustomHitBox.ToR();
         public Polygon collisionBox => r.ToPolygon();
         public Polygon lastCollisionBox => BindableEntity.PreCollisionFrame.ToPolygon();
 
@@ -28,7 +31,7 @@ namespace Flipsider.Engine.Maths
             BindableEntity = entity;
         public void Update(in Entity entity)
         {
-            if(!BindableEntity.Active)
+            if(!BindableEntity.Active && HasBindableEntity)
             {
                 Main.Colliedables.collideables.Remove(this);
             }
@@ -43,7 +46,7 @@ namespace Flipsider.Engine.Maths
                     if (PolyType == PolyType.Rectangle &&
                        collideable2.PolyType == PolyType.Rectangle)
                     {
-                        if (collideable2.isStatic && collideable2.BindableEntity.Active)
+                        if ((collideable2.isStatic && collideable2.BindableEntity.Active) || !collideable2.HasBindableEntity)
                         {
                             CollisionInfo CI =
                                 Collision.AABBResolvePoly(
@@ -53,7 +56,6 @@ namespace Flipsider.Engine.Maths
 
                             collisionInfo.AABB = CI.AABB;
                             BindableEntity.position += CI.d;
-
                             if (CI.AABB != Bound.None)
                             {
                                 switch (collisionInfo.AABB)
@@ -93,8 +95,11 @@ namespace Flipsider.Engine.Maths
         {
 
         }
-        public Collideable(Entity entity, bool isStatic)
+
+        public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default)
         {
+            CustomHitBox = frame;
+            this.HasBindableEntity = HasBindableEntity;
             BindableEntity = entity;
             this.isStatic = isStatic;
             PolyType = PolyType.Rectangle;
