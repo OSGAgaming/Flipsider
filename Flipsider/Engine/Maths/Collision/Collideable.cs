@@ -13,96 +13,76 @@ namespace Flipsider.Engine.Maths
         Triangle,
         ConvexPoly
     }
-    public class Collideable : IEntityModifier, ILayeredComponent
+    public partial class Collideable : IEntityModifier
     {
+        public Polygon CustomPolyCollide = Polygon.Null;
         public Entity BindableEntity;
         public bool HasBindableEntity;
+        public bool OnSlope;
         public PolyType PolyType;
         public bool Collides;
         public CollisionInfo collisionInfo;
         public RectangleF CustomHitBox;
         private Rectangle r => HasBindableEntity ? BindableEntity.CollisionFrame : CustomHitBox.ToR();
-        public Polygon collisionBox => r.ToPolygon();
+        public Polygon collisionBox => CustomPolyCollide.Center == Vector2.Zero ? r.ToPolygon() : CustomPolyCollide;
         public Polygon lastCollisionBox => BindableEntity.PreCollisionFrame.ToPolygon();
-
-        public float mass;
         public bool isStatic;
         internal void BindEntityToCollideable(Entity entity) =>
             BindableEntity = entity;
+
         public void Update(in Entity entity)
         {
-            if(!BindableEntity.Active && HasBindableEntity)
+          
+            if (!entity.Active && HasBindableEntity)
             {
                 Main.Colliedables.collideables.Remove(this);
             }
-            if (!isStatic && BindableEntity is LivingEntity)
+            if (!isStatic && entity is LivingEntity)
             {
-                LivingEntity? LivingEntity = (LivingEntity)BindableEntity;
+                LivingEntity LivingEntity = (LivingEntity)entity;
+                LivingEntity.onSlope = false;
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
                 foreach (Collideable collideable2 in Main.Colliedables.collideables)
                 {
-
-                    if (PolyType == PolyType.Rectangle &&
-                       collideable2.PolyType == PolyType.Rectangle)
+                    if (collideable2.BindableEntity.InFrame)
                     {
-                        if ((collideable2.isStatic && collideable2.BindableEntity.Active) || !collideable2.HasBindableEntity)
+                        if (collideable2.PolyType == PolyType.ConvexPoly && PolyType == PolyType.Rectangle)
                         {
-                            CollisionInfo CI =
-                                Collision.AABBResolvePoly(
-                                collisionBox,
-                                lastCollisionBox,
-                                collideable2.collisionBox);
-
-                            collisionInfo.AABB = CI.AABB;
-                            BindableEntity.position += CI.d;
-                            if (CI.AABB != Bound.None)
-                            {
-                                switch (collisionInfo.AABB)
-                                {
-                                    case (Bound.Top):
-                                        {
-                                            LivingEntity.onGround = true;
-                                            LivingEntity.velocity.Y = 0;
-                                            break;
-                                        }
-                                    case (Bound.Bottom):
-                                        {
-                                            LivingEntity.velocity.Y = 0;
-                                            break;
-                                        }
-                                    case (Bound.Left):
-                                        {
-                                            LivingEntity.velocity.X = 0;
-                                            break;
-                                        }
-                                    case (Bound.Right):
-                                        {
-                                            LivingEntity.velocity.X = 0;
-                                            break;
-                                        }
-                                }
-                                LivingEntity.isColliding = true;
-                            }
+                            RectVPoly(this, collideable2);
                         }
-
+                    }
+                }
+                foreach (Collideable collideable2 in Main.Colliedables.collideables)
+                {
+                    if (collideable2.BindableEntity.InFrame)
+                    {
+                        if (collideable2.PolyType == PolyType.Rectangle && PolyType == PolyType.Rectangle && !LivingEntity.onSlope)
+                        {
+                            RectVRect(this, collideable2);
+                        }
                     }
                 }
             }
         }
         public int Layer { get; set; }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-
-        }
-
-        public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default)
+        public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
         {
             CustomHitBox = frame;
             this.HasBindableEntity = HasBindableEntity;
             BindableEntity = entity;
             this.isStatic = isStatic;
-            PolyType = PolyType.Rectangle;
+            PolyType = polyType == default ? PolyType.Rectangle : polyType;
+            Main.Colliedables.collideables.Add(this);
+        }
+        public Collideable(Entity entity, bool isStatic,Polygon polygon, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
+        {
+            CustomHitBox = frame;
+            this.HasBindableEntity = HasBindableEntity;
+            BindableEntity = entity;
+            this.isStatic = isStatic;
+            CustomPolyCollide = polygon;
+            PolyType = polyType == default ? PolyType.Rectangle : polyType;
             Main.Colliedables.collideables.Add(this);
         }
     }

@@ -1,4 +1,5 @@
 using Flipsider.Engine.Interfaces;
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -30,14 +31,20 @@ namespace Flipsider
         public TileManager TM => Main.CurrentWorld.tileManager;
         public override void Draw(SpriteBatch spriteBatch)
         {
+
             if (world != null)
             {
-                if (world.IsTileInBounds(i, j))
+                if (world.IsTileInBounds(i, j) && inFrame)
                 {
                     if (TM.tiles[i, j].type != -1)
                     {
                         spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
                     }
+                    InFrame = true;
+                }
+                else
+                {
+                    InFrame = false;
                 }
             }
         }

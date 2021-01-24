@@ -110,7 +110,7 @@ namespace Flipsider
                 {
                     for (int j = (int)SafeBoundY.X - fluff; j < (int)SafeBoundY.Y + fluff; j++)
                     {
-                        if (world.IsTileInBounds(i, j))
+                        if (world.IsTileInBounds(i, j) && world.tiles[i,j].inFrame)
                         {
                             int TR = Main.CurrentWorld.TileRes;
                             Utils.DrawBoxFill(new Rectangle(i * TR, j * TR, TR, TR), Color.Red);

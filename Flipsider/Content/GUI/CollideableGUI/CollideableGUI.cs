@@ -49,10 +49,6 @@ namespace Flipsider.GUI
         }
         internal override void DrawToScreen()
         {
-            for (int i = 0; i < Main.Colliedables.collideables.Count; i++)
-            {
-                Utils.DrawRectangle(Main.Colliedables.collideables[i].CustomHitBox, Color.Red * Math.Abs(Time.SineTime(8)), 3);
-            }
             if (Main.Editor.CurrentState == EditorUIState.CollideablesEditorMode)
             {
                 for (int i = 0; i < Main.Colliedables.collideables.Count; i++)

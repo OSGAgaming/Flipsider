@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Maths;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -63,19 +64,60 @@ namespace Flipsider.GUI.TilePlacementGUI
 
                 }
             }
-            Debug.Write(Main.ScreenSize.X);
             TileGUIButton TGUIB = new TileGUIButton("AutoFrame")
             {
                 dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 200, 100, 40)
             };
             elements.Add(TGUIB);
         }
+        private bool flag = true;
+        private bool mouseStateBuffer;
+        private Vector2 pos1;
 
+        private Vector2 MouseSnap => Main.MouseScreen.ToVector2().Snap(32);
         protected override void OnUpdate()
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 HideExcept(chosen);
+            }
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                if (Mouse.GetState().MiddleButton != ButtonState.Pressed && mouseStateBuffer && !flag)
+                {
+                    flag = true;
+                    Vector2 size = new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4);
+                    for (int i = (int)pos1.X/32; i< pos1.X / 32 + size.X/32 - 1; i++)
+                    {
+                        for (int j = (int)pos1.Y / 32; j < pos1.Y / 32 + size.Y/32 - 1; j++)
+                        {
+                            Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld,Main.Editor.currentType,new Vector2(i,j));
+                        }
+                    }
+                }
+                mouseStateBuffer = Mouse.GetState().MiddleButton == ButtonState.Pressed;
+                if (mouseStateBuffer && flag)
+                {
+                    pos1 = Main.MouseScreen.ToVector2().Snap(32);
+                    flag = false;
+                }
+                if (mouseStateBuffer)
+                {
+                    // DrawMethods.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
+                }
+            }
+        }
+        internal override void DrawToScreen()
+        {
+            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
+            {
+                if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
+                {
+                    Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(32);
+                    if (!flag)
+                        Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White, 3);
+                }
+
             }
         }
         protected override void OnDraw()
@@ -206,13 +248,11 @@ namespace Flipsider.GUI.TilePlacementGUI
                     if (parent != null)
                         parent.chosen = index;
                     Rectangle chooseArea = new Rectangle(goToPoint, startingDimensions.Y, 128, 272);
-                    MouseState mousestate = Mouse.GetState();
                     int DimTileRes = tileRes / 2;
-                    if (chooseArea.Contains(mousestate.Position))
+                    if (chooseArea.Contains(Mouse.GetState().Position))
                     {
-                        Vector2 mousePos = mousestate.Position.ToVector2();
-                        Vector2 tilePoint = new Vector2((int)mousePos.X / DimTileRes * DimTileRes, (int)mousePos.Y / DimTileRes * DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
-                        Main.Editor.currentFrame = new Rectangle(((int)tilePoint.X - chooseArea.X) * 2, ((int)tilePoint.Y - chooseArea.Y) * 2, tileRes, tileRes);
+                        Vector2 tilePoint = Mouse.GetState().Position.ToVector2().Snap(DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
+                        Main.Editor.currentFrame = new Rectangle((int)(tilePoint.X - chooseArea.X) * 2, (int)(tilePoint.Y - chooseArea.Y) * 2, tileRes, tileRes);
                     }
                 }
             }

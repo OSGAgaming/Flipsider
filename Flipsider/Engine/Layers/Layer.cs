@@ -34,7 +34,19 @@ namespace Flipsider
             {
                 foreach (ILayeredComponent draw in Drawables)
                 {
-                    draw.Draw(spriteBatch);
+                    if (draw is ILayeredComponentActive)
+                    {
+                        var Drawable = draw as ILayeredComponentActive;
+                        if (Drawable != null)
+                        {
+                            if (Drawable.InFrame)
+                                draw.Draw(spriteBatch);
+                        }
+                    }
+                    else
+                    {
+                        draw.Draw(spriteBatch);
+                    }
                 }
                 if (Main.player.Layer == LayerDepth + 1)
                 {

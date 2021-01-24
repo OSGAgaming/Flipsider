@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace Flipsider.Engine.Maths
 {
@@ -33,6 +35,7 @@ namespace Flipsider.Engine.Maths
             this.position = position;
         }
     }
+
     public struct Polygon
     {
         public Vector2[] points;
@@ -50,6 +53,7 @@ namespace Flipsider.Engine.Maths
         }
         public Vector2 Center;
         public int numberOfPoints;
+        public static Polygon Null => new Polygon(new Vector2[] { },Vector2.Zero);
         public Rectangle Rectangle
         {
             get
@@ -62,6 +66,14 @@ namespace Flipsider.Engine.Maths
                         (int)(varpoints[2].Y - varpoints[0].Y)));
                 }
                 return Rectangle.Empty;
+            }
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < points.Length; i++)
+            {
+                Utils.DrawLine(varpoints[i], varpoints[(i + 1) % numberOfPoints],Color.Green,1);
+                Utils.DrawLine(varpoints[i], Center, Color.Green, 1);
             }
         }
         public static Polygon operator +(Polygon x, Polygon y)
@@ -109,7 +121,28 @@ namespace Flipsider.Engine.Maths
               new Vector2(-r.Width / 2, r.Height / 2)};
             return new Polygon(points, r.Center.ToVector2());
         }
-        public static Vector2 TestForCollisions(Polygon shape1, Polygon shape2)
+        public static CollisionInfo Raycast(Polygon shape1, Polygon shape2, int LengthOfRaycast, int Disp)
+        {
+            Vector2 CollisionPoint = Utils.ReturnIntersectionLine(shape1.Center, shape1.Center + new Vector2(0, LengthOfRaycast), shape2.varpoints[0], shape2.varpoints[1]);
+            Bound b = Bound.None;
+            Vector2 v = Vector2.Zero;
+            float d = shape1.Center.Y + Disp;
+            if (CollisionPoint != Vector2.Zero)
+            {
+                if (d > CollisionPoint.Y)
+                {
+                    v = new Vector2(0, CollisionPoint.Y - d);
+                }
+                if (d > CollisionPoint.Y - 1)
+                {
+                    b = Bound.Top;
+                }
+            }
+
+            
+            return new CollisionInfo(v,b);
+        }
+        public static CollisionInfo TestForCollisions(Polygon shape1, Polygon shape2)
         {
             Polygon[] shapes = new Polygon[] { shape1, shape2 };
             float overlap = float.PositiveInfinity;
@@ -139,12 +172,12 @@ namespace Flipsider.Engine.Maths
                     }
                     overlap = Math.Min(Math.Min(bMax, aMax) - Math.Max(bMin, aMin), overlap);
                     if (!(bMax >= aMin && aMax >= bMin))
-                        return Vector2.Zero;
+                        return new CollisionInfo(Vector2.Zero,Bound.None);
                 }
             }
             Vector2 disp = shape2.Center - shape1.Center;
             float s = disp.Length();
-            return new Vector2(overlap * disp.X / s, overlap * disp.Y / s);
+            return new CollisionInfo(new Vector2(overlap * disp.X / s, overlap * disp.Y / s), Bound.Top);
         }
         public static Vector2 TestForCollisionsDiag(Polygon shape1, Polygon shape2)
         {

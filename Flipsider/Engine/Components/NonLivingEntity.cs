@@ -8,7 +8,7 @@ namespace Flipsider
     {
         protected NonLivingEntity() : base()
         {
-            AddModule(new Collideable(this, true));
+           
         }
     }
 }

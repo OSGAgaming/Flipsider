@@ -26,7 +26,7 @@ namespace Flipsider
             get;
             private set;
         }
-
+        public bool onSlope;
         public bool Collides;
         public bool onGround;
         public int spriteDirection;
@@ -65,7 +65,8 @@ namespace Flipsider
         protected LivingEntity() : base()
         {
             oldPositions = new Vector2[TrailLength];
-            AddModule(new Collideable(this, false));
+            AddModule("Collision",new Collideable(this, false));
+            AddModule("RigidBody", new RigidBody(this, 1f));
         }
 
         private bool active = true;
@@ -83,14 +84,8 @@ namespace Flipsider
             oldPosition = position;
             frameCounter++;
             ResetVars();
-            if (!noGravity && !onGround)
-                velocity.Y += gravity * Time.DeltaVar(120);
-            if (!noAirResistance)
-                velocity *= airResistance;
-            PreUpdate();
-            OnUpdate();
-            position += velocity * Time.DeltaVar(120);
-            UpdateEntityModifiers();
+            ApplyForces();
+            UpdateEntityModifier("Collision");
             Constraints();
             PostUpdate();
             PreAI();

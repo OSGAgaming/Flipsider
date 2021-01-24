@@ -85,6 +85,7 @@ namespace Flipsider
             for (int k = 0; k < Main.entities.Count; k++)
             {
                 Entity entity = Main.entities[k];
+                if (entity is LivingEntity)
                 entity.Draw(spriteBatch);
                 //entity.DrawConstant(spriteBatch);
             }

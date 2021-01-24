@@ -14,18 +14,18 @@ namespace Flipsider
         public bool isHittingEntity => EntityCollide();
         public bool EntityCollide()
         {
-            foreach (LivingEntity entity in Main.entities)
+            foreach (Entity entity in Main.entities)
             {
-                if (entity.isNPC)
+                if (entity is NPC)
                 {
-                    if ((entity as NPC)?.hostile == !hostile)
-                    {
-                        if (entity.CollisionFrame.Intersects(CollisionFrame))
+                        if ((entity as NPC)?.hostile == !hostile)
                         {
-                            (entity as NPC)?.TakeDamage(damage);
-                            return true;
+                            if (entity.CollisionFrame.Intersects(CollisionFrame))
+                            {
+                                (entity as NPC)?.TakeDamage(damage);
+                                return true;
+                            }
                         }
-                    }
                 }
             }
             return false;

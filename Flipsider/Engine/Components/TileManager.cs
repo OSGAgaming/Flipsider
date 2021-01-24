@@ -1,3 +1,4 @@
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -77,12 +78,15 @@ namespace Flipsider
                             Active = true
                         };
                     }
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, (int)XY.X, (int)XY.Y);
+                    tiles[(int)XY.X, (int)XY.Y].AddModule("Collision", new Collideable(tiles[(int)XY.X, (int)XY.Y], true, CollisionPoly, true,default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
                 catch
                 {
                     Debug.Write("Just put the cursor in your ass next time eh?");
                 }
             }
+
             if (AutoFrame)
             {
                 for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
@@ -118,6 +122,8 @@ namespace Flipsider
                             Active = true
                         };
                     }
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, (int)XY.X, (int)XY.Y);
+                    tiles[(int)XY.X, (int)XY.Y].AddModule("Collision",new Collideable(tiles[(int)XY.X, (int)XY.Y], true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
                 catch
                 {

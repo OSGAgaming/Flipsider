@@ -83,8 +83,6 @@ namespace Flipsider
 
         private new void ResetVars()
         {
-            gravity = 0.08f;
-            airResistance.Y = 0.99f;
             leftWeapon?.UpdatePassive();
             rightWeapon?.UpdatePassive();
 
@@ -124,20 +122,6 @@ namespace Flipsider
 
         private void PostUpdates()
         {
-            KeyboardState state = Keyboard.GetState();
-            if (Wet)
-            {
-                airResistance.X = 0.94f;
-                gravity = 0.03f;
-            }
-            if (onGround)
-            {
-                velocity.X *= friction;
-            }
-            if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !crouching)
-            {
-                // Jump();
-            }
             if (velocity.X >= acceleration)
             {
                 spriteDirection = 1;
@@ -190,17 +174,30 @@ namespace Flipsider
             if (mouseState.RightButton == ButtonState.Pressed)
                 rightWeapon?.Activate(this);
         }
-
-        private void Jump()
-        {
-
-        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             texture = TextureCache.player;
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
         }
-
+        public override void ApplyForces()
+        {
+            PlayerInputs();
+            gravity = 0.08f;
+            airResistance.Y = 0.99f;
+            if (Wet)
+            {
+                airResistance.X = 0.94f;
+                gravity = 0.03f;
+            }
+            if (onGround)
+            {
+                velocity.X *= friction;
+            }
+            if (!noAirResistance)
+                velocity *= airResistance;
+            UpdateEntityModifier("RigidBody");
+            UpdatePosition();
+        }
         private bool FreeFall;
         private bool isRecovering;
         private float VelYCache;
@@ -218,8 +215,8 @@ namespace Flipsider
                 {
                     if (VelYCache > 4)
                     {
-                        velocity.X *= 0.9f;
-                        isRecovering = !Animate(4, 7, 48, 8, false);
+                        velocity.X *= 0.8f;
+                        isRecovering = !Animate(3, 7, 48, 8, false);
                     }
                     else if (VelYCache > 0)
                     {
@@ -244,7 +241,7 @@ namespace Flipsider
             }
             else
             {
-                if (velocity.Y < 0)
+                if (DeltaPos.Y <= 0)
                 {
                     Animate(1, 1, 48, 2, false);
                 }

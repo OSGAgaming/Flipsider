@@ -1,13 +1,33 @@
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
+
 namespace Flipsider
 {
     public static class Framing
     {
+        public static Polygon GetPolygon(World world, int i, int j)
+        {
+            Vector2 Left = GetSlantLeft(world,i,j);
+            Vector2 Right = GetSlantRight(world, i, j);
+            Debug.Write("Left: " + Right);
+            if (Left != Vector2.Zero || Right != new Vector2(32,0))
+            {
+                return new Polygon(
+                    new Vector2[] {
+                    new Vector2(-16, -16) + Left,
+                    new Vector2(-16, -16) + Right,
+                    new Vector2(16, 16),
+                    new Vector2(-16, 16) },
+                    new Vector2(i * 32 + 16, j * 32 + 16));
+            }
+            return Polygon.Null;
+        }
         public static Vector2 GetSlantLeft(World world, int i, int j)
         {
             if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY)
             {
-                int ManhattanX = world.tileManager.tiles[i, j].frame.X / 32;
+                int ManhattanX = (world.tileManager.tiles[i, j].frame.X + 2) / 32;
                 int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
                 if (ManhattanX == 0 && ManhattanY == 7)
                 {
@@ -33,7 +53,7 @@ namespace Flipsider
         {
             if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY)
             {
-                int ManhattanX = world.tileManager.tiles[i, j].frame.X / 32;
+                int ManhattanX = (world.tileManager.tiles[i, j].frame.X + 2) / 32;
                 int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
                 if (ManhattanX == 0 && ManhattanY == 7)
                 {

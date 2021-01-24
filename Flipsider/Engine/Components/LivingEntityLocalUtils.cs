@@ -7,49 +7,10 @@ namespace Flipsider
 {
     public abstract partial class LivingEntity : Entity
     {
-
-        public void TileCollisions(World world)
-        {
-            int res = world.TileRes;
-            for (int i = (int)position.X / res - (width / res + 2); i < (int)position.X / res + (width / res + 2); i++)
-            {
-                for (int j = (int)position.Y / res - (height / res + 2); j < (int)position.Y / res + (height / res + 2); j++)
-                {
-                    if (world.IsTileInBounds(i, j))
-                    {
-                        Rectangle tileRect = new Rectangle(i * res, j * res, res, res);
-
-                        CollisionInfo collisionInfo = Collision.AABBResolve(CollisionFrame, PreCollisionFrame, tileRect);
-
-                        if (collisionInfo.AABB == Bound.Top)
-                        {
-                            velocity.Y = 0;
-                            onGround = true;
-                        }
-                        if (collisionInfo.AABB == Bound.Bottom)
-                        {
-                            velocity.Y = 0;
-                        }
-                        if (collisionInfo.AABB == Bound.Left)
-                        {
-                            velocity.X = 0;
-                        }
-                        if (collisionInfo.AABB == Bound.Right)
-                        {
-                            velocity.X = 0;
-                        }
-                        isColliding = true;
-                        position += collisionInfo.d;
-                    }
-                }
-            }
-        }
-
-
         public bool Animate(int per, int noOfFrames, int frameHeight, int column = 0, bool repeat = true, int startingFrame = 0)
         {
             bool hasEnded = false;
-            if (frameY >= noOfFrames && repeat)
+            if (frameY >= noOfFrames)
             {
                 frameY = startingFrame;
             }
@@ -86,7 +47,6 @@ namespace Flipsider
                 velocity.Y = 0;
             }
         }
-
         public void UpdateInEditor()
         {
             OnUpdateInEditor();
