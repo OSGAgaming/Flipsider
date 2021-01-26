@@ -20,18 +20,42 @@ namespace Flipsider
         public int frameX;
         public int frameY;
         public bool inFrame => ParallaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParallaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
-
         private Vector2 ParallaxedIJ => new Vector2(i, j).AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-
         private int ParallaxedI => (int)ParallaxedIJ.X;
-
         private Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
 
         private Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
         public TileManager TM => Main.CurrentWorld.tileManager;
+        public override void UpdateInEditor()
+        {
+            if (world != null)
+            {
+                if (world.IsTileInBounds(i, j) && inFrame)
+                {
+                    InFrame = true;
+                }
+                else
+                {
+                    InFrame = false;
+                }
+            }
+        }
+        protected override void OnUpdate()
+        {
+            if (world != null)
+            {
+                if (world.IsTileInBounds(i, j) && inFrame)
+                {
+                    InFrame = true;
+                }
+                else
+                {
+                    InFrame = false;
+                }
+            }
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
-
             if (world != null)
             {
                 if (world.IsTileInBounds(i, j) && inFrame)
@@ -40,11 +64,6 @@ namespace Flipsider
                     {
                         spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
                     }
-                    InFrame = true;
-                }
-                else
-                {
-                    InFrame = false;
                 }
             }
         }
@@ -61,7 +80,6 @@ namespace Flipsider
         {
             width = 32;
             height = 32;
-            maxHeight = 32;
             this.type = type;
             this.frame = frame;
             frameX = frame.Location.X;
@@ -79,7 +97,6 @@ namespace Flipsider
         {
             width = 32;
             height = 32;
-            maxHeight = 32;
             this.type = type;
             this.frame = frame;
             frameX = frame.Location.X;

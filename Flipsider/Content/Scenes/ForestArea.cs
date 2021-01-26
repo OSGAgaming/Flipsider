@@ -62,7 +62,7 @@ namespace Flipsider.Scenes
             Main.Editor.Draw();
             ForestAreaParticles.Draw(spriteBatch);
             Main.renderer.RenderUI();
-            //  spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
+              //spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.DrawLightMap(Main.CurrentWorld);
         }
     }

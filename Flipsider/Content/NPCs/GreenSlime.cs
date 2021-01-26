@@ -12,8 +12,7 @@ namespace Flipsider
             maxLife = 100;
             width = 64;
             framewidth = width;
-            maxHeight = 52;
-            height = maxHeight;
+            height = 52;
             position = Main.player.position;
             texture = TextureCache.GreenSlime;
             hostile = true;

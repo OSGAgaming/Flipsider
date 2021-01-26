@@ -8,7 +8,7 @@
             {
                 foreach (Entity foo in Components.ToArray())
                 {
-                    // if (foo != null)
+                    if (foo != null)
                     foo.Update();
                 }
             }
@@ -16,8 +16,10 @@
             {
                 foreach (Entity foo in Components.ToArray())
                 {
-                    //    if (foo != null)
-                    //    foo.UpdateInEditor();
+                    if (foo != null)
+                    {
+                        foo.UpdateInEditor();
+                    }
                 }
             }
         }

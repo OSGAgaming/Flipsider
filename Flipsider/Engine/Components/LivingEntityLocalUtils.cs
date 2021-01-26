@@ -39,7 +39,7 @@ namespace Flipsider
         }
         public void Constraints()
         {
-            position.Y += MathHelper.Clamp(position.Y, -200, Utils.BOTTOM - maxHeight) - position.Y;
+            position.Y += MathHelper.Clamp(position.Y, -200, Utils.BOTTOM - height) - position.Y;
             position.X = MathHelper.Clamp(position.X, 0, 100000);
             if (Bottom >= Utils.BOTTOM)
             {
@@ -47,7 +47,7 @@ namespace Flipsider
                 velocity.Y = 0;
             }
         }
-        public void UpdateInEditor()
+        public override void UpdateInEditor()
         {
             OnUpdateInEditor();
             if (isDraggable && Layer == LayerHandler.CurrentLayer)

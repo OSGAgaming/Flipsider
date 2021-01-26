@@ -95,7 +95,6 @@ namespace Flipsider
         }
         public void SwitchLayers(int Layer1, int Layer2)
         {
-
             List<ILayeredComponent> L1 = new List<ILayeredComponent>();
             List<ILayeredComponent> L2 = new List<ILayeredComponent>();
             for (int i = 0; i < Layers[Layer1].Drawables.Count; i++)
@@ -107,9 +106,22 @@ namespace Flipsider
             {
                 Layers[Layer2].Drawables[i].Layer = Layer1;
                 L2.Add(Layers[Layer2].Drawables[i]);
+
+            }
+            for (int i = 0; i < Layers[Layer1].PrimitiveDrawables.Count; i++)
+            {
+                Layers[Layer1].PrimitiveDrawables[i].Layer = Layer2;
+                L1.Add(Layers[Layer1].PrimitiveDrawables[i]);
+            }
+            for (int i = 0; i < Layers[Layer2].PrimitiveDrawables.Count; i++)
+            {
+                Layers[Layer2].PrimitiveDrawables[i].Layer = Layer1;
+                L2.Add(Layers[Layer2].PrimitiveDrawables[i]);
             }
             Layers[Layer1].Drawables.Clear();
             Layers[Layer2].Drawables.Clear();
+            Layers[Layer1].PrimitiveDrawables.Clear();
+            Layers[Layer2].PrimitiveDrawables.Clear();
             for (int i = 0; i < L1.Count; i++)
             {
                 AppendMethodToLayer(L1[i]);

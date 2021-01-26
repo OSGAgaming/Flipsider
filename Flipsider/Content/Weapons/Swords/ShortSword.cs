@@ -31,9 +31,8 @@ namespace Flipsider.Weapons
             damage = 50;
             width = 20;
             hostile = false;
-            maxHeight = 20;
             framewidth = width;
-            height = maxHeight;
+            height = 20;
             texture = TextureCache.magicPixel;
             Collides = true;
             noGravity = true;

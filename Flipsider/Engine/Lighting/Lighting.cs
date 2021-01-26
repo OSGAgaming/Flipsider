@@ -83,7 +83,6 @@ namespace Flipsider
             //  Main.spriteBatch.Draw(TextureCache.magicPixel, intersection,new Rectangle(0,0,5,5), Color.White);
 
             Main.graphics.GraphicsDevice.SetRenderTarget(tileMap);
-
             for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
             {
                 Main.spriteBatch.End();
@@ -118,23 +117,10 @@ namespace Flipsider
                     }
                 }
             }
-
             Main.graphics.GraphicsDevice.SetRenderTarget(miscMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
-            for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
-            {
-                for (int i = 0; i < world.propManager.props.Count; i++)
-                {
-                    Prop? cprop = world.propManager.props[i];
-                    if (cprop.active && cprop.Layer == a)
-                        Main.spriteBatch.Draw(PropTypes[cprop.prop], cprop.Center, PropEntites[cprop.prop].alteredFrame, Color.White, 0f, PropEntites[cprop.prop].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
-                }
-            }
-            for (int k = 0; k < Main.entities.Count; k++)
-            {
-                Entity entity = Main.entities[k];
-                entity.Draw(Main.spriteBatch);
-            }
+            Main.CurrentWorld.layerHandler.DrawLayers(Main.spriteBatch);
+
             Main.graphics.GraphicsDevice.SetRenderTarget(waterMap);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
 

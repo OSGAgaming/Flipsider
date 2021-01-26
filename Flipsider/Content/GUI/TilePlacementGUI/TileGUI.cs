@@ -71,18 +71,18 @@ namespace Flipsider.GUI.TilePlacementGUI
             elements.Add(TGUIB);
         }
         private bool flag = true;
+        private bool flag2 = true;
         private bool mouseStateBuffer;
         private Vector2 pos1;
-
+        private Rectangle CopyRect;
+        private bool mouseStateBuffer2;
+        private Vector2 pos2;
         private Vector2 MouseSnap => Main.MouseScreen.ToVector2().Snap(32);
         protected override void OnUpdate()
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
                 HideExcept(chosen);
-            }
-            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-            {
                 if (Mouse.GetState().MiddleButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
                     flag = true;
@@ -101,9 +101,56 @@ namespace Flipsider.GUI.TilePlacementGUI
                     pos1 = Main.MouseScreen.ToVector2().Snap(32);
                     flag = false;
                 }
-                if (mouseStateBuffer)
+
+                if(Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.V))
                 {
-                    // DrawMethods.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
+                    if (Main.Editor.currentTileSet != null)
+                    {
+                        Vector2 P = Main.MouseScreen.ToVector2().Snap(32);
+                        Vector2 size = new Vector2(Main.Editor.currentTileSet.GetLength(0), Main.Editor.currentTileSet.GetLength(1));
+                        for (int i = (int)P.X / 32; i < P.X / 32 + size.X; i++)
+                        {
+                            for (int j = (int)P.Y / 32; j < P.Y / 32 + size.Y; j++)
+                            {
+                                Tile T = Main.Editor.currentTileSet[i - (int)P.X / 32, j - (int)P.Y / 32];
+                                if (T != null)
+                                {
+                                   Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, T.type, new Vector2(i, j), LayerHandler.CurrentLayer, new Rectangle(T.frameX, T.frameY,32,32));
+                                }
+                            }
+                        }
+                        Main.Editor.currentTileSet = null;
+                    }
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.C))
+                {
+                    flag2 = true;
+                    Main.Editor.currentTileSet = new Tile[CopyRect.Size.X, CopyRect.Size.Y];
+                    for (int i = CopyRect.Location.X; i < CopyRect.Right; i++)
+                    {
+                        for (int j = CopyRect.Location.Y; j < CopyRect.Bottom; j++)
+                        {
+                            Tile T = Main.CurrentWorld.tileManager.tiles[i, j];
+                            if (T != null)
+                            {
+                                Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32] = T;
+                                Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32].frameX = T.frameX;
+                                Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32].frameY = T.frameY;
+                            }
+                        }
+                    }
+                }
+                if (!Keyboard.GetState().IsKeyDown(Keys.Space) && mouseStateBuffer2 && !flag2)
+                {
+                    flag2 = true;
+                    Vector2 size = new Vector2((MouseSnap.X - pos2.X) + 4, (MouseSnap.Y - pos2.Y) + 4);
+                    CopyRect = new Rectangle((int)pos2.X / 32, (int)pos2.Y / 32, (int)size.X / 32, (int)size.Y / 32);
+                }
+                mouseStateBuffer2 = Keyboard.GetState().IsKeyDown(Keys.Space);
+                if (mouseStateBuffer2 && flag2)
+                {
+                    pos2 = Main.MouseScreen.ToVector2().Snap(32);
+                    flag2 = false;
                 }
             }
         }
@@ -111,13 +158,31 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
+                Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(32);
+
                 if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
                 {
-                    Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(32);
                     if (!flag)
                         Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White, 3);
                 }
-
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                {
+                    if (!flag2)
+                        Utils.DrawRectangle(pos2, (int)(MouseScreen.X - pos2.X) + 4, (int)(MouseScreen.Y - pos2.Y) + 4, Color.Green, 3);
+                }
+                if (Main.Editor.currentTileSet != null)
+                {
+                    for (int i = 0; i < Main.Editor.currentTileSet.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < Main.Editor.currentTileSet.GetLength(1); j++)
+                        {
+                            Tile tile = Main.Editor.currentTileSet[i, j];
+                            if(tile != null)
+                            Main.spriteBatch.Draw(Main.CurrentWorld.tileManager.tileDict[tile.type], MouseSnap + new Vector2(i*32,j*32), new Rectangle(tile.frameX,tile.frameY,32,32), Color.Green*0.4f);
+                        }
+                    }
+                }
+                Utils.DrawRectangle(new Rectangle((CopyRect.Location.ToVector2()*32).ToPoint(), (CopyRect.Size.ToVector2() * 32).ToPoint()), Color.Green * Time.SineTime(6f), 3);
             }
         }
         protected override void OnDraw()

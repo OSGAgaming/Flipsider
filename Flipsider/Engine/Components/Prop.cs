@@ -3,13 +3,14 @@ using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using System.Text;
 using static Flipsider.PropManager;
 
 namespace Flipsider
 {
     [Serializable]
-    public class Prop : ILayeredComponent
+    public class Prop : Entity
     {
         public int noOfFrames;
         public int animSpeed;
@@ -24,18 +25,6 @@ namespace Flipsider
         public bool isDragging = false;
         [NonSerialized]
         public Vector2 offsetFromMouseWhileDragging;
-        public Vector2 position
-        {
-            get
-            {
-                return new Vector2(positionX, positionY);
-            }
-            set
-            {
-                positionX = value.X;
-                positionY = value.Y;
-            }
-        }
         public void Dispose()
         {
             Main.CurrentWorld.layerHandler.Layers[Layer].Drawables.Remove(this);
@@ -43,23 +32,25 @@ namespace Flipsider
             active = false;
         }
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
-        public Vector2 Center => position + new Vector2(PropTypes[prop].Width / 2, PropTypes[prop].Height / 2);
         public Vector2 ParallaxedCenter => Center.AddParallaxAcrossX(-Main.layerHandler.Layers[Layer].parallax);
         public int frameX => PropEntites[prop].animSpeed == -1 ? 0 : (frameCounter / PropEntites[prop].animSpeed) % PropEntites[prop].noOfFrames;
         public Rectangle alteredFrame => new Rectangle(frameX * alteredWidth, 0, alteredWidth, PropTypes[prop].Height);
+
         public int interactRange;
+
         public TileInteraction? tileInteraction;
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (active)
             {
                 spriteBatch.Draw(PropTypes[prop], Center, alteredFrame, Color.White, 0f, alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
-        public int Layer { get; set; }
         public Prop(string prop, Vector2 pos, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0, int Layer = 0, bool Draggable = true)
         {
+            Active = true;
+            InFrame = true;
             this.noOfFrames = noOfFrames;
             this.animSpeed = animSpeed;
             propEncode = Encoding.UTF8.GetBytes(prop);
@@ -67,9 +58,12 @@ namespace Flipsider
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
             this.Layer = Layer;
-            this.draggable = Draggable;
+            draggable = Draggable;
             positionX = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
             positionY = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
+            position = new Vector2(positionX, positionY);
+            width = PropTypes[prop].Width;
+            height = PropTypes[prop].Height;
             Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
         }
         public Prop(string prop, Vector2 pos, int layer, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0)

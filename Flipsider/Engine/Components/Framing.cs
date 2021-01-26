@@ -10,7 +10,6 @@ namespace Flipsider
         {
             Vector2 Left = GetSlantLeft(world,i,j);
             Vector2 Right = GetSlantRight(world, i, j);
-            Debug.Write("Left: " + Right);
             if (Left != Vector2.Zero || Right != new Vector2(32,0))
             {
                 return new Polygon(

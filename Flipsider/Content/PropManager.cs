@@ -11,7 +11,7 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class PropManager : ILayeredComponent
+    public class PropManager
     {
         public List<Prop> props = new List<Prop>();
 
@@ -66,14 +66,6 @@ namespace Flipsider
             # endregion
         }
         public int Layer { get; set; }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            for (int i = 0; i < props.Count; i++)
-            {
-                props[i].frameCounter++;
-                spriteBatch.Draw(PropTypes[props[i].prop], props[i].Center, props[i].alteredFrame, Color.White, 0f, props[i].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
-            }
-        }
 
         public static Dictionary<string, Texture2D> PropTypes = new Dictionary<string, Texture2D>();
 

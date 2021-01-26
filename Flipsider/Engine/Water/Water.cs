@@ -10,7 +10,7 @@ using System;
 namespace Flipsider
 {
     [Serializable]
-    public class Water : IComponent, ILayeredComponent
+    public class Water : Entity
     {
         [NonSerialized]
         protected Primitive PrimitiveInstance;
@@ -38,7 +38,6 @@ namespace Flipsider
         public Color color = Color.LightBlue;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(RectangleF vertices) => _frame = vertices;
-        public int Layer { get; set; }
         public void Dispose()
         {
             Utils.layerHandler.Layers[Layer].PrimitiveDrawables.Remove(this);
@@ -67,7 +66,7 @@ namespace Flipsider
             Main.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
         }
-        public void Update()
+        protected override void OnUpdate()
         {
             foreach (Entity Entity in Main.CurrentWorld.entityManager.Components)
             {
@@ -120,7 +119,7 @@ namespace Flipsider
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             PrimitiveInstanceDamp.Draw(spriteBatch);
             PrimitiveInstance.Draw(spriteBatch);

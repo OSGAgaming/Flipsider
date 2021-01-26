@@ -8,6 +8,7 @@ namespace Flipsider
     [Serializable]
     public class World
     {
+        public Chunk[,]? Chunks;
         public LayerHandler layerHandler = new LayerHandler();
         public LevelInfo levelInfo => LevelInfo.Convert(this);
         public Tile[,] tiles => tileManager.tiles;

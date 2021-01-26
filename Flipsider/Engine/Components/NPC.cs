@@ -168,7 +168,7 @@ namespace Flipsider
         {
             PreDraw(spriteBatch);
             spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            Utils.DrawRectangle(position + new Vector2(0, maxHeight - height), width, height, Color.Green);
+            Utils.DrawRectangle(position, width, height, Color.Green);
         }
 
     }

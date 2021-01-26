@@ -36,7 +36,6 @@ namespace Flipsider
             inventory = new IStoreable[20];
             this.position = position;
             width = 30;
-            maxHeight = 60;
             height = 60;
             framewidth = 48;
             Collides = false;
@@ -88,16 +87,15 @@ namespace Flipsider
 
             if (Swapping) SwapWeapons(); //TODO: move this
         }
-        protected override void PreUpdate()
+        protected override void PreAI()
         {
             ResetVars();
         }
-        protected override void OnUpdate()
+        protected override void AI()
         {
             CoreUpdates();
-            PlayerInputs();
         }
-        protected override void PostUpdate()
+        protected override void PostAI()
         {
             PostUpdates();
             FindFrame();
@@ -136,6 +134,7 @@ namespace Flipsider
         {
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
+            InFrame = true;
 
             friction = 0.87f;
 

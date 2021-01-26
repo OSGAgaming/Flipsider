@@ -11,8 +11,11 @@ namespace Flipsider.Engine.Maths
     public partial class RigidBody : IEntityModifier
     {
         public Entity BindableEntity;
+
         public float Mass;
+
         public const float Gravity = 0.08f;
+
         public const float Inertia = 3f;
         public void Update(in Entity entity)
         {
@@ -31,7 +34,7 @@ namespace Flipsider.Engine.Maths
                     }
                     else
                     {
-                       // Entity.velocity.Y = 0;
+                       
                     }
                 }
            }

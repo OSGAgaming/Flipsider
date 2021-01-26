@@ -33,6 +33,7 @@ namespace Flipsider
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
+            new Chunk(0,0);
         }
         private void GetAllTypes()
         {

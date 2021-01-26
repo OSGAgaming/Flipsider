@@ -12,6 +12,7 @@ namespace Flipsider
         public bool IsActive { get; set; }
         public EditorUIState CurrentState;
         public int currentType;
+        public Tile[,]? currentTileSet;
         public Rectangle currentFrame;
         public string? CurrentProp;
         public string? CurrentSaveFile;

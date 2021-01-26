@@ -13,11 +13,9 @@ namespace Flipsider
         public bool InFrame { get; set; }
         private Vector2 ParallaxedIJ => position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
 
-        private int ParallaxedI => (int)ParallaxedIJ.X;
+        protected int ParallaxedI => (int)ParallaxedIJ.X;
 
-        private Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale);
 
-        private Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
         [NonSerialized]
         public Texture2D texture = TextureCache.magicPixel;
         public int Layer { get; set; }
@@ -27,11 +25,9 @@ namespace Flipsider
         [NonSerialized]
         public Vector2 oldPosition;
         public int height;
-        public int maxHeight;
         public int width;
-        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y + maxHeight - height, width, height);
-        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y + maxHeight - height, width, height);
-
+        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y - height, width, height);
+        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y - height, width, height);
         public Vector2 DeltaPos => position - oldPosition; 
         protected virtual void PreDraw(SpriteBatch spriteBatch) { }
         protected virtual void OnDraw(SpriteBatch spriteBatch) { }
@@ -43,6 +39,7 @@ namespace Flipsider
         [NonSerialized]
         protected readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
         public void AddModule(string name,IEntityModifier IEM) => UpdateModules.Add(name,IEM);
+        public virtual void UpdateInEditor() { ; }
         public Entity()
         {
             OnLoad();
@@ -56,8 +53,23 @@ namespace Flipsider
         {
             UpdateModules[name].Update(this);
         }
+        public Vector2 Center
+        {
+            get
+            {
+                return new Vector2(position.X + width * 0.5f, position.Y + height * 0.5f);
+            }
+            set
+            {
+                position = new Vector2(value.X - width * 0.5f, value.Y - height * 0.5f);
+            }
+        }
 
-        public virtual void Update()
+        public void UpdateChunk()
+        {
+            
+        }
+        public void Update()
         {
             oldPosition = position;
             PreUpdate();

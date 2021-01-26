@@ -144,6 +144,37 @@ namespace Flipsider
             }
             CanPlace = true;
         }
+        public void AddTile(World world, int type, Vector2 XY, int Layer,Rectangle frame)
+        {
+            if (CanPlace)
+            {
+                try
+                {
+                    if (world.IsTileActive((int)XY.X, (int)XY.Y))
+                    {
+                        tiles[(int)XY.X, (int)XY.Y].Kill();
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, frame, XY, Layer)
+                        {
+                            Active = true
+                        };
+                    }
+                    else
+                    {
+                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, frame, XY, Layer)
+                        {
+                            Active = true
+                        };
+                    }
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, (int)XY.X, (int)XY.Y);
+                    tiles[(int)XY.X, (int)XY.Y].AddModule("Collision", new Collideable(tiles[(int)XY.X, (int)XY.Y], true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                }
+                catch
+                {
+                    Debug.Write("Just put the cursor in your ass next time eh?");
+                }
+            }
+            CanPlace = true;
+        }
         public void RemoveTile(World world, int X, int Y)
         {
             if (Main.Editor.IsActive)

@@ -54,8 +54,8 @@ namespace Flipsider
         public bool isColliding;
         public float Bottom
         {
-            get => position.Y + maxHeight;
-            set => position.Y = value - maxHeight;
+            get => position.Y + height;
+            set => position.Y = value - height;
         }
         public float acceleration = 0.08f;
         public float gravity = 0.8f;
@@ -78,19 +78,22 @@ namespace Flipsider
             OnKill();
         }
         public bool isNPC;
-        public override void Update()
+        protected override void OnUpdate()
         {
             oldVelocity = velocity;
-            oldPosition = position;
             frameCounter++;
             ResetVars();
+            PreAI();
+            AI();
             ApplyForces();
             UpdateEntityModifier("Collision");
             Constraints();
-            PostUpdate();
-            PreAI();
-            AI();
             PostAI();
+            InFrame = ParallaxedI > 
+                Utils.SafeBoundX.X - 5 && position.Y > 
+                Utils.SafeBoundY.X - 5 && ParallaxedI < 
+                Utils.SafeBoundX.Y + 5 && position.Y < 
+                Utils.SafeBoundY.Y + 5;
             Wet = false;
             foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
             {
@@ -116,16 +119,6 @@ namespace Flipsider
 
         protected virtual void OnKill() { }
 
-        public Vector2 Center
-        {
-            get
-            {
-                return new Vector2(position.X + width * 0.5f, position.Y + height * 0.5f);
-            }
-            set
-            {
-                position = new Vector2(value.X - width * 0.5f, value.Y - height * 0.5f);
-            }
-        }
+
     }
 }
