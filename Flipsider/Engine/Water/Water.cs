@@ -44,31 +44,37 @@ namespace Flipsider
             PrimitiveInstance.Dispose();
             PrimitiveInstanceDamp.Dispose();
         }
-        public Water(RectangleF _frame)
+        protected override void OnLoad()
+        {
+
+        }
+        public Water(RectangleF _frame) : base()
         {
             SetFrame(_frame);
+            position = _frame.TL;
+            Layer = LayerHandler.CurrentLayer;
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
-            Layer = LayerHandler.CurrentLayer;
             Main.Primitives.AddComponent(PrimitiveInstance);
             Main.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
         }
-        public Water(RectangleF _frame, int Layer)
+        public Water(RectangleF _frame, int Layer) : base()
         {
             SetFrame(_frame);
+            position = _frame.TL;
+            this.Layer = Layer;
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
-            this.Layer = Layer;
             Main.Primitives.AddComponent(PrimitiveInstance);
             Main.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
         }
         protected override void OnUpdate()
         {
-            foreach (Entity Entity in Main.CurrentWorld.entityManager.Components)
+            foreach (Entity Entity in Chunk.Entities)
             {
                 if (Entity is LivingEntity)
                 {

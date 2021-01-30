@@ -8,17 +8,13 @@ namespace Flipsider
     [Serializable]
     public class World
     {
-        public Chunk[,]? Chunks;
         public LayerHandler layerHandler = new LayerHandler();
         public LevelInfo levelInfo => LevelInfo.Convert(this);
-        public Tile[,] tiles => tileManager.tiles;
         public int TileRes => TileManager.tileRes;
         public int MaxTilesX { get; private set; }
         public int MaxTilesY { get; private set; }
         [NonSerialized]
         public Player? MainPlayer;
-        [NonSerialized]
-        public EntityManager entityManager = new EntityManager();
         [NonSerialized]
         public TileManager tileManager;
         [NonSerialized]
@@ -27,22 +23,19 @@ namespace Flipsider
         public PropManager propManager = new PropManager();
         public bool IsTileActive(int i, int j)
         {
-            if (tiles[i, j] == null)
-                return false;
-            if (!tiles[i, j].Active)
-                if (!tiles[i, j].Active)
-                    return false;
+            if (tileManager.GetTile(i, j) == null || !tileManager.GetTile(i, j).Active)
+            return false;
             return true;
         }
         public void ClearWorld()
         {
-            for (int i = 0; i < tiles.GetLength(0); i++)
-            {
-                for (int j = 0; j < tiles.GetLength(1); j++)
-                {
-                    tileManager.RemoveTile(this, new Vector2(i, j));
-                }
-            }
+          //  for (int i = 0; i < tiles.GetLength(0); i++)
+         //   {
+           //     for (int j = 0; j < tiles.GetLength(1); j++)
+            //    {
+           //         tileManager.RemoveTile(this, new Vector2(i, j));
+           //     }
+          //  }
             for (int i = 0; i < propManager?.props.Count; i++)
             {
                 propManager.props[i].Dispose();
@@ -52,23 +45,20 @@ namespace Flipsider
                 WaterBodies.Components[i].Dispose();
             }
         }
-        public bool IsTileInBounds(int i, int j)
+        public bool IsActive(int i, int j)
         {
-            if (i >= 0 && j >= 0 && i < MaxTilesX && j < MaxTilesY && tiles[i, j] != null)
+            if (tileManager.GetTile(i, j) != null)
             {
-                if (tiles[i, j].Active && !tiles[i, j].wall)
+                if (tileManager.GetTile(i, j).Active)
                 {
-                    if (tiles[i, j].type != -1)
-                    {
-                        return true;
-                    }
+                   return true;
                 }
             }
             return false;
         }
         public void RetreiveLevelInfo(LevelInfo levelInfo)
         {
-            tileManager.tiles = levelInfo.tiles ?? tileManager.tiles;
+          //  tileManager.tiles = levelInfo.tiles ?? tileManager.tiles;
         }
         public void RetreiveLevelInfo(string FileName)
         {

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -12,9 +13,7 @@ namespace Flipsider
     {
         public bool InFrame { get; set; }
         private Vector2 ParallaxedIJ => position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-
         protected int ParallaxedI => (int)ParallaxedIJ.X;
-
 
         [NonSerialized]
         public Texture2D texture = TextureCache.magicPixel;
@@ -26,8 +25,12 @@ namespace Flipsider
         public Vector2 oldPosition;
         public int height;
         public int width;
-        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y - height, width, height);
-        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y - height, width, height);
+        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y, width, height);
+        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y, width, height);
+        public Point ChunkPosition => Main.CurrentWorld.tileManager.ToChunkCoords(position.ToPoint());
+        public Point OldChunkPosition => Main.CurrentWorld.tileManager.ToChunkCoords(oldPosition.ToPoint());
+        public Chunk Chunk => Main.CurrentWorld.tileManager.chunks[ChunkPosition.X, ChunkPosition.Y];
+        public Chunk OldChunk => Main.CurrentWorld.tileManager.chunks[OldChunkPosition.X, OldChunkPosition.Y];
         public Vector2 DeltaPos => position - oldPosition; 
         protected virtual void PreDraw(SpriteBatch spriteBatch) { }
         protected virtual void OnDraw(SpriteBatch spriteBatch) { }
@@ -37,15 +40,16 @@ namespace Flipsider
         protected virtual void PostUpdate() { }
         protected virtual void OnLoad() { }
         [NonSerialized]
-        protected readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
-        public void AddModule(string name,IEntityModifier IEM) => UpdateModules.Add(name,IEM);
-        public virtual void UpdateInEditor() { ; }
+        public readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
+        public void AddModule(string name, IEntityModifier IEM)
+        { if(!UpdateModules.ContainsKey(name)) UpdateModules.Add(name, IEM); }
+        public virtual void UpdateInEditor() {  }
         public Entity()
         {
             OnLoad();
             if (Main.CurrentWorld != null)
             {
-                Main.CurrentWorld.entityManager.AddComponent(this);
+                Chunk?.Entities.Add(this);
                 Main.AutoAppendToLayer(this);
             }
         }
@@ -65,9 +69,11 @@ namespace Flipsider
             }
         }
 
-        public void UpdateChunk()
+        public void TransferChunk(Chunk chunk1, Chunk chunk2)
         {
-            
+            if (!chunk2.Entities.Contains(this))
+                chunk2.Entities.Add(this);
+            chunk1.Entities.Remove(this);
         }
         public void Update()
         {
@@ -75,8 +81,16 @@ namespace Flipsider
             PreUpdate();
             OnUpdate();
             PostUpdate();
+            if (OldChunkPosition != ChunkPosition)
+            {
+                TransferChunk(OldChunk, Chunk);
+                OnChunkChange();
+            }
         }
+        protected virtual void OnChunkChange()
+        {
 
+        }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             PreDraw(spriteBatch);

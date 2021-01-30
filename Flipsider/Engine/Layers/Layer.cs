@@ -15,6 +15,7 @@ namespace Flipsider
         public int LayerDepth;
         public float parallax;
         public bool visible = true;
+
         public Layer(int ld, float paralax = 0)
         {
             LayerDepth = ld;
@@ -32,7 +33,7 @@ namespace Flipsider
             spriteBatch.Begin(transformMatrix: Main.mainCamera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
             if (visible)
             {
-                foreach (ILayeredComponent draw in Drawables)
+                foreach (ILayeredComponent draw in Drawables.ToArray())
                 {
                     if (draw is ILayeredComponentActive)
                     {

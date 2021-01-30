@@ -3,6 +3,7 @@ using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -17,34 +18,25 @@ namespace Flipsider
         public int j;
         [NonSerialized]
         public World world;
-        public int frameX;
-        public int frameY;
-        public bool inFrame => ParallaxedI > SafeBoundX.X - 5 && j > SafeBoundY.X - 5 && ParallaxedI < SafeBoundX.Y + 5 && j < SafeBoundY.Y + 5;
-        private Vector2 ParallaxedIJ => new Vector2(i, j).AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-        private int ParallaxedI => (int)ParallaxedIJ.X;
-        private Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale) / 32;
-
-        private Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale) / 32;
+        public bool inFrame => ParallaxedI > Utils.SafeBoundX.X - 100 && position.Y > Utils.SafeBoundY.X - 100 && ParallaxedI < Utils.SafeBoundX.Y + 100 && position.Y < Utils.SafeBoundY.Y + 100;
+        public bool Surrounded => Main.CurrentWorld.IsActive(i,j-1) && Main.CurrentWorld.IsActive(i, j + 1) && Main.CurrentWorld.IsActive(i - 1, j - 1) && Main.CurrentWorld.IsActive(i + 1, j);
         public TileManager TM => Main.CurrentWorld.tileManager;
+        bool Buffer1;
         public override void UpdateInEditor()
         {
-            if (world != null)
+            if (world != null && inFrame)
             {
-                if (world.IsTileInBounds(i, j) && inFrame)
+                if(!Surrounded && Buffer1)
                 {
-                    InFrame = true;
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
+                    AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
-                else
+                if (Surrounded && !Buffer1)
                 {
-                    InFrame = false;
+                    Chunk.Colliedables.RemoveThroughEntity(this);
                 }
-            }
-        }
-        protected override void OnUpdate()
-        {
-            if (world != null)
-            {
-                if (world.IsTileInBounds(i, j) && inFrame)
+                Buffer1 = Surrounded;
+                if (TM.GetTile(i, j) != null)
                 {
                     InFrame = true;
                 }
@@ -58,23 +50,19 @@ namespace Flipsider
         {
             if (world != null)
             {
-                if (world.IsTileInBounds(i, j) && inFrame)
-                {
-                    if (TM.tiles[i, j].type != -1)
-                    {
-                        spriteBatch.Draw(TM.tileDict[TM.tiles[i, j].type], new Rectangle(i * TileManager.tileRes, j * TileManager.tileRes, TileManager.tileRes, TileManager.tileRes), new Rectangle(new Point(frameX, frameY), new Point(32, 32)), Color.White);
-                    }
-                }
+             if (InFrame && Active)
+             {
+               spriteBatch.Draw(TM.tileDict[TM.GetTile(i, j).type], new Rectangle(i * 32, j * 32, 32, 32), frame, Color.White);
+             }
             }
         }
         public void Kill()
         {
             Active = false;
-            Main.CurrentWorld.entityManager.RemoveComponent(this);
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
-            Main.Colliedables.RemoveThroughEntity(this);
+            Chunk.Colliedables.RemoveThroughEntity(this);
             UpdateModules.Clear();
-            Main.Updateables.Remove(this);
+            Chunk.Entities.Remove(this);
         }
         public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false) : base()
         {
@@ -82,40 +70,20 @@ namespace Flipsider
             height = 32;
             this.type = type;
             this.frame = frame;
-            frameX = frame.Location.X;
-            frameY = frame.Location.Y;
-            Active = false;
+            Active = true;
             wall = ifWall;
             i = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
             j = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
+            position = new Vector2(i * 32, j * 32);
             world = Main.CurrentWorld;
-            i = ParallaxedI;
             Main.AutoAppendToLayer(this);
-            position = new Vector2(i * TileManager.tileRes, j * TileManager.tileRes);
-        }
-        public Tile(int type, Rectangle frame, Vector2 pos, int Layer, bool ifWall = false) : base()
-        {
-            width = 32;
-            height = 32;
-            this.type = type;
-            this.frame = frame;
-            frameX = frame.Location.X;
-            frameY = frame.Location.Y;
-            Active = false;
-            wall = ifWall;
-            i = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
-            j = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
-            world = Main.CurrentWorld;
-            i = ParallaxedI;
-            this.Layer = Layer;
-            Main.AppendToLayer(this);
-            position = new Vector2(i * TileManager.tileRes, j * TileManager.tileRes);
+            Chunk.Entities.Add(this);
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {
             this.type = type;
             this.frame = frame;
-            Active = false;
+            Active = true;
             wall = ifWall;
             world = Main.CurrentWorld;
         }

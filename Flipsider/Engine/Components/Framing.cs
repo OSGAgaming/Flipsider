@@ -26,8 +26,8 @@ namespace Flipsider
         {
             if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY)
             {
-                int ManhattanX = (world.tileManager.tiles[i, j].frame.X + 2) / 32;
-                int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
+                int ManhattanX = (world.tileManager.GetTile(i,j).frame.X + 2) / 32;
+                int ManhattanY = (world.tileManager.GetTile(i, j).frame.Y) / 32;
                 if (ManhattanX == 0 && ManhattanY == 7)
                 {
                     return new Vector2(0, 32);
@@ -52,8 +52,8 @@ namespace Flipsider
         {
             if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY)
             {
-                int ManhattanX = (world.tileManager.tiles[i, j].frame.X + 2) / 32;
-                int ManhattanY = world.tileManager.tiles[i, j].frame.Y / 32;
+                int ManhattanX = (world.tileManager.GetTile(i, j).frame.X + 2) / 32;
+                int ManhattanY = (world.tileManager.GetTile(i,j).frame.Y) / 32;
                 if (ManhattanX == 0 && ManhattanY == 7)
                 {
                     return new Vector2(32, 16);

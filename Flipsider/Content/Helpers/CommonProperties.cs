@@ -23,7 +23,6 @@ namespace Flipsider
         public static GraphicsDeviceManager graphics => renderer.graphics;
         public static Camera mainCamera => renderer.mainCamera;
         public static Lighting lighting => renderer.lighting;
-        public static List<Entity> entities => CurrentWorld.entityManager.Components;
         public static List<Water> WaterBodies => CurrentWorld.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
         public static float ScreenScale => renderer.mainCamera.scale;

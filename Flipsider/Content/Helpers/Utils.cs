@@ -12,6 +12,15 @@ namespace Flipsider
         public static readonly int BOTTOM = 3000;
         public static readonly int PrefferedWidth = 1980;
         public static readonly int PrefferedHeight = 1080;
+        public static void SaveCurrentWorldAs(string Name)
+        {
+            //SAME NAME WORLDS WILL OVERRIDE
+            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
+        }
+        public static void SaveCurrentWorldAsWithExtension(string Name)
+        {
+            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
+        }
         public static Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
         public static void AppendToLayer(ILayeredComponent ilc) => Main.CurrentWorld.layerHandler.AppendMethodToLayer(ilc);
@@ -25,7 +34,6 @@ namespace Flipsider
         public static GraphicsDeviceManager? graphics => Main.renderer.graphics;
         public static Camera? mainCamera => Main.renderer.mainCamera;
         public static Lighting? lighting => Main.renderer.lighting;
-        public static List<Entity> entities => Main.CurrentWorld.entityManager.Components;
         public static List<Water> WaterBodies => Main.CurrentWorld.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
         public static Vector2 ScreenSize => Main.graphics.GraphicsDevice == null ? Vector2.One : Main.renderer.PreferredSize;

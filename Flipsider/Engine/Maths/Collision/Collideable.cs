@@ -13,7 +13,7 @@ namespace Flipsider.Engine.Maths
         Triangle,
         ConvexPoly
     }
-    public partial class Collideable : IEntityModifier
+    public partial class Collideable : IEntityModifier,ILayeredComponent
     {
         public Polygon CustomPolyCollide = Polygon.Null;
         public Entity BindableEntity;
@@ -32,10 +32,9 @@ namespace Flipsider.Engine.Maths
 
         public void Update(in Entity entity)
         {
-          
             if (!entity.Active && HasBindableEntity)
             {
-                Main.Colliedables.collideables.Remove(this);
+                entity.Chunk.Colliedables.collideables.Remove(this);
             }
             if (!isStatic && entity is LivingEntity)
             {
@@ -43,7 +42,8 @@ namespace Flipsider.Engine.Maths
                 LivingEntity.onSlope = false;
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
-                foreach (Collideable collideable2 in Main.Colliedables.collideables)
+                var PlayerChunk = Main.player.Chunk;
+                foreach (Collideable collideable2 in PlayerChunk.Colliedables.collideables)
                 {
                     if (collideable2.BindableEntity.InFrame)
                     {
@@ -53,17 +53,27 @@ namespace Flipsider.Engine.Maths
                         }
                     }
                 }
-                foreach (Collideable collideable2 in Main.Colliedables.collideables)
+                foreach (Collideable collideable2 in PlayerChunk.Colliedables.collideables)
                 {
                     if (collideable2.BindableEntity.InFrame)
                     {
                         if (collideable2.PolyType == PolyType.Rectangle && PolyType == PolyType.Rectangle && !LivingEntity.onSlope)
                         {
+                           if (collideable2.r.Intersects(new Rectangle(r.Location - new Point(50, 50), r.Size + new Point(100, 100))))
                             RectVRect(this, collideable2);
                         }
                     }
                 }
             }
+        }
+        public void Dispose()
+        {
+            BindableEntity.Chunk.Colliedables.collideables.Remove(this);
+            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            collisionBox.Draw(spriteBatch);
         }
         public int Layer { get; set; }
         public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
@@ -73,7 +83,8 @@ namespace Flipsider.Engine.Maths
             BindableEntity = entity;
             this.isStatic = isStatic;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
-            Main.Colliedables.collideables.Add(this);
+            entity.Chunk.Colliedables.collideables.Add(this);
+            Main.AutoAppendToLayer(this);
         }
         public Collideable(Entity entity, bool isStatic,Polygon polygon, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
         {
@@ -83,7 +94,8 @@ namespace Flipsider.Engine.Maths
             this.isStatic = isStatic;
             CustomPolyCollide = polygon;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
-            Main.Colliedables.collideables.Add(this);
+            entity.Chunk.Colliedables.collideables.Add(this);
+            Main.AutoAppendToLayer(this);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Flipsider.GUI
                 if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
                     flag = true;
-                    Main.Colliedables.AddCustomHitBox(true,false,new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
+                    Main.player.Chunk.Colliedables.AddCustomHitBox(true,false,new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
                 if (mouseStateBuffer && flag)
@@ -51,15 +51,15 @@ namespace Flipsider.GUI
         {
             if (Main.Editor.CurrentState == EditorUIState.CollideablesEditorMode)
             {
-                for (int i = 0; i < Main.Colliedables.collideables.Count; i++)
+                var PlayerChunk = Main.player.Chunk;
+                for (int i = 0; i < PlayerChunk.Colliedables.collideables.Count; i++)
                 {
-                    if (Main.Colliedables.collideables[i].CustomHitBox.ToR().Contains(Main.MouseScreen))
+                    if (PlayerChunk.Colliedables.collideables[i].CustomHitBox.ToR().Contains(Main.MouseScreen))
                     {
-                        Utils.DrawRectangle(Main.Colliedables.collideables[i].CustomHitBox, Color.Red, 3);
+                        Utils.DrawRectangle(PlayerChunk.Colliedables.collideables[i].CustomHitBox, Color.Red, 3);
                         if (Mouse.GetState().RightButton == ButtonState.Pressed)
                         {
-                          //  Main.Colliedables.collideables[i];
-                            Main.Colliedables.collideables.RemoveAt(i);
+                            PlayerChunk.Colliedables.collideables.RemoveAt(i);
                         }
                     }
                 }

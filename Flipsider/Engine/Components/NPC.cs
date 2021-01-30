@@ -111,6 +111,7 @@ namespace Flipsider
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.position = position;
+            NPC.Chunk.Entities.Add(NPC);
         }
         protected override void PreAI()
         {
@@ -127,7 +128,7 @@ namespace Flipsider
             T NPC = new T
             {
                 Layer = LayerHandler.CurrentLayer
-            };
+            };                             
             Main.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;

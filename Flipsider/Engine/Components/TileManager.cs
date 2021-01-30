@@ -11,11 +11,17 @@ namespace Flipsider
         public const int tileRes = 32;
         public List<Tile> tileTypes = new List<Tile>();
         public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
-        public Tile[,] tiles;
-        public bool AutoFrame = true;
+        public Chunk[,] chunks;
         public TileManager(int width, int height)
         {
-            tiles = new Tile[width, height];
+            chunks = new Chunk[width/Chunk.width, height/ Chunk.height];
+            for(int i = 0; i<chunks.GetLength(0); i++)
+            {
+                for (int j = 0; j < chunks.GetLength(1); j++)
+                {
+                    chunks[i, j] = LoadChunk(new Point(i,j));
+                }
+            }
             LoadTileTypes();
         }
         public void AddTileType(int type, Texture2D atlas, bool ifWall = false)
@@ -24,224 +30,106 @@ namespace Flipsider
             tileDict.Add(type, atlas);
         }
 
-        public static void SaveCurrentWorldAs(string Name)
+
+        Chunk LoadChunk(Point pos)
         {
-            //SAME NAME WORLDS WILL OVERRIDE
-            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
+            chunks[pos.X, pos.Y] = new Chunk(pos);
+            return chunks[pos.X, pos.Y];
         }
-        public static void SaveCurrentWorldAsWithExtension(string Name)
+        Chunk GetChunk(Point pos)
         {
-            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
+            if(pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1))
+            return chunks?[pos.X, pos.Y] ?? LoadChunk(pos);
+
+            return LoadChunk(pos);
         }
-        //In the alpha phase, Im keeping this as a struct when we want to port to drawn tiles
-
-
-        public void AddTile(World world, int X, int Y)
+        Chunk GetChunkToTileCoords(Point pos)
         {
-
-            if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-            {
-                try
-                {
-                    tiles[X, Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, new Vector2(X, Y))
-                    {
-                        Active = true
-                    };
-
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
-                }
-            }
-
+            return GetChunk(TileCoordsToChunkCoords(pos)) ?? LoadChunk(TileCoordsToChunkCoords(pos));
+        }
+        public Point ToChunkCoords(Point pos)
+        {
+            return new Point(pos.X / (Chunk.width * 32), pos.Y / (Chunk.height * 32));
+        }
+        public Point TileCoordsToChunkCoords(Point pos)
+        {
+            return new Point(pos.X / Chunk.width, pos.Y / Chunk.height);
+        }
+        public Tile GetTile(Point pos)
+        {
+            var Chunk = GetChunk(TileCoordsToChunkCoords(pos));
+            return Chunk.tiles[pos.X % Chunk.width, pos.Y % Chunk.height];
+        }
+        public Tile GetTile(int i, int j)
+        {
+            Point pos = new Point(i, j);
+            var Chunk = GetChunk(TileCoordsToChunkCoords(pos));
+            return Chunk.tiles[pos.X % Chunk.width, pos.Y % Chunk.height];
+        }
+        public void AddTileToChunk(Tile tile, Point point)
+        {
+            Point pos = new Point(point.X % Chunk.width, point.Y % Chunk.height);
+            GetChunkToTileCoords(point).AddTile(tile, pos);
         }
         public static bool CanPlace;
-        public void AddTile(World world, int type, Vector2 XY)
+        public void AddTile(World world, Tile T)
         {
+            Point pos = new Point(T.i,T.j);
+
             if (CanPlace)
             {
-                try
-                {
-                    if (world.IsTileActive((int)XY.X, (int)XY.Y))
+                    if (world.IsTileActive(pos.X, pos.Y))
                     {
-                        tiles[(int)XY.X, (int)XY.Y].Kill();
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, new Vector2((int)XY.X, (int)XY.Y))
-                        {
-                            Active = true
-                        };
+                        GetTile(pos).Kill();
+                        AddTileToChunk(T, pos);
                     }
                     else
                     {
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY)
-                        {
-                            Active = true
-                        };
+                        AddTileToChunk(T, pos);
                     }
-                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, (int)XY.X, (int)XY.Y);
-                    tiles[(int)XY.X, (int)XY.Y].AddModule("Collision", new Collideable(tiles[(int)XY.X, (int)XY.Y], true, CollisionPoly, true,default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
-                }
             }
 
-            if (AutoFrame)
+            if (Main.Editor.AutoFrame)
             {
-                for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
-                    for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+                for (int i = pos.X - 1; i < pos.X + 2; i++)
+                    for (int j = pos.Y - 1; j < pos.Y + 2; j++)
                     {
-                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
+                        Point position = new Point(i, j);
+                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(position) != null)
                         {
-                            tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
-                            tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
+                            GetTile(position).frame = Framing.GetTileFrame(world, i, j);
                         }
                     }
             }
-            CanPlace = true;
-        }
-        public void AddTile(World world, int type, Vector2 XY, int Layer)
-        {
-            if (CanPlace)
+            if (GetTile(pos) != null)
             {
-                try
-                {
-                    if (world.IsTileActive((int)XY.X, (int)XY.Y))
-                    {
-                        tiles[(int)XY.X, (int)XY.Y].Kill();
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, Main.Editor.currentFrame, XY, Layer)
-                        {
-                            Active = true
-                        };
-                    }
-                    else
-                    {
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, Main.Editor.currentFrame, XY, Layer)
-                        {
-                            Active = true
-                        };
-                    }
-                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, (int)XY.X, (int)XY.Y);
-                    tiles[(int)XY.X, (int)XY.Y].AddModule("Collision",new Collideable(tiles[(int)XY.X, (int)XY.Y], true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
-                }
-            }
-            if (AutoFrame)
-            {
-                for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
-                    for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
-                    {
-                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
-                        {
-                            tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
-                            tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
-                        }
-                    }
+                Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, pos.X, pos.Y);
+                GetTile(pos).AddModule("Collision", new Collideable(GetTile(pos), true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
             }
             CanPlace = true;
         }
-        public void AddTile(World world, int type, Vector2 XY, int Layer,Rectangle frame)
-        {
-            if (CanPlace)
-            {
-                try
-                {
-                    if (world.IsTileActive((int)XY.X, (int)XY.Y))
-                    {
-                        tiles[(int)XY.X, (int)XY.Y].Kill();
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(Main.Editor.currentType, frame, XY, Layer)
-                        {
-                            Active = true
-                        };
-                    }
-                    else
-                    {
-                        tiles[(int)XY.X, (int)XY.Y] = new Tile(type, frame, XY, Layer)
-                        {
-                            Active = true
-                        };
-                    }
-                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, (int)XY.X, (int)XY.Y);
-                    tiles[(int)XY.X, (int)XY.Y].AddModule("Collision", new Collideable(tiles[(int)XY.X, (int)XY.Y], true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
-                }
-            }
-            CanPlace = true;
-        }
-        public void RemoveTile(World world, int X, int Y)
+     
+        public void RemoveTile(World world, Point pos)
         {
             if (Main.Editor.IsActive)
             {
-                try
-                {
-                    tiles[X, Y].Kill();
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
-                }
+               if (GetTile(pos) != null)
+                  GetTile(pos).Kill();
             }
-        }
-        public void RemoveTile(World world, Vector2 XY)
-        {
-            if (Main.Editor.IsActive)
+            if (Main.Editor.AutoFrame)
             {
-                try
-                {
-                    if (tiles[(int)XY.X, (int)XY.Y] != null)
-                        tiles[(int)XY.X, (int)XY.Y].Active = false;
-                }
-                catch
-                {
-                    Debug.Write("Just put the cursor in your ass next time eh?");
-                }
-            }
-            if (AutoFrame)
-            {
-                for (int i = (int)XY.X - 1; i < (int)XY.X + 2; i++)
-                    for (int j = (int)XY.Y - 1; j < (int)XY.Y + 2; j++)
+                for (int i = pos.X - 1; i < pos.X + 2; i++)
+                    for (int j = pos.Y - 1; j < pos.Y + 2; j++)
                     {
-                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && tiles[i, j] != null)
+                        Point point = new Point(i, j);
+                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(point) != null)
                         {
-                            tiles[i, j].frameX = Framing.GetTileFrame(world, i, j).Location.X;
-                            tiles[i, j].frameY = Framing.GetTileFrame(world, i, j).Location.Y;
+                            GetTile(point).frame = Framing.GetTileFrame(world, i, j);
                         }
                     }
             }
         }
 
         public static bool UselessCanPlaceBool;
-        public void ShowTileCursor(World world)
-        {
-            if (Main.Editor.IsActive)
-            {
-                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-                {
-                    int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
-                    Vector2 mousePos = Main.MouseScreen.ToVector2();
-                    Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
-                    float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                    Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
-                    Rectangle TileFrame = AutoFrame ? Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : Main.Editor.currentFrame;
-
-                    if (Main.Editor.currentType == -1)
-                    {
-                        Utils.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
-                    }
-                    else
-                    {
-                        if (tileDict[Main.Editor.currentType] != null)
-                            Main.spriteBatch.Draw(tileDict[Main.Editor.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
-                    }
-                }
-            }
-        }
     }
 }

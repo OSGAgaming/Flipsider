@@ -15,9 +15,9 @@ namespace Flipsider.Engine.Maths
         {
             for (int i = 0; i < collideables.Count; i++)
             {
-                if (entity.GetHashCode() == collideables[i].BindableEntity.GetHashCode())
+                if (entity == collideables[i].BindableEntity)
                 {
-                    collideables.RemoveAt(i);
+                    collideables[i].Dispose();
                 }
             }
         }

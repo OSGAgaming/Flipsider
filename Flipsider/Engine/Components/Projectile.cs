@@ -14,7 +14,7 @@ namespace Flipsider
         public bool isHittingEntity => EntityCollide();
         public bool EntityCollide()
         {
-            foreach (Entity entity in Main.entities)
+            foreach (Entity entity in Chunk.Entities)
             {
                 if (entity is NPC)
                 {

@@ -80,7 +80,7 @@ float4 SideFallOff(VertexShaderOutput input) : COLOR
 float4 DirLight(VertexShaderOutput input) : COLOR
 {
 	float2 coords = input.TextureCoordinates;
-	input.Color *= 1 - distance(float2(0,0.5f),coords);
+	input.Color *= 1 - distance(float2(0.5f,0.5f),coords);
 	return input.Color;
 }
 float4 WaterDamp(VertexShaderOutput input) : COLOR

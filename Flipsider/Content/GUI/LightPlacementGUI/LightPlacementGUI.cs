@@ -28,7 +28,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         private bool flag = true;
         private bool mouseStateBuffer;
         private Vector2 pos1;
-        private Vector2 pos1Inv;
         protected override void OnUpdate()
         {
             if (Main.Editor.CurrentState == EditorUIState.LightEditorMode)
@@ -43,29 +42,24 @@ namespace Flipsider.GUI.TilePlacementGUI
                 if (mouseStateBuffer && flag)
                 {
                     pos1 = Main.MouseScreen.ToVector2();
-                    pos1Inv = Mouse.GetState().Position.ToVector2();
                     flag = false;
                 }
-                if (mouseStateBuffer)
-                {
-                    // DrawMethods.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
-                }
+
             }
         }
-        protected override void OnDraw()
+        internal override void DrawToScreen()
         {
             if (Main.Editor.CurrentState == EditorUIState.LightEditorMode ||
                 Main.Editor.CurrentState == EditorUIState.TileEditorMode ||
                 Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
+                if (mouseStateBuffer)
+                {
+                    Utils.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
+                }
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed && Main.Editor.CurrentState == EditorUIState.LightEditorMode)
                 {
-                    Utils.DrawLine(pos1Inv, Mouse.GetState().Position.ToVector2(), Color.White, 2);
-                }
-                for (int i = 0; i < Main.lighting.directionalLightSources.Count; i++)
-                {
-                    float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 2);
-                    Utils.DrawLine(Main.lighting.directionalLightSources[i].position1.ToScreenInv(), Main.lighting.directionalLightSources[i].position2.ToScreenInv(), Color.White * 0.2f, sine + 1);
+                    Utils.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White, 2);
                 }
             }
         }

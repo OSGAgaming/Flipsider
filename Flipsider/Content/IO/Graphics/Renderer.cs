@@ -40,12 +40,13 @@ namespace Flipsider
         public void Load()
         {
             if (instance != null)
-                lighting = new Lighting(instance.Content, 1f);
+                lighting = new Lighting(instance.Content, 0.7f);
         }
         public void Draw()
         {
             graphics?.GraphicsDevice.Clear(Color.CornflowerBlue);
             graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
+            Main.graphics?.GraphicsDevice.Clear(Color.TransparentBlack);
             Render();
             graphics?.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
@@ -69,8 +70,7 @@ namespace Flipsider
             if (graphics != null)
             {
                 Rectangle frame = new Rectangle(0, 0, (int)ScreenSize.X, (int)ScreenSize.Y);
-                Rectangle destination = new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, (int)(ScreenSize.X / ScreenScale), (int)(ScreenSize.Y / ScreenScale));
-                spriteBatch.Draw(renderTarget, destination, frame, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+                spriteBatch.Draw(renderTarget, Main.mainCamera.CamPos, frame, Color.White, 0f, Vector2.Zero,new Vector2(1/ScreenScale, 1/ScreenScale), SpriteEffects.None, 0f);
             }
         }
         public void Render()
@@ -80,21 +80,12 @@ namespace Flipsider
             Main.instance.sceneManager.Draw(spriteBatch);
             spriteBatch.End();
         }
-        public void RenderEntities()
-        {
-            for (int k = 0; k < Main.entities.Count; k++)
-            {
-                Entity entity = Main.entities[k];
-                if (entity is LivingEntity)
-                entity.Draw(spriteBatch);
-                //entity.DrawConstant(spriteBatch);
-            }
-        }
 
         public void RenderUI()
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, Vector2.One * 10, Color.Aqua);
             for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {
                 UIScreenManager.Instance.Components[i].active = true;

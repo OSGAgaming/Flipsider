@@ -73,7 +73,6 @@ namespace Flipsider
         public void Kill()
         {
             active = false;
-            Main.CurrentWorld.entityManager.RemoveComponent(this);
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
             OnKill();
         }

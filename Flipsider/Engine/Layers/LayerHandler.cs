@@ -1,4 +1,5 @@
 using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -35,11 +36,13 @@ namespace Flipsider
         public LayerHandler()
         {
             AddLayer();
+            RTGaming = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
         }
         [NonSerialized]
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
         public static int[] LayerCache = { 1, 1 };
+        public RenderTarget2D RTGaming;
         public int PlayerLayer => Main.player.Layer;
         internal LayerManagerInfo Info
         {
@@ -56,13 +59,19 @@ namespace Flipsider
         public LayerManagerInfo InfoCache;
         public void DrawLayers(SpriteBatch spriteBatch)
         {
+
             InfoCache = Info;
+            Main.graphics.GraphicsDevice.SetRenderTarget(RTGaming);
+            Main.graphics.GraphicsDevice.Clear(Color.TransparentBlack);
             spriteBatch.End();
             foreach (Layer layer in Layers)
             {
                 layer.Draw(spriteBatch);
             }
+            Main.graphics.GraphicsDevice.SetRenderTarget(Main.renderer.renderTarget);
+            Main.graphics.GraphicsDevice.Clear(Color.TransparentBlack);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+
         }
         public void AppendMethodToLayer(ILayeredComponent Method)
         =>

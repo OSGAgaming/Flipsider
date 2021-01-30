@@ -6,7 +6,7 @@ namespace Flipsider
     public class DirectionalLight : LightSource
     {
         private float angularCoverage;
-        private int Accuracy => 100;
+        private int Accuracy => 10;
         public Vector2[] points;
         public DirectionalLight(float str, Vector2 pos, Color col, float angularCoverage, float rotation) : base(str, pos, col)
         {

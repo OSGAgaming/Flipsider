@@ -82,6 +82,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
+
                 HideExcept(chosen);
                 if (Mouse.GetState().MiddleButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {
@@ -91,7 +92,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         for (int j = (int)pos1.Y / 32; j < pos1.Y / 32 + size.Y/32 - 1; j++)
                         {
-                            Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld,Main.Editor.currentType,new Vector2(i,j));
+                            Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld,new Tile(Main.Editor.currentType,Main.Editor.currentFrame, new Vector2(i, j)));
                         }
                     }
                 }
@@ -115,7 +116,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                                 Tile T = Main.Editor.currentTileSet[i - (int)P.X / 32, j - (int)P.Y / 32];
                                 if (T != null)
                                 {
-                                   Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, T.type, new Vector2(i, j), LayerHandler.CurrentLayer, new Rectangle(T.frameX, T.frameY,32,32));
+                                    Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, new Tile(T.type, T.frame, new Vector2(i, j)));
                                 }
                             }
                         }
@@ -130,12 +131,10 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         for (int j = CopyRect.Location.Y; j < CopyRect.Bottom; j++)
                         {
-                            Tile T = Main.CurrentWorld.tileManager.tiles[i, j];
+                            Tile T = Main.CurrentWorld.tileManager.GetTile(i,j);
                             if (T != null)
                             {
                                 Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32] = T;
-                                Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32].frameX = T.frameX;
-                                Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32].frameY = T.frameY;
                             }
                         }
                     }
@@ -158,6 +157,28 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
+                if (CanPlace)
+                {
+                    var world = Main.CurrentWorld;
+                    var tileDict = Main.tileManager.tileDict;
+                    int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
+                    Vector2 mousePos = Main.MouseScreen.ToVector2();
+                    Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
+                    float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
+                    Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
+                    Rectangle TileFrame = Main.Editor.AutoFrame ? Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : Main.Editor.currentFrame;
+
+                    if (Main.Editor.currentType == -1)
+                    {
+                        Utils.DrawSquare(tilePoint - offsetSnap, modifiedRes, Color.White * Math.Abs(sine));
+                    }
+                    else
+                    {
+                        if (tileDict[Main.Editor.currentType] != null)
+                            Main.spriteBatch.Draw(tileDict[Main.Editor.currentType], tilePoint + new Vector2(tileRes / 2, tileRes / 2), TileFrame, Color.White * Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                    }
+                }
+                CanPlace = true;
                 Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(32);
 
                 if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
@@ -178,7 +199,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                         {
                             Tile tile = Main.Editor.currentTileSet[i, j];
                             if(tile != null)
-                            Main.spriteBatch.Draw(Main.CurrentWorld.tileManager.tileDict[tile.type], MouseSnap + new Vector2(i*32,j*32), new Rectangle(tile.frameX,tile.frameY,32,32), Color.Green*0.4f);
+                            Main.spriteBatch.Draw(Main.CurrentWorld.tileManager.tileDict[tile.type], MouseSnap + new Vector2(i*32,j*32), tile.frame, Color.Green*0.4f);
                         }
                     }
                 }
@@ -211,12 +232,12 @@ namespace Flipsider.GUI.TilePlacementGUI
             this.Text = Text;
         }
 
-        private bool AutoFrame => Main.tileManager.AutoFrame;
+        private bool AutoFrame => Main.Editor.AutoFrame;
         protected override void OnLeftClick()
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
-                Main.tileManager.AutoFrame = !Main.tileManager.AutoFrame;
+                Main.Editor.AutoFrame = !Main.Editor.AutoFrame;
             }
         }
         protected override void OnUpdate()
@@ -239,9 +260,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class TilePanel : UIElement
     {
         private readonly int widthOfPanel = 128 / 2;
-        private readonly int heightOfPanel = 272 / 2;
         private readonly int paddingX = 5;
-        private readonly int paddingY = 20;
         public Tile tile = new Tile(0, Rectangle.Empty);
         private float lerpage = 0;
         public Rectangle startingDimensions;
@@ -267,7 +286,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 spriteBatch.Draw(TextureCache.TileGUIPanels, panelDims, Color.White * alpha);
                 spriteBatch.Draw(Main.tileManager.tileDict[tile.type], dimensions, Color.White * alpha);
-                Rectangle chooseArea = new Rectangle(goToPoint, startingDimensions.Y, (int)sizeOfAtlas.X, (int)sizeOfAtlas.Y);
+                Rectangle chooseArea = dimensions;
                 MouseState mousestate = Mouse.GetState();
                 int DimTileRes = tileRes / 2;
                 if (chooseArea.Contains(mousestate.Position))

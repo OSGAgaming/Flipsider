@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 #nullable enable
 // TODO fix this..
@@ -30,14 +31,15 @@ namespace Flipsider
         public bool usingWeapon => (leftWeapon != null ? leftWeapon.active : false) || (rightWeapon != null ? rightWeapon.active : false);
         public IStoreable[] inventory;
         public int inventorySize => 20;
-        public Player(Vector2 position)
+        public Player(Vector2 position) : base()
         {
-
             inventory = new IStoreable[20];
             this.position = position;
+            Chunk.Entities.Add(this);
             width = 30;
             height = 60;
             framewidth = 48;
+            Active = true;
             Collides = false;
         }
 
@@ -232,7 +234,7 @@ namespace Flipsider
                     else
                     {
                         float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                        int velFunc = Math.Max((int)(Math.Round(5 / Math.Abs(vel))),3);
+                        int velFunc = Math.Max((int)(Math.Round(4 / Math.Abs(vel))),3);
                         Animate(velFunc, 8, 48, 1);
                     }
                 }

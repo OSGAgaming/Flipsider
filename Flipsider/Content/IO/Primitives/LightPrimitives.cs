@@ -21,12 +21,12 @@ namespace Flipsider
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            Color colour = light.colour;
+            Color colour = light.colour*3;
             for (int i = 0; i < _points.Count - 1; i++)
             {
-                AddVertex(new Vector2(light.position.X, light.position.Y), colour, new Vector2(0, 0.5f));
-                AddVertex(light.points[i], colour, new Vector2((light.points[i] - light.position).Length() / light.strength, i / (float)(_points.Count)));
-                AddVertex(light.points[i + 1], colour, new Vector2((light.points[i + 1] - light.position).Length() / light.strength, i / (float)(_points.Count)));
+                AddVertex(new Vector2(light.position.X, light.position.Y), colour, new Vector2(0.5f, 0.5f));
+                AddVertex(light.points[i], colour, (light.points[i] - light.position)/300f + Vector2.One/2);
+                AddVertex(light.points[i + 1], colour, (light.points[i + 1] - light.position) / 300f + Vector2.One / 2);
             }
         }
         public override void SetShaders()

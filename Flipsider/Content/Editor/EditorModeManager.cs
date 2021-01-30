@@ -17,6 +17,7 @@ namespace Flipsider
         public string? CurrentProp;
         public string? CurrentSaveFile;
         public static EditorMode Instance;
+        public bool AutoFrame = true;
         static EditorMode()
         {
             Instance = new EditorMode();
@@ -58,7 +59,7 @@ namespace Flipsider
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
                 if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-                    Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, Main.Editor.currentType, Main.MouseTile);
+                    Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld,new Tile(currentType,currentFrame, Main.MouseTile));
             }
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed())
             {
@@ -71,7 +72,7 @@ namespace Flipsider
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
-                Main.CurrentWorld.tileManager.RemoveTile(Main.CurrentWorld, Main.MouseTile);
+                Main.CurrentWorld.tileManager.RemoveTile(Main.CurrentWorld, Main.MouseTile.ToPoint());
             }
             if (GameInput.Instance["EditorSwitchModes"].IsJustPressed())
             {
@@ -112,7 +113,7 @@ namespace Flipsider
                     SwitchToMode(EditorUIState.CollideablesEditorMode);
                 }
                 float scrollSpeed = 0.02f;
-                float camMoveSpeed = 0.2f;
+                float camMoveSpeed = 5f;
                 if (GameInput.Instance["EditorZoomIn"].IsDown())
                 {
                     Main.mainCamera.targetScale += scrollSpeed;

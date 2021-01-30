@@ -51,7 +51,7 @@ float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
   float tile = tileColor.r > 0 ? 1 : 0;
   float2 japanese = float2(coords.x + cos(Time/60) + GetHeight(coords / 2), coords.y / 4 + sin(Time / 60) - GetHeight(coords / 2));
   float4 color = tex2D(s0, coords + tileColor.b * float2(GetHeight(japanese)/700,GetHeight(japanese)/700));
-  return (color * baseLight) + (tileColor.g * (tileColor.b + tileColor.r + miscColor.r + miscColor.b));
+  return (color * baseLight) + (lightColor * (tileColor.b + tileColor.r + miscColor.r + miscColor.b + max(1- baseLight,0)*0.1f));
 }
 technique Technique1
 {

@@ -24,7 +24,7 @@ namespace Flipsider
         public static World CurrentWorld;
         public static PrimTrailManager Primitives;
         private PropInteraction PI;
-        public static CollideableHanlder Colliedables;
+        public FPS fps = new FPS();
         public static Serializers serializers = new Serializers();
         public Main()
         {
@@ -33,7 +33,6 @@ namespace Flipsider
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
-            new Chunk(0,0);
         }
         private void GetAllTypes()
         {
@@ -72,10 +71,10 @@ namespace Flipsider
         protected override void LoadContent()
         {
             renderer.Load();
-            Colliedables = new CollideableHanlder();
             CurrentWorld = new World(200, 200);
             PI = new PropInteraction(CurrentWorld.propManager);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
+            new Bloom(player, TextureCache.player, 2f);
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
             #endregion
@@ -96,6 +95,7 @@ namespace Flipsider
         public static List<IUpdate> UpdateablesOffScreen = new List<IUpdate>();
         protected override void Update(GameTime gameTime)
         {
+            instance.fps.Update(gameTime);
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
             sceneManager.Update();

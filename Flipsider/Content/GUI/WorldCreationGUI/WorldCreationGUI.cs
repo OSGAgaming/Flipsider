@@ -183,7 +183,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 dimensions.X += (int)(Main.ActualScreenSize.X - 150 - dimensions.X) / 16;
                 if (keyboard.IsKeyDown(Keys.Enter) && inputText != "")
                 {
-                    SaveCurrentWorldAs(inputText);
+                    Utils.SaveCurrentWorldAs(inputText);
                     inputText = "";
                 }
                 else
@@ -280,7 +280,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     i++;
                 }
-                SaveCurrentWorldAsWithExtension(Main.Editor.CurrentSaveFile ?? "FlipWorld" + i + ".flip");
+                Utils.SaveCurrentWorldAsWithExtension(Main.Editor.CurrentSaveFile ?? "FlipWorld" + i + ".flip");
             }
         }
     }

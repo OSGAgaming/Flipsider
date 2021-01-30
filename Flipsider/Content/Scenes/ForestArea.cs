@@ -1,6 +1,7 @@
 ﻿
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Flipsider.Engine.Maths;
 using Flipsider.Engine.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,21 +50,27 @@ namespace Flipsider.Scenes
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 50);
+            Main.CurrentWorld.layerHandler.DrawLayers(spriteBatch);
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.skybox, -0.9f, 0.8f, offset);
             Utils.RenderBGMoving(spriteBatch, 6f, Color.White, TextureCache.SkyboxFront, -0.9f, 0.8f, offset + new Vector2(0, -400));
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.6f, 0.7f, offset + new Vector2(0, 100));
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.7f, offset);
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.7f, offset);
-            Main.renderer.RenderEntities();
-            Main.CurrentWorld.layerHandler.DrawLayers(spriteBatch);
+            Main.renderer.PrintRenderTarget(Main.layerHandler.RTGaming);
             NPC.DTH.Draw(spriteBatch);
-            Main.CurrentWorld.tileManager.ShowTileCursor(Main.CurrentWorld);
             PropManager.ShowPropCursor();
             Main.Editor.Draw();
             ForestAreaParticles.Draw(spriteBatch);
+            for (int i = 0; i < Main.CurrentWorld.tileManager.chunks.GetLength(0); i++)
+            {
+                for (int j = 0; j < Main.CurrentWorld.tileManager.chunks.GetLength(1); j++)
+                {
+                    Utils.DrawRectangle(new RectangleF(i * Chunk.width * 32, j * Chunk.height * 32, Chunk.width * 32, Chunk.height * 32), Color.Purple, 6);
+                }
+            }
             Main.renderer.RenderUI();
               //spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
-            Main.renderer?.lighting?.DrawLightMap(Main.CurrentWorld);
+            Main.renderer?.lighting?.Invoke();
         }
     }
 }
