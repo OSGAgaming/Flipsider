@@ -233,7 +233,7 @@ namespace Flipsider
                     }
                     else
                     {
-                        float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
+                        float vel = MathHelper.Clamp(Math.Abs(velocity.X * Time.DeltaVar(60)), 1, 20);
                         int velFunc = Math.Max((int)(Math.Round(4 / Math.Abs(vel))),3);
                         Animate(velFunc, 8, 48, 1);
                     }
