@@ -20,7 +20,20 @@ namespace Flipsider.Engine.Particles
             particles[index].Center = _pos;
         }
     }
+    public class SetLightIntensity : IParticleModifier
+    {
+        private float intensity;
 
+        public SetLightIntensity(float intensity)
+        {
+            this.intensity = intensity;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].LightIntensity = intensity;
+        }
+    }
     public class ModifyPosition : IParticleModifier
     {
         private Vector2 _amount;

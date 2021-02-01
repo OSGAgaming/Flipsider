@@ -13,7 +13,6 @@ namespace Flipsider.Engine.Maths
         Left,
         Right
     }
-
     public struct CollisionInfo
     {
         public Bound AABB;

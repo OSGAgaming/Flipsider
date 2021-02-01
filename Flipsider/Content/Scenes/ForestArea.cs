@@ -14,6 +14,7 @@ namespace Flipsider.Scenes
         public ForestArea()
         {
             ForestAreaParticles = new ParticleSystem(200);
+            Main.lighting.lightSources.AddComponent(new ParticleLight(ForestAreaParticles));
         }
 
         public override void Update()
@@ -44,6 +45,7 @@ namespace Flipsider.Scenes
             ForestAreaParticles.SpawnModules.Add(new SetColorBetweenTwoColours(Color.White, Color.Lime, Main.rand));
             ForestAreaParticles.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -100f));
             ForestAreaParticles.SpawnModules.Add(new SetLifetime(10f));
+            ForestAreaParticles.SpawnModules.Add(new SetLightIntensity(0.2f));
             ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
             ForestAreaParticles.UpdateModules.Add(new TurnRand(-.5f, .5f));
         }
@@ -69,7 +71,7 @@ namespace Flipsider.Scenes
                 }
             }
             Main.renderer.RenderUI();
-              //spriteBatch.Draw(Main.renderer?.lighting?.tileMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
+              spriteBatch.Draw(Main.renderer?.lighting?.lightMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.Invoke();
         }
     }

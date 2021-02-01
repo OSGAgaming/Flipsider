@@ -17,6 +17,7 @@ namespace Flipsider.Engine.Particles
         public Texture2D Texture;
         public float Lifetime;
         public float Age;
+        public float LightIntensity;
     }
 
     public interface IParticleModifier
@@ -32,7 +33,7 @@ namespace Flipsider.Engine.Particles
     public class ParticleSystem : IUpdate
     {
         private float _spawnTimer;
-        private readonly Particle[] _particles;
+        internal readonly Particle[] _particles;
 
         public bool SpawningEnabled { get; set; }
         public float SpawnRate { get; set; }

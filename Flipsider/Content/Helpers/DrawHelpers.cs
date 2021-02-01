@@ -13,20 +13,31 @@ namespace Flipsider
         => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         public static void QuickApplyShader(Effect effect)
         => effect?.CurrentTechnique.Passes[0].Apply();
+        public static void QuickApplyShader(Effect effect, params float[] yo)
+        {
+            effect?.CurrentTechnique.Passes[0].Apply();
+            for (int i = 0; i < yo.Length; i++)
+            {
+                effect?.Parameters[i]?.SetValue(yo[i]);
+            }
+        }
+        public static void ApplyBloom(BloomSettings BS)
+        {
+            Lighting.Bloom?.Parameters["NoOfFramesX"].SetValue(BS.NoOfFramesX);
+            Lighting.Bloom?.Parameters["NoOfFramesY"].SetValue(BS.NoOfFramesY);
+            Lighting.Bloom?.Parameters["FrameX"].SetValue(BS.FrameX);
+            Lighting.Bloom?.Parameters["FrameY"].SetValue(BS.FrameY);
+            Lighting.Bloom?.Parameters["BloomIntensity"].SetValue(BS.Intensity);
+            Lighting.Bloom?.Parameters["BloomSaturation"].SetValue(BS.Saturation);
+            Lighting.Bloom?.Parameters["Offsets"].SetValue(BS.Offsets);
+            Lighting.Bloom?.Parameters["Weights"].SetValue(BS.Weights);
+            Lighting.Bloom?.CurrentTechnique.Passes[0].Apply();
+        }
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);
         public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
         public static void DrawBoxFill(Rectangle rectangle, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, rectangle.Location.ToVector2(), new Rectangle(0, 0, rectangle.Width, rectangle.Height), tint);
         public static void DrawLine(Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
         {
-            /*
-            float Dist = Vector2.Distance(p1, p2);
-            for (float j = 0; j < 1; j += 1 / Dist)
-            {
-                Vector2 Lerped = p1 + j * (p2 - p1);
-                DrawPixel(Lerped, tint);
-            }
-            */
-
             Vector2 between = p2 - p1;
             float length = between.Length();
             float rotation = (float)Math.Atan2(between.Y, between.X);

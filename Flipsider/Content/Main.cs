@@ -74,7 +74,8 @@ namespace Flipsider
             CurrentWorld = new World(200, 200);
             PI = new PropInteraction(CurrentWorld.propManager);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
-            new Bloom(player, TextureCache.player, 2f);
+            new EntityBloom(player, player.texture, 2.1f);
+        //    lighting.AddLight(player, player.texture, 4f);
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
             #endregion

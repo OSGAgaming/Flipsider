@@ -40,6 +40,7 @@ namespace Flipsider
         public void LoadMap(out RenderTarget2D renderTarget) => renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
         public void AddLight(float str, Vector2 p, Color col, float ang) => lightSources.AddComponent(new DirectionalLight(str, p, col, ang, 0));
         public void AddLight(float str, Vector2 p, Color col, float ang, float rotation) => lightSources.AddComponent(new DirectionalLight(str, p, col, ang, rotation));
+        public void AddLight(LivingEntity entity, Texture2D BloomMap, float str, Vector2 pos = default, Color col = default) => lightSources.AddComponent(new EntityBloom(entity, BloomMap, str,pos,col));
         public void ApplyShader()
         {
             LightingEffect?.Parameters["lightMask"]?.SetValue(lightMap);
