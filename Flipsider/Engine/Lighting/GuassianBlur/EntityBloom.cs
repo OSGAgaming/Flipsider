@@ -58,7 +58,7 @@ namespace Flipsider
                 spriteBatch.End();
                 Utils.BeginCameraSpritebatch();
                 Utils.ApplyBloom(new BloomSettings(NoOfFramesX, NoOfFramesY,FrameX,FrameY,2f,1.2f));
-                spriteBatch.Draw(BindableEntity.texture, BindableEntity.Center - new Vector2(0,18), tex.Bounds, Color.White, 0f, tex.TextureCenter(), new Vector2(2/NoOfFramesX, 2/NoOfFramesY), BindableEntity.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(tex, BindableEntity.Center - new Vector2(0,18), tex.Bounds, Color.White, 0f, tex.TextureCenter(), new Vector2(2/NoOfFramesX, 2/NoOfFramesY), BindableEntity.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.End();
                 Utils.BeginCameraSpritebatch();
             }
