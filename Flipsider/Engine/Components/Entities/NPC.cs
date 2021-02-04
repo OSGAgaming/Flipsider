@@ -166,7 +166,6 @@ namespace Flipsider
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Debug.Write("NPCProj ");
             PreDraw(spriteBatch);
             spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             Utils.DrawRectangle(position, width, height, Color.Green);

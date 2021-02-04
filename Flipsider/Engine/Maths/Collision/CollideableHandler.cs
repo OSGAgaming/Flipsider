@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Flipsider.Engine.Maths
 {
     public class CollideableHanlder
     {
-        private static readonly int G = 0;
         public HashSet<Collideable> collideables = new HashSet<Collideable>();
         public void RemoveThroughEntity(Entity entity)
         {
@@ -12,8 +12,9 @@ namespace Flipsider.Engine.Maths
             collideables.CopyTo(Buffer);
             foreach (Collideable Collideable in Buffer)
             {
-                if (entity == Collideable.BindableEntity)
+                if (entity.Equals(Collideable.BindableEntity))
                 {
+                    Debug.Write("Mom");
                     Collideable.Dispose();
                 }
             }
