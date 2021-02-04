@@ -12,9 +12,7 @@ namespace Flipsider
     public abstract class Entity : IComponent, ILayeredComponentActive
     {
         public bool InFrame { get; set; }
-        private Vector2 ParallaxedIJ => position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-        protected int ParallaxedI => (int)ParallaxedIJ.X;
-
+        public Vector2 ParallaxPosition => position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
         [NonSerialized]
         public Texture2D texture = TextureCache.magicPixel;
         public int Layer { get; set; }
@@ -47,6 +45,7 @@ namespace Flipsider
         public Entity()
         {
             OnLoad();
+            Active = true;
             if (Main.CurrentWorld != null)
             {
                 Chunk?.Entities.Add(this);
@@ -55,6 +54,7 @@ namespace Flipsider
         }
         protected void UpdateEntityModifier(string name)
         {
+            if(UpdateModules.ContainsKey(name))
             UpdateModules[name].Update(this);
         }
         public Vector2 Center
@@ -77,15 +77,16 @@ namespace Flipsider
         }
         public void Update()
         {
-            oldPosition = position;
-            PreUpdate();
-            OnUpdate();
-            PostUpdate();
             if (OldChunkPosition != ChunkPosition)
             {
                 TransferChunk(OldChunk, Chunk);
                 OnChunkChange();
             }
+            oldPosition = position;
+            PreUpdate();
+            OnUpdate();
+            PostUpdate();
+
         }
         protected virtual void OnChunkChange()
         {

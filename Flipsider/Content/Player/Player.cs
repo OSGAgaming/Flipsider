@@ -35,12 +35,12 @@ namespace Flipsider
         {
             inventory = new IStoreable[20];
             this.position = position;
-            Chunk.Entities.Add(this);
             width = 30;
             height = 60;
             framewidth = 48;
-            Active = true;
-            Collides = false;
+            noGravity = false;
+            Collides = true;
+            Chunk.Entities.Add(this);
         }
 
         public void AddToInventory(IStoreable item, int slot)
@@ -196,8 +196,6 @@ namespace Flipsider
             }
             if (!noAirResistance)
                 velocity *= airResistance;
-            UpdateEntityModifier("RigidBody");
-            UpdatePosition();
         }
         private bool FreeFall;
         private bool isRecovering;

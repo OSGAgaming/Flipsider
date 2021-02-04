@@ -71,7 +71,7 @@ namespace Flipsider.Scenes
                 }
             }
             Main.renderer.RenderUI();
-              spriteBatch.Draw(Main.renderer?.lighting?.lightMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
+           //   spriteBatch.Draw(Main.renderer?.lighting?.lightMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.Invoke();
         }
     }

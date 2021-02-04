@@ -11,7 +11,6 @@ namespace Flipsider
         public float rotation;
         public bool TileCollide;
         public int damage;
-        public bool isHittingEntity => EntityCollide();
         public bool EntityCollide()
         {
             foreach (Entity entity in Chunk.Entities)
@@ -59,6 +58,7 @@ namespace Flipsider
             Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
             Projectile.position = position;
+            Projectile.Chunk?.Entities.Add(Projectile);
         }
 
         public static void ShootProjectileAtCursor<T>(Vector2 position, float vel) where T : Projectile, new()
@@ -71,6 +71,7 @@ namespace Flipsider
             Projectile.SetDefaults();
             Projectile.position = position;
             Projectile.velocity = Vector2.Normalize(Main.MouseScreen.ToVector2() - Main.player.Center) * vel;
+            Projectile.Chunk?.Entities.Add(Projectile);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

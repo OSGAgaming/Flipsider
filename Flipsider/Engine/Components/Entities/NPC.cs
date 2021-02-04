@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -107,7 +108,6 @@ namespace Flipsider
         {
             NPC NPC = Activator.CreateInstance(type) as NPC ?? throw new InvalidOperationException("Type wasn't an NPC");
             NPC.Layer = LayerHandler.CurrentLayer;
-            Main.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.position = position;
@@ -138,7 +138,6 @@ namespace Flipsider
         {
 
         }
-
         public void TakeDamage(int amount)
         {
             if (IFrames == 0)
@@ -167,6 +166,7 @@ namespace Flipsider
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Debug.Write("NPCProj ");
             PreDraw(spriteBatch);
             spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             Utils.DrawRectangle(position, width, height, Color.Green);

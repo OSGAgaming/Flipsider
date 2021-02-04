@@ -15,6 +15,7 @@ namespace Flipsider
         public float friction = 0.982f;
         public void ResetVars()
         {
+            Wet = false;
             noGravity = false;
         }
 
@@ -42,7 +43,7 @@ namespace Flipsider
         private int a;
         public void UpdateTrailCache()
         {
-            if (active)
+            if (Active)
             {
                 a++;
                 if (a > TrailLength - 1)
@@ -68,12 +69,13 @@ namespace Flipsider
             AddModule("Collision",new Collideable(this, false));
             AddModule("RigidBody", new RigidBody(this, 1f));
         }
-
-        private bool active = true;
         public void Kill()
         {
-            active = false;
+            Active = false;
+            Chunk.Colliedables.RemoveThroughEntity(this);
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            UpdateModules.Clear();
+            Chunk.Entities.Remove(this);
             OnKill();
         }
         public bool isNPC;
@@ -85,15 +87,18 @@ namespace Flipsider
             PreAI();
             AI();
             ApplyForces();
+            if (!noGravity)
+            UpdateEntityModifier("RigidBody");
+            UpdatePosition();
+            if(Collides && Active)
             UpdateEntityModifier("Collision");
             Constraints();
             PostAI();
-            InFrame = ParallaxedI > 
+            InFrame = ParallaxPosition.X > 
                 Utils.SafeBoundX.X - 5 && position.Y > 
-                Utils.SafeBoundY.X - 5 && ParallaxedI < 
+                Utils.SafeBoundY.X - 5 && ParallaxPosition.X < 
                 Utils.SafeBoundX.Y + 5 && position.Y < 
                 Utils.SafeBoundY.Y + 5;
-            Wet = false;
             foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
             {
                 if (water.frame.Intersects(CollisionFrame))

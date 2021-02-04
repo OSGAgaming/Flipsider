@@ -18,7 +18,7 @@ namespace Flipsider
         public int j;
         [NonSerialized]
         public World world;
-        public bool inFrame => ParallaxedI > Utils.SafeBoundX.X - 100 && position.Y > Utils.SafeBoundY.X - 100 && ParallaxedI < Utils.SafeBoundX.Y + 100 && position.Y < Utils.SafeBoundY.Y + 100;
+        public bool inFrame => ParallaxPosition.X > Utils.SafeBoundX.X - 100 && position.Y > Utils.SafeBoundY.X - 100 && ParallaxPosition.X < Utils.SafeBoundX.Y + 100 && position.Y < Utils.SafeBoundY.Y + 100;
         public bool Surrounded => Main.CurrentWorld.IsActive(i,j-1) && Main.CurrentWorld.IsActive(i, j + 1) && Main.CurrentWorld.IsActive(i - 1, j - 1) && Main.CurrentWorld.IsActive(i + 1, j);
         public TileManager TM => Main.CurrentWorld.tileManager;
         bool Buffer1;
@@ -72,11 +72,10 @@ namespace Flipsider
             this.frame = frame;
             Active = true;
             wall = ifWall;
-            i = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
-            j = (int)pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
-            position = new Vector2(i * 32, j * 32);
+            position = pos*32;
+            i = (int)(ParallaxPosition.X/ 32);
+            j = (int)(ParallaxPosition.Y/ 32);
             world = Main.CurrentWorld;
-            Main.AutoAppendToLayer(this);
             Chunk.Entities.Add(this);
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()

@@ -51,6 +51,11 @@ namespace Flipsider
         {
             if(CheckActivity())
             Active = true;
+            else
+            {
+                Active = false;
+                return;
+            }
 
             if (!Main.Editor.IsActive)
             {

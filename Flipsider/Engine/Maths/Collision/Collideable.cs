@@ -43,27 +43,34 @@ namespace Flipsider.Engine.Maths
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
                 var PlayerChunk = Main.player.Chunk;
-                foreach (Collideable collideable2 in PlayerChunk.Colliedables.collideables)
+                foreach (Chunk chunk in Main.CurrentWorld.tileManager.chunks)
                 {
-                    if (collideable2.BindableEntity.InFrame)
+                    if(chunk.Active)
                     {
-                        if (collideable2.PolyType == PolyType.ConvexPoly && PolyType == PolyType.Rectangle)
+                        foreach (Collideable collideable2 in chunk.Colliedables.collideables)
                         {
-                            RectVPoly(this, collideable2);
+                            if (collideable2.BindableEntity.InFrame)
+                            {
+                                if (collideable2.PolyType == PolyType.ConvexPoly && PolyType == PolyType.Rectangle)
+                                {
+                                    RectVPoly(this, collideable2);
+                                }
+                            }
+                        }
+                        foreach (Collideable collideable2 in chunk.Colliedables.collideables)
+                        {
+                            if (collideable2.BindableEntity.InFrame)
+                            {
+                                if (collideable2.PolyType == PolyType.Rectangle && PolyType == PolyType.Rectangle && !LivingEntity.onSlope)
+                                {
+                                    if (collideable2.r.Intersects(new Rectangle(r.Location - new Point(50, 50), r.Size + new Point(100, 100))))
+                                        RectVRect(this, collideable2);
+                                }
+                            }
                         }
                     }
                 }
-                foreach (Collideable collideable2 in PlayerChunk.Colliedables.collideables)
-                {
-                    if (collideable2.BindableEntity.InFrame)
-                    {
-                        if (collideable2.PolyType == PolyType.Rectangle && PolyType == PolyType.Rectangle && !LivingEntity.onSlope)
-                        {
-                           if (collideable2.r.Intersects(new Rectangle(r.Location - new Point(50, 50), r.Size + new Point(100, 100))))
-                            RectVRect(this, collideable2);
-                        }
-                    }
-                }
+
             }
         }
         public void Dispose()
