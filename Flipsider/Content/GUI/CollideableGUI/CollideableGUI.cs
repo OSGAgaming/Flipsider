@@ -52,17 +52,18 @@ namespace Flipsider.GUI
             if (Main.Editor.CurrentState == EditorUIState.CollideablesEditorMode)
             {
                 var PlayerChunk = Main.player.Chunk;
-                for (int i = 0; i < PlayerChunk.Colliedables.collideables.Count; i++)
+                foreach(Collideable col in PlayerChunk.Colliedables.collideables)
                 {
-                    if (PlayerChunk.Colliedables.collideables[i].CustomHitBox.ToR().Contains(Main.MouseScreen))
+                    if (col.CustomHitBox.ToR().Contains(Main.MouseScreen))
                     {
-                        Utils.DrawRectangle(PlayerChunk.Colliedables.collideables[i].CustomHitBox, Color.Red, 3);
+                        Utils.DrawRectangle(col.CustomHitBox, Color.Red, 3);
                         if (Mouse.GetState().RightButton == ButtonState.Pressed)
                         {
-                            PlayerChunk.Colliedables.collideables.RemoveAt(i);
+                            col.Dispose();
                         }
                     }
                 }
+
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     Vector2 MouseScreen = Main.MouseScreen.ToVector2().Snap(8);

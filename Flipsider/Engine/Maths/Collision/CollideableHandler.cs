@@ -5,19 +5,16 @@ namespace Flipsider.Engine.Maths
     public class CollideableHanlder
     {
         private static readonly int G = 0;
-        public List<Collideable> collideables = new List<Collideable>();
-        //Implement lol
-        public CollideableHanlder()
-        {
-            // Main.Updateables.Add(this);
-        }
+        public HashSet<Collideable> collideables = new HashSet<Collideable>();
         public void RemoveThroughEntity(Entity entity)
         {
-            for (int i = 0; i < collideables.Count; i++)
+            Collideable[] Buffer = new Collideable[collideables.Count];
+            collideables.CopyTo(Buffer);
+            foreach (Collideable Collideable in Buffer)
             {
-                if (entity == collideables[i].BindableEntity)
+                if (entity == Collideable.BindableEntity)
                 {
-                    collideables[i].Dispose();
+                    Collideable.Dispose();
                 }
             }
         }
