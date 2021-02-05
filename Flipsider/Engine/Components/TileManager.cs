@@ -101,11 +101,6 @@ namespace Flipsider
                         }
                     }
             }
-            if (GetTile(pos) != null)
-            {
-                Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, pos.X, pos.Y);
-                GetTile(pos).AddModule("Collision", new Collideable(GetTile(pos), true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
-            }
             CanPlace = true;
         }
      

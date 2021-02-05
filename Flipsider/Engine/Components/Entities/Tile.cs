@@ -52,7 +52,7 @@ namespace Flipsider
             {
              if (InFrame && Active)
              {
-               spriteBatch.Draw(TM.tileDict[TM.GetTile(i, j).type], new Rectangle(i * 32, j * 32, 32, 32), frame, Color.White);
+               spriteBatch.Draw(TM.tileDict[TM.GetTile(i, j).type], new Rectangle(position.ToPoint(), new Point(width,height)), frame, Color.White);
              }
             }
         }
@@ -63,6 +63,15 @@ namespace Flipsider
             Chunk.Colliedables.RemoveThroughEntity(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
+        }
+        protected override void PostConstructor()
+        {
+            Debug.Write(frame.Location);
+            if (TileManager.CanPlace && Main.tileManager.GetTile(i,j) != null)
+            {
+                Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
+                AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+            }
         }
         public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false) : base()
         {

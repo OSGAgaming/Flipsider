@@ -15,7 +15,6 @@ namespace Flipsider.Engine.Maths
             {
                 if (ReferenceEquals(entity, Collideable.BindableEntity))
                 {
-                    Debug.Write("Mom");
                     Collideable.Dispose();
                 }
             }
