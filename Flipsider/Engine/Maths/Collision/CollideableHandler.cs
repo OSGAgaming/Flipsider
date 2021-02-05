@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 
 namespace Flipsider.Engine.Maths
 {
@@ -12,7 +13,7 @@ namespace Flipsider.Engine.Maths
             collideables.CopyTo(Buffer);
             foreach (Collideable Collideable in Buffer)
             {
-                if (entity.Equals(Collideable.BindableEntity))
+                if (ReferenceEquals(entity, Collideable.BindableEntity))
                 {
                     Debug.Write("Mom");
                     Collideable.Dispose();

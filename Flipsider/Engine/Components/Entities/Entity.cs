@@ -41,16 +41,18 @@ namespace Flipsider
         public readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
         public void AddModule(string name, IEntityModifier IEM)
         { if(!UpdateModules.ContainsKey(name)) UpdateModules.Add(name, IEM); }
-        public virtual void UpdateInEditor() {  }
+        public void UpdateInEditor()
+        {
+            OnUpdateInEditor();
+        }
+        public virtual void OnUpdateInEditor() {  }
+
+
         public Entity()
         {
             OnLoad();
             Active = true;
-            if (Main.CurrentWorld != null)
-            {
-                Chunk?.Entities.Add(this);
-                Main.AutoAppendToLayer(this);
-            }
+            Main.LoadQueue += AfterLoad;
         }
         protected void UpdateEntityModifier(string name)
         {
@@ -75,6 +77,7 @@ namespace Flipsider
                 chunk2.Entities.Add(this);
             chunk1.Entities.Remove(this);
         }
+        public bool LoadBool;
         public void Update()
         {
             if (OldChunkPosition != ChunkPosition)
@@ -87,6 +90,19 @@ namespace Flipsider
             OnUpdate();
             PostUpdate();
 
+        }
+        protected virtual void PostConstructor()
+        {
+
+        }
+        public void AfterLoad()
+        {
+            PostConstructor();
+            if (Main.CurrentWorld != null)
+            {
+                Main.AutoAppendToLayer(this);
+                Chunk?.Entities.Add(this);
+            }
         }
         protected virtual void OnChunkChange()
         {

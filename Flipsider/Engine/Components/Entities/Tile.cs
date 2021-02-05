@@ -22,7 +22,7 @@ namespace Flipsider
         public bool Surrounded => Main.CurrentWorld.IsActive(i,j-1) && Main.CurrentWorld.IsActive(i, j + 1) && Main.CurrentWorld.IsActive(i - 1, j - 1) && Main.CurrentWorld.IsActive(i + 1, j);
         public TileManager TM => Main.CurrentWorld.tileManager;
         bool Buffer1;
-        public override void UpdateInEditor()
+        public override void OnUpdateInEditor()
         {
             if (world != null && inFrame)
             {
@@ -76,7 +76,6 @@ namespace Flipsider
             i = (int)(ParallaxPosition.X/ 32);
             j = (int)(ParallaxPosition.Y/ 32);
             world = Main.CurrentWorld;
-            Chunk.Entities.Add(this);
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {

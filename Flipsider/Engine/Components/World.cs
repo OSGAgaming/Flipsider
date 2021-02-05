@@ -29,13 +29,6 @@ namespace Flipsider
         }
         public void ClearWorld()
         {
-          //  for (int i = 0; i < tiles.GetLength(0); i++)
-         //   {
-           //     for (int j = 0; j < tiles.GetLength(1); j++)
-            //    {
-           //         tileManager.RemoveTile(this, new Vector2(i, j));
-           //     }
-          //  }
             for (int i = 0; i < propManager?.props.Count; i++)
             {
                 propManager.props[i].Dispose();

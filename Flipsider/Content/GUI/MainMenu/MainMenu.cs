@@ -10,22 +10,22 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLoad()
         {
             active = true;
-            StartGame SGB1 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 80)
+            StartGame SGB1 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 80,0)
             {
                 parent = this
             };
             elements.Add(SGB1);
-            StartGame SGB2 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 50), T + 90)
+            StartGame SGB2 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 90, 1)
             {
                 parent = this
             };
             elements.Add(SGB2);
-            StartGame SGB3 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 100), T + 100)
+            StartGame SGB3 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 100, 2)
             {
                 parent = this
             };
             elements.Add(SGB3);
-            StartGame SGB4 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y + 150), T + 110)
+            StartGame SGB4 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 110, 3)
             {
                 parent = this
             };
@@ -67,6 +67,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         private float titleStreak = 20;
         private float lerp;
         private Color colorOfLine;
+        float scaling => Main.ActualScreenSize.X / Main.ScreenSize.X;
+
         protected override void OnDraw()
         {
             if (Main.CurrentScene.Name == "Main Menu")
@@ -83,21 +85,22 @@ namespace Flipsider.GUI.TilePlacementGUI
                 Utils.DrawBoxFill(Vector2.Zero, 1980, 1080, Color.Lerp(Color.Black, Color.White, lerp) * alpha);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
-                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f, new Vector2(-200, lerp + Utils.BOTTOM));
-                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f, new Vector2(-900, Utils.BOTTOM - 1300), -0.6f);
-                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f, new Vector2(-900, Utils.BOTTOM - 1300), -0.5f);
-                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f, new Vector2(-900, Utils.BOTTOM - 1300), -0.4f);
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f* scaling, new Vector2(-200, lerp + Utils.BOTTOM));
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.6f);
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.5f);
+                Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.4f);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                Utils.DrawBoxFill(new Vector2(200 - widthOfLeftPanel / 2, 0), (int)widthOfLeftPanel, (int)Main.ScreenSize.Y, colorOfLine * alpha);
+                Utils.DrawBoxFill(new Vector2(0, 0), (int)(widthOfLeftPanel * scaling), (int)Main.ActualScreenSize.Y, colorOfLine * alpha);
             }
+
 
             if (progression > T + 50)
             {
                 titleStreak = titleStreak.ReciprocateTo(0, 15);
-                Utils.DrawBoxFill(new Vector2(0, 120 - titleStreak / 2), (int)Main.ScreenSize.X, (int)titleStreak, Color.White * alpha);
-                Main.spriteBatch.Draw(TextureCache.TitleScreen, new Rectangle(10, 20, 385, 200), Color.White * alpha);
-                Main.spriteBatch.Draw(TextureCache.TitleScreenOverlay, new Rectangle(10, 20, 385, 200), Color.White * (titleStreak / 10f * alpha));
+                Utils.DrawBoxFill(new Vector2(0, 120 - titleStreak / 2), (int)Main.ActualScreenSize.X, (int)titleStreak, Color.White * alpha);
+                Main.spriteBatch.Draw(TextureCache.TitleScreen, new Rectangle(((int)(widthOfLeftPanel * scaling) - 385)/2, 20, 385, 200), Color.White * alpha);
+                Main.spriteBatch.Draw(TextureCache.TitleScreenOverlay, new Rectangle(((int)(widthOfLeftPanel * scaling) - 385) / 2, 20, 385,200), Color.White * (titleStreak / 10f * alpha));
             }
 
         }
@@ -128,6 +131,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+
             //  if (alpha > 0.01f)
             //  Main.spriteBatch.Draw(tex, new Rectangle((int)(Center.X - tex.Width / 2), (int)(Center.Y - tex.Height / 2), tex.Width, tex.Height), Color.White * alpha);
         }
@@ -151,8 +155,12 @@ namespace Flipsider.GUI.TilePlacementGUI
         private Texture2D tex;
         private Vector2 Center;
         public int Trigger;
-        public StartGame(Texture2D tex, Vector2 Center, int Trigger)
+        public int Index;
+        float scaling => Main.ActualScreenSize.X / Main.ScreenSize.X;
+
+        public StartGame(Texture2D tex, Vector2 Center, int Trigger, int Index)
         {
+            this.Index = Index;
             this.Trigger = Trigger;
             this.tex = tex;
             this.Center = Center;
@@ -163,15 +171,17 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Center.X = (390 * scaling - tex.Width) / 2;
             if (parent?.progression > Trigger && Main.CurrentScene.Name == "Main Menu")
             {
-                Utils.DrawBoxFill(Center - new Vector2(150, -5 - ((1 - alpha) * 5) / 2), 300, (int)((1 - alpha) * 5), Color.White * alpha);
+              //  Utils.DrawBoxFill(Center - new Vector2(150 - tex.Width/2, -5 - ((1 - alpha) * 5) / 2), 300, (int)((1 - alpha) * 5), Color.White * alpha);
             }
             if (alpha > 0.01f)
             {
-                Main.spriteBatch.Draw(tex, new Rectangle((int)(Center.X - tex.Width / 2), (int)(Center.Y - tex.Height / 2), tex.Width, tex.Height), Color.White * alpha);
+                Rectangle source = new Rectangle((int)Center.X, (int)(Center.Y - tex.Height / 2)  + (Index * 50), tex.Width, tex.Height);
+                Main.spriteBatch.Draw(tex, source, Color.White * alpha);
                 if (parent?.progression < 200)
-                    Main.spriteBatch.Draw(TextureCache.MainMenuPanelOverlay, new Rectangle((int)(Center.X - tex.Width / 2), (int)(Center.Y - tex.Height / 2), tex.Width, tex.Height), Color.White * (1 - alpha));
+                    Main.spriteBatch.Draw(TextureCache.MainMenuPanelOverlay, source, Color.White * (1 - alpha));
             }
         }
         protected override void OnUpdate()

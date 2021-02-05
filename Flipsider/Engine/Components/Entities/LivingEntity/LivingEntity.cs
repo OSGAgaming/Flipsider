@@ -62,12 +62,14 @@ namespace Flipsider
         public float gravity = 0.8f;
 
         public Vector2 airResistance = new Vector2(0.985f, 0.999f);
-
+        protected override void PostConstructor()
+        {
+            AddModule("Collision", new Collideable(this, false));
+            AddModule("RigidBody", new RigidBody(this, 1f));
+        }
         protected LivingEntity() : base()
         {
             oldPositions = new Vector2[TrailLength];
-            AddModule("Collision",new Collideable(this, false));
-            AddModule("RigidBody", new RigidBody(this, 1f));
         }
         public void Kill()
         {
@@ -79,6 +81,7 @@ namespace Flipsider
             OnKill();
         }
         public bool isNPC;
+        public bool LoadFlag;
         protected override void OnUpdate()
         {
             oldVelocity = velocity;
@@ -117,8 +120,6 @@ namespace Flipsider
                 return CollisionFrame.Contains(Main.MouseScreen.ToVector2());
             }
         }
-        protected virtual void OnUpdateInEditor() { }
-
         protected virtual void OnCollide() { }
 
         protected virtual void OnKill() { }

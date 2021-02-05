@@ -40,7 +40,6 @@ namespace Flipsider
             framewidth = 48;
             noGravity = false;
             Collides = true;
-            Chunk.Entities.Add(this);
         }
 
         public void AddToInventory(IStoreable item, int slot)

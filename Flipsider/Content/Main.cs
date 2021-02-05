@@ -94,12 +94,15 @@ namespace Flipsider
         }
         public static List<IUpdate> Updateables = new List<IUpdate>();
         public static List<IUpdate> UpdateablesOffScreen = new List<IUpdate>();
+        public static event Action LoadQueue;
         protected override void Update(GameTime gameTime)
         {
             instance.fps.Update(gameTime);
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
             sceneManager.Update();
+            LoadQueue?.Invoke();
+            LoadQueue = null;
             base.Update(gameTime);
         }
         protected override void UnloadContent()

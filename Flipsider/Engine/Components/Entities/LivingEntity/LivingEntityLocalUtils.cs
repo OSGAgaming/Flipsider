@@ -47,9 +47,8 @@ namespace Flipsider
                 velocity.Y = 0;
             }
         }
-        public override void UpdateInEditor()
+        public override void OnUpdateInEditor()
         {
-            OnUpdateInEditor();
             if (isDraggable && Layer == LayerHandler.CurrentLayer)
                 CheckDrag();
             else
@@ -68,6 +67,7 @@ namespace Flipsider
             if (isDragging)
             {
                 Center = Main.MouseScreen.ToVector2() + offsetFromMouseWhileDragging;
+                velocity = Vector2.Zero;
                 if (Mouse.GetState().LeftButton != ButtonState.Pressed)
                 {
                     isDragging = false;
