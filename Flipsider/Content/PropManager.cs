@@ -73,7 +73,7 @@ namespace Flipsider
         public static int AddPropType(string Prop, Texture2D tex)
         {
             PropTypes.Add(Prop, tex);
-            PropEntites.Add(Prop, new Prop(Prop, Vector2.One * -500, null));
+            PropEntites.Add(Prop, new Prop(Prop));
             return PropTypes.Count - 1;
         }
         public void AddProp(World world, string PropType, Vector2 position)

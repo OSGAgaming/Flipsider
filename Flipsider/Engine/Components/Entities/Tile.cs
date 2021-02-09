@@ -4,11 +4,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Flipsider
 {
     [Serializable]
-    public class Tile : NonLivingEntity
+    public class Tile : NonLivingEntity, IDrawData
     {
         public int type;
         [NonSerialized]
@@ -26,7 +27,8 @@ namespace Flipsider
         {
             if (world != null && inFrame)
             {
-                if(!Surrounded && Buffer1)
+                drawData = new DrawData(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
+                if (!Surrounded && Buffer1)
                 {
                     Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
                     AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
@@ -46,17 +48,20 @@ namespace Flipsider
                 }
             }
         }
+        public DrawData drawData { get; set; }
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (world != null)
             {
-             if (InFrame && Active)
-             {
-               spriteBatch.Draw(TM.tileDict[TM.GetTile(i, j).type], new Rectangle(position.ToPoint(), new Point(width,height)), frame, Color.White);
-             }
-            }
+                if (InFrame && Active)
+               {
+                spriteBatch.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
+                    return;
+               }
+            }   
+            drawData = DrawData.Null;
         }
-        public void Kill()
+        public override void Dispose()
         {
             Active = false;
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
@@ -64,9 +69,34 @@ namespace Flipsider
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
         }
-        protected override void PostConstructor()
+        public override Entity Deserialize(Stream stream)
         {
-            Debug.Write(frame.Location);
+            BinaryReader binaryReader = new BinaryReader(stream);
+            int type = binaryReader.ReadInt32();
+            int x = binaryReader.ReadInt32();
+            int y = binaryReader.ReadInt32();
+            int X = binaryReader.ReadInt32();
+            int Y = binaryReader.ReadInt32();
+            int Width = binaryReader.ReadInt32();
+            int Height = binaryReader.ReadInt32();
+            Tile tile = new Tile(type, new Rectangle(X, Y, Width, Height), new Vector2(x, y));
+            return Main.tileManager.AddTile(Main.CurrentWorld, tile);
+        }
+        public override void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(type);
+            binaryWriter.Write(i);
+            binaryWriter.Write(j);
+            binaryWriter.Write(frame.Location.X);
+            binaryWriter.Write(frame.Location.Y);
+            binaryWriter.Write(frame.Width);
+            binaryWriter.Write(frame.Height);
+        }
+
+        protected override void PostConstructor()   
+        {
+            Debug.Write(Main.tileManager.GetTile(i, j) != null);
             if (TileManager.CanPlace && Main.tileManager.GetTile(i,j) != null)
             {
                 Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
@@ -80,6 +110,7 @@ namespace Flipsider
             this.type = type;
             this.frame = frame;
             Active = true;
+            InFrame = true;
             wall = ifWall;
             position = pos*32;
             i = (int)(ParallaxPosition.X/ 32);
@@ -90,8 +121,13 @@ namespace Flipsider
         {
             this.type = type;
             this.frame = frame;
-            Active = true;
+            Active = false;
             wall = ifWall;
+            world = Main.CurrentWorld;
+        }
+        public Tile() : base()
+        {
+            Active = false;
             world = Main.CurrentWorld;
         }
     }

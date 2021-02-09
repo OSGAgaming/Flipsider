@@ -6,12 +6,13 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
-using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class Chunk : IUpdate
+    [Serializable]
+    public class Chunk : IUpdate,ISerializable<Chunk>
     {
         public const int width = 62;
         public const int height = 34;
@@ -32,10 +33,10 @@ namespace Flipsider
             pos = point;
             Active = false;
         }
-
         public void AddTile(Tile tile, Point pos)
         {
             tiles[pos.X, pos.Y] = tile;
+            Debug.Write("PutTileIn: " + pos);
             tiles[pos.X, pos.Y].Active = true;
         }
 
@@ -47,6 +48,43 @@ namespace Flipsider
                    pos.Y >= PlayerChunkPos.Y - 1 &&
                    pos.Y <= PlayerChunkPos.Y + 1;
         }
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(pos.X);
+            binaryWriter.Write(pos.Y);
+            binaryWriter.Write(Entities.Count);
+            for (int i = 0; i < Entities.Count; i++)
+            {
+                binaryWriter.Write(Entities[i].GetType().FullName ?? "Empty");
+                if(Entities[i] != null)
+                Entities[i].Serialize(stream);
+            }
+        }
+        public Chunk Deserialize(Stream stream)
+        {
+            BinaryReader binaryReader = new BinaryReader(stream);
+
+            Point pos = new Point(binaryReader.ReadInt32(), binaryReader.ReadInt32());
+            int EntityLength = binaryReader.ReadInt32();
+
+            Chunk chunk = new Chunk(pos);
+            for(int i = 0; i<EntityLength; i++)
+            {
+                string typeName = binaryReader.ReadString();
+                    Type? type = Type.GetType(typeName);
+                    if (type != null)
+                    {
+                        Entity? entity = Activator.CreateInstance(type) as Entity;
+                    if (entity != null)
+                    {
+                        entity.Deserialize(stream);
+                    }
+                    }
+            }
+            return chunk;
+        }
+
         public void Update()
         {
             if(CheckActivity())

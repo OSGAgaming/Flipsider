@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Flipsider
 {
@@ -15,7 +16,9 @@ namespace Flipsider
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
+            Stream stream = File.Open(Main.MainPath + Name + ".flip", FileMode.Create);
+            Main.CurrentWorld.levelInfo.Serialize(stream);
+            //Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
         }
         public static void SaveCurrentWorldAsWithExtension(string Name)
         {

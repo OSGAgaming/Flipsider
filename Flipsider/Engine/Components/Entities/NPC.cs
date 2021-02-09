@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace Flipsider
 {
@@ -77,7 +78,7 @@ namespace Flipsider
             }
         }
     }
-    public class NPC : LivingEntity
+    public abstract class NPC : LivingEntity
     {
         public static DamageTextHandler DTH = new DamageTextHandler();
         public int life;
@@ -104,19 +105,20 @@ namespace Flipsider
 
         public bool hostile;
 
-        public static void SpawnNPC(Vector2 position, Type type)
+        public static NPC SpawnNPC(Vector2 position, Type type)
         {
             NPC NPC = Activator.CreateInstance(type) as NPC ?? throw new InvalidOperationException("Type wasn't an NPC");
             NPC.Layer = LayerHandler.CurrentLayer;
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.position = position;
+            return NPC;
         }
         protected override void PreAI()
         {
             if (life <= 0)
             {
-                Kill();
+                Dispose();
                 position.Y--;
             }
             if (IFrames > 0)
@@ -133,10 +135,31 @@ namespace Flipsider
             NPC.isNPC = true;
             NPC.position = position;
         }
-        protected virtual void SetDefaults()
-        {
 
+        public override void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(GetType().FullName ?? "Entity");
+            binaryWriter.Write(position.X);
+            binaryWriter.Write(position.Y);
         }
+
+        public override Entity Deserialize(Stream stream)
+        {
+            BinaryReader binaryReader = new BinaryReader(stream);
+            string typeName = binaryReader.ReadString();
+
+                Type? type = Type.GetType(typeName);
+                Vector2 position = new Vector2(binaryReader.ReadSingle(), binaryReader.ReadSingle());
+                if (type != null)
+                {
+                    return SpawnNPC(position, type);
+                }
+            return base.Deserialize(stream);
+        }
+
+        protected virtual void SetDefaults() { }
+
         public void TakeDamage(int amount)
         {
             if (IFrames == 0)
@@ -145,8 +168,8 @@ namespace Flipsider
                 DTH.AddDT(Center, amount);
                 IFrames = GlobalIFrames;
             }
-
         }
+
         public static Type? SelectedNPCType;
         public static void ShowNPCCursor()
         {
@@ -163,6 +186,7 @@ namespace Flipsider
                 }
             }
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             PreDraw(spriteBatch);

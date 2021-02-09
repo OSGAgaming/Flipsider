@@ -59,7 +59,7 @@ namespace Flipsider
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {
                 if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-                    Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld,new Tile(currentType,currentFrame, Main.MouseTile));
+                    Main.tileManager.AddTile(Main.CurrentWorld,new Tile(currentType,currentFrame, Main.MouseTile));
             }
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed())
             {

@@ -8,4 +8,8 @@
     {
         public bool InFrame { get; set; }
     }
+    public interface IDrawData : ILayeredComponentActive
+    {
+        public DrawData drawData { get; set; }
+    }
 }

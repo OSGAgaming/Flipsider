@@ -13,7 +13,7 @@ namespace Flipsider
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: Main.renderer.mainCamera?.Transform, samplerState: SamplerState.PointClamp);
+            Utils.BeginCameraSpritebatch();
             foreach (Particle particle in ParticleSystem._particles)
             {
                 if(particle.Alive)

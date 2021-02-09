@@ -1,17 +1,22 @@
+using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+
 namespace Flipsider
 {
-    public partial class TileManager
+    public partial class TileManager : ISerializable<TileManager>
     {
         public const int tileRes = 32;
         public List<Tile> tileTypes = new List<Tile>();
         public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
         public Chunk[,] chunks;
+
+
         public TileManager(int width, int height)
         {
             chunks = new Chunk[width/Chunk.width, height/ Chunk.height];
@@ -72,20 +77,20 @@ namespace Flipsider
             GetChunkToTileCoords(point).AddTile(tile, pos);
         }
         public static bool CanPlace;
-        public void AddTile(World world, Tile T)
+        public Tile AddTile(World world, Tile T, bool forcePlacement = false)
         {
             Point pos = new Point(T.i,T.j);
-
-            if (CanPlace)
+            if (CanPlace || forcePlacement)
             {
                     if (world.IsTileActive(pos.X, pos.Y))
                     {
-                        GetTile(pos).Kill();
+                        GetTile(pos).Dispose();
                         AddTileToChunk(T, pos);
                     }
                     else
                     {
                         AddTileToChunk(T, pos);
+                        Debug.Write("blabla" + pos);
                     }
             }
 
@@ -102,6 +107,7 @@ namespace Flipsider
                     }
             }
             CanPlace = true;
+            return T;
         }
      
         public void RemoveTile(World world, Point pos)
@@ -109,7 +115,7 @@ namespace Flipsider
             if (Main.Editor.IsActive)
             {
                if (GetTile(pos) != null)
-                  GetTile(pos).Kill();
+                  GetTile(pos).Dispose();
             }
             if (Main.Editor.AutoFrame)
             {
@@ -123,6 +129,36 @@ namespace Flipsider
                         }
                     }
             }
+        }
+
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(chunks.GetLength(0));
+            binaryWriter.Write(chunks.GetLength(1));
+            for(int i = 0; i< chunks.GetLength(0); i++)
+            {
+                for (int j = 0; j < chunks.GetLength(1); j++)
+                {
+                    chunks[i, j].Serialize(stream);
+                }
+            }
+        }
+
+        public TileManager Deserialize(Stream stream)
+        {
+            BinaryReader binaryReader = new BinaryReader(stream);
+            int width = binaryReader.ReadInt32();
+            int height = binaryReader.ReadInt32();
+            TileManager tileManager = new TileManager(width * Chunk.width,height * Chunk.height);
+            for(int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    tileManager.chunks[i, j] = tileManager.chunks[i, j].Deserialize(stream);
+                }
+            }
+            return tileManager;
         }
 
         public static bool UselessCanPlaceBool;

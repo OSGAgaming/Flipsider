@@ -46,7 +46,7 @@ namespace Flipsider
         {
             if (TileCollide)
             {
-                Kill();
+                Dispose();
             }
         }
         public static void SpawnProjectile<T>(Vector2 position) where T : Projectile, new()

@@ -20,9 +20,7 @@ namespace Flipsider
                     Vector2 dist = new Vector2(((i - mid.X) * accuracy) / width, ((j - mid.Y) * accuracy) / Height);
                     Offsets[index] = dist;
                     GuassianWeight[index] = GuassianFunction((i - mid.X), (j - mid.Y), STDEV);
-                    Debug.Write(GuassianWeight[index] + " ");
                 }
-                Debug.Write($"\n");
             }
        }
         public float GuassianFunction(float x, float y, float STDEV)

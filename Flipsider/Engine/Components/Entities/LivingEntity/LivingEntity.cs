@@ -70,8 +70,9 @@ namespace Flipsider
         protected LivingEntity() : base()
         {
             oldPositions = new Vector2[TrailLength];
+
         }
-        public void Kill()
+        public override void Dispose()
         {
             Active = false;
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);

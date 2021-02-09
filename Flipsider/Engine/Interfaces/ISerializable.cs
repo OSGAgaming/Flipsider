@@ -1,8 +1,10 @@
-﻿namespace Flipsider.Engine.Interfaces
+﻿using System.IO;
+
+namespace Flipsider.Engine.Interfaces
 {
-    public interface ISerializable
+    public interface ISerializable<T>
     {
-        public void Serialize(string path);
-        public void Deserialze(string path);
+        public void Serialize(Stream stream);
+        public T Deserialize(Stream stream);
     }
 }

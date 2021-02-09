@@ -184,12 +184,12 @@ namespace Flipsider.GUI.TilePlacementGUI
                 if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
                 {
                     if (!flag)
-                        Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White, 3);
+                        Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X), (int)(MouseScreen.Y - pos1.Y), Color.White, 3);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
                     if (!flag2)
-                        Utils.DrawRectangle(pos2, (int)(MouseScreen.X - pos2.X) + 4, (int)(MouseScreen.Y - pos2.Y) + 4, Color.Green, 3);
+                        Utils.DrawRectangle(pos2, (int)(MouseScreen.X - pos2.X), (int)(MouseScreen.Y - pos2.Y), Color.Green, 3);
                 }
                 if (Main.Editor.currentTileSet != null)
                 {

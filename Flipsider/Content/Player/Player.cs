@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 #nullable enable
 // TODO fix this..
@@ -31,7 +32,7 @@ namespace Flipsider
         public bool usingWeapon => (leftWeapon != null ? leftWeapon.active : false) || (rightWeapon != null ? rightWeapon.active : false);
         public IStoreable[] inventory;
         public int inventorySize => 20;
-        public Player(Vector2 position) : base()
+        public Player(Vector2 position, bool Active = true) : base()
         {
             inventory = new IStoreable[20];
             this.position = position;
@@ -40,8 +41,30 @@ namespace Flipsider
             framewidth = 48;
             noGravity = false;
             Collides = true;
+            this.Active = Active;
         }
-
+        public Player() : base()
+        {
+            inventory = new IStoreable[20];
+            width = 30;
+            height = 60;
+            framewidth = 48;
+            noGravity = false;
+            Collides = true;
+        }
+        public override Entity Deserialize(Stream stream)
+        {
+            BinaryReader binaryWriter = new BinaryReader(stream);
+            float X = binaryWriter.ReadSingle();
+            float Y = binaryWriter.ReadSingle();
+            return Main.CurrentWorld.ReplacePlayer(new Player(new Vector2(X,Y)));
+        }
+        public override void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(position.X);
+            binaryWriter.Write(position.Y);
+        }
         public void AddToInventory(IStoreable item, int slot)
         {
             if (item != null)
@@ -230,7 +253,7 @@ namespace Flipsider
                     }
                     else
                     {
-                        float vel = MathHelper.Clamp(Math.Abs(velocity.X * Time.DeltaVar(60)), 1, 20);
+                        float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
                         int velFunc = Math.Max((int)(Math.Round(4 / Math.Abs(vel))),3);
                         Animate(velFunc, 8, 48, 1);
                     }

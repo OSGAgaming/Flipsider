@@ -1,7 +1,9 @@
 using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -33,22 +35,26 @@ namespace Flipsider
             spriteBatch.Begin(transformMatrix: Main.mainCamera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
             if (visible)
             {
-                foreach (ILayeredComponent draw in Drawables.ToArray())
-                {
-                    if (draw is ILayeredComponentActive)
+                    foreach (ILayeredComponent draw in Drawables.ToArray())
                     {
-                        var Drawable = draw as ILayeredComponentActive;
-                        if (Drawable != null)
+                        if (draw is IDrawData)
                         {
-                            if (Drawable.InFrame)
-                                draw.Draw(spriteBatch);
+                            var Drawable = draw as IDrawData;
+                            if (Drawable != null)
+                            {
+                                if (Drawable.InFrame)
+                                {
+                                    Vector2 dist = Main.player.Center - Drawable.drawData.position;
+                                    DrawData d = Drawable.drawData;
+                                    spriteBatch.DrawOffset(d, Vector2.Zero);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            draw.Draw(spriteBatch);
                         }
                     }
-                    else
-                    {
-                        draw.Draw(spriteBatch);
-                    }
-                }
                 if (Main.player.Layer == LayerDepth + 1)
                 {
                     Main.player.Draw(spriteBatch);

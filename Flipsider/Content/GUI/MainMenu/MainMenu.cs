@@ -10,32 +10,32 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLoad()
         {
             active = true;
-            StartGame SGB1 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 80,0)
+            StartGame SGB1 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), (int)T + 80,0)
             {
                 parent = this
             };
             elements.Add(SGB1);
-            StartGame SGB2 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 90, 1)
+            StartGame SGB2 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), (int)T + 90, 1)
             {
                 parent = this
             };
             elements.Add(SGB2);
-            StartGame SGB3 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 100, 2)
+            StartGame SGB3 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), (int)T + 100, 2)
             {
                 parent = this
             };
             elements.Add(SGB3);
-            StartGame SGB4 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), T + 110, 3)
+            StartGame SGB4 = new StartGame(TextureCache.MainMenuPanel, new Vector2(190, Main.ScreenCenterUI.Y), (int)T + 110, 3)
             {
                 parent = this
             };
             elements.Add(SGB4);
         }
 
-        private int T = 10;
+        private float T = 10;
         protected override void OnUpdate()
         {
-            progression++;
+            progression += Time.DeltaVar(60);
             if (progression < T)
             {
                 lerp = lerp.ReciprocateTo(1, 64);

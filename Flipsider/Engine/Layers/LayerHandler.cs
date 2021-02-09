@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Flipsider
 {
     [Serializable]
-    public struct LayerManagerInfo
+    public struct LayerManagerInfo : ISerializable<LayerManagerInfo>
     {
         public int NumberOfLayers;
         public float[] LayerParalax;
@@ -16,6 +17,20 @@ namespace Flipsider
             NumberOfLayers = N;
             LayerParalax = L;
         }
+
+        public LayerManagerInfo Deserialize(Stream stream)
+        {
+            BinaryReader binaryReader = new BinaryReader(stream);
+            int N = binaryReader.ReadInt32();
+
+            float[] L = new float[N];
+
+            for (int i = 0; i < N; i++)
+                L[i] = binaryReader.ReadSingle();
+
+            return new LayerManagerInfo(N,L);
+        }
+
         public LayerHandler Load()
         {
             LayerHandler layerHandler = new LayerHandler();
@@ -28,6 +43,15 @@ namespace Flipsider
                 layerHandler.SetLayerParallax(i,LayerParalax[i]);
             }
             return layerHandler;
+        }
+
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+
+            binaryWriter.Write(NumberOfLayers);
+            for(int i = 0; i<LayerParalax.Length; i++)
+            binaryWriter.Write(LayerParalax[i]);
         }
     }
     [Serializable]

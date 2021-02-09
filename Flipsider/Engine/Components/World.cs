@@ -29,13 +29,15 @@ namespace Flipsider
         }
         public void ClearWorld()
         {
-            for (int i = 0; i < propManager?.props.Count; i++)
+            int width = tileManager.chunks.GetLength(0);
+            int height = tileManager.chunks.GetLength(1);
+            for (int i = 0; i < width; i++)
             {
-                propManager.props[i].Dispose();
-            }
-            for (int i = 0; i < WaterBodies?.Components.Count; i++)
-            {
-                WaterBodies.Components[i].Dispose();
+                for (int j = 0; j < height; j++)
+                {
+                    for (int k = 0; k < tileManager.chunks[i, j].Entities.Count; k++)
+                        tileManager.chunks[i, j].Entities[k].Dispose();
+                }
             }
         }
         public bool IsActive(int i, int j)
@@ -59,9 +61,19 @@ namespace Flipsider
             {
                 ClearWorld();
                 Main.Editor.CurrentSaveFile = FileName;
-                LevelInfo LevelInfo = Main.serializers.Deserialize<LevelInfo>(Main.MainPath + FileName);
+                Stream stream = File.Open(Main.MainPath + FileName, FileMode.Open);
+                LevelInfo LevelInfo = levelInfo.Deserialize(stream);
                 LevelInfo.LoadToWorld(this);
             }
+        }
+        public Player ReplacePlayer(Player player)
+        {
+            if (player != null)
+            {
+                MainPlayer = player;
+                return player;
+            }
+            return MainPlayer ?? new Player();
         }
         public bool AppendPlayer(Player player)
         {

@@ -75,7 +75,6 @@ namespace Flipsider.Engine.Maths
         }
         public void Dispose()
         {
-            Debug.Write("Removed");
             BindableEntity.Chunk.Colliedables.collideables.Remove(this);
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
         }

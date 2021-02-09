@@ -46,7 +46,7 @@ namespace Flipsider
         {
             graphics?.GraphicsDevice.Clear(Color.CornflowerBlue);
             graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
-            Main.graphics?.GraphicsDevice.Clear(Color.TransparentBlack);
+            Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
             Render();
             graphics?.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
