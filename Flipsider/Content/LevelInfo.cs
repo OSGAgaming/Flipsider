@@ -21,19 +21,21 @@ namespace Flipsider.Engine
         }
         public void LoadToWorld(World world)
         {
-            world.tileManager = tileManager;
-            world.layerHandler = LMI.Load();
+           // world.layerHandler = LMI.Load();
         }
 
         public void Serialize(Stream stream)
         {
-            tileManager.Serialize(stream);
             LMI.Serialize(stream);
+            tileManager.Serialize(stream);
         }
 
         public LevelInfo Deserialize(Stream stream)
         {
-            return new LevelInfo(tileManager.Deserialize(stream), LMI.Deserialize(stream).Load());
+            LayerManagerInfo lmfao = LMI.Deserialize(stream);
+            Main.CurrentWorld.layerHandler = lmfao.Load();
+            TileManager TM = tileManager.Deserialize(stream);
+            return new LevelInfo(TM, lmfao.Load());
         }
 
         public LevelInfo(TileManager tileManager, LayerHandler layerHandler)

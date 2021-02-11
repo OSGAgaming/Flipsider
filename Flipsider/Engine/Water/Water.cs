@@ -4,6 +4,7 @@ using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 
 #nullable disable
 // TODO fix this..
@@ -38,15 +39,19 @@ namespace Flipsider
         public Color color = Color.LightBlue;
         public void SetDampeningTo(float dampening) => this.dampening = dampening;
         public void SetFrame(RectangleF vertices) => _frame = vertices;
-        public void Dispose()
+        public override void Dispose()
         {
             Utils.layerHandler.Layers[Layer].PrimitiveDrawables.Remove(this);
             PrimitiveInstance.Dispose();
             PrimitiveInstanceDamp.Dispose();
         }
-        protected override void OnLoad()
+        public override void Serialize(Stream stream)
         {
-
+            base.Serialize(stream);
+        }
+        public override Entity Deserialize(Stream stream)
+        {
+            return base.Deserialize(stream);
         }
         public Water(RectangleF _frame) : base()
         {

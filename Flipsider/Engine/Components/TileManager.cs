@@ -90,7 +90,6 @@ namespace Flipsider
                     else
                     {
                         AddTileToChunk(T, pos);
-                        Debug.Write("blabla" + pos);
                     }
             }
 
@@ -151,11 +150,12 @@ namespace Flipsider
             int width = binaryReader.ReadInt32();
             int height = binaryReader.ReadInt32();
             TileManager tileManager = new TileManager(width * Chunk.width,height * Chunk.height);
-            for(int i = 0; i < width; i++)
+            Chunk chunk = new Chunk();
+            for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    tileManager.chunks[i, j] = tileManager.chunks[i, j].Deserialize(stream);
+                    chunk.Deserialize(stream);
                 }
             }
             return tileManager;

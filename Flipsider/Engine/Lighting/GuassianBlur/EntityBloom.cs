@@ -37,7 +37,7 @@ namespace Flipsider
     }
     public class EntityBloom : LightSource
     {
-        LivingEntity BindableEntity;
+        public LivingEntity BindableEntity;
         Texture2D BloomMap;
         public static GuassianWeights DefaultGuassianWeights = new GuassianWeights(10, 10, 0.008f, 4f);
         public EntityBloom(LivingEntity entity, Texture2D BloomMap, float str, Vector2 pos = default, Color col = default) : base(str, pos, col)
@@ -45,6 +45,10 @@ namespace Flipsider
             BindableEntity = entity;
             this.BloomMap = BloomMap;
             Main.AutoAppendToLayer(this);
+        }
+        public void Dispose()
+        {
+            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

@@ -16,8 +16,6 @@ namespace Flipsider
     {
         public int noOfFrames;
         public int animSpeed;
-        public float positionX;
-        public float positionY;
         public bool draggable;
         public int frameCounter;
         public string prop => Encoding.UTF8.GetString(propEncode, 0, propEncode.Length);
@@ -31,6 +29,8 @@ namespace Flipsider
         {
             Main.CurrentWorld.layerHandler.Layers[Layer].Drawables.Remove(this);
             Main.CurrentWorld.propManager.props.Remove(this);
+            UpdateModules.Clear();
+            Chunk.Entities.Remove(this);
             active = false;
         }
         public int alteredWidth => PropTypes[prop].Width / PropEntites[prop].noOfFrames;
@@ -57,12 +57,12 @@ namespace Flipsider
             string propEncode = Encoding.UTF8.GetString(binaryWriter.ReadBytes(length), 0, length);
             int noOfFrames = binaryWriter.ReadInt32();
             int animSpeed = binaryWriter.ReadInt32();
-            float positionX = binaryWriter.ReadSingle();
-            float positionY = binaryWriter.ReadSingle();
+            Vector2 position = binaryWriter.ReadVector2();
             bool draggable = binaryWriter.ReadBoolean();
             int frameCounter = binaryWriter.ReadInt32();
             int Layer = binaryWriter.ReadInt32();
-            return new Prop(propEncode,new Vector2(positionX,positionY), null, noOfFrames, animSpeed, frameCounter, Layer,draggable);
+            Prop prop = new Prop(propEncode, position, null, noOfFrames, animSpeed, frameCounter, Layer, draggable);
+            return Main.CurrentWorld.propManager.AddProp(prop);
         }
         public override void Serialize(Stream stream)
         {
@@ -71,8 +71,7 @@ namespace Flipsider
             binaryWriter.Write(propEncode);
             binaryWriter.Write(noOfFrames);
             binaryWriter.Write(animSpeed);
-            binaryWriter.Write(positionX);
-            binaryWriter.Write(positionY);
+            binaryWriter.Write(position);
             binaryWriter.Write(draggable);
             binaryWriter.Write(frameCounter);
             binaryWriter.Write(Layer);
@@ -90,9 +89,7 @@ namespace Flipsider
             frameCounter = frameCount;
             this.Layer = Layer;
             draggable = Draggable;
-            positionX = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
-            positionY = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
-            position = new Vector2(positionX, positionY);
+            position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
             width = PropTypes[prop].Width;
             height = PropTypes[prop].Height;
             Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
@@ -107,8 +104,7 @@ namespace Flipsider
             tileInteraction = TileInteraction;
             frameCounter = frameCount;
             Layer = layer;
-            positionX = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).X;
-            positionY = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax).Y;
+            position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
             Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
         }
         public Prop(string prop)

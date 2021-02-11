@@ -44,7 +44,6 @@ namespace Flipsider
                             {
                                 if (Drawable.InFrame)
                                 {
-                                    Vector2 dist = Main.player.Center - Drawable.drawData.position;
                                     DrawData d = Drawable.drawData;
                                     spriteBatch.DrawOffset(d, Vector2.Zero);
                                 }

@@ -33,10 +33,14 @@ namespace Flipsider
             pos = point;
             Active = false;
         }
+        public Chunk()
+        {
+            Colliedables = new CollideableHanlder();
+            Active = false;
+        }
         public void AddTile(Tile tile, Point pos)
         {
             tiles[pos.X, pos.Y] = tile;
-            Debug.Write("PutTileIn: " + pos);
             tiles[pos.X, pos.Y].Active = true;
         }
 
@@ -72,15 +76,16 @@ namespace Flipsider
             for(int i = 0; i<EntityLength; i++)
             {
                 string typeName = binaryReader.ReadString();
+                Debug.Write(typeName);
                     Type? type = Type.GetType(typeName);
-                    if (type != null)
-                    {
-                        Entity? entity = Activator.CreateInstance(type) as Entity;
-                    if (entity != null)
-                    {
+                  if (type != null)
+                  {
+                     Entity? entity = Activator.CreateInstance(type) as Entity;
+                     if (entity != null)
+                     {
                         entity.Deserialize(stream);
-                    }
-                    }
+                     }
+                  }
             }
             return chunk;
         }

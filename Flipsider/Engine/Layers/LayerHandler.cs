@@ -17,12 +17,19 @@ namespace Flipsider
             NumberOfLayers = N;
             LayerParalax = L;
         }
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
 
+            binaryWriter.Write(NumberOfLayers);
+
+            for (int i = 0; i < LayerParalax.Length; i++)
+                binaryWriter.Write(LayerParalax[i]);
+        }
         public LayerManagerInfo Deserialize(Stream stream)
         {
             BinaryReader binaryReader = new BinaryReader(stream);
             int N = binaryReader.ReadInt32();
-
             float[] L = new float[N];
 
             for (int i = 0; i < N; i++)
@@ -45,14 +52,7 @@ namespace Flipsider
             return layerHandler;
         }
 
-        public void Serialize(Stream stream)
-        {
-            BinaryWriter binaryWriter = new BinaryWriter(stream);
 
-            binaryWriter.Write(NumberOfLayers);
-            for(int i = 0; i<LayerParalax.Length; i++)
-            binaryWriter.Write(LayerParalax[i]);
-        }
     }
     [Serializable]
     public class LayerHandler
@@ -86,14 +86,14 @@ namespace Flipsider
 
             InfoCache = Info;
             Main.graphics.GraphicsDevice.SetRenderTarget(RTGaming);
-            Main.graphics.GraphicsDevice.Clear(Color.TransparentBlack);
+            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.End();
             foreach (Layer layer in Layers)
             {
                 layer.Draw(spriteBatch);
             }
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.renderer.renderTarget);
-            Main.graphics.GraphicsDevice.Clear(Color.TransparentBlack);
+            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
 
         }

@@ -1,12 +1,13 @@
-﻿using System.IO;
+﻿using Microsoft.Xna.Framework;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 namespace Flipsider
 {
-    public class Serializers
+    public static class Serialization
     {
-        public void SerializeToXML<T>(T objects, string fileName)
+        public static void SerializeToXML<T>(T objects, string fileName)
         {
 
             XmlSerializer xs = new XmlSerializer(typeof(T));
@@ -19,7 +20,7 @@ namespace Flipsider
         }
 
 
-        public void Serialize(object t, string path)
+        public static void Serialize(object t, string path)
         {
             using (Stream stream = File.Open(path, FileMode.Create))
             {
@@ -29,7 +30,7 @@ namespace Flipsider
         }
         //Could explicitly return 2d array, 
         //or be casted from an object to be more dynamic
-        public T Deserialize<T>(string path)
+        public static T Deserialize<T>(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
@@ -37,7 +38,7 @@ namespace Flipsider
                 return (T)bformatter.Deserialize(stream);
             }
         }
-        public void SerializeToXMLMDA<T>(T[,] objects, string fileName)
+        public static void SerializeToXMLMDA<T>(T[,] objects, string fileName)
         {
             T[] To1DArray(T[,] input)
             {
@@ -65,7 +66,7 @@ namespace Flipsider
         }
 
 
-        public T DeserializeToObject<T>(string fileName)
+        public static T DeserializeToObject<T>(string fileName)
         {
             XmlSerializer ser = new XmlSerializer(typeof(T));
 

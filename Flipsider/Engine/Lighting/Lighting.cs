@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using static Flipsider.PropManager;
 
 namespace Flipsider
@@ -41,6 +43,20 @@ namespace Flipsider
         public void AddLight(float str, Vector2 p, Color col, float ang) => lightSources.AddComponent(new DirectionalLight(str, p, col, ang, 0));
         public void AddLight(float str, Vector2 p, Color col, float ang, float rotation) => lightSources.AddComponent(new DirectionalLight(str, p, col, ang, rotation));
         public void AddLight(LivingEntity entity, Texture2D BloomMap, float str, Vector2 pos = default, Color col = default) => lightSources.AddComponent(new EntityBloom(entity, BloomMap, str,pos,col));
+        public void RemoveBloom(Entity entity)
+        {
+            foreach (ILayeredComponent lc in Main.layerHandler.Layers[entity.Layer].Drawables.ToArray())
+            {
+                if(lc is EntityBloom)
+                {
+                    EntityBloom EB = (EntityBloom)lc;
+                    if(EB.BindableEntity == entity)
+                    {
+                        Main.layerHandler.Layers[entity.Layer].Drawables.Remove(lc);
+                    }
+                }
+            }
+        }
         public void ApplyShader()
         {
             LightingEffect?.Parameters["lightMask"]?.SetValue(lightMap);

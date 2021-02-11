@@ -2,3 +2,6 @@
 
 # CA1712: Do not prefix enum values with type name
 dotnet_diagnostic.CA1712.severity = none
+
+# IDE0022: Use block body for methods
+csharp_style_expression_bodied_methods = false:silent

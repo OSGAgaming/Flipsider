@@ -30,6 +30,12 @@ namespace Flipsider
         protected virtual void OnUpdate() { }
         protected virtual void PostUpdate() { }
         protected virtual void OnLoad() { }
+        protected virtual void PostConstructor() { }
+        public virtual void Dispose() { }
+        public virtual void Serialize(Stream stream) { }
+        protected virtual void OnChunkChange() { }
+        public virtual void OnUpdateInEditor() { }
+
         [NonSerialized]
         public readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
         public void AddModule(string name, IEntityModifier IEM)
@@ -38,8 +44,6 @@ namespace Flipsider
         {
             OnUpdateInEditor();
         }
-        public virtual void OnUpdateInEditor() {  }
-
 
         public Entity()
         {
@@ -72,21 +76,18 @@ namespace Flipsider
             PostUpdate();
 
         }
-        protected virtual void PostConstructor() { }
-        public virtual void Dispose() { }
         public void AfterLoad()
         {
-            PostConstructor();
-            if (Main.CurrentWorld != null)
+            if (Active)
             {
-                Main.AutoAppendToLayer(this);
-                if(Active)
-                Chunk?.Entities.Add(this);
-            }
-        }
-        protected virtual void OnChunkChange()
-        {
+                PostConstructor();
+                if (Main.CurrentWorld != null)
+                {
+                    Main.AutoAppendToLayer(this);
 
+                    Chunk?.Entities.Add(this);
+                }
+            }
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
@@ -97,10 +98,6 @@ namespace Flipsider
             PostDraw(spriteBatch);
         }
 
-        public virtual void Serialize(Stream stream)
-        {
-
-        }
 
         public virtual Entity Deserialize(Stream stream)
         {

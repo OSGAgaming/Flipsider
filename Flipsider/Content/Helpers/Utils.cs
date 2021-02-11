@@ -16,13 +16,13 @@ namespace Flipsider
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-            Stream stream = File.Open(Main.MainPath + Name + ".flip", FileMode.Create);
+            Stream stream = File.OpenWrite(Main.MainPath + Name + ".flip");
             Main.CurrentWorld.levelInfo.Serialize(stream);
             //Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
         }
         public static void SaveCurrentWorldAsWithExtension(string Name)
         {
-            Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
+          //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
         }
         public static Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale);

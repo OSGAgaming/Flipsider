@@ -25,7 +25,6 @@ namespace Flipsider
         public static PrimTrailManager Primitives;
         private PropInteraction PI;
         public FPS fps = new FPS();
-        public static Serializers serializers = new Serializers();
         public Main()
         {
             renderer = new Renderer(this);

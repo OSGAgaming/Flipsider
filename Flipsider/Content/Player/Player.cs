@@ -52,12 +52,24 @@ namespace Flipsider
             noGravity = false;
             Collides = true;
         }
+        public override void Dispose()
+        {
+            Active = false;
+            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            Chunk.Colliedables.RemoveThroughEntity(this);
+            UpdateModules.Clear();
+            Chunk.Entities.Remove(this);
+            Main.lighting.RemoveBloom(this);
+            OnKill();
+        }
         public override Entity Deserialize(Stream stream)
         {
             BinaryReader binaryWriter = new BinaryReader(stream);
             float X = binaryWriter.ReadSingle();
             float Y = binaryWriter.ReadSingle();
-            return Main.CurrentWorld.ReplacePlayer(new Player(new Vector2(X,Y)));
+            Player player = new Player(new Vector2(X, Y));
+            new EntityBloom(player, player.texture, 2.6f);
+            return Main.CurrentWorld.ReplacePlayer(player);
         }
         public override void Serialize(Stream stream)
         {

@@ -39,6 +39,12 @@ namespace Flipsider
                         tileManager.chunks[i, j].Entities[k].Dispose();
                 }
             }
+            int propLength = propManager.props.Count;
+            for (int i = 0; i < propLength; i++)
+            {
+                propManager.props[i].Dispose();
+            }
+            MainPlayer?.Dispose();
         }
         public bool IsActive(int i, int j)
         {
@@ -51,17 +57,13 @@ namespace Flipsider
             }
             return false;
         }
-        public void RetreiveLevelInfo(LevelInfo levelInfo)
-        {
-          //  tileManager.tiles = levelInfo.tiles ?? tileManager.tiles;
-        }
         public void RetreiveLevelInfo(string FileName)
         {
             if (File.Exists(Main.MainPath + FileName))
             {
                 ClearWorld();
                 Main.Editor.CurrentSaveFile = FileName;
-                Stream stream = File.Open(Main.MainPath + FileName, FileMode.Open);
+                Stream stream = File.OpenRead(Main.MainPath + FileName);
                 LevelInfo LevelInfo = levelInfo.Deserialize(stream);
                 LevelInfo.LoadToWorld(this);
             }

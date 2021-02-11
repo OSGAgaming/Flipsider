@@ -5,66 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using static Flipsider.PropInteraction;
 using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class PropManager
+    public partial class PropManager
     {
         public List<Prop> props = new List<Prop>();
 
         public delegate void TileInteraction();
-
-        public void LoadProps()
-        {
-            # region death
-            Layer = 1;
-            AddPropType("Misc_Sky", TextureCache.GreenSlime);
-            AddPropType("Ruins_1", TextureCache.BrickStructure1);
-            AddPropType("Ruins_2", TextureCache.BrickStructure2);
-            AddPropType("MediumTree_1", TextureCache.MediumTree1);
-            AddPropType("MediumTree_2", TextureCache.MediumTree2);
-            AddPropType("BackgroundTree_1", TextureCache.BackgroundTree1);
-            AddPropType("BackgroundTree_2", TextureCache.BackgroundTree2);
-            AddPropType("BackgroundTree_3", TextureCache.BackgroundTree3);
-            AddPropType("BackgroundTree_4", TextureCache.BackgroundTree4);
-            AddPropType("Foreground_Grass", TextureCache.ForegroundGrass1);
-            AddPropType("City_TrafficLight", TextureCache.TrafficLight);
-            AddPropType("City_BusStop", TextureCache.BusStop);
-            AddPropType("City_BigBusStop", TextureCache.BigBusStop);
-            AddPropType("City_BikeRack", TextureCache.BikeRack);
-            AddPropType("City_StopSigns", TextureCache.StopSigns);
-            AddPropType("City_StreetLights", TextureCache.StreetLights);
-
-            AddPropType("Forest_ForestTree1", TextureCache.ForestTree1);
-            AddPropType("Forest_ForestTree2", TextureCache.ForestTree2);
-            AddPropType("Forest_ForestFlowerOne", TextureCache.ForestFlowerOne);
-            AddPropType("Forest_ForestFlowerTwo", TextureCache.ForestFlowerTwo);
-            AddPropType("Forest_ForestFlowerThree", TextureCache.ForestFlowerThree);
-            AddPropType("Forest_ForestFlowerFour", TextureCache.ForestFlowerFour);
-            AddPropType("Forest_ForestFlowerFive", TextureCache.ForestFlowerFive);
-            AddPropType("Forest_ForestFlowerSix", TextureCache.ForestFlowerSix);
-
-            AddPropType("Forest_ForestBushOne", TextureCache.ForestBushOne);
-            AddPropType("Forest_ForestLogOne", TextureCache.ForestLogOne);
-            AddPropType("Forest_ForestDecoOne", TextureCache.ForestDecoOne);
-            AddPropType("Forest_ForestDecoTwo", TextureCache.ForestDecoTwo);
-
-            AddPropType("Debug_Player", TextureCache.player);
-            AddPropType("Debug_Blob", TextureCache.Blob);
-            AddPropInteraction("Debug_Blob", BlobInteractable);
-            AddPropType("Debug_HudSlot", TextureCache.hudSlot);
-            AddPropType("Debug_TestGun", TextureCache.testGun);
-            AddPropType("Debug_SaveTex", TextureCache.SaveTex);
-
-            ChangeFrames("City_StreetLights", 5);
-            ChangeFrames("City_StopSigns", 3);
-            ChangeAnimSpeed("City_StreetLights", 20);
-            ChangeAnimSpeed("City_StopSigns", 20);
-            # endregion
-        }
         public int Layer { get; set; }
 
         public static Dictionary<string, Texture2D> PropTypes = new Dictionary<string, Texture2D>();
@@ -75,6 +24,15 @@ namespace Flipsider
             PropTypes.Add(Prop, tex);
             PropEntites.Add(Prop, new Prop(Prop));
             return PropTypes.Count - 1;
+        }
+        public Prop AddProp(Prop prop)
+        {
+                if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+                {
+                    props.Add(prop);
+                }
+                TileManager.UselessCanPlaceBool = true;
+            return prop;
         }
         public void AddProp(World world, string PropType, Vector2 position)
         {
@@ -98,28 +56,7 @@ namespace Flipsider
 
             }
         }
-        public void AddProp(World world, string PropType, Vector2 position, int Layer)
-        {
-            try
-            {
-                TileInteraction? currentInteraction = null;
-                if (PropEntites.ContainsKey(PropType ?? ""))
-                {
-                    currentInteraction = PropEntites[PropType ?? ""].tileInteraction;
-                }
-                if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
-                {
-                    int alteredRes = Main.CurrentWorld.TileRes / 4;
-                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction, 1, -1, 0, Layer));
-                }
-                TileManager.UselessCanPlaceBool = true;
-            }
-            catch
-            {
 
-
-            }
-        }
         public static void ShowPropCursor()
         {
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
@@ -156,12 +93,8 @@ namespace Flipsider
             }
         }
     }
-    public class PropInteraction : IUpdate
+    public partial class PropInteraction : IUpdate
     {
-        public static void BlobInteractable()
-        {
- 
-        }
         public PropInteraction(PropManager propManager)
         {
             this.propManager = propManager;
