@@ -92,7 +92,6 @@ namespace Flipsider
             position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
             width = PropTypes[prop].Width;
             height = PropTypes[prop].Height;
-            Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
         }
         public Prop(string prop, Vector2 pos, int layer, TileInteraction? TileInteraction = null, int noOfFrames = 1, int animSpeed = -1, int frameCount = 0)
         {
@@ -105,7 +104,6 @@ namespace Flipsider
             frameCounter = frameCount;
             Layer = layer;
             position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-            Main.CurrentWorld.layerHandler.AppendMethodToLayer(this);
         }
         public Prop(string prop)
         {
