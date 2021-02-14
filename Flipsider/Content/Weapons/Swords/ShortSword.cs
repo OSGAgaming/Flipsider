@@ -8,16 +8,53 @@ namespace Flipsider.Weapons
     {
         public override Texture2D swordSheet => TextureCache.GreenSlime;
 
-        public ShortSword() : base(5, 30, 3)
+        public ShortSword() : base(5, 108, 2)
         {
             SetInventoryIcon(TextureCache.GreenSlime);
         }
-
-        protected override void OnActivate()
+        Player player => Main.player;
+        protected override void OnActivation()
         {
-            Projectile.ShootProjectileAtCursor<ExampleProj>(Main.player.Center, 3f);
+            if (player.onGround)
+            {
+                player.isAttacking = true;
+                player.frameY = 0;
+                ComboLag = 109;
+            }
         }
+        public override void UpdateActive()
+        {
 
+            if (player.isAttacking)
+            {
+                player.velocity.X *= 0.6f;
+
+                switch (comboState)
+                {
+                    case 0:
+                        player.isAttacking = !player.Animate(5, 6, 48, 4, false);
+                        break;
+                    case 1:
+                        player.isAttacking = !player.Animate(5, 6, 48, 5, false);
+                        break;
+                    case 2:
+                        player.isAttacking = !player.Animate(5, 11, 48, 6, false);
+                        break;
+                }
+            }
+            if(!player.isAttacking)
+            {
+                activeTimeLeft = 0;
+            }
+        }
+        public int ComboLag;
+        public override void Update()
+        {
+            if (ComboLag > 0) ComboLag--;
+
+            if (ComboLag == 0) comboState = 0;
+
+        }
         public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
         {
             base.DrawInventory(spriteBatch, pos);

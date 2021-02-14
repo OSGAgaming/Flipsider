@@ -76,7 +76,6 @@ namespace Flipsider
             for(int i = 0; i<EntityLength; i++)
             {
                 string typeName = binaryReader.ReadString();
-                Debug.Write(typeName);
                     Type? type = Type.GetType(typeName);
                   if (type != null)
                   {

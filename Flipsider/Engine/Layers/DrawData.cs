@@ -6,6 +6,26 @@ using System.Collections.Generic;
 
 namespace Flipsider
 {
+    public struct AnimData
+    {
+        public int NoFramesX;
+        public int NoFramesY;
+        public int Height;
+        public int Width;
+        public int AnimSpeed;
+        public Point Frame;
+
+        public AnimData(int NX, int NY, int H, int W, int AS, DrawData dD, Point F)
+        {
+            NoFramesX = NX;
+            NoFramesY = NY;
+            Height = H;
+            Width = W;
+            AnimSpeed = AS;
+            Frame = F;
+        }
+    }
+
    public struct DrawData
     {
         public Texture2D texture;
@@ -65,6 +85,14 @@ namespace Flipsider
         {
             if(DD.texture != null)
             sb.Draw(DD.texture,DD.position,DD.source,DD.color,DD.rotation,DD.origin,DD.scale,DD.spriteEffects,DD.layerDepth);
+        }
+        public static void Draw(this SpriteBatch sb, AnimData AD, DrawData DD)
+        {
+            if (DD.texture != null)
+            {
+                Rectangle source = new Rectangle(AD.Width * AD.Frame.X, AD.Height * AD.Frame.Y, AD.Width, AD.Height);
+                sb.Draw(DD.texture, DD.position, source, DD.color, DD.rotation, DD.origin, DD.scale, DD.spriteEffects, DD.layerDepth);
+            }
         }
         public static void DrawOffset(this SpriteBatch sb, DrawData DD, Vector2 offset)
         {

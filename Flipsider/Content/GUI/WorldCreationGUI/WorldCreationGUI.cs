@@ -85,69 +85,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             isActive = false;
         }
     }
-    internal class NumberBox : UIElement
-    {
-        public string inputText = "";
-        public float alpha = 1f;
-        public bool isActive;
-        public float lerp;
-        public float Number => float.Parse(inputText);
-
-        private Texture2D? Texture;
-        protected virtual void CustomDraw(SpriteBatch spriteBatch)
-        {
-
-        }
-
-        private KeyboardState oldKeyboardState = Keyboard.GetState();
-        private KeyboardState currentKeyboardState = Keyboard.GetState();
-        private void UpdateInput()
-        {
-            oldKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
-
-            Keys[] pressedKeys;
-            pressedKeys = currentKeyboardState.GetPressedKeys();
-            if (isActive)
-            {
-                foreach (Keys key in pressedKeys)
-                {
-                    bool IsNumber = (key >= Keys.D0
-                                             &&
-                                            key <= Keys.D9 || key == Keys.OemPeriod || key == Keys.OemMinus);
-                    if (oldKeyboardState.IsKeyUp(key) && (IsNumber && !(inputText.Contains(".") && key == Keys.OemPeriod) || key == Keys.Back))
-                    {
-                        KeyboardInput.Instance?.InputKey(key, ref inputText);
-                    }
-                }
-            }
-        }
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            if (isActive)
-            {
-                lerp = lerp.ReciprocateTo(1, 16);
-            }
-            else
-            {
-                lerp = lerp.ReciprocateTo(0, 16);
-            }
-            dimensions.Width = 16 + (inputText.Length - 1) * 7;
-            Texture2D GottenTexture = Texture ?? TextureCache.magicPixel;
-            Main.spriteBatch.Draw(GottenTexture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), Color.Lerp(Color.Black, Color.Gray, lerp) * alpha);
-            Utils.DrawTextToLeft(inputText, Color.White * alpha, dimensions.Location.ToVector2() + new Vector2(2, 2));
-            UpdateInput();
-            CustomDraw(spriteBatch);
-        }
-        protected override void OnLeftClick()
-        {
-            isActive = true;
-        }
-        protected override void OnLeftClickAway()
-        {
-            isActive = false;
-        }
-    }
     internal class UIStringInput : UIElement
     {
         private string inputText = "";

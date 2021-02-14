@@ -47,11 +47,17 @@ namespace Flipsider
         }
         public override void Serialize(Stream stream)
         {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(frame);
             base.Serialize(stream);
         }
         public override Entity Deserialize(Stream stream)
         {
-            return base.Deserialize(stream);
+            BinaryReader binaryReader = new BinaryReader(stream);
+            Rectangle Frame = binaryReader.ReadRect();
+            Water water = new Water(new RectangleF(Frame.Location.ToVector2(),Frame.Size.ToVector2()));
+            Main.WaterBodies.Add(water);
+            return water;
         }
         public Water(RectangleF _frame) : base()
         {
@@ -76,6 +82,10 @@ namespace Flipsider
             Main.Primitives.AddComponent(PrimitiveInstance);
             Main.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
+        }
+        public Water()
+        {
+
         }
         protected override void OnUpdate()
         {

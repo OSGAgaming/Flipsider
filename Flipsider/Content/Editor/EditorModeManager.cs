@@ -10,6 +10,7 @@ namespace Flipsider
     public class EditorMode : IUpdate
     {
         public bool IsActive { get; set; }
+        public bool Interactable { get; set; }
         public EditorUIState CurrentState;
         public int currentType;
         public Tile[,]? currentTileSet;
@@ -68,7 +69,7 @@ namespace Flipsider
                 int alteredRes = Main.CurrentWorld.TileRes / 4;
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                 if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
-                    Main.CurrentWorld.propManager.AddProp(Main.CurrentWorld, Main.Editor.CurrentProp ?? "", tilePoint2);
+                    Main.CurrentWorld.propManager.AddProp(Main.Editor.CurrentProp ?? "", tilePoint2);
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {
@@ -114,30 +115,33 @@ namespace Flipsider
                 }
                 float scrollSpeed = 0.02f;
                 float camMoveSpeed = 5f;
-                if (GameInput.Instance["EditorZoomIn"].IsDown())
+                if (Interactable)
                 {
-                    Main.mainCamera.targetScale += scrollSpeed;
-                }
-                if (GameInput.Instance["EditorZoomOut"].IsDown())
-                {
-                    Main.mainCamera.targetScale -= scrollSpeed;
-                }
+                    if (GameInput.Instance["EditorZoomIn"].IsDown())
+                    {
+                        Main.mainCamera.targetScale += scrollSpeed;
+                    }
+                    if (GameInput.Instance["EditorZoomOut"].IsDown())
+                    {
+                        Main.mainCamera.targetScale -= scrollSpeed;
+                    }
 
-                if (GameInput.Instance["MoveRight"].IsDown())
-                {
-                    Main.mainCamera.offset.X += camMoveSpeed;
-                }
-                if (GameInput.Instance["MoveLeft"].IsDown())
-                {
-                    Main.mainCamera.offset.X -= camMoveSpeed;
-                }
-                if (GameInput.Instance["MoveUp"].IsDown())
-                {
-                    Main.mainCamera.offset.Y -= camMoveSpeed;
-                }
-                if (GameInput.Instance["MoveDown"].IsDown())
-                {
-                    Main.mainCamera.offset.Y += camMoveSpeed;
+                    if (GameInput.Instance["MoveRight"].IsDown())
+                    {
+                        Main.mainCamera.offset.X += camMoveSpeed;
+                    }
+                    if (GameInput.Instance["MoveLeft"].IsDown())
+                    {
+                        Main.mainCamera.offset.X -= camMoveSpeed;
+                    }
+                    if (GameInput.Instance["MoveUp"].IsDown())
+                    {
+                        Main.mainCamera.offset.Y -= camMoveSpeed;
+                    }
+                    if (GameInput.Instance["MoveDown"].IsDown())
+                    {
+                        Main.mainCamera.offset.Y += camMoveSpeed;
+                    }
                 }
             }
             else
@@ -145,28 +149,35 @@ namespace Flipsider
                 CurrentState = EditorUIState.None;
             }
             CanSwitch = true;
+            Interactable = true;
         }
         public void SwitchToMode(EditorUIState state)
         {
-            if (CurrentState == EditorUIState.None)
+            if (Interactable)
             {
-                CurrentState = state;
-            }
-            else
-            {
-                CurrentState = EditorUIState.None;
+                if (CurrentState == EditorUIState.None)
+                {
+                    CurrentState = state;
+                }
+                else
+                {
+                    CurrentState = EditorUIState.None;
+                }
             }
         }
         public void SwitchModes()
         {
-            IsActive = !IsActive;
-            if (IsActive)
+            if (Interactable)
             {
-                Main.mainCamera.targetScale = 0.8f;
-            }
-            else
-            {
-                Main.mainCamera.targetScale = 1.2f;
+                IsActive = !IsActive;
+                if (IsActive)
+                {
+                    Main.mainCamera.targetScale = 0.8f;
+                }
+                else
+                {
+                    Main.mainCamera.targetScale = 1.2f;
+                }
             }
         }
     }

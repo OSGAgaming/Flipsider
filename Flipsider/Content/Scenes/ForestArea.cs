@@ -14,7 +14,6 @@ namespace Flipsider.Scenes
         public ForestArea()
         {
             ForestAreaParticles = new ParticleSystem(200);
-            Main.lighting.lightSources.AddComponent(new ParticleLight(ForestAreaParticles));
         }
 
         public override void Update()
@@ -36,7 +35,7 @@ namespace Flipsider.Scenes
         public override void OnActivate()
         {
             ForestAreaParticles.Position = Vector2.Zero;
-            ForestAreaParticles.SpawnRate = 10f;
+            ForestAreaParticles.SpawnRate = 3f;
             ForestAreaParticles.WorldSpace = true;
             ForestAreaParticles.SpawnModules.Add(new SetTexture(TextureCache.pixel));
             ForestAreaParticles.SpawnModules.Add(new SetScale(2f));
@@ -45,9 +44,10 @@ namespace Flipsider.Scenes
             ForestAreaParticles.SpawnModules.Add(new SetColorBetweenTwoColours(Color.White, Color.Lime, Main.rand));
             ForestAreaParticles.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -100f));
             ForestAreaParticles.SpawnModules.Add(new SetLifetime(10f));
-            ForestAreaParticles.SpawnModules.Add(new SetLightIntensity(0.2f));
-            ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(Engine.Maths.EaseFunction.ReverseLinear));
+            ForestAreaParticles.SpawnModules.Add(new SetLightIntensity(1f));
+            ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(EaseFunction.ReverseLinear));
             ForestAreaParticles.UpdateModules.Add(new TurnRand(-.5f, .5f));
+            Main.lighting.lightSources.AddComponent(new ParticleLight(ForestAreaParticles));
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -62,6 +62,7 @@ namespace Flipsider.Scenes
             NPC.DTH.Draw(spriteBatch);
             PropManager.ShowPropCursor();
             Main.Editor.Draw();
+            ForestAreaParticles.Update();
             ForestAreaParticles.Draw(spriteBatch);
             for (int i = 0; i < Main.CurrentWorld.tileManager.chunks.GetLength(0); i++)
             {

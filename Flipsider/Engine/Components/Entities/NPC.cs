@@ -109,6 +109,7 @@ namespace Flipsider
         {
             NPC NPC = Activator.CreateInstance(type) as NPC ?? throw new InvalidOperationException("Type wasn't an NPC");
             NPC.Layer = LayerHandler.CurrentLayer;
+            NPC.Active = true;
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.position = position;

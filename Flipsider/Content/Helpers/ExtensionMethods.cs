@@ -74,7 +74,12 @@ namespace Flipsider
         {
             return (v.ToVector2() / TileManager.tileRes).ToPoint();
         }
-
+        public static Rectangle Inf(this Rectangle R,int h, int v)
+        {
+            return new Rectangle(
+                new Point(R.X - h, R.Y - v), 
+                new Point(R.Width + h*2, R.Height + v*2));
+        }
         public static float Slope(this Vector2 v)
         {
             return v.Y / v.X;

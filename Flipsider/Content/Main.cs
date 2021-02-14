@@ -46,6 +46,14 @@ namespace Flipsider
             Item.ItemTypes = new Type[StoreableTypes.Length];
             for (int i = 0; i < StoreableTypes.Length; i++)
                 Item.ItemTypes[i] = StoreableTypes[i];
+
+            Type[] PropEntityTypes = Utils.GetInheritedClasses(typeof(PropEntity));
+
+            for (int i = 0; i < PropEntityTypes.Length; i++)
+            {
+                PropEntity PE = (PropEntity)Activator.CreateInstance(PropEntityTypes[i]);
+                PropEntity.keyValuePairs.Add(PE.Prop, PE);
+            }
         }
 
         private void Instatiate()
@@ -61,8 +69,10 @@ namespace Flipsider
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
             Instatiate();
+
             // Register controls
             RegisterControls.Invoke();
+
             mainCamera.targetScale = 1.2f;
             base.Initialize();
         }
@@ -71,6 +81,7 @@ namespace Flipsider
         {
             renderer.Load();
             CurrentWorld = new World(200, 200);
+
             PI = new PropInteraction(CurrentWorld.propManager);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             new EntityBloom(player, player.texture, 2.1f);

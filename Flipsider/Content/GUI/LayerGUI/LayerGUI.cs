@@ -12,6 +12,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public int LayerCount => Main.CurrentWorld.layerHandler.GetLayerCount();
         protected override void OnLoad()
         {
+
             for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
             {
                 LayerGUIElement textBox = new LayerGUIElement(i)
@@ -105,10 +106,9 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         }
     }
-    internal class PlayerLayerTextBox : NumberBox
+    internal class PlayerLayerTextBox : NumberBoxScalable
     {
         private float SetAlpha;
-        private float buffer;
         protected override void CustomDraw(SpriteBatch spriteBatch)
         {
             if (Main.Editor.IsActive)
@@ -122,19 +122,19 @@ namespace Flipsider.GUI.TilePlacementGUI
                 alpha = 0;
             }
             KeyboardState keyboard = Keyboard.GetState();
-            if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out buffer))
+            if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out _))
             {
                 Utils.DrawTextToLeft("Player Layer is set to " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
-                if (isActive && keyboard.IsKeyDown(Keys.Enter))
+                if (hasCursor && keyboard.IsKeyDown(Keys.Enter))
                 {
                     SetAlpha = 60;
                     Main.player.Layer = (int)Number;
                 }
             }
         }
-        protected override void OnUpdate()
+        protected override void PostUpdate()
         {
-            if (isActive)
+            if (hasCursor)
             {
                 Main.Editor.CanSwitch = false;
             }
@@ -147,7 +147,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             CanPlace = false;
         }
     }
-    internal class LayerTextBox : NumberBox
+    internal class LayerTextBox : NumberBoxScalable
     {
         private int Layer;
         private float SetAlpha;
@@ -162,16 +162,16 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out buffer))
             {
                 Utils.DrawTextToLeft("Paralax in Layer " + Layer + " is set to: " + Number, Color.Black * (float)Math.Sin(SetAlpha * 3.14f / 60f), dimensions.Location.ToVector2() + new Vector2(20, 2));
-                if (isActive && keyboard.IsKeyDown(Keys.Enter))
+                if (hasCursor && keyboard.IsKeyDown(Keys.Enter))
                 {
                     SetAlpha = 60;
                     Main.layerHandler.SetLayerParallax(Layer, Number);
                 }
             }
         }
-        protected override void OnUpdate()
+        protected override void PostUpdate()
         {
-            if (isActive)
+            if (hasCursor)
             {
                 Main.Editor.CanSwitch = false;
             }

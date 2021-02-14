@@ -12,8 +12,6 @@ namespace Flipsider
     public partial class PropManager
     {
         public List<Prop> props = new List<Prop>();
-
-        public delegate void TileInteraction();
         public int Layer { get; set; }
 
         public static Dictionary<string, Texture2D> PropTypes = new Dictionary<string, Texture2D>();
@@ -34,19 +32,16 @@ namespace Flipsider
                 TileManager.UselessCanPlaceBool = true;
             return prop;
         }
-        public void AddProp(World world, string PropType, Vector2 position)
+        public void AddProp(string PropType, Vector2 position)
         {
             try
             {
-                TileInteraction? currentInteraction = null;
-                if (PropEntites.ContainsKey(PropType ?? ""))
-                {
-                    currentInteraction = PropEntites[PropType ?? ""].tileInteraction;
-                }
                 if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
                 {
                     int alteredRes = Main.CurrentWorld.TileRes / 4;
-                    props.Add(new Prop(PropType ?? "", position - PropTypes[PropType ?? ""].Bounds.Size.ToVector2() / 2 + new Vector2(alteredRes / 2, alteredRes / 2), currentInteraction, 1, -1, 0, LayerHandler.CurrentLayer));
+                    Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
+                    Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
+                    props.Add(new Prop(PropType ?? "", position + posDis));
                 }
                 TileManager.UselessCanPlaceBool = true;
             }
@@ -61,21 +56,22 @@ namespace Flipsider
         {
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
-                Vector2 mousePos = Main.MouseScreen.ToVector2();
-                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
+                float sine = Time.SineTime(6);
                 int alteredRes = Main.CurrentWorld.TileRes / 4;
-                Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+                Vector2 tilePoint2 = Main.MouseScreen.ToVector2().Snap(alteredRes);
                 if (Main.Editor.CurrentProp != null)
                 {
-                    Main.spriteBatch.Draw(PropTypes[Main.Editor.CurrentProp], tilePoint2 + new Vector2(alteredRes / 2, alteredRes / 2), PropEntites[Main.Editor.CurrentProp].alteredFrame, Color.White * Math.Abs(sine), 0f, PropEntites[Main.Editor.CurrentProp].alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                    Prop prop = PropEntites[Main.Editor.CurrentProp];
+                    Rectangle altFrame = prop.alteredFrame;
+                    Main.spriteBatch.Draw(PropTypes[Main.Editor.CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(sine), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
                 }
             }
         }
-        public static void AddPropInteraction(string Prop, TileInteraction TI)
+        public static void AddPropInteraction(string Prop, PropEntity PE)
         {
             if (PropEntites.ContainsKey(Prop))
             {
-                PropEntites[Prop].tileInteraction = TI;
+                PropEntites[Prop].PE = PE;
             }
         }
         public static void ChangeFrames(string Prop, int frames)
@@ -135,8 +131,6 @@ namespace Flipsider
                             }
                         }
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.E))
-                        propManager.props[i].tileInteraction?.Invoke();
                 }
 
 

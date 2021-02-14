@@ -47,7 +47,7 @@ namespace Flipsider.Engine.Particles
         public ParticleSystem(int maxParticles)
         {
             _particles = new Particle[maxParticles];
-            Main.Updateables.Add(this);
+            //Main.Updateables.Add(this);
             SpawningEnabled = true;
 
             SpawnModules = new List<IParticleModifier>();

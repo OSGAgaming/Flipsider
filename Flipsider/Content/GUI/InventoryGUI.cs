@@ -50,7 +50,6 @@ namespace Flipsider.GUI.TilePlacementGUI
                 }
             }
         }
-
         protected override void OnUpdate()
         {
             for (int i = 0; i < tilePanel?.Length; i++)

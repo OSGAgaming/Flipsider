@@ -1,6 +1,8 @@
 ﻿using Flipsider.Engine.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+
 namespace Flipsider
 {
     public class ParticleLight : LightSource
@@ -13,15 +15,18 @@ namespace Flipsider
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
-            Utils.BeginCameraSpritebatch();
-            foreach (Particle particle in ParticleSystem._particles)
+            Utils.BeginAdditiveCameraSpritebatch();
+            for(int i = 0; i<ParticleSystem._particles.Length; i++)
             {
-                if(particle.Alive)
-                spriteBatch.Draw(TextureCache.PointLight, particle.Center, TextureCache.PointLight.Bounds, particle.Color* particle.LightIntensity * particle.Opacity, particle.Rotation, TextureCache.PointLight.TextureCenter(), particle.LightIntensity* particle.Scale*0.3f, SpriteEffects.None, 0f);
+                var p = ParticleSystem._particles[i];
+                if (p.Alive)
+                {
+                    Texture2D texture = TextureCache.PointLight;
+                    spriteBatch.Draw(texture, ParticleSystem.WorldSpace ? p.Center : ParticleSystem.Position + p.Center, null, p.Color * p.Opacity * p.LightIntensity, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f, SpriteEffects.None, 0f);
+                }
             }
             spriteBatch.End();
             Utils.BeginCameraSpritebatch();
-            base.Draw(spriteBatch);
         }
     }
 }

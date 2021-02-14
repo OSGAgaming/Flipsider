@@ -32,9 +32,11 @@ namespace Flipsider.Engine
 
         public LevelInfo Deserialize(Stream stream)
         {
+            Main.Editor.AutoFrame = false;
             LayerManagerInfo lmfao = LMI.Deserialize(stream);
             Main.CurrentWorld.layerHandler = lmfao.Load();
             TileManager TM = tileManager.Deserialize(stream);
+            Main.Editor.AutoFrame = true;
             return new LevelInfo(TM, lmfao.Load());
         }
 

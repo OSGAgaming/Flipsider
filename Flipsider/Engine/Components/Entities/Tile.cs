@@ -91,7 +91,6 @@ namespace Flipsider
 
         protected override void PostConstructor()   
         {
-            bool isNull = Main.tileManager.GetTile(i, j) == null;
             if (TileManager.CanPlace && Main.tileManager.GetTile(i,j) != null)
             {
                 Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);

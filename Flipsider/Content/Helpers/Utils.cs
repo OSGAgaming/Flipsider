@@ -1,4 +1,5 @@
 ﻿using Flipsider.Engine;
+using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,6 +25,7 @@ namespace Flipsider
         {
           //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
         }
+        public static InputBinding LeftClick => GameInput.Instance["EditorPlaceTile"];
         public static Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
         public static void AppendToLayer(ILayeredComponent ilc) => Main.CurrentWorld.layerHandler.AppendMethodToLayer(ilc);

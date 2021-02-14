@@ -42,7 +42,6 @@ namespace Flipsider.Engine.Maths
                 LivingEntity.onSlope = false;
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
-                var PlayerChunk = Main.player.Chunk;
                 foreach (Chunk chunk in Main.CurrentWorld.tileManager.chunks)
                 {
                     if(chunk.Active)

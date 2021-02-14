@@ -95,6 +95,7 @@ namespace Flipsider
         public int swapTimer;
         public bool Swapping => swapTimer > 0;
 
+        
         private void SwapWeapons()
         {
             swapTimer++;
@@ -118,8 +119,13 @@ namespace Flipsider
 
         private new void ResetVars()
         {
-            leftWeapon?.UpdatePassive();
-            rightWeapon?.UpdatePassive();
+            MouseState mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+                leftWeapon?.Activate(this);
+
+            if (mouseState.RightButton == ButtonState.Pressed)
+                rightWeapon?.Activate(this);
 
             if (Swapping) SwapWeapons(); //TODO: move this
         }
@@ -134,6 +140,7 @@ namespace Flipsider
         protected override void PostAI()
         {
             PostUpdates();
+
             FindFrame();
             leftWeapon?.UpdatePassive();
             rightWeapon?.UpdatePassive();
@@ -169,7 +176,6 @@ namespace Flipsider
         private void PlayerInputs()
         {
             KeyboardState state = Keyboard.GetState();
-            MouseState mouseState = Mouse.GetState();
             InFrame = true;
 
             friction = 0.87f;
@@ -203,11 +209,7 @@ namespace Flipsider
                 }
             }
 
-            if (mouseState.LeftButton == ButtonState.Pressed)
-                leftWeapon?.Activate(this);
 
-            if (mouseState.RightButton == ButtonState.Pressed)
-                rightWeapon?.Activate(this);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -234,43 +236,47 @@ namespace Flipsider
         private bool FreeFall;
         private bool isRecovering;
         private float VelYCache;
+        public bool isAttacking;
         private void FindFrame()
         {
             if (onGround)
             {
-                if (FreeFall)
+                if(!isAttacking)
                 {
-                    frameY = 0;
-                    isRecovering = true;
-                    VelYCache = oldVelocity.Y;
-                }
-                if (isRecovering)
-                {
-                    if (VelYCache > 4)
+                    if (FreeFall)
                     {
-                        velocity.X *= 0.8f;
-                        isRecovering = !Animate(3, 7, 48, 8, false);
+                        frameY = 0;
+                        isRecovering = true;
+                        VelYCache = oldVelocity.Y;
                     }
-                    else if (VelYCache > 0)
+                    if (isRecovering)
                     {
-                        velocity.X *= 0.97f;
-                        isRecovering = !Animate(7, 2, 48, 7, false);
-                    }
-                }
-                else
-                {
-                    if (friction != 0.99f)
-                    {
-                        Animate(6, 11, 48);
+                        if (VelYCache > 4)
+                        {
+                            velocity.X *= 0.8f;
+                            isRecovering = !Animate(3, 7, 48, 8, false);
+                        }
+                        else if (VelYCache > 0)
+                        {
+                            velocity.X *= 0.97f;
+                            isRecovering = !Animate(7, 2, 48, 7, false);
+                        }
                     }
                     else
                     {
-                        float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
-                        int velFunc = Math.Max((int)(Math.Round(4 / Math.Abs(vel))),3);
-                        Animate(velFunc, 8, 48, 1);
+                        if (friction != 0.99f)
+                        {
+                            Animate(6, 11, 48);
+                        }
+                        else
+                        {
+                            float vel = MathHelper.Clamp(Math.Abs(velocity.X), 1, 20);
+                            int velFunc = Math.Max((int)(Math.Round(4 / Math.Abs(vel))), 3);
+                            Animate(velFunc, 8, 48, 1);
+                        }
                     }
+                    FreeFall = false;
                 }
-                FreeFall = false;
             }
             else
             {

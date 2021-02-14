@@ -4,7 +4,6 @@ namespace Flipsider.Weapons
 {
     internal abstract class Sword : Weapon
     {
-
         protected int state;
         public abstract Texture2D swordSheet
         {
@@ -14,17 +13,16 @@ namespace Flipsider.Weapons
         {
 
         }
-        public sealed override void UpdateActive()
-        {
-        }
         protected override void OnActivate()
         {
+            OnActivation();
             state++;
             if (state > 3)
             {
                 state = 0;
             }
         }
+        protected virtual void OnActivation() { }
     }
 
 }

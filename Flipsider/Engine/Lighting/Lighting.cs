@@ -73,7 +73,7 @@ namespace Flipsider
         public void Invoke()
         {
             Main.graphics.GraphicsDevice.SetRenderTarget(lightMap);
-            Main.graphics.GraphicsDevice.Clear(Color.Black);
+            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             foreach (LightSource ls in lightSources.Components)
             {
                 ls.Draw(Main.spriteBatch);

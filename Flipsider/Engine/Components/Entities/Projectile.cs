@@ -55,7 +55,6 @@ namespace Flipsider
             {
                 Layer = LayerHandler.CurrentLayer
             };
-            Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
             Projectile.position = position;
         }
@@ -66,8 +65,8 @@ namespace Flipsider
             {
                 Layer = LayerHandler.CurrentLayer
             };
-            Main.AppendToLayer(Projectile);
             Projectile.SetDefaults();
+            Projectile.Active = true;
             Projectile.position = position;
             Projectile.velocity = Vector2.Normalize(Main.MouseScreen.ToVector2() - Main.player.Center) * vel;
         }

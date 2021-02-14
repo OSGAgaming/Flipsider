@@ -48,7 +48,6 @@ namespace Flipsider
 
             AddPropType("Debug_Player", TextureCache.player);
             AddPropType("Debug_Blob", TextureCache.Blob);
-            AddPropInteraction("Debug_Blob", BlobInteractable);
             AddPropType("Debug_HudSlot", TextureCache.hudSlot);
             AddPropType("Debug_TestGun", TextureCache.testGun);
             AddPropType("Debug_SaveTex", TextureCache.SaveTex);
@@ -60,12 +59,5 @@ namespace Flipsider
             # endregion
         }
    
-    }
-    public partial class PropInteraction : IUpdate
-    {
-        public static void BlobInteractable()
-        {
- 
-        }
     }
 }

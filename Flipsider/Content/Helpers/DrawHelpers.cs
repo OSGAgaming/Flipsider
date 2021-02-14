@@ -11,6 +11,8 @@ namespace Flipsider
         public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.mainCamera.CamPos - center) * strenght;
         public static void BeginCameraSpritebatch()
         => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+        public static void BeginAdditiveCameraSpritebatch()
+       => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         public static void QuickApplyShader(Effect effect)
         => effect?.CurrentTechnique.Passes[0].Apply();
         public static void QuickApplyShader(Effect effect, params float[] yo)
