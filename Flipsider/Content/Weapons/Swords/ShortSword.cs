@@ -20,6 +20,10 @@ namespace Flipsider.Weapons
                 player.isAttacking = true;
                 player.frameY = 0;
                 ComboLag = 109;
+                if(comboState == 1 || comboState == 0)
+                {
+                    Camera.screenShake += 2;
+                }
             }
         }
         public override void UpdateActive()
@@ -39,6 +43,10 @@ namespace Flipsider.Weapons
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
+                        if(activeTimeLeft == delay - 30)
+                        {
+                            Camera.screenShake += 10;
+                        }
                         break;
                 }
             }
