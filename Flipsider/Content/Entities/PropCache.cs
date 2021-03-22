@@ -45,6 +45,8 @@ namespace Flipsider
             AddPropType("Forest_ForestLogOne", TextureCache.ForestLogOne);
             AddPropType("Forest_ForestDecoOne", TextureCache.ForestDecoOne);
             AddPropType("Forest_ForestDecoTwo", TextureCache.ForestDecoTwo);
+            AddPropType("Forest_ForestDecoThree", TextureCache.ForestDecoThree);
+            AddPropType("Forest_ForestDecoFour", TextureCache.ForestDecoFour);
 
             AddPropType("Debug_Player", TextureCache.player);
             AddPropType("Debug_Blob", TextureCache.Blob);
@@ -57,6 +59,12 @@ namespace Flipsider
             AddPropType("Forest_ForestForegroundProp3", TextureCache.ForestForegroundProp3);
             AddPropType("Forest_ForestForegroundProp4", TextureCache.ForestForegroundProp4);
             AddPropType("Forest_ForestForegroundProp5", TextureCache.ForestForegroundProp5);
+
+            AddPropType("Forest_ForestRockOne", TextureCache.ForestRockOne);
+            AddPropType("Forest_ForestRockTwo", TextureCache.ForestRockTwo);
+            AddPropType("Forest_ForestRockThree", TextureCache.ForestRockThree);
+            AddPropType("Forest_ForestRockFour", TextureCache.ForestRockFour);
+            AddPropType("Forest_ForestRockFive", TextureCache.ForestRockFive);
 
             ChangeFrames("City_StreetLights", 5);
             ChangeFrames("City_StopSigns", 3);

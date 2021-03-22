@@ -83,6 +83,8 @@ namespace Flipsider
         public static Texture2D ForestLogOne;
         public static Texture2D ForestDecoOne;
         public static Texture2D ForestDecoTwo;
+        public static Texture2D ForestDecoThree;
+        public static Texture2D ForestDecoFour;
 
         public static Texture2D Noise;
         public static Texture2D Noise2;
@@ -99,6 +101,12 @@ namespace Flipsider
         public static Texture2D ForestForegroundProp3;
         public static Texture2D ForestForegroundProp4;
         public static Texture2D ForestForegroundProp5;
+
+        public static Texture2D ForestRockOne;
+        public static Texture2D ForestRockTwo;
+        public static Texture2D ForestRockThree;
+        public static Texture2D ForestRockFour;
+        public static Texture2D ForestRockFive;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -183,6 +191,8 @@ namespace Flipsider
             ForestLogOne = content.Load<Texture2D>("Textures/Props/ForestLogOne");
             ForestDecoOne = content.Load<Texture2D>("Textures/Props/ForestDecoOne");
             ForestDecoTwo = content.Load<Texture2D>("Textures/Props/ForestDecoTwo");
+            ForestDecoThree = content.Load<Texture2D>("Textures/Props/ForestDecoThree");
+            ForestDecoFour = content.Load<Texture2D>("Textures/Props/ForestDecoFour");
 
             ForestForegroundProp1 = content.Load<Texture2D>("Textures/Props/ForegroundProp1");
             ForestForegroundProp2 = content.Load<Texture2D>("Textures/Props/ForegroundProp2");
@@ -190,6 +200,11 @@ namespace Flipsider
             ForestForegroundProp4 = content.Load<Texture2D>("Textures/Props/ForegroundProp4");
             ForestForegroundProp5 = content.Load<Texture2D>("Textures/Props/ForegroundProp5");
 
+            ForestRockOne = content.Load<Texture2D>("Textures/Props/ForestRockOne");
+            ForestRockTwo = content.Load<Texture2D>("Textures/Props/ForestRockTwo");
+            ForestRockThree = content.Load<Texture2D>("Textures/Props/ForestRockThree");
+            ForestRockFour = content.Load<Texture2D>("Textures/Props/ForestRockFour");
+            ForestRockFive = content.Load<Texture2D>("Textures/Props/ForestRockFive");
             //FrontBicep = content.Load<Texture2D>("BodyParts/FrontBicep");
             //FrontForearm = content.Load<Texture2D>("BodyParts/FrontForearm");
             //BackBicep = content.Load<Texture2D>("BodyParts/BackBicep");
