@@ -1,6 +1,6 @@
-using Flipsider.Engine.Input;
+using Flipsider.Engine;
 using Microsoft.Xna.Framework.Input;
-
+using Flipsider.Engine.Input;
 
 namespace Flipsider
 {

@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System;
+using Flipsider.Engine.Input;
 
-namespace Flipsider.Engine.Input
+namespace Flipsider.Engine
 {
     public enum MouseInput
     {

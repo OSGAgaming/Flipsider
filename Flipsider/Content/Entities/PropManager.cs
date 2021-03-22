@@ -41,7 +41,7 @@ namespace Flipsider
                     int alteredRes = Main.CurrentWorld.TileRes / 4;
                     Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
                     Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
-                    props.Add(new Prop(PropType ?? "", position + posDis));
+                    props.Add(new Prop(PropType ?? "", position + posDis,1,-1,0,LayerHandler.CurrentLayer,true));
                 }
                 TileManager.UselessCanPlaceBool = true;
             }

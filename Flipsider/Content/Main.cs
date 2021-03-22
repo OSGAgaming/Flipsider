@@ -23,7 +23,6 @@ namespace Flipsider
         public static Renderer renderer;
         public static World CurrentWorld;
         public static PrimTrailManager Primitives;
-        private PropInteraction PI;
         public FPS fps = new FPS();
         public Main()
         {
@@ -32,28 +31,6 @@ namespace Flipsider
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
-        }
-        private void GetAllTypes()
-        {
-            Type[] NPCTypes = Utils.GetInheritedClasses(typeof(NPC));
-
-            NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
-            for (int i = 0; i < NPCTypes.Length; i++)
-                NPC.NPCTypes[i].type = NPCTypes[i];
-
-            Type[] StoreableTypes = Utils.GetInheritedClasses(typeof(IStoreable));
-
-            Item.ItemTypes = new Type[StoreableTypes.Length];
-            for (int i = 0; i < StoreableTypes.Length; i++)
-                Item.ItemTypes[i] = StoreableTypes[i];
-
-            Type[] PropEntityTypes = Utils.GetInheritedClasses(typeof(PropEntity));
-
-            for (int i = 0; i < PropEntityTypes.Length; i++)
-            {
-                PropEntity PE = (PropEntity)Activator.CreateInstance(PropEntityTypes[i]);
-                PropEntity.keyValuePairs.Add(PE.Prop, PE);
-            }
         }
 
         private void Instatiate()
@@ -82,10 +59,8 @@ namespace Flipsider
             renderer.Load();
             CurrentWorld = new World(200, 200);
 
-            PI = new PropInteraction(CurrentWorld.propManager);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
-            new EntityBloom(player, player.texture, 2.1f);
-        //    lighting.AddLight(player, player.texture, 4f);
+            new EntityBloom(player, player.texture, 6.1f);
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
             #endregion

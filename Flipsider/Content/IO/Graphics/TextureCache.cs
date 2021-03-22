@@ -21,6 +21,7 @@ namespace Flipsider
         public static Texture2D ForegroundGrass1;
         public static Texture2D pixel;
         public static Texture2D player;
+        public static Texture2D CrowBar;
         public static Texture2D hudSlot;
         public static Texture2D testGun;
         public static Texture2D magicPixel;
@@ -137,6 +138,7 @@ namespace Flipsider
             TileSet3 = content.Load<Texture2D>("Textures/TileSet3");
             TileSet4 = content.Load<Texture2D>("Textures/TileSet4");
             player = content.Load<Texture2D>("Textures/char");
+            CrowBar = content.Load<Texture2D>("Textures/CrowBar");
             hudSlot = content.Load<Texture2D>("Textures/GUI/HudSlot");
             WhiteScreen = content.Load<Texture2D>("Textures/GUI/WhiteScreen");
             testGun = content.Load<Texture2D>("Textures/GUI/TestGun");

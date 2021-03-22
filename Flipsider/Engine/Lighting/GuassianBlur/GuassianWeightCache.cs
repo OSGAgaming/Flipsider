@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 namespace Flipsider
 {
     public class GuassianWeights
@@ -19,10 +20,36 @@ namespace Flipsider
                     Vector2 mid = new Vector2(width / 2, Height / 2);
                     Vector2 dist = new Vector2(((i - mid.X) * accuracy) / width, ((j - mid.Y) * accuracy) / Height);
                     Offsets[index] = dist;
-                    GuassianWeight[index] = GuassianFunction((i - mid.X), (j - mid.Y), STDEV);
+                    GuassianWeight = GaussianBlur(width, STDEV).Flatten().ToArray();
                 }
             }
        }
+
+        public static float[,] GaussianBlur(int length, float weight)
+        {
+            float[,] kernel = new float[length, length];
+            float kernelSum = 0;
+            int foff = (length - 1) / 2;
+            float distance = 0;
+            float constant = 1f / (2 * (float)Math.PI * weight * weight);
+            for (int y = -foff; y <= foff; y++)
+            {
+                for (int x = -foff; x <= foff; x++)
+                {
+                    distance = ((y * y) + (x * x)) / (2 * weight * weight);
+                    kernel[y + foff, x + foff] = constant * (float)Math.Exp(-distance);
+                    kernelSum += kernel[y + foff, x + foff];
+                }
+            }
+            for (int y = 0; y < length; y++)
+            {
+                for (int x = 0; x < length; x++)
+                {
+                    kernel[y, x] = kernel[y, x] * 1f / kernelSum;
+                }
+            }
+            return kernel;
+        }
         public float GuassianFunction(float x, float y, float STDEV)
         {
             float exponent = -(x * x + y * y) / (2 * STDEV * STDEV);

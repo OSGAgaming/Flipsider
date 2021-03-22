@@ -27,8 +27,8 @@ namespace Flipsider
         public Weapon leftWeapon = new TestGun(); //Temporary
         public Weapon rightWeapon = new TestGun2(); //Temporary
 
-        public Weapon leftWeaponStore = new ShortSword();
-        public Weapon rightWeaponStore = new ShortSword();
+        public Weapon leftWeaponStore = new Crowbar();
+        public Weapon rightWeaponStore = new Crowbar();
         public bool usingWeapon => (leftWeapon != null ? leftWeapon.active : false) || (rightWeapon != null ? rightWeapon.active : false);
         public IStoreable[] inventory;
         public int inventorySize => 20;
@@ -187,7 +187,7 @@ namespace Flipsider
             crouching = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
             if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !crouching)
             {
-                if (onGround)
+                if (onGround && !isAttacking)
                 {
                     velocity.Y -= jumpheight;
                 }
@@ -214,6 +214,10 @@ namespace Flipsider
         public override void Draw(SpriteBatch spriteBatch)
         {
             texture = TextureCache.player;
+            Rectangle weaponFrame = new Rectangle(((frame.X / 48 - 4) * 69), frameY * 50, 69, 50);
+            if(isAttacking)
+                spriteBatch.Draw(weapon, Center - new Vector2(0,18), weaponFrame, Color.White, 0f, weaponFrame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
         }
         public override void ApplyForces()
@@ -237,6 +241,8 @@ namespace Flipsider
         private bool isRecovering;
         private float VelYCache;
         public bool isAttacking;
+        //temp
+        Texture2D weapon => TextureCache.CrowBar;
         private void FindFrame()
         {
             if (onGround)

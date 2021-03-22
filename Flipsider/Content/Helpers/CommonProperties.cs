@@ -3,6 +3,7 @@ using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace Flipsider
@@ -11,6 +12,28 @@ namespace Flipsider
 #nullable disable
     internal partial class Main : Game
     {
+        private void GetAllTypes()
+        {
+            Type[] NPCTypes = Utils.GetInheritedClasses(typeof(NPC));
+
+            NPC.NPCTypes = new NPC.NPCInfo[NPCTypes.Length];
+            for (int i = 0; i < NPCTypes.Length; i++)
+                NPC.NPCTypes[i].type = NPCTypes[i];
+
+            Type[] StoreableTypes = Utils.GetInheritedClasses(typeof(IStoreable));
+
+            Item.ItemTypes = new Type[StoreableTypes.Length];
+            for (int i = 0; i < StoreableTypes.Length; i++)
+                Item.ItemTypes[i] = StoreableTypes[i];
+
+            Type[] PropEntityTypes = Utils.GetInheritedClasses(typeof(PropEntity));
+
+            for (int i = 0; i < PropEntityTypes.Length; i++)
+            {
+                PropEntity PE = (PropEntity)Activator.CreateInstance(PropEntityTypes[i]);
+                PropEntity.keyValuePairs.Add(PE.Prop, PE);
+            }
+        }
         public static void AppendToLayer(ILayeredComponent ilc) => CurrentWorld.layerHandler.AppendMethodToLayer(ilc);
         public static void AutoAppendToLayer(ILayeredComponent ilc) => CurrentWorld.layerHandler.AutoAppendMethodToLayer(ref ilc);
         public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => CurrentWorld.layerHandler.AppendPrimitiveToLayer(ilc);

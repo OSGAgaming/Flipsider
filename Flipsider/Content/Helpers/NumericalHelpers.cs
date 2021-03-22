@@ -1,10 +1,16 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace Flipsider
 {
     public static partial class Utils
     {
+        public static IEnumerable<T> Flatten<T>(this T[,] matrix)
+        {
+            foreach (var item in matrix) yield return item;
+        }
+
         public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
             return LineIntersectsLine(p1, p2, new Point(r.X, r.Y), new Point(r.X + r.Width, r.Y)) ||
@@ -13,6 +19,46 @@ namespace Flipsider
                    LineIntersectsLine(p1, p2, new Point(r.X, r.Y + r.Height), new Point(r.X, r.Y)) ||
                    (r.Contains(p1) && r.Contains(p2));
         }
+        private static bool LineIntersectsLine(Point l1p1, Point l1p2, Point l2p1, Point l2p2)
+        {
+            float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
+            float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
+            if (d == 0)
+                return false;
+            float r = q / d;
+            q = (l1p1.Y - l2p1.Y) * (l1p2.X - l1p1.X) - (l1p1.X - l2p1.X) * (l1p2.Y - l1p1.Y);
+            float s = q / d;
+            if (r < 0 || r > 1 || s < 0 || s > 1)
+                return false;
+            return true;
+        }
+
+        public static bool LineIntersectsTile(World world, Point p1, Point p2)
+        {
+            Point TilePos1 = p1.ToTile();
+            Point TilePos2 = p2.ToTile();
+            int lowestX = (TilePos1.X < TilePos2.X) ? TilePos1.X : TilePos2.X;
+            int lowestY = (TilePos1.Y < TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
+            int highestX = (TilePos1.X > TilePos2.X) ? TilePos1.X : TilePos2.X;
+            int highestY = (TilePos1.Y > TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
+            for (int i = lowestX - 1; i < highestX + 1; i++)
+            {
+                for (int j = lowestY - 1; j < highestY + 1; j++)
+                {
+                    if (i >= 0 && i < world.MaxTilesX && j >= 0 && j < world.MaxTilesY)
+                    {
+                        if (world.IsTileActive(i, j))
+                        {
+                            int tileRes = TileManager.tileRes;
+                            if (LineIntersectsRect(p1, p2, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes)))
+                                return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         public static float ToRotation(this Vector2 v)
         {
             return (float)Math.Atan2(v.Y, v.X);
@@ -51,31 +97,6 @@ namespace Flipsider
         {
             return (int)(num / round) * round;
         }
-        public static bool LineIntersectsTile(World world, Point p1, Point p2)
-        {
-            Point TilePos1 = p1.ToTile();
-            Point TilePos2 = p2.ToTile();
-            int lowestX = (TilePos1.X < TilePos2.X) ? TilePos1.X : TilePos2.X;
-            int lowestY = (TilePos1.Y < TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
-            int highestX = (TilePos1.X > TilePos2.X) ? TilePos1.X : TilePos2.X;
-            int highestY = (TilePos1.Y > TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
-            for (int i = lowestX - 1; i < highestX + 1; i++)
-            {
-                for (int j = lowestY - 1; j < highestY + 1; j++)
-                {
-                    if (i >= 0 && i < world.MaxTilesX && j >= 0 && j < world.MaxTilesY)
-                    {
-                        if (world.IsTileActive(i, j))
-                        {
-                            int tileRes = TileManager.tileRes;
-                            if (LineIntersectsRect(p1, p2, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes)))
-                                return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
         public static Vector2 ReturnIntersectionTile(World world, Point p1, Point p2)
         {
             Point TilePos1 = p1.ToTile();
@@ -107,20 +128,7 @@ namespace Flipsider
             return chosen;
         }
 
-        private static bool LineIntersectsLine(Point l1p1, Point l1p2, Point l2p1, Point l2p2)
-        {
-            float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
-            float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
-            if (d == 0)
-                return false;
-            float r = q / d;
-            q = (l1p1.Y - l2p1.Y) * (l1p2.X - l1p1.X) - (l1p1.X - l2p1.X) * (l1p2.Y - l1p1.Y);
-            float s = q / d;
-            if (r < 0 || r > 1 || s < 0 || s > 1)
-                return false;
-            return true;
-        }
-
+        
         public static Vector2 ReturnIntersectionLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
         {
             float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);

@@ -4,11 +4,11 @@ using System.Diagnostics;
 
 namespace Flipsider.Weapons
 {
-    internal class ShortSword : Sword
+    internal class Crowbar : Sword
     {
         public override Texture2D swordSheet => TextureCache.GreenSlime;
 
-        public ShortSword() : base(5, 108, 2)
+        public Crowbar() : base(5, 108, 2)
         {
             SetInventoryIcon(TextureCache.GreenSlime);
         }
@@ -19,33 +19,44 @@ namespace Flipsider.Weapons
             {
                 player.isAttacking = true;
                 player.frameY = 0;
-                ComboLag = 109;
+                ComboLag = 20;
                 if(comboState == 1 || comboState == 0)
                 {
-                    Camera.screenShake += 2;
+                    Camera.screenShake += 4;
+                  //  player.velocity.X += 6f;
                 }
             }
         }
+        
+        Texture2D crowbar => TextureCache.CrowBar;
         public override void UpdateActive()
         {
-
             if (player.isAttacking)
             {
-                player.velocity.X *= 0.6f;
-
+                
                 switch (comboState)
                 {
                     case 0:
                         player.isAttacking = !player.Animate(5, 6, 48, 4, false);
+                        player.velocity.X += 0.005f * (delay - activeTimeLeft);
                         break;
                     case 1:
                         player.isAttacking = !player.Animate(5, 6, 48, 5, false);
+                        player.velocity.X += 0.01f * (delay - activeTimeLeft);
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
                         if(activeTimeLeft == delay - 30)
                         {
                             Camera.screenShake += 10;
+                        }
+                        if(activeTimeLeft >= delay - 30)
+                        {
+                            player.velocity.X += 0.015f * (delay - activeTimeLeft);
+                        }
+                        else
+                        {
+                            player.velocity.X *= 0.5f;
                         }
                         break;
                 }
@@ -58,13 +69,15 @@ namespace Flipsider.Weapons
         public int ComboLag;
         public override void Update()
         {
-            if (ComboLag > 0) ComboLag--;
+            if (ComboLag > 0 && !player.isAttacking) ComboLag--;
 
-            if (ComboLag == 0) comboState = 0;
+            if (ComboLag == 0) comboState = 2;
 
         }
         public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
         {
+            Rectangle frame = new Rectangle(0, 50, 69, 50);
+            spriteBatch.Draw(crowbar,player.position,frame,Color.White);
             base.DrawInventory(spriteBatch, pos);
         }
     }
