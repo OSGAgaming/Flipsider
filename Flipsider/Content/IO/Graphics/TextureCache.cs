@@ -92,6 +92,12 @@ namespace Flipsider
 
         public static Texture2D AddLayer;
         public static Texture2D RemoveLayer;
+
+        public static Texture2D ForestForegroundProp1;
+        public static Texture2D ForestForegroundProp2;
+        public static Texture2D ForestForegroundProp3;
+        public static Texture2D ForestForegroundProp4;
+        public static Texture2D ForestForegroundProp5;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -175,6 +181,12 @@ namespace Flipsider
             ForestLogOne = content.Load<Texture2D>("Textures/Props/ForestLogOne");
             ForestDecoOne = content.Load<Texture2D>("Textures/Props/ForestDecoOne");
             ForestDecoTwo = content.Load<Texture2D>("Textures/Props/ForestDecoTwo");
+
+            ForestForegroundProp1 = content.Load<Texture2D>("Textures/Props/ForegroundProp1");
+            ForestForegroundProp2 = content.Load<Texture2D>("Textures/Props/ForegroundProp2");
+            ForestForegroundProp3 = content.Load<Texture2D>("Textures/Props/ForegroundProp3");
+            ForestForegroundProp4 = content.Load<Texture2D>("Textures/Props/ForegroundProp4");
+            ForestForegroundProp5 = content.Load<Texture2D>("Textures/Props/ForegroundProp5");
 
             //FrontBicep = content.Load<Texture2D>("BodyParts/FrontBicep");
             //FrontForearm = content.Load<Texture2D>("BodyParts/FrontForearm");
