@@ -52,6 +52,12 @@ namespace Flipsider
             AddPropType("Debug_TestGun", TextureCache.testGun);
             AddPropType("Debug_SaveTex", TextureCache.SaveTex);
 
+            AddPropType("Forest_ForestForegroundProp1", TextureCache.ForestForegroundProp1);
+            AddPropType("Forest_ForestForegroundProp2", TextureCache.ForestForegroundProp2);
+            AddPropType("Forest_ForestForegroundProp3", TextureCache.ForestForegroundProp3);
+            AddPropType("Forest_ForestForegroundProp4", TextureCache.ForestForegroundProp4);
+            AddPropType("Forest_ForestForegroundProp5", TextureCache.ForestForegroundProp5);
+
             ChangeFrames("City_StreetLights", 5);
             ChangeFrames("City_StopSigns", 3);
             ChangeAnimSpeed("City_StreetLights", 20);
