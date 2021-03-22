@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using static Flipsider.PropManager;
 
 namespace Flipsider
@@ -41,7 +42,8 @@ namespace Flipsider
                     int alteredRes = Main.CurrentWorld.TileRes / 4;
                     Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
                     Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
-                    props.Add(new Prop(PropType ?? "", position + posDis,1,-1,0,LayerHandler.CurrentLayer,true));
+                    Prop prop = new Prop(PropType ?? "", position + posDis, 1, -1, 0, LayerHandler.CurrentLayer, true);
+                    props.Add(prop);
                 }
                 TileManager.UselessCanPlaceBool = true;
             }
@@ -114,12 +116,14 @@ namespace Flipsider
                         propManager.props[i].isDragging = false;
                     }
                 }
+
                 if (rect.Contains(Main.MouseScreen))
                 {
                     if (Main.Editor.StateCheck(EditorUIState.PropEditorMode) && propManager.props[i].Layer == LayerHandler.CurrentLayer)
                     {
                         if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
                         {
+                            
                             propManager.props[i].Dispose();
                         }
                         if (Mouse.GetState().RightButton == ButtonState.Pressed)
