@@ -15,10 +15,12 @@ namespace Flipsider.GUI.TilePlacementGUI
         public List<int> OrderCache = new List<int>();
         protected override void OnLoad()
         {
-
-            for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
+            for(int i = 0; i<100; i++)
             {
                 OrderCache.Add(i);
+            }
+            for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
+            {
                 LayerGUIElement textBox = new LayerGUIElement(i)
                 {
                     dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + i * 20, 150, 10)
@@ -62,14 +64,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if(Buffer != LayerCount)
             {
-                if(Buffer < LayerCount)
-                {
-                    OrderCache.Add(OrderCache.Count);
-                }
-                else
-                {
-                    OrderCache.RemoveAt(OrderCache.Count - 1);
-                }
                 elements.Clear();
                 for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
                 {
