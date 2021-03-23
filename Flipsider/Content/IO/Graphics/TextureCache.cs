@@ -107,6 +107,10 @@ namespace Flipsider
         public static Texture2D ForestRockThree;
         public static Texture2D ForestRockFour;
         public static Texture2D ForestRockFive;
+
+        public static Texture2D ForestBigRockOne;
+        public static Texture2D ForestBigRockTwo;
+        public static Texture2D ForestBigRockThree;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
@@ -205,6 +209,10 @@ namespace Flipsider
             ForestRockThree = content.Load<Texture2D>("Textures/Props/ForestRockThree");
             ForestRockFour = content.Load<Texture2D>("Textures/Props/ForestRockFour");
             ForestRockFive = content.Load<Texture2D>("Textures/Props/ForestRockFive");
+
+            ForestBigRockOne = content.Load<Texture2D>("Textures/Props/ForestBigRockOne");
+            ForestBigRockTwo = content.Load<Texture2D>("Textures/Props/ForestBigRockTwo");
+            ForestBigRockThree = content.Load<Texture2D>("Textures/Props/ForestBigRockThree");
             //FrontBicep = content.Load<Texture2D>("BodyParts/FrontBicep");
             //FrontForearm = content.Load<Texture2D>("BodyParts/FrontForearm");
             //BackBicep = content.Load<Texture2D>("BodyParts/BackBicep");
