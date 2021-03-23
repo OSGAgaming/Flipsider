@@ -64,6 +64,10 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if(Buffer != LayerCount)
             {
+                for (int i = 0; i < 100; i++)
+                {
+                    OrderCache.Add(i);
+                }
                 elements.Clear();
                 for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
                 {
