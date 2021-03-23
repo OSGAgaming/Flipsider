@@ -120,6 +120,7 @@ namespace Flipsider
             i = (int)(ParallaxPosition.X/ 32);
             j = (int)(ParallaxPosition.Y/ 32);
             world = Main.CurrentWorld;
+            Layer = LayerHandler.CurrentLayer;
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {
@@ -128,6 +129,7 @@ namespace Flipsider
             Active = false;
             wall = ifWall;
             world = Main.CurrentWorld;
+            Layer = LayerHandler.CurrentLayer;
         }
         public Tile() : base()
         {
