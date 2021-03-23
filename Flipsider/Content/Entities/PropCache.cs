@@ -66,6 +66,10 @@ namespace Flipsider
             AddPropType("Forest_ForestRockFour", TextureCache.ForestRockFour);
             AddPropType("Forest_ForestRockFive", TextureCache.ForestRockFive);
 
+            AddPropType("Forest_ForestBigRockOne", TextureCache.ForestBigRockOne);
+            AddPropType("Forest_ForestBigRockTwo", TextureCache.ForestBigRockTwo);
+            AddPropType("Forest_ForestBigRockThree", TextureCache.ForestBigRockThree);
+
             ChangeFrames("City_StreetLights", 5);
             ChangeFrames("City_StopSigns", 3);
             ChangeAnimSpeed("City_StreetLights", 20);
