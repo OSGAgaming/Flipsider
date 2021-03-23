@@ -15,7 +15,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public List<int> OrderCache = new List<int>();
         protected override void OnLoad()
         {
-            for(int i = 0; i<100; i++)
+            for(int i = 0; i< 25; i++)
             {
                 OrderCache.Add(i);
             }
@@ -64,7 +64,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if(Buffer != LayerCount)
             {
-                for (int i = 0; i < 100; i++)
+                OrderCache.Clear();
+                for (int i = 0; i < 25; i++)
                 {
                     OrderCache.Add(i);
                 }
