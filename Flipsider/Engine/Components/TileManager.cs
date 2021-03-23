@@ -126,22 +126,29 @@ namespace Flipsider
      
         public void RemoveTile(World world, Point pos)
         {
-            if (Main.Editor.IsActive)
+            try
             {
-               if (GetTile(pos) != null)
-                  GetTile(pos).Dispose();
-            }
-            if (Main.Editor.AutoFrame)
-            {
-                for (int i = pos.X - 1; i < pos.X + 2; i++)
-                    for (int j = pos.Y - 1; j < pos.Y + 2; j++)
-                    {
-                        Point point = new Point(i, j);
-                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(point) != null)
+                if (Main.Editor.IsActive)
+                {
+                    if (GetTile(pos) != null)
+                        GetTile(pos).Dispose();
+                }
+                if (Main.Editor.AutoFrame)
+                {
+                    for (int i = pos.X - 1; i < pos.X + 2; i++)
+                        for (int j = pos.Y - 1; j < pos.Y + 2; j++)
                         {
-                            GetTile(point).frame = Framing.GetTileFrame(world, i, j);
+                            Point point = new Point(i, j);
+                            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(point) != null)
+                            {
+                                GetTile(point).frame = Framing.GetTileFrame(world, i, j);
+                            }
                         }
-                    }
+                }
+            }
+            catch
+            {
+
             }
         }
 
