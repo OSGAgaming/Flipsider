@@ -117,10 +117,10 @@ namespace Flipsider
             InFrame = true;
             wall = ifWall;
             position = pos*32;
+            Layer = LayerHandler.CurrentLayer;
             i = (int)(ParallaxPosition.X/ 32);
             j = (int)(ParallaxPosition.Y/ 32);
             world = Main.CurrentWorld;
-            Layer = LayerHandler.CurrentLayer;
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {
