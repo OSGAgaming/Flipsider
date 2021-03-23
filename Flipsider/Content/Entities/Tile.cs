@@ -78,6 +78,7 @@ namespace Flipsider
             binaryWriter.Write(type);
             binaryWriter.Write(i);
             binaryWriter.Write(j);
+            binaryWriter.Write(Layer);
             binaryWriter.Write(frame);
         }
         public override Entity Deserialize(Stream stream)
@@ -86,8 +87,9 @@ namespace Flipsider
             int type = binaryReader.ReadInt32();
             int x = binaryReader.ReadInt32();
             int y = binaryReader.ReadInt32();
+            int layer = binaryReader.ReadInt32();
             Rectangle R = binaryReader.ReadRect();
-            Tile tile = new Tile(type, R, new Vector2(x, y));
+            Tile tile = new Tile(type, R, new Vector2(x, y),false,layer);
             return Main.tileManager.AddTile(Main.CurrentWorld, tile);
         }
 
@@ -107,7 +109,7 @@ namespace Flipsider
 
             }
         }
-        public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false) : base()
+        public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false, int layer = -1) : base()
         {
             width = 32;
             height = 32;
@@ -117,7 +119,10 @@ namespace Flipsider
             InFrame = true;
             wall = ifWall;
             position = pos*32;
+            if(layer == -1)
             Layer = LayerHandler.CurrentLayer;
+            else
+            Layer = layer;
             i = (int)(ParallaxPosition.X/ 32);
             j = (int)(ParallaxPosition.Y/ 32);
             world = Main.CurrentWorld;
