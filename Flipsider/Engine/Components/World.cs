@@ -48,11 +48,14 @@ namespace Flipsider
         }
         public bool IsActive(int i, int j)
         {
-            if (tileManager.GetTile(i, j) != null)
+            if (i > 0 && j > 0)
             {
-                if (tileManager.GetTile(i, j).Active)
+                if (tileManager.GetTile(i, j) != null)
                 {
-                   return true;
+                    if (tileManager.GetTile(i, j).Active)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

@@ -38,13 +38,16 @@ namespace Flipsider
                     Chunk.Colliedables.RemoveThroughEntity(this);
                 }
                 Buffer1 = Surrounded;
-                if (TM.GetTile(i, j) != null)
+                if(Main.CurrentWorld.IsActive(i, j))
                 {
-                    InFrame = true;
-                }
-                else
-                {
-                    InFrame = false;
+                    if (TM.GetTile(i, j) != null)
+                    {
+                        InFrame = true;
+                    }
+                    else
+                    {
+                        InFrame = false;
+                    }
                 }
             }
         }
@@ -91,10 +94,17 @@ namespace Flipsider
 
         protected override void PostConstructor()   
         {
-            if (TileManager.CanPlace && Main.tileManager.GetTile(i,j) != null)
+            try
             {
-                Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
-                AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                if (TileManager.CanPlace && Main.tileManager.GetTile(i, j) != null)
+                {
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
+                    AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                }
+            }
+            catch
+            {
+
             }
         }
         public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false) : base()

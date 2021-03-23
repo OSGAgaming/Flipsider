@@ -51,7 +51,7 @@ namespace Flipsider
             // Register controls
             RegisterControls.Invoke();
 
-            mainCamera.targetScale = 1.2f;
+            mainCamera.targetScale = 2f;
 
 
             base.Initialize();

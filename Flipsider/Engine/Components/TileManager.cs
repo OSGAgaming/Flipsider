@@ -15,12 +15,13 @@ namespace Flipsider
         public List<Tile> tileTypes = new List<Tile>();
         public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
         public Chunk[,] chunks;
-
+        private Chunk voidChunk;
 
         public TileManager(int width, int height)
         {
             chunks = new Chunk[width/Chunk.width, height/ Chunk.height];
-            for(int i = 0; i<chunks.GetLength(0); i++)
+            voidChunk = new Chunk();
+            for (int i = 0; i<chunks.GetLength(0); i++)
             {
                 for (int j = 0; j < chunks.GetLength(1); j++)
                 {
@@ -38,8 +39,15 @@ namespace Flipsider
 
         Chunk LoadChunk(Point pos)
         {
-            chunks[pos.X, pos.Y] = new Chunk(pos);
-            return chunks[pos.X, pos.Y];
+            try
+            {
+                chunks[pos.X, pos.Y] = new Chunk(pos);
+                return chunks[pos.X, pos.Y];
+            }
+            catch
+            {
+                return voidChunk;
+            }
         }
         Chunk GetChunk(Point pos)
         {
@@ -79,9 +87,11 @@ namespace Flipsider
         public static bool CanPlace;
         public Tile AddTile(World world, Tile T, bool forcePlacement = false)
         {
-            Point pos = new Point(T.i,T.j);
-            if (CanPlace || forcePlacement)
+            try
             {
+                Point pos = new Point(T.i, T.j);
+                if (CanPlace || forcePlacement)
+                {
                     if (world.IsTileActive(pos.X, pos.Y))
                     {
                         GetTile(pos).Dispose();
@@ -91,21 +101,26 @@ namespace Flipsider
                     {
                         AddTileToChunk(T, pos);
                     }
-            }
+                }
 
-            if (Main.Editor.AutoFrame)
-            {
-                for (int i = pos.X - 1; i < pos.X + 2; i++)
-                    for (int j = pos.Y - 1; j < pos.Y + 2; j++)
-                    {
-                        Point position = new Point(i, j);
-                        if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(position) != null)
+                if (Main.Editor.AutoFrame)
+                {
+                    for (int i = pos.X - 1; i < pos.X + 2; i++)
+                        for (int j = pos.Y - 1; j < pos.Y + 2; j++)
                         {
-                            GetTile(position).frame = Framing.GetTileFrame(world, i, j);
+                            Point position = new Point(i, j);
+                            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(position) != null)
+                            {
+                                GetTile(position).frame = Framing.GetTileFrame(world, i, j);
+                            }
                         }
-                    }
+                }
+                CanPlace = true;
             }
-            CanPlace = true;
+            catch
+            {
+
+            }
             return T;
         }
      

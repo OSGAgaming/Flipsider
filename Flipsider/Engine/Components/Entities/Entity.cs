@@ -83,7 +83,6 @@ namespace Flipsider
                 PostConstructor();
                 if (Main.CurrentWorld != null)
                 {
-                    Debug.Write("Placed");
                     Main.AppendToLayer(this);
 
                     Chunk?.Entities.Add(this);

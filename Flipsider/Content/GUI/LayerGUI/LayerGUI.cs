@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using static Flipsider.TileManager;
 
 namespace Flipsider.GUI.TilePlacementGUI
@@ -10,11 +11,14 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         public int chosen = -1;
         public int LayerCount => Main.CurrentWorld.layerHandler.GetLayerCount();
+
+        public List<int> OrderCache = new List<int>();
         protected override void OnLoad()
         {
 
             for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
             {
+                OrderCache.Add(i);
                 LayerGUIElement textBox = new LayerGUIElement(i)
                 {
                     dimensions = new Rectangle((int)Main.ActualScreenSize.X - 150, 40 + i * 20, 150, 10)
@@ -25,7 +29,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 32, 32)
                 };
                 elements.Add(Hide);
-                LayerElementSwitch Switch = new LayerElementSwitch(i)
+                LayerElementSwitch Switch = new LayerElementSwitch(i,this)
                 {
                     dimensions = new Rectangle((int)Main.ActualScreenSize.X - 100, 40 + i * 20, 30, 16)
                 };
@@ -58,6 +62,14 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if(Buffer != LayerCount)
             {
+                if(Buffer < LayerCount)
+                {
+                    OrderCache.Add(OrderCache.Count);
+                }
+                else
+                {
+                    OrderCache.RemoveAt(OrderCache.Count - 1);
+                }
                 elements.Clear();
                 for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
                 {
@@ -71,7 +83,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                         dimensions = new Rectangle(- 100, 40 + i * 20, 32, 32)
                     };
                     elements.Add(Hide);
-                    LayerElementSwitch Switch = new LayerElementSwitch(i)
+                    LayerElementSwitch Switch = new LayerElementSwitch(i,this)
                     {
                         dimensions = new Rectangle(- 100, 40 + i * 20, 30, 16)
                     };
@@ -188,7 +200,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (Main.Editor.IsActive)
             {
-                dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 16;
+                dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 3;
             }
             else
             {
@@ -225,7 +237,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (Main.Editor.IsActive)
             {
-                dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 16;
+                dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 3;
             }
             else
             {
@@ -288,6 +300,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnHover()
         {
+            TileManager.CanPlace = false;
             CanPlace = false;
         }
 
@@ -321,7 +334,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (Main.Editor.IsActive)
             {
-                dimensions.Y += (32 + Layer * 20 - dimensions.Y) / 16;
+                dimensions.Y += (32 + Layer * 20 - dimensions.Y) / 3;
             }
             else
             {
@@ -336,6 +349,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnHover()
         {
+            TileManager.CanPlace = false;
             lerp += (1 - lerp) / 16f;
         }
 
@@ -349,17 +363,21 @@ namespace Flipsider.GUI.TilePlacementGUI
         private int Layer;
         private float lerp;
         private bool isSelected;
-        public LayerElementSwitch(int Layer)
+        private LayerGUI LG;
+        public LayerElementSwitch(int Layer, LayerGUI parent)
         {
             this.Layer = Layer;
+            LG = parent;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(TextureCache.SwitchLayer, dimensions.Location.ToVector2(), new Rectangle(0, 0, 30, 16), isSelected ? Color.Yellow * 0.5f : Color.White);
+            Utils.DrawTextToLeft(Main.CurrentWorld.layerHandler.Layers[LG.OrderCache[Layer]].parallax.ToString(), Color.Aqua, dimensions.Location.ToVector2() + new Vector2(80,0));
         }
+        bool isSelectedBuffer;
         protected override void OnUpdate()
         {
-            if (LayerHandler.CurrentLayer == Layer)
+            if (LayerHandler.CurrentLayer == LG.OrderCache[Layer])
             {
                 dimensions.X += (200 - dimensions.X) / 16;
             }
@@ -369,7 +387,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (Main.Editor.IsActive)
             {
-                dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 16;
+                dimensions.Y += (40 + LG.OrderCache[Layer] * 20 - dimensions.Y) / 3;
             }
             else
             {
@@ -379,6 +397,8 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 isSelected = false;
             }
+
+            isSelectedBuffer = isSelected;
         }
         protected override void OnLeftClick()
         {
@@ -391,13 +411,19 @@ namespace Flipsider.GUI.TilePlacementGUI
             else
             {
                 LayerHandler.LayerCache[1] = Layer;
+                int a = LG.OrderCache[LayerHandler.LayerCache[0]];
+                LG.OrderCache[LayerHandler.LayerCache[0]] = LG.OrderCache[LayerHandler.LayerCache[1]];
+                LG.OrderCache[LayerHandler.LayerCache[1]] = a;
+
                 Main.layerHandler.SwitchLayers(LayerHandler.LayerCache[0], LayerHandler.LayerCache[1]);
+
                 LayerHandler.LayerCache[0] = -1;
                 LayerHandler.LayerCache[1] = -1;
             }
         }
         protected override void OnHover()
         {
+            TileManager.CanPlace = false;
             lerp += (1 - lerp) / 16f;
         }
 

@@ -65,7 +65,7 @@ namespace Flipsider
         [NonSerialized]
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
-        public static int[] LayerCache = { 1, 1 };
+        public static int[] LayerCache = { -1, -1 };
         public RenderTarget2D RTGaming;
         public int PlayerLayer => Main.player.Layer;
         internal LayerManagerInfo Info
@@ -163,10 +163,6 @@ namespace Flipsider
             {
                 AppendMethodToLayer(L2[i]);
             }
-            float buffer1 = Layers[Layer1].parallax;
-            float buffer2 = Layers[Layer2].parallax;
-            SetLayerParallax(Layer1, buffer2);
-            SetLayerParallax(Layer2, buffer1);
         }
         public void SetLayerParallax(int Layer, float paralax)
         {

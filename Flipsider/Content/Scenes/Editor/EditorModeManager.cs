@@ -176,7 +176,7 @@ namespace Flipsider
                 }
                 else
                 {
-                    Main.mainCamera.targetScale = 1.2f;
+                    Main.mainCamera.targetScale = 2f;
                 }
             }
         }
