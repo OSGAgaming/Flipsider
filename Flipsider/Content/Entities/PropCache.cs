@@ -47,6 +47,16 @@ namespace Flipsider
             AddPropType("Forest_ForestDecoTwo", TextureCache.ForestDecoTwo);
             AddPropType("Forest_ForestDecoThree", TextureCache.ForestDecoThree);
             AddPropType("Forest_ForestDecoFour", TextureCache.ForestDecoFour);
+            AddPropType("Forest_ForestDecoFive", TextureCache.ForestDecoFive);
+            AddPropType("Forest_ForestDecoSix", TextureCache.ForestDecoSix);
+
+            AddPropType("Forest_ForestDecoBD1", TextureCache.ForestDecoBD1);
+            AddPropType("Forest_ForestDecoBD2", TextureCache.ForestDecoBD2);
+            AddPropType("Forest_ForestDecoBD3", TextureCache.ForestDecoBD3);
+            AddPropType("Forest_ForestDecoBD4", TextureCache.ForestDecoBD4);
+            AddPropType("Forest_ForestDecoBD5", TextureCache.ForestDecoBD5);
+            AddPropType("Forest_ForestDecoBD6", TextureCache.ForestDecoBD6);
+            AddPropType("Forest_ForestDecoBD7", TextureCache.ForestDecoBD7);
 
             AddPropType("Debug_Player", TextureCache.player);
             AddPropType("Debug_Blob", TextureCache.Blob);
@@ -65,6 +75,12 @@ namespace Flipsider
             AddPropType("Forest_ForestRockThree", TextureCache.ForestRockThree);
             AddPropType("Forest_ForestRockFour", TextureCache.ForestRockFour);
             AddPropType("Forest_ForestRockFive", TextureCache.ForestRockFive);
+            AddPropType("Forest_ForestRockSix", TextureCache.ForestRockSix);
+            AddPropType("Forest_ForestRockSeven", TextureCache.ForestRockSeven);
+            AddPropType("Forest_ForestRockEight", TextureCache.ForestRockEight);
+            AddPropType("Forest_ForestRockNine", TextureCache.ForestRockNine);
+            AddPropType("Forest_ForestRockTen", TextureCache.ForestRockTen);
+            AddPropType("Forest_ForestRockEleven", TextureCache.ForestRockEleven);
 
             AddPropType("Forest_ForestBigRockOne", TextureCache.ForestBigRockOne);
             AddPropType("Forest_ForestBigRockTwo", TextureCache.ForestBigRockTwo);
