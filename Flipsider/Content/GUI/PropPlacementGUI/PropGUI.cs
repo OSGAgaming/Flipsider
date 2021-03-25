@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Linq;
 using static Flipsider.PropManager;
 
@@ -14,6 +16,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         private readonly int paddingX = 5;
         private readonly int paddingY = 20;
         public int chosen = -1;
+
+        public int Height => 500;
+        public float Offset => Scroll * Height;
+        public int Top => paddingY;
+        public int Bottom => paddingY + Height;
+
+        public float Scroll;
         protected override void OnLoad()
         {
             tilePanel = new PropPanel[PropTypes.Count];
@@ -32,10 +41,31 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnUpdate()
         {
-
+            if(GameInput.Instance["EditorZoomIn"].IsDown())
+            {
+                Scroll += 0.05f;
+            }
+            if (GameInput.Instance["EditorZoomOut"].IsDown())
+            {
+                Scroll -= 0.05f;
+            }
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
+            {
+                alpha += (1 - alpha) / 16f;
+                Main.Editor.CanZoom = false;
+            }
+            else
+            {
+                alpha -= alpha / 16f;
+            }
+            Scroll = Math.Clamp(Scroll, -1.5f, 0);
         }
+
+        public float alpha;
         protected override void OnDraw()
         {
+            Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20),10,400,Color.CadetBlue*alpha);
+            Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20 + MathHelper.Lerp(320,0,(Scroll + 1.5f)/1.5f)), 10,80, Color.White * alpha);
             //DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
         }
     }
@@ -52,19 +82,25 @@ namespace Flipsider.GUI.TilePlacementGUI
         public PropGUI? parent;
         public int index;
         public bool active = true;
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        public bool OutOfBounds => Y < parent.Top || Y > parent.Bottom;
+        public int Y => (int)parent.Offset + startingDimensions.Y;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         public override void Draw(SpriteBatch spriteBatch)
         {
             int fluff = 5;
-            Rectangle panelDims = new Rectangle(dimensions.X - fluff, dimensions.Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
+            Rectangle panelDims = new Rectangle(dimensions.X - fluff, Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-            spriteBatch.Draw(PropTypes.Values.ToArray()[index], dimensions, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(PropTypes.Values.ToArray()[index], new Rectangle(dimensions.X,Y,dimensions.Width,dimensions.Height), PropTypes.Values.ToArray()[index].Bounds, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {
             dimensions.X = (int)MathHelper.Lerp(startingDimensions.X, goToPoint, progression);
+            dimensions.Y = Y;
             dimensions.Width = (int)MathHelper.Lerp(startingDimensions.Width, sizeOfAtlas.X, progression);
             dimensions.Height = (int)MathHelper.Lerp(startingDimensions.Height, sizeOfAtlas.Y, progression);
-            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode && !OutOfBounds)
             {
                 alpha += (1 - alpha) / 16f;
             }

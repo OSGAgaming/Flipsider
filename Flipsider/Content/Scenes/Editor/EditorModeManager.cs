@@ -9,6 +9,8 @@ namespace Flipsider
 {
     public class EditorMode : IUpdate
     {
+        public bool CanZoom { get; set; }
+
         public bool IsActive { get; set; }
         public bool Interactable { get; set; }
         public EditorUIState CurrentState;
@@ -117,15 +119,17 @@ namespace Flipsider
                 float camMoveSpeed = 5f;
                 if (Interactable)
                 {
-                    if (GameInput.Instance["EditorZoomIn"].IsDown())
+                    if (CanZoom)
                     {
-                        Main.mainCamera.targetScale += scrollSpeed;
+                        if (GameInput.Instance["EditorZoomIn"].IsDown())
+                        {
+                            Main.mainCamera.targetScale += scrollSpeed;
+                        }
+                        if (GameInput.Instance["EditorZoomOut"].IsDown())
+                        {
+                            Main.mainCamera.targetScale -= scrollSpeed;
+                        }
                     }
-                    if (GameInput.Instance["EditorZoomOut"].IsDown())
-                    {
-                        Main.mainCamera.targetScale -= scrollSpeed;
-                    }
-
                     if (GameInput.Instance["MoveRight"].IsDown())
                     {
                         Main.mainCamera.offset.X += camMoveSpeed;
@@ -148,6 +152,7 @@ namespace Flipsider
             {
                 CurrentState = EditorUIState.None;
             }
+            CanZoom = true;
             CanSwitch = true;
             Interactable = true;
         }
