@@ -90,7 +90,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.5f);
                 Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground1, -0.4f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.4f);
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
                 Utils.DrawBoxFill(new Vector2(0, 0), (int)(widthOfLeftPanel * scaling), (int)Main.ActualScreenSize.Y, colorOfLine * alpha);
             }
 
