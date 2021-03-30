@@ -17,7 +17,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         private readonly int paddingY = 20;
         public int chosen = -1;
 
-        public int Height => 500;
+        public int Height => 800;
         public float Offset => Scroll * Height;
         public int Top => paddingY;
         public int Bottom => paddingY + Height;
