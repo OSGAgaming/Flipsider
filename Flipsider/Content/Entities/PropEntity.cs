@@ -27,7 +27,8 @@ namespace Flipsider
 
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {
-            spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds,Color.White,0f, PropTypes[Prop].TextureCenter(), 1f,SpriteEffects.None,0f);
+            Main.lighting.Maps.DrawToMap("FGWater", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f); });
+            spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds,Color.White*0.2f,0f, PropTypes[Prop].TextureCenter(), 1f,SpriteEffects.None,0f);
             return false;
         }
     }

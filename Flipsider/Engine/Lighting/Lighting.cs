@@ -11,6 +11,7 @@ namespace Flipsider
     internal delegate void LightTargetEvent();
     public class Lighting
     {
+        public Map Maps;
         public Manager<LightSource> lightSources = new Manager<LightSource>();
         public RenderTarget2D? lightMap;
         public RenderTarget2D? tileMap;
@@ -35,6 +36,9 @@ namespace Flipsider
             this.baseLight = baseLight;
             generalDiffusion = GD;
             tileDiffusion = TD;
+
+            Maps = new Map();
+            Maps.AddMap("FGWater",0, new FgWaterPass());
         }
         public static Effect? LightingEffect;
         public static Effect? PrimtiveShader;
@@ -78,6 +82,7 @@ namespace Flipsider
             {
                 ls.Draw(Main.spriteBatch);
             }
+
             Main.graphics.GraphicsDevice.SetRenderTarget(tileMap);
             for (int a = 0; a < Main.layerHandler.GetLayerCount(); a++)
             {

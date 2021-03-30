@@ -1,0 +1,46 @@
+﻿using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Diagnostics;
+using static Flipsider.PropManager;
+
+namespace Flipsider
+{
+    public delegate void MapRender(SpriteBatch spriteBatch);
+    public abstract class MapPass
+    {
+        public int Index;
+
+        public RenderTarget2D? MapTarget;
+
+        internal event MapRender? MapActions;
+        protected abstract Effect? MapEffect { get; }
+        internal virtual void OnApplyShader() { }
+        public void ApplyShader()
+        {
+            MapEffect?.Parameters["screenPosition"].SetValue(Main.mainCamera.CamPos);
+            MapEffect?.Parameters["screenScale"].SetValue(Main.ScreenScale);
+            MapEffect?.Parameters["screenSize"].SetValue(new Vector2(2560, 1440));
+            MapEffect?.Parameters["noiseMap"].SetValue(TextureCache.Noise);
+            OnApplyShader();
+        }
+        public void DrawToTarget(MapRender method) => MapActions += method;
+        public void Render(SpriteBatch spriteBatch, GraphicsDevice GD)
+        {
+            GD.SetRenderTarget(MapTarget);
+            GD.Clear(Color.Transparent);
+            MapActions?.Invoke(spriteBatch);
+            MapActions = null;
+        }
+
+        public Map? Parent;
+        public MapPass()
+        {
+            Load();
+        }
+
+        public virtual void Load() { }
+    }
+}
