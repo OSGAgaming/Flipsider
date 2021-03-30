@@ -20,6 +20,7 @@ namespace Flipsider
             AddPropType("Ruins_2", TextureCache.BrickStructure2);
             AddPropType("MediumTree_1", TextureCache.MediumTree1);
             AddPropType("MediumTree_2", TextureCache.MediumTree2);
+            AddPropType("MediumTree_3", TextureCache.MediumTree3);
             AddPropType("BackgroundTree_1", TextureCache.BackgroundTree1);
             AddPropType("BackgroundTree_2", TextureCache.BackgroundTree2);
             AddPropType("BackgroundTree_3", TextureCache.BackgroundTree3);

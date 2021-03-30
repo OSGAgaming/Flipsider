@@ -14,6 +14,7 @@ namespace Flipsider
         public static Texture2D BrickStructure2;
         public static Texture2D MediumTree1;
         public static Texture2D MediumTree2;
+        public static Texture2D MediumTree3;
         public static Texture2D BackgroundTree1;
         public static Texture2D BackgroundTree2;
         public static Texture2D BackgroundTree3;
@@ -149,6 +150,7 @@ namespace Flipsider
             BackgroundTree4 = content.Load<Texture2D>("Textures/Props/BackgroundTree4");
             MediumTree1 = content.Load<Texture2D>("Textures/Props/MediumTree1");
             MediumTree2 = content.Load<Texture2D>("Textures/Props/MediumTree2");
+            MediumTree3 = content.Load<Texture2D>("Textures/Props/MediumTree3");
             ForegroundGrass1 = content.Load<Texture2D>("Textures/Props/ForegroundGrass1");
             ForestBackground1 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground1");
             ForestBackground2 = content.Load<Texture2D>("Textures/Backgrounds/ForestBackground2");
