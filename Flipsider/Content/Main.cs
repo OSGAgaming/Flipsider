@@ -46,6 +46,7 @@ namespace Flipsider
         {
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
+            EffectCache.LoadEffects(Content);
             Instatiate();
 
             // Register controls
@@ -61,7 +62,6 @@ namespace Flipsider
         {
             renderer.Load();
             CurrentWorld = new World(200, 200);
-
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             new EntityBloom(player, player.texture, 6.1f);
             font = Content.Load<SpriteFont>("FlipFont");

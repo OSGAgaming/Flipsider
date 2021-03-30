@@ -44,16 +44,21 @@ namespace Flipsider
         }
         public void Draw()
         {
-            graphics?.GraphicsDevice.Clear(Color.CornflowerBlue);
-            graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
-            Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
-            Render();
-            graphics?.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
-            lighting?.ApplyShader();
-            if (renderTarget != null)
-                PrintRenderTarget(renderTarget);
-            spriteBatch.End();
+            if (graphics != null)
+            {
+                graphics?.GraphicsDevice.Clear(Color.CornflowerBlue);
+                graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
+                Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
+                Render();
+
+                graphics?.GraphicsDevice.SetRenderTarget(null);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
+                lighting?.ApplyShader();
+                lighting?.Maps.OrderedShaderPass();
+                if (renderTarget != null)
+                    PrintRenderTarget(renderTarget);
+                spriteBatch.End();
+            }
         }
         public Vector2 PreferredSize
         {
@@ -77,6 +82,8 @@ namespace Flipsider
         {
             //Todo: Events
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            if (graphics != null)
+            lighting?.Maps.OrderedRenderPass(spriteBatch, graphics.GraphicsDevice);
             Main.instance.sceneManager.Draw(spriteBatch);
             spriteBatch.End();
         }
