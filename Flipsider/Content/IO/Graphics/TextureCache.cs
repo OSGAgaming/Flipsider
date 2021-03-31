@@ -144,10 +144,13 @@ namespace Flipsider
         public static Texture2D ForestBigRockTwo;
         public static Texture2D ForestBigRockThree;
         public static Texture2D Waterfall;
+
+        public static Texture2D WaterShaderLightMap;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
+            WaterShaderLightMap = content.Load<Texture2D>("Textures/Noise/WaterShaderLightMap");
 
             AddLayer = content.Load<Texture2D>("Textures/GUI/AddLayer");
             RemoveLayer = content.Load<Texture2D>("Textures/GUI/RemoveLayer");

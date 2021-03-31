@@ -15,6 +15,7 @@ namespace Flipsider
         internal override void OnApplyShader() 
         {
             MapEffect?.Parameters["waterMap"].SetValue(MapTarget);
+            //MapEffect?.Parameters["waterShadeMap"].SetValue(TextureCache.WaterShaderLightMap);
             MapEffect?.Parameters["Time"].SetValue(Time.TotalTimeMil / 60f);
             MapEffect?.CurrentTechnique.Passes[0].Apply();
         }
