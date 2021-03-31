@@ -265,6 +265,10 @@ namespace Flipsider
             ForestForegroundProp6 = content.Load<Texture2D>("Textures/Props/ForegroundProp6");
             ForestForegroundProp7 = content.Load<Texture2D>("Textures/Props/ForegroundProp7");
             ForestForegroundProp8 = content.Load<Texture2D>("Textures/Props/ForegroundProp8");
+            ForestForegroundProp9 = content.Load<Texture2D>("Textures/Props/ForegroundProp9");
+            ForestForegroundProp10 = content.Load<Texture2D>("Textures/Props/ForegroundProp10");
+            ForestForegroundProp11 = content.Load<Texture2D>("Textures/Props/ForegroundProp11");
+
 
             ForestRockOne = content.Load<Texture2D>("Textures/Props/ForestRockOne");
             ForestRockTwo = content.Load<Texture2D>("Textures/Props/ForestRockTwo");

@@ -87,6 +87,9 @@ namespace Flipsider
             AddPropType("Forest_ForestForegroundProp6", TextureCache.ForestForegroundProp6);
             AddPropType("Forest_ForestForegroundProp7", TextureCache.ForestForegroundProp7);
             AddPropType("Forest_ForestForegroundProp8", TextureCache.ForestForegroundProp8);
+            AddPropType("Forest_ForestForegroundProp9", TextureCache.ForestForegroundProp9);
+            AddPropType("Forest_ForestForegroundProp10", TextureCache.ForestForegroundProp10);
+            AddPropType("Forest_ForestForegroundProp11", TextureCache.ForestForegroundProp11);
 
             AddPropType("Forest_ForestRockOne", TextureCache.ForestRockOne);
             AddPropType("Forest_ForestRockTwo", TextureCache.ForestRockTwo);
