@@ -1,6 +1,7 @@
 ﻿using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -50,13 +51,14 @@ namespace Flipsider
                 graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
                 Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
                 Render();
-
                 graphics?.GraphicsDevice.SetRenderTarget(null);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
                 lighting?.ApplyShader();
-                lighting?.Maps.OrderedShaderPass();
-                if (renderTarget != null)
-                    PrintRenderTarget(renderTarget);
+                if (renderTarget != null && lighting != null)
+                {
+                    RenderTarget2D r = lighting.Maps.OrderedShaderPass(spriteBatch, renderTarget);
+                    PrintRenderTarget(r);
+                }
                 spriteBatch.End();
             }
         }
@@ -82,9 +84,9 @@ namespace Flipsider
         {
             //Todo: Events
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
-            if (graphics != null)
-            lighting?.Maps.OrderedRenderPass(spriteBatch, graphics.GraphicsDevice);
             Main.instance.sceneManager.Draw(spriteBatch);
+            if (graphics != null)
+                lighting?.Maps.OrderedRenderPass(spriteBatch, graphics.GraphicsDevice);
             spriteBatch.End();
         }
 

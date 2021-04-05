@@ -20,10 +20,13 @@ namespace Flipsider
         internal virtual void OnApplyShader() { }
         public void ApplyShader()
         {
-            MapEffect?.Parameters["screenPosition"].SetValue(Main.mainCamera.CamPos);
-            MapEffect?.Parameters["screenScale"].SetValue(Main.ScreenScale);
-            MapEffect?.Parameters["screenSize"].SetValue(new Vector2(2560, 1440));
-            MapEffect?.Parameters["noiseMap"].SetValue(TextureCache.Noise);
+            MapEffect?.Parameters["screenPosition"]?.SetValue(Main.mainCamera.CamPos);
+            MapEffect?.Parameters["screenScale"]?.SetValue(Main.ScreenScale);
+            MapEffect?.Parameters["screenSize"]?.SetValue(new Vector2(2560, 1440));
+            MapEffect?.Parameters["noiseMap"]?.SetValue(TextureCache.Noise);
+            MapEffect?.Parameters["Map"]?.SetValue(MapTarget);
+            MapEffect?.Parameters["Time"]?.SetValue(Time.TotalTimeMil / 60f);
+
             OnApplyShader();
         }
         public void DrawToTarget(MapRender method) => MapActions += method;
@@ -32,8 +35,11 @@ namespace Flipsider
             GD.SetRenderTarget(MapTarget);
             GD.Clear(Color.Transparent);
             MapActions?.Invoke(spriteBatch);
+            OnDraw();
             MapActions = null;
         }
+
+        internal virtual void OnDraw() { }
 
         public Map? Parent;
         public MapPass()

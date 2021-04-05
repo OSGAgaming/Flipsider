@@ -24,7 +24,7 @@ sampler noiseSampler = sampler_state
 };
 
 texture Map;
-sampler MapSampler = sampler_state
+sampler waterSampler = sampler_state
 {
 	Texture = (Map);
 };
@@ -43,11 +43,12 @@ float2 WorldCoordsScaled(float2 coords, float2 scale)
 {
 	return (coords * scale) / screenScale + screenPosition / screenSize;
 }
-
 float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
 {
-	float4 color = tex2D(s0, coords);
-	return color;
+  float X = screenSize.x / 2;
+  float Y = screenSize.y / 2;
+  float4 color = tex2D(s0, float2(floor(X*coords.x)/X, floor(Y * coords.y) / Y));
+  return color;
 }
 technique Technique1
 {

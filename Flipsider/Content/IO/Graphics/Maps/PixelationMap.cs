@@ -8,13 +8,12 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class FgWaterPass : MapPass
+    public class PixelationPass : MapPass
     {
-        protected override Effect? MapEffect => EffectCache.FGWaterMap;
+        protected override Effect? MapEffect => EffectCache.Pixelation;
 
         internal override void OnApplyShader() 
         {
-
             MapEffect?.CurrentTechnique.Passes[0].Apply();
         }
 

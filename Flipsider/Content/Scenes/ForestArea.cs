@@ -53,11 +53,13 @@ namespace Flipsider.Scenes
         {
             Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 50);
             Main.CurrentWorld.layerHandler.DrawLayers(spriteBatch);
+            Utils.BeginEndCameraSpritebatch();
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.skybox, -0.9f, 0.8f, offset);
             Utils.RenderBGMoving(spriteBatch, 6f, Color.White, TextureCache.SkyboxFront, -0.9f, 0.8f, offset + new Vector2(0, -400));
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.6f, 0.7f, offset + new Vector2(0, 100));
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.5f, 0.7f, offset);
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.4f, 0.7f, offset);
+            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.8f, 0.7f, offset + new Vector2(0, 100));
+            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.7f, 0.7f, offset);
+            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.6f, 0.7f, offset);
+            Utils.BeginEndCameraSpritebatch();
             Main.renderer.PrintRenderTarget(Main.layerHandler.RTGaming);
             NPC.DTH.Draw(spriteBatch);
             PropManager.ShowPropCursor();
@@ -72,7 +74,7 @@ namespace Flipsider.Scenes
                 }
             }
             Main.renderer.RenderUI();
-           //   spriteBatch.Draw(Main.renderer?.lighting?.lightMap ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
+            spriteBatch.Draw((Main.lighting.Maps.Get("Bloom") as BloomMap)?.VerticalBuffer ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.Invoke();
         }
     }

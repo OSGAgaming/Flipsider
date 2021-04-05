@@ -23,10 +23,10 @@ sampler noiseSampler = sampler_state
 	Texture = (noiseMap);
 };
 
-texture waterMap;
+texture Map;
 sampler waterSampler = sampler_state
 {
-	Texture = (waterMap);
+	Texture = (Map);
 };
 
 texture waterShadeMap;

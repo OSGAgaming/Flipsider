@@ -99,7 +99,7 @@ float4 WaterMain(VertexShaderOutput input) : COLOR
     float2 japanese = float2(coords.x + cos(progress) + GetHeight(coords / 2), coords.y/4 + sin(progress) - GetHeight(coords/2));
     input.Color.rgb -= input.TextureCoordinates.y / 2;
 	input.Color *= 0.4f;
-
+	input.Color += GetHeight(coords/4 + float2(sin(progress / 18)*0.5f, cos(progress/14)*0.5f))* GetHeight(coords/4 - float2(sin(progress / 15) * 0.5f, cos(progress / 13) * 0.5f)) *0.13f;
 	return input.Color;
 }
 float hue2rgb(float p, float q, float t){

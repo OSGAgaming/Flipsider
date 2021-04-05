@@ -11,6 +11,12 @@ namespace Flipsider
         public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.mainCamera.CamPos - center) * strenght;
         public static void BeginCameraSpritebatch()
         => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+
+        public static void BeginEndCameraSpritebatch()
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp); 
+        }
         public static void BeginAdditiveCameraSpritebatch()
        => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
         public static void QuickApplyShader(Effect effect)
@@ -23,16 +29,17 @@ namespace Flipsider
                 effect?.Parameters[i]?.SetValue(yo[i]);
             }
         }
-        public static void ApplyBloom(BloomSettings BS)
+        public static void ApplyBloom(BloomSettings BS, Vector2 Dims)
         {
-            Lighting.Bloom?.Parameters["NoOfFramesX"].SetValue(BS.NoOfFramesX);
-            Lighting.Bloom?.Parameters["NoOfFramesY"].SetValue(BS.NoOfFramesY);
-            Lighting.Bloom?.Parameters["FrameX"].SetValue(BS.FrameX);
-            Lighting.Bloom?.Parameters["FrameY"].SetValue(BS.FrameY);
-            Lighting.Bloom?.Parameters["BloomIntensity"].SetValue(BS.Intensity);
-            Lighting.Bloom?.Parameters["BloomSaturation"].SetValue(BS.Saturation);
-            Lighting.Bloom?.Parameters["Offsets"].SetValue(BS.Offsets);
-            Lighting.Bloom?.Parameters["Weights"].SetValue(BS.Weights);
+            Lighting.Bloom?.Parameters["NoOfFramesX"]?.SetValue(BS.NoOfFramesX);
+            Lighting.Bloom?.Parameters["NoOfFramesY"]?.SetValue(BS.NoOfFramesY);
+            Lighting.Bloom?.Parameters["FrameX"]?.SetValue(BS.FrameX);
+            Lighting.Bloom?.Parameters["FrameY"]?.SetValue(BS.FrameY);
+            Lighting.Bloom?.Parameters["BloomIntensity"]?.SetValue(BS.Intensity);
+            Lighting.Bloom?.Parameters["BloomSaturation"]?.SetValue(BS.Saturation);
+            Lighting.Bloom?.Parameters["Offsets"]?.SetValue(BS.Offsets);
+            Lighting.Bloom?.Parameters["Weights"]?.SetValue(BS.Weights);
+            Lighting.Bloom?.Parameters["Dims"]?.SetValue(Dims);
             Lighting.Bloom?.CurrentTechnique.Passes[0].Apply();
         }
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);

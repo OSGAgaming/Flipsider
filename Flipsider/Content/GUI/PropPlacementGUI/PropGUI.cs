@@ -1,6 +1,7 @@
 ﻿using Flipsider.Engine.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Linq;
 using static Flipsider.PropManager;
@@ -67,6 +68,21 @@ namespace Flipsider.GUI.TilePlacementGUI
             Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20),10,400,Color.CadetBlue*alpha);
             Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20 + MathHelper.Lerp(320,0,(Scroll + 1.5f)/1.5f)), 10,80, Color.White * alpha);
             //DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
+        }
+
+        internal override void DrawToScreen()
+        {
+            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
+            {
+                var Props = Main.CurrentWorld.propManager.props;
+                for (int i = 0; i < Props.Count; i++)
+                {
+                    if (Props[i].CollisionFrame.Contains(Main.MouseScreen))
+                    {
+                        Utils.DrawRectangle(Props[i].CollisionFrame, Color.White, 3);
+                    }
+                }
+            }
         }
     }
 

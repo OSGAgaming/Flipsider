@@ -8,19 +8,18 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class FgWaterPass : MapPass
+    public class LeavesPass : MapPass
     {
-        protected override Effect? MapEffect => EffectCache.FGWaterMap;
+        protected override Effect? MapEffect => EffectCache.LeavesEffect;
 
         internal override void OnApplyShader() 
         {
-
             MapEffect?.CurrentTechnique.Passes[0].Apply();
         }
 
         public override void Load()
         {
-            MapTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+            MapTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560/2, 1440/2);
         }
     }
 }

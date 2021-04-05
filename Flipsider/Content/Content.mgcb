@@ -19,17 +19,35 @@
 /processorParam:DebugMode=Auto
 /build:Effect/Bloom.fx
 
+#begin Effect/BloomEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effect/BloomEffect.fx
+
 #begin Effect/FGWaterMap.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effect/FGWaterMap.fx
 
+#begin Effect/LeavesEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effect/LeavesEffect.fx
+
 #begin Effect/Lighting.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effect/Lighting.fx
+
+#begin Effect/Pixelation.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effect/Pixelation.fx
 
 #begin Effect/PrimtiveShader.fx
 /importer:EffectImporter
@@ -463,6 +481,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Noise/VoronoiNoise.png
+
+#begin Textures/Noise/WaterShaderLightMap.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Noise/WaterShaderLightMap.png
 
 #begin Textures/Noise/WormNoisePixelated.png
 /importer:TextureImporter
@@ -1615,15 +1645,3 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/TileSet4.png
-
-#begin Textures/Noise/WaterShaderLightMap.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Noise/WaterShaderLightMap.png

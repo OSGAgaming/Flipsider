@@ -7,15 +7,17 @@
 #define PS_SHADERMODEL ps_4_0_level_9_1
 #endif
 sampler s0: register(s0);
+float2 Dims;
 float NoOfFramesX;
 float NoOfFramesY;
 float FrameX;
 float FrameY;
 float BloomIntensity;
 float BloomSaturation;
-#define SAMPLE_COUNT 100
-float2 Offsets[SAMPLE_COUNT];
+#define SAMPLE_COUNT 10
+float Offsets[SAMPLE_COUNT];
 float Weights[SAMPLE_COUNT];
+
 float4 AdjustSaturation(float4 color, float saturation)
 {
 	// The constants 0.3, 0.59, and 0.11 are chosen because the
@@ -35,7 +37,7 @@ float4 Bloom(float2 coords: TEXCOORD0) : COLOR0
 
   for (int i = 0; i < SAMPLE_COUNT; i++)
   {
-	  color += tex2D(s0, clamp(samplecoords + Offsets[i],0,1)) * Weights[i];
+	  color += tex2D(s0,samplecoords + float2(Offsets[i],0)* float2(1/Dims.x,1/Dims.y)) * Weights[i];
   }
 
   colorBuffer = AdjustSaturation(colorBuffer, 1);

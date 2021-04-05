@@ -38,7 +38,11 @@ namespace Flipsider
             tileDiffusion = TD;
 
             Maps = new Map();
+
             Maps.AddMap("FGWater",0, new FgWaterPass());
+            Maps.AddMap("Leaves", 1, new LeavesPass());
+            Maps.AddMap("Bloom", 2, new BloomMap());
+            //Maps.AddMap("Pixelation", 2, new PixelationPass());
         }
         public static Effect? LightingEffect;
         public static Effect? PrimtiveShader;

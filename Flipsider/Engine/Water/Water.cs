@@ -49,13 +49,15 @@ namespace Flipsider
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(frame);
+            binaryWriter.Write(Layer);
             base.Serialize(stream);
         }
         public override Entity Deserialize(Stream stream)
         {
             BinaryReader binaryReader = new BinaryReader(stream);
             Rectangle Frame = binaryReader.ReadRect();
-            Water water = new Water(new RectangleF(Frame.Location.ToVector2(),Frame.Size.ToVector2()));
+            int Layer = binaryReader.ReadInt32();
+            Water water = new Water(new RectangleF(Frame.Location.ToVector2(),Frame.Size.ToVector2()), Layer);
             Main.WaterBodies.Add(water);
             return water;
         }
