@@ -23,19 +23,30 @@ namespace Flipsider.Engine
         {
            // world.layerHandler = LMI.Load();
         }
+        
 
         public void Serialize(Stream stream)
         {
+            BinaryWriter binaryWriter = new BinaryWriter(stream);
+
+            binaryWriter.Write(FormatVersion.CurrentVersion);
+
             LMI.Serialize(stream);
             tileManager.Serialize(stream);
         }
-
         public LevelInfo Deserialize(Stream stream)
         {
+            BinaryReader binaryReader = new BinaryReader(stream);
+
+            FormatVersion.Version = binaryReader.ReadByte();
+
             Main.Editor.AutoFrame = false;
+
             LayerManagerInfo lmfao = LMI.Deserialize(stream);
+
             Main.CurrentWorld.layerHandler = lmfao.Load();
             TileManager TM = tileManager.Deserialize(stream);
+
             Main.Editor.AutoFrame = true;
             return new LevelInfo(TM, lmfao.Load());
         }
