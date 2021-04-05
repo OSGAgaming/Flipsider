@@ -59,6 +59,7 @@ namespace Flipsider.Scenes
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.8f, 0.7f, offset + new Vector2(0, 100));
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.7f, 0.7f, offset);
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.6f, 0.7f, offset);
+            //Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.6f, 0.7f, offset); });
             Utils.BeginEndCameraSpritebatch();
             Main.renderer.PrintRenderTarget(Main.layerHandler.RTGaming);
             NPC.DTH.Draw(spriteBatch);
@@ -74,7 +75,7 @@ namespace Flipsider.Scenes
                 }
             }
             Main.renderer.RenderUI();
-            spriteBatch.Draw((Main.lighting.Maps.Get("Bloom") as BloomMap)?.VerticalBuffer ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
+            //spriteBatch.Draw((Main.lighting.Maps.Get("Bloom") as BloomMap)?.VerticalBuffer ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.Invoke();
         }
     }

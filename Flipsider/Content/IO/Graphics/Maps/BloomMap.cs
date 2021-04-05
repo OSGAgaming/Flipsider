@@ -28,11 +28,11 @@ namespace Flipsider
             Rectangle frame = new Rectangle(0, 0, 2560, 1440);
             Main.spriteBatch.Draw(previousTarget, Main.mainCamera.CamPos, frame, Color.White, 0f, Vector2.Zero, new Vector2(1 / Main.ScreenScale, 1 / Main.ScreenScale), SpriteEffects.None, 0f);
         }
-
+        private readonly float SCALING = 2;
         internal override void OnApplyShader() 
         {
             SetGuassianParameters();
-            MapEffect?.Parameters["Dims"]?.SetValue(new Vector2(2560/2, 1440 / 2));
+            MapEffect?.Parameters["Dims"]?.SetValue(new Vector2(2560, 1440)/SCALING);
 
             MapEffect?.Parameters["Map"]?.SetValue(MapTarget);
             RenderBuffer(0, HorizontalBuffer, Main.lighting.Maps.Buffers[Index]);
