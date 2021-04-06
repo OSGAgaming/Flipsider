@@ -91,22 +91,29 @@ namespace Flipsider
         }
         protected override void OnUpdate()
         {
-            foreach (Entity Entity in Chunk.Entities)
+            foreach (Chunk chunk in Main.CurrentWorld.tileManager.chunks)
             {
-                if (Entity is LivingEntity)
+                if (chunk.Active)
                 {
-                    LivingEntity entity = (LivingEntity)Entity;
-                    float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
-                    if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
-                        SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X / 4, entity.velocity.Y * 2));
-                    if (entity.Wet && frame.Intersects(entity.CollisionFrame))
+                    foreach (Entity Entity in chunk.Entities)
                     {
-                        Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));
-                        SplashPerc((entity.Center.X - frame.X + entity.velocity.X * 12) / frame.Width, new Vector2(0, -v.X / 4 * Main.rand.NextFloat(1, 1.5f)));
-                        SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X / 7 * Main.rand.NextFloat(1, 1.5f)));
+                        if (Entity is LivingEntity)
+                        {
+                            LivingEntity entity = (LivingEntity)Entity;
+                            float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
+                            if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
+                                SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X / 4, entity.velocity.Y * 2));
+                            if (entity.Wet && frame.Intersects(entity.CollisionFrame))
+                            {
+                                Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));
+                                SplashPerc((entity.Center.X - frame.X + entity.velocity.X * 12) / frame.Width, new Vector2(0, -v.X / 4 * Main.rand.NextFloat(1, 1.5f)));
+                                SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X / 7 * Main.rand.NextFloat(1, 1.5f)));
+                            }
+                        }
                     }
                 }
             }
+
             for (int i = 0; i < accuracy + 1; i++)
             {
                 Pos[i].X += vel[i].X;
