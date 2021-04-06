@@ -13,12 +13,14 @@ namespace Flipsider
         public static Effect LeavesEffect;
         public static Effect Pixelation;
         public static Effect BloomEffect;
+        public static Effect LightingMap;
         public static void LoadEffects(ContentManager content)
         {
             FGWaterMap = content.Load<Effect>(@"Effect/FGWaterMap");
             LeavesEffect = content.Load<Effect>(@"Effect/LeavesEffect");
             Pixelation = content.Load<Effect>(@"Effect/Pixelation");
             BloomEffect = content.Load<Effect>(@"Effect/BloomEffect");
+            LightingMap = content.Load<Effect>(@"Effect/LightingMap");
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Flipsider.Engine.Particles
     {
         public bool Alive;
         public Vector2 Center;
+        public Vector2 ParalaxedCenter;
         public Vector2 Velocity;
         public Color Color;
         public float Rotation;
@@ -17,6 +18,7 @@ namespace Flipsider.Engine.Particles
         public Texture2D Texture;
         public float Lifetime;
         public float Age;
+        public float Paralax;
         public float LightIntensity;
     }
 
@@ -68,6 +70,8 @@ namespace Flipsider.Engine.Particles
                     }
                     _particles[i].Center += _particles[i].Velocity * Time.DeltaT;
                     _particles[i].Age += Time.DeltaT;
+                    _particles[i].ParalaxedCenter = _particles[i].Center.AddParallaxAcrossX(_particles[i].Paralax);
+
                     if (_particles[i].Age >= _particles[i].Lifetime)
                     {
                         _particles[i].Alive = false;
@@ -140,7 +144,7 @@ namespace Flipsider.Engine.Particles
                     Texture2D texture = p.Texture;
                     //TODO: add a source rect for each particle? or make a texture-frame pair class so that all dusts can be put into a single texture atlas for improved performance.
                     //TODO: add a layer depth value?
-                    spriteBatch.Draw(texture, WorldSpace ? p.Center : Position + p.Center, null, p.Color * p.Opacity, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texture, WorldSpace ? p.ParalaxedCenter : Position + p.ParalaxedCenter, null, p.Color * p.Opacity, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale, SpriteEffects.None, 0f);
                 }
             }
         }

@@ -76,8 +76,8 @@ namespace Flipsider
         {
             if (graphics != null)
             {
-                Rectangle frame = new Rectangle(0, 0, (int)ScreenSize.X, (int)ScreenSize.Y);
-                spriteBatch.Draw(renderTarget, Main.mainCamera.CamPos, frame, Color.White, 0f, Vector2.Zero,new Vector2(1/ScreenScale, 1/ScreenScale), SpriteEffects.None, 0f);
+                Rectangle frame = new Rectangle(0, 0, 2560, 1440);
+                spriteBatch.Draw(renderTarget, Main.mainCamera.CamPos, frame, Color.White, 0f, Vector2.Zero, 1 / ScreenScale, SpriteEffects.None, 0f);
             }
         }
         public void Render()
@@ -93,7 +93,7 @@ namespace Flipsider
         public void RenderUI()
         {
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
             Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, Vector2.One * 10, Color.Aqua);
             for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {

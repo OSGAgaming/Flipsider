@@ -50,6 +50,7 @@ namespace Flipsider
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
         public static float ScreenScale => renderer.mainCamera.scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : renderer.PreferredSize;
+
         public static Vector2 AScreenSize;
         public static Vector2 ActualScreenSize => AScreenSize;
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();

@@ -22,7 +22,11 @@ namespace Flipsider
                 if (p.Alive)
                 {
                     Texture2D texture = TextureCache.PointLight;
-                    spriteBatch.Draw(texture, ParticleSystem.WorldSpace ? p.Center : ParticleSystem.Position + p.Center, null, p.Color * p.Opacity * p.LightIntensity, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f, SpriteEffects.None, 0f);
+                    Main.lighting.Maps.DrawToMap("Lighting", (SpriteBatch sb) => {
+                        sb.Draw(texture, ParticleSystem.WorldSpace ? p.ParalaxedCenter : ParticleSystem.Position + p.ParalaxedCenter, null, p.Color * p.Opacity * p.LightIntensity*0.4f, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f + p.Paralax*0.2f, SpriteEffects.None, 0f);
+                     }
+                    );
+                    //spriteBatch.Draw(texture, ParticleSystem.WorldSpace ? p.Center : ParticleSystem.Position + p.Center, null, p.Color * p.Opacity * p.LightIntensity, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f, SpriteEffects.None, 0f);
                 }
             }
             spriteBatch.End();

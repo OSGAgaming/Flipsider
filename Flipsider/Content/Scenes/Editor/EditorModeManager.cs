@@ -31,7 +31,7 @@ namespace Flipsider
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
             Main.mainCamera.rotation = 0;
-            Main.mainCamera.scale += (Main.targetScale - Main.mainCamera.scale) / 16f;
+            Main.mainCamera.scale += (Main.targetScale - Main.mainCamera.scale) / 10f;
         }
 
         public void Draw()

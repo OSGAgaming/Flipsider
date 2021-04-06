@@ -9,6 +9,10 @@ namespace Flipsider
     {
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
         public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.mainCamera.CamPos - center) * strenght;
+
+        public static MapPass GetMap(string MapName) => Main.lighting.Maps.Get(MapName);
+
+        public static void DrawToMap(string MapName, MapRender MR) => Main.lighting.Maps.DrawToMap(MapName, MR);
         public static void BeginCameraSpritebatch()
         => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
 

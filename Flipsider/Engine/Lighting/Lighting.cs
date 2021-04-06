@@ -39,9 +39,11 @@ namespace Flipsider
 
             Maps = new Map();
 
-            Maps.AddMap("FGWater",0, new FgWaterPass());
-            Maps.AddMap("Leaves", 1, new LeavesPass());
-            Maps.AddMap("Bloom", 2, new BloomMap());
+            Maps.AddMap("Leaves", 0, new LeavesPass());
+            Maps.AddMap("Bloom", 1, new BloomMap());
+            Maps.AddMap("CanLightMap", 2, new LightingOcclusionMap());
+            Maps.AddMap("Lighting", 3, new LightingMap());
+            Maps.AddMap("FGWater", 4, new FgWaterPass());
             //Maps.AddMap("Pixelation", 2, new PixelationPass());
         }
         public static Effect? LightingEffect;

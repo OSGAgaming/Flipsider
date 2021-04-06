@@ -17,7 +17,10 @@ namespace Flipsider
 
         internal event MapRender? MapActions;
         protected abstract Effect? MapEffect { get; }
-        internal virtual void OnApplyShader() { }
+        internal virtual void OnApplyShader()
+        {
+            MapEffect?.CurrentTechnique.Passes[0].Apply();
+        }
         public void ApplyShader()
         {
             MapEffect?.Parameters["screenPosition"]?.SetValue(Main.mainCamera.CamPos);
@@ -47,6 +50,9 @@ namespace Flipsider
             Load();
         }
 
-        public virtual void Load() { }
+        public virtual void Load()
+        {
+            MapTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+        }
     }
 }

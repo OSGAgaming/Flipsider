@@ -20,13 +20,14 @@ namespace Flipsider
         [NonSerialized]
         public World world;
         public bool inFrame => ParallaxPosition.X > Utils.SafeBoundX.X - 100 && position.Y > Utils.SafeBoundY.X - 100 && ParallaxPosition.X < Utils.SafeBoundX.Y + 100 && position.Y < Utils.SafeBoundY.Y + 100;
-        public bool Surrounded => Main.CurrentWorld.IsActive(i,j-1) && Main.CurrentWorld.IsActive(i, j + 1) && Main.CurrentWorld.IsActive(i - 1, j - 1) && Main.CurrentWorld.IsActive(i + 1, j);
+        public bool Surrounded => Main.CurrentWorld.IsActive(i, j - 1) && Main.CurrentWorld.IsActive(i, j + 1) && Main.CurrentWorld.IsActive(i - 1, j - 1) && Main.CurrentWorld.IsActive(i + 1, j);
         public TileManager TM => Main.CurrentWorld.tileManager;
         bool Buffer1;
         public override void OnUpdateInEditor()
         {
             if (world != null && inFrame)
             {
+                Utils.DrawToMap("CanLightMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White));
                 drawData = new DrawData(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
                 if (!Surrounded && Buffer1)
                 {
@@ -38,7 +39,7 @@ namespace Flipsider
                     Chunk.Colliedables.RemoveThroughEntity(this);
                 }
                 Buffer1 = Surrounded;
-                if(Main.CurrentWorld.IsActive(i, j))
+                if (Main.CurrentWorld.IsActive(i, j))
                 {
                     if (TM.GetTile(i, j) != null)
                     {
@@ -56,12 +57,12 @@ namespace Flipsider
         {
             if (world != null)
             {
-               if (InFrame && Active)
-               {
-                spriteBatch.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
+                if (InFrame && Active)
+                {
+                    spriteBatch.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
                     return;
-               }
-            }   
+                }
+            }
             drawData = DrawData.Null;
         }
         public override void Dispose()
@@ -89,12 +90,12 @@ namespace Flipsider
             int y = binaryReader.ReadInt32();
             int layer = binaryReader.ReadInt32();
             Rectangle R = binaryReader.ReadRect();
-            Tile tile = new Tile(type, R, new Vector2(x, y),false,layer);
+            Tile tile = new Tile(type, R, new Vector2(x, y), false, layer);
             return Main.tileManager.AddTile(Main.CurrentWorld, tile);
         }
 
 
-        protected override void PostConstructor()   
+        protected override void PostConstructor()
         {
             try
             {
@@ -118,13 +119,13 @@ namespace Flipsider
             Active = true;
             InFrame = true;
             wall = ifWall;
-            position = pos*32;
-            if(layer == -1)
-            Layer = LayerHandler.CurrentLayer;
+            position = pos * 32;
+            if (layer == -1)
+                Layer = LayerHandler.CurrentLayer;
             else
-            Layer = layer;
-            i = (int)(ParallaxPosition.X/ 32);
-            j = (int)(ParallaxPosition.Y/ 32);
+                Layer = layer;
+            i = (int)(ParallaxPosition.X / 32);
+            j = (int)(ParallaxPosition.Y / 32);
             world = Main.CurrentWorld;
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()

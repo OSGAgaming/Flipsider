@@ -35,7 +35,7 @@ namespace Flipsider.Scenes
         public override void OnActivate()
         {
             ForestAreaParticles.Position = Vector2.Zero;
-            ForestAreaParticles.SpawnRate = 3f;
+            ForestAreaParticles.SpawnRate = 10f;
             ForestAreaParticles.WorldSpace = true;
             ForestAreaParticles.SpawnModules.Add(new SetTexture(TextureCache.pixel));
             ForestAreaParticles.SpawnModules.Add(new SetScale(2f));
@@ -44,7 +44,8 @@ namespace Flipsider.Scenes
             ForestAreaParticles.SpawnModules.Add(new SetColorBetweenTwoColours(Color.White, Color.Lime, Main.rand));
             ForestAreaParticles.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -100f));
             ForestAreaParticles.SpawnModules.Add(new SetLifetime(10f));
-            ForestAreaParticles.SpawnModules.Add(new SetLightIntensity(1f));
+            ForestAreaParticles.SpawnModules.Add(new SetLightIntensityRand(0.2f,0.5f));
+            ForestAreaParticles.SpawnModules.Add(new SetParalaxRand(.8f, -.8f));
             ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(EaseFunction.ReverseLinear));
             ForestAreaParticles.UpdateModules.Add(new TurnRand(-.5f, .5f));
             Main.lighting.lightSources.AddComponent(new ParticleLight(ForestAreaParticles));
@@ -75,7 +76,7 @@ namespace Flipsider.Scenes
                 }
             }
             Main.renderer.RenderUI();
-            //spriteBatch.Draw((Main.lighting.Maps.Get("Bloom") as BloomMap)?.VerticalBuffer ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
+            //spriteBatch.Draw(Main.lighting.Maps.Get("Lighting").MapTarget ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.CamPos.X, (int)Main.mainCamera.CamPos.Y, 800/5,480/5),Color.White);
             Main.renderer?.lighting?.Invoke();
         }
     }

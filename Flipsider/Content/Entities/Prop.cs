@@ -48,8 +48,11 @@ namespace Flipsider
                 spriteBatch.Draw(PropTypes[prop], Center, alteredFrame, Color.White, 0f, alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
-        protected override void PreUpdate() =>
+        protected override void PreUpdate()
+        {
+            Utils.DrawToMap("CanLightMap", (SpriteBatch sb) => sb.Draw(PropTypes[prop], Center, alteredFrame, Color.White, 0f, alteredFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f));
             PE?.Update();
+        }
 
 
         public override Entity Deserialize(Stream stream)

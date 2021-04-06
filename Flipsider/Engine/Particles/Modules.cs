@@ -34,6 +34,23 @@ namespace Flipsider.Engine.Particles
             particles[index].LightIntensity = intensity;
         }
     }
+
+    public class SetLightIntensityRand : IParticleModifier
+    {
+        private float intensityMin;
+        private float intensityMax;
+
+        public SetLightIntensityRand(float intensityMin, float intensityMax)
+        {
+            this.intensityMin = intensityMin;
+            this.intensityMax = intensityMax;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].LightIntensity = Main.rand.NextFloat(intensityMin, intensityMax);
+        }
+    }
     public class ModifyPosition : IParticleModifier
     {
         private Vector2 _amount;
@@ -139,6 +156,38 @@ namespace Flipsider.Engine.Particles
         public void Invoke(Particle[] particles, int index)
         {
             particles[index].Color = _c;
+        }
+    }
+
+    public class SetParalax : IParticleModifier
+    {
+        private float _p;
+
+        public SetParalax(float p)
+        {
+            _p = p;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Paralax = _p;
+        }
+    }
+
+    public class SetParalaxRand : IParticleModifier
+    {
+        private float _pMax;
+        private float _pMin;
+
+        public SetParalaxRand(float pMax, float pMin)
+        {
+            _pMax = pMax;
+            _pMin = pMin;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Paralax = Main.rand.NextFloat(_pMin, _pMax);
         }
     }
 

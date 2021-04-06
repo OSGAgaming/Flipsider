@@ -40,40 +40,16 @@ namespace Flipsider
     {
         //except this part
         public LivingEntity BindableEntity;
-        Texture2D BloomMap;
         public static GuassianWeights DefaultGuassianWeights = new GuassianWeights(20, 1, 4f);
         public EntityBloom(LivingEntity entity, Texture2D BloomMap, float str, Vector2 pos = default, Color col = default) : base(str, pos, col)
         {
             DefaultGuassianWeights = new GuassianWeights(10, 1, 4f);
             BindableEntity = entity;
-            this.BloomMap = BloomMap;
             Main.AutoAppendToLayer(this);
-        }
-        public void Dispose()
-        {
-            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = BindableEntity.texture;
-            if (BindableEntity.frame.Height != 0 && tex.Height > 3)
-            {
-                float NoOfFramesX = tex.Width / BindableEntity.framewidth;
-                float NoOfFramesY = tex.Height / BindableEntity.frame.Height;
-                float FrameX = BindableEntity.frame.Location.X / BindableEntity.frame.Width;
-                float FrameY = BindableEntity.frame.Location.Y / BindableEntity.frame.Height;
-                spriteBatch.End();
-                Utils.BeginCameraSpritebatch();
-                Utils.ApplyBloom(new BloomSettings(NoOfFramesX, NoOfFramesY,FrameX,FrameY,1,1f), new Vector2(tex.Width*4,tex.Height*4));
-                spriteBatch.Draw(tex, BindableEntity.Center - new Vector2(0,18), tex.Bounds, Color.White, 0f, tex.TextureCenter(), new Vector2(2/NoOfFramesX, 2/NoOfFramesY), BindableEntity.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-                spriteBatch.End();
-                Utils.BeginCameraSpritebatch();
-            }
-            else
-            {
-               
 
-            }
         }
     }
 }

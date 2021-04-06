@@ -43,6 +43,12 @@
 /processorParam:DebugMode=Auto
 /build:Effect/Lighting.fx
 
+#begin Effect/LightingMap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effect/LightingMap.fx
+
 #begin Effect/Pixelation.fx
 /importer:EffectImporter
 /processor:EffectProcessor
