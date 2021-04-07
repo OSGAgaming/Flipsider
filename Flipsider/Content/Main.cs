@@ -47,12 +47,13 @@ namespace Flipsider
             AutoloadTextures.GetAllAssetPaths(Utils.AssetDirectory);
 
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
+
+            //Obsolete and needs to be replaced
             TextureCache.LoadTextures(Content);
             EffectCache.LoadEffects(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
-
-            AutoloadTextures.GenerateTextureCache();
             Textures.LoadTextures();
+
             Instatiate();
 
             // Register controls

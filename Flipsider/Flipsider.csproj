@@ -33,4 +33,7 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cmd /K &quot;C:\Users\tafid\source\repos\Flipsider\TextureCacheGenerator\bin\Debug\netcoreapp3.1\TextureCacheGenerator.exe&quot;" />
+  </Target>
 </Project>

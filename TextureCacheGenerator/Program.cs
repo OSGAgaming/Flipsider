@@ -1,21 +1,16 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
 namespace Flipsider
 {
-    // TODO dude.
-#nullable disable
-    public static class AutoloadTextures
+    class Program
     {
         internal readonly static List<string> AssetPaths = new List<string>();
-
-        internal static Dictionary<string, Texture2D> Assets = new Dictionary<string, Texture2D>();
-
-        public static string TextureCachePath => Utils.MainDirectory;
+        public static string TextureCachePath => MainDirectory;
         public static void GenerateTextureCache()
         {
             FileStream stream = File.Open(TextureCachePath + @"\AutoloadTextureCache.cs", FileMode.Create);
@@ -38,7 +33,7 @@ namespace Flipsider
 
                 foreach (string s in AssetPaths)
                 {
-                    string NewString = s.Replace(@"\","_");
+                    string NewString = s.Replace(@"\", "_");
                     sw.WriteLine(@$"     public static Texture2D _{NewString};");
                 }
 
@@ -76,7 +71,7 @@ namespace Flipsider
 
                 AssetPaths.Add(AssetName);
 
-                Debug.Write(AssetName + "\n");
+                Console.Write(AssetName + " Was Written!" + "\n");
             }
         }
 
@@ -86,24 +81,25 @@ namespace Flipsider
 
             string[] remainingDirecotries = Directory.GetDirectories(DirectoryPath);
 
-            for(int i = 0; i< remainingDirecotries.Length; i++)
+            for (int i = 0; i < remainingDirecotries.Length; i++)
             {
                 var DirectorySubPath = remainingDirecotries[i];
 
                 if (Path.GetFileName(DirectorySubPath) == "bin") continue;
 
-                Debug.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
+                Console.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
                 GetAllAssetPaths(DirectorySubPath);
-                Debug.Write("\n\n");
+                Console.Write("\n\n");
             }
         }
-
-        public static void LoadTexturesToAssetCache(ContentManager content)
+        public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"%UserProfile%\source\repos\Flipsider\Flipsider\Content\Textures");
+        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"%UserProfile%\source\repos\Flipsider\Flipsider\Content");
+        static void Main(string[] args)
         {
-            foreach(string Asset in AssetPaths)
-            {
-                Assets.Add(Asset, content.Load<Texture2D>(Path.GetFileName(Utils.AssetDirectory) + $"/" + Asset));
-            }
+            GetAllAssetPaths(AssetDirectory);
+            GenerateTextureCache();
+            Console.WriteLine("A Total Of: " + AssetPaths.Count + " Assets were Written!");
+            Console.ReadLine();
         }
     }
 }
