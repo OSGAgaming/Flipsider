@@ -51,6 +51,8 @@ namespace Flipsider
             EffectCache.LoadEffects(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
 
+            AutoloadTextures.GenerateTextureCache();
+            Textures.LoadTextures();
             Instatiate();
 
             // Register controls

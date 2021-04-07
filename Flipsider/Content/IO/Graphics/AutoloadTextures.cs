@@ -18,7 +18,44 @@ namespace Flipsider
         public static string TextureCachePath => Utils.MainDirectory;
         public static void GenerateTextureCache()
         {
-            File.Open(TextureCachePath, FileMode.Open);
+            FileStream stream = File.Open(TextureCachePath + @"\AutoloadTextureCache.cs", FileMode.Create);
+            using (StreamWriter sw = new StreamWriter(stream))
+            {
+                sw.WriteLine($@"using Microsoft.Xna.Framework;");
+                sw.WriteLine($@"using Microsoft.Xna.Framework.Content;");
+                sw.WriteLine($@"using Microsoft.Xna.Framework.Graphics;");
+                sw.WriteLine($@"using System.Collections.Generic;");
+                sw.WriteLine($@"using System.Diagnostics;");
+                sw.WriteLine($@"using System.IO;");
+
+                sw.WriteLine($@"namespace Flipsider");
+                sw.WriteLine(@"{");
+
+                sw.WriteLine(@" public static class Textures");
+                sw.WriteLine(@" {");
+
+                sw.WriteLine(@"#nullable disable");
+
+                foreach (string s in AssetPaths)
+                {
+                    string NewString = s.Replace(@"\","_");
+                    sw.WriteLine(@$" public static Texture2D _{NewString};");
+                }
+
+                sw.WriteLine(@" public static void LoadTextures()");
+                sw.WriteLine(@" {");
+                foreach (string s in AssetPaths)
+                {
+                    string NewString = s.Replace(@"\", "_");
+                    sw.WriteLine($"   _{NewString} = AutoloadTextures.Assets[@\"{s}\"];");
+                }
+                sw.WriteLine(@" }");
+
+                sw.WriteLine(@" }");
+
+                sw.WriteLine(@"}");
+            }
+
         }
         public static void AddAssetsFromDirectories(string DirectoryPath)
         {
