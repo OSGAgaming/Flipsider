@@ -145,16 +145,33 @@ namespace Flipsider
         public static Texture2D ForestBigRockThree;
         public static Texture2D Waterfall;
 
+        public static Texture2D EnergyRocc;
+        public static Texture2D EnergyRoccGlow;
+
         public static Texture2D WaterShaderLightMap;
+
+        public static Texture2D HealthUI;
+        public static Texture2D ManaUI;
+        public static Texture2D HealthUILeftPointer;
+        public static Texture2D HealthUIRightPointer;
+        public static Texture2D HealthUIExtra;
         public static void LoadTextures(ContentManager content)
         {
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
             WaterShaderLightMap = content.Load<Texture2D>("Textures/Noise/WaterShaderLightMap");
 
+            HealthUI = content.Load<Texture2D>("Textures/GUI/HealthAssets/HealthRight");
+            ManaUI = content.Load<Texture2D>("Textures/GUI/HealthAssets/ManaRight");
+            HealthUILeftPointer = content.Load<Texture2D>("Textures/GUI/HealthAssets/LeftHealthPoint");
+            HealthUIRightPointer = content.Load<Texture2D>("Textures/GUI/HealthAssets/RightHealthPoint");
+            HealthUIExtra = content.Load<Texture2D>("Textures/GUI/HealthAssets/HealthExtra");
+
             AddLayer = content.Load<Texture2D>("Textures/GUI/AddLayer");
             RemoveLayer = content.Load<Texture2D>("Textures/GUI/RemoveLayer");
 
+            EnergyRocc = content.Load<Texture2D>("Textures/Props/EnergyRocc");
+            EnergyRoccGlow = content.Load<Texture2D>("Textures/Props/EnergyRoccGlow");
             BrickStructure1 = content.Load<Texture2D>("Textures/Props/BrickStructure1");
             BrickStructure2 = content.Load<Texture2D>("Textures/Props/BrickStructure2");
             Noise = content.Load<Texture2D>("Textures/Noise/Noise");
@@ -193,7 +210,9 @@ namespace Flipsider
             TileSet3 = content.Load<Texture2D>("Textures/TileSet3");
             TileSet4 = content.Load<Texture2D>("Textures/TileSet4");
             player = content.Load<Texture2D>("Textures/char");
-            CrowBar = content.Load<Texture2D>("Textures/CrowBar");
+
+            CrowBar = content.Load<Texture2D>("Textures/Weapons/CrowBar");
+
             hudSlot = content.Load<Texture2D>("Textures/GUI/HudSlot");
             WhiteScreen = content.Load<Texture2D>("Textures/GUI/WhiteScreen");
             testGun = content.Load<Texture2D>("Textures/GUI/TestGun");

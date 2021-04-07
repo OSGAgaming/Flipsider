@@ -57,5 +57,17 @@ namespace Flipsider
             return false;
         }
     }
+
+    public class EnergyRocc : PropEntity
+    {
+        public override string Prop => "EnergyRocc";
+
+        public override bool Draw(SpriteBatch spriteBatch, Prop prop)
+        {
+            Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(TextureCache.EnergyRoccGlow, prop.Center, PropTypes[Prop].Bounds, Color.White*Time.SineTime(2f), 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
+            spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f);
+            return false;
+        }
+    }
 }
 

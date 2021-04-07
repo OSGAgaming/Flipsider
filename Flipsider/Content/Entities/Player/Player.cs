@@ -12,7 +12,7 @@ using System.IO;
 // TODO fix this..
 namespace Flipsider
 {
-    public class Player : LivingEntity
+    public partial class Player : LivingEntity
     {
 
         public IStoreable? SelectedItem;
@@ -170,6 +170,14 @@ namespace Flipsider
             else if (velocity.X <= -acceleration)
             {
                 spriteDirection = -1;
+            }
+
+            if (TimeOutsideOfCombat > 0)
+                TimeOutsideOfCombat--;
+
+            if (isAttacking)
+            {
+                TimeOutsideOfCombat = 60;
             }
         }
 

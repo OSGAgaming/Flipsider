@@ -49,19 +49,30 @@ float2 WorldCoordsScaled(float2 coords, float2 scale)
 {
 	return (coords * scale) / screenScale + screenPosition / screenSize;
 }
+
+float2 Round(float2 coords, int accuracy)
+{
+	float pixelX = screenSize.x / accuracy;
+	float pixelY = screenSize.y / accuracy;
+	return float2(floor(coords.x * pixelX) / pixelX, floor(coords.y * pixelY) / pixelY);
+}
+
+
 float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
 {
+
   float2 coordsToWorld = WorldCoords(coords);
-  float2 NoiseSample = float2(sin(Time / 560) +coordsToWorld.x, cos(Time / 560) + coordsToWorld.y - Time/60);
-  float2 NoiseSample2 = float2(cos(Time / 260) - coordsToWorld.y, -sin(Time / 460) + coordsToWorld.x - Time / 120);
-  float2 WaterSampleCoords = float2(sin(coordsToWorld.y * 30 - Time / 2), 0) * 0.0025f * GetHeight(float2(0, Time / 120 + coordsToWorld.y / 5));
+
+  float2 RTW = Round(coordsToWorld, 2);
+
+  float2 NoiseSample = float2(sin(Time / 560) + RTW.x, cos(Time / 560) + RTW.y - Time/60);
+  float2 NoiseSample2 = float2(cos(Time / 260) - RTW.y, -sin(Time / 460) + RTW.x - Time / 120);
+  float2 WaterSampleCoords = float2(sin(RTW.y * 30 - Time / 2), 0) * 0.0025f * GetHeight(float2(0, Time / 120 + RTW.y / 5));
   float4 waterMap = tex2D(waterSampler, coords + WaterSampleCoords);
-  float4 waterShadeMap = tex2D(waterShadeSampler, WorldCoordsScaled(coords, float2(100,100)) * GetHeight(NoiseSample) * GetHeight(NoiseSample2));
   float4 color = tex2D(s0, coords + GetHeight(coordsToWorld + float2(sin(Time / 60), cos(Time / 60)) - float2(cos(Time / 120), sin(Time / 120)) * screenScale) * waterMap.a*0.01f);
-  color += waterMap * 0.5f - (waterMap.a * sin(coordsToWorld.y * 10 - Time*0.7f)*0.1f* GetHeight(float2(-Time / 240 + coordsToWorld.x,0)));
+  color += waterMap * 0.5f - (waterMap.a * sin(RTW.y * 10 - Time*0.7f)*0.1f* GetHeight(float2(-Time / 240 + RTW.x,0)));
 
-
-  float sampleCoords = GetHeight(float2(coordsToWorld.x * 5 - Time / 140, coordsToWorld.y/3 - Time / 40))* GetHeight(float2(coordsToWorld.x * 5 + Time / 140, coordsToWorld.y/3 - Time / 40));
+  float sampleCoords = GetHeight(float2(RTW.x * 5 - Time / 140, RTW.y/3 - Time / 40))* GetHeight(float2(RTW.x * 5 + Time / 140, RTW.y/3 - Time / 40));
   if (sampleCoords > 0.5f)
   {
 	  color += 0.3f * waterMap.a;
@@ -70,7 +81,15 @@ float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
   {
 	  color.rgb -= 0.08f * waterMap.a;
   }
-  color += waterMap.a*pow(sin(coordsToWorld.y * 3 - Time * 0.1f + GetHeight(float2(coordsToWorld.x - Time / 240, 0))*0.3f),2)*0.2f;
+  if (sampleCoords < 0.2f)
+  {
+	  color.rgb += 0.08f * waterMap.a;
+  }
+  if (sampleCoords > 0.6f)
+  {
+	  color.rgb += 0.48f * waterMap.a;
+  }
+  color += waterMap.a*pow(sin(RTW.y * 3 - Time * 0.1f + GetHeight(float2(RTW.x - Time / 240, 0))*0.3f),2)*0.2f;
   
   //float4 left = tex2D(waterSampler, coords	 + WaterSampleCoords + float2(-1/100,0));
   //color += (1 - left.a) * waterMap.a;

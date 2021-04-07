@@ -41,6 +41,8 @@ namespace Flipsider
             AddPropType("City_StopSigns", TextureCache.StopSigns);
             AddPropType("City_StreetLights", TextureCache.StreetLights);
 
+            AddPropType("EnergyRocc", TextureCache.EnergyRocc);
+
             AddPropType("Forest_ForestTree1", TextureCache.ForestTree1);
             AddPropType("Forest_ForestTree2", TextureCache.ForestTree2);
             AddPropType("Forest_ForestFlowerOne", TextureCache.ForestFlowerOne);
