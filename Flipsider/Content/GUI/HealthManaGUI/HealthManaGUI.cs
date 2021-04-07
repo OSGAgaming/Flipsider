@@ -16,7 +16,7 @@ namespace Flipsider.GUI.HealthManaGUI
 
             Mana mana = new Mana()
             {
-                dimensions = new Rectangle(new Point(20, 60), TextureCache.ManaUI.Bounds.Size)
+                dimensions = new Rectangle(new Point(20, 65), TextureCache.ManaUI.Bounds.Size)
             };
             elements.Add(mana);
         }
@@ -52,8 +52,8 @@ namespace Flipsider.GUI.HealthManaGUI
 
             int ExtraChains = ExtraLife / 10;
 
-            Point left = new Point(dimensions.X - 12, dimensions.Y - 5);
-            Point right = new Point(dimensions.X + dimensions.Size.X + 3 + ExtraChains*2, dimensions.Y - 5);
+            Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
+            Point right = new Point(dimensions.X + dimensions.Size.X + 5 + ExtraChains*2, dimensions.Y - 5);
 
             Point size = new Point((int)(TextureCache.HealthUI.Width * HealthPerc), TextureCache.HealthUI.Height);
             Point pos = new Point(dimensions.X + ExtraChains * 2, dimensions.Y);
@@ -66,6 +66,8 @@ namespace Flipsider.GUI.HealthManaGUI
             spriteBatch.Draw(TextureCache.HealthUI, new Rectangle(pos, size), Color.White * alpha);
             spriteBatch.Draw(TextureCache.HealthUILeftPointer, new Rectangle(left, TextureCache.HealthUILeftPointer.Bounds.Size), Color.White * alpha);
             spriteBatch.Draw(TextureCache.HealthUIRightPointer, new Rectangle(right, TextureCache.HealthUIRightPointer.Bounds.Size), Color.White * alpha);
+
+            Utils.DrawRectangle(new Rectangle(dimensions.Location, new Point(size.X + ExtraChains*2, size.Y)).Inf(2, 2), Color.Maroon, 2f);
         }
         protected override void OnUpdate()
         {
@@ -104,11 +106,14 @@ namespace Flipsider.GUI.HealthManaGUI
 
             dimensions.Y = (int)MathHelper.SmoothStep(-100, 60, alpha);
 
-            Point left = new Point(dimensions.X - 12, dimensions.Y - 5);
-            Point right = new Point(dimensions.X + dimensions.Size.X + 3, dimensions.Y - 5);
+            Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
+            Point right = new Point(dimensions.X + dimensions.Size.X + 5, dimensions.Y - 5);
+
             spriteBatch.Draw(TextureCache.ManaUI, dimensions, Color.White);
             spriteBatch.Draw(TextureCache.HealthUILeftPointer, new Rectangle(left, TextureCache.HealthUILeftPointer.Bounds.Size), Color.White * alpha);
             spriteBatch.Draw(TextureCache.HealthUIRightPointer, new Rectangle(right, TextureCache.HealthUIRightPointer.Bounds.Size), Color.White * alpha);
+
+            Utils.DrawRectangle(dimensions.Inf(2,2),Color.Maroon,2f);
         }
         protected override void OnUpdate()
         {
