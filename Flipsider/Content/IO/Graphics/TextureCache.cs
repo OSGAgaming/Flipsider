@@ -1,7 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+using System.Diagnostics;
+using System.IO;
 
 namespace Flipsider
 {
@@ -155,8 +156,10 @@ namespace Flipsider
         public static Texture2D HealthUILeftPointer;
         public static Texture2D HealthUIRightPointer;
         public static Texture2D HealthUIExtra;
+        public static Texture2D WeaponPanel;
         public static void LoadTextures(ContentManager content)
         {
+
             pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
             WaterShaderLightMap = content.Load<Texture2D>("Textures/Noise/WaterShaderLightMap");
@@ -166,6 +169,7 @@ namespace Flipsider
             HealthUILeftPointer = content.Load<Texture2D>("Textures/GUI/HealthAssets/LeftHealthPoint");
             HealthUIRightPointer = content.Load<Texture2D>("Textures/GUI/HealthAssets/RightHealthPoint");
             HealthUIExtra = content.Load<Texture2D>("Textures/GUI/HealthAssets/HealthExtra");
+            WeaponPanel = content.Load<Texture2D>("Textures/GUI/HealthAssets/WeaponPanel");
 
             AddLayer = content.Load<Texture2D>("Textures/GUI/AddLayer");
             RemoveLayer = content.Load<Texture2D>("Textures/GUI/RemoveLayer");

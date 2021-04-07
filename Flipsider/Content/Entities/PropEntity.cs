@@ -64,7 +64,12 @@ namespace Flipsider
 
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {
+            Texture2D tex = TextureCache.PointLight;
+
             Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(TextureCache.EnergyRoccGlow, prop.Center, PropTypes[Prop].Bounds, Color.White*Time.SineTime(2f), 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
+
+            Main.lighting.Maps.DrawToMap("Lighting", (SpriteBatch sb) => { sb.Draw(tex, prop.Center + new Vector2(0,26), tex.Bounds, Color.CadetBlue * Time.SineTime(2f) * 0.5f, 0f, tex.TextureCenter(),0.8f, SpriteEffects.None, 0f); });
+
             spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f);
             return false;
         }

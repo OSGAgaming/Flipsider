@@ -124,13 +124,20 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.Editor.IsActive)
             {
-                alpha = 1;
+                Alpha = Alpha.ReciprocateTo(1f);
+            }
+            else
+            {
+                Alpha = Alpha.ReciprocateTo(0f);
+            }
+
+            if (Main.Editor.IsActive)
+            {
                 string text = "Set Player Layer:";
                 Utils.DrawTextToLeft(text, Color.Black, dimensions.Location.ToVector2() - new Vector2(Main.font.MeasureString(text).X, 0));
             }
             else
             {
-                alpha = 0;
             }
             KeyboardState keyboard = Keyboard.GetState();
             if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out _))
@@ -145,6 +152,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void PostUpdate()
         {
+
+
             if (hasCursor)
             {
                 Main.Editor.CanSwitch = false;

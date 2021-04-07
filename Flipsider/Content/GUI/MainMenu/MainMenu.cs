@@ -81,7 +81,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
             if (alpha > 0.01f)
             {
-                Main.mainCamera.offset.Y += (12 - Main.mainCamera.offset.Y) / 16f;
+                Main.mainCamera.Offset.Y += (12 - Main.mainCamera.Offset.Y) / 16f;
                 Utils.DrawBoxFill(Vector2.Zero, 1980, 1080, Color.Lerp(Color.Black, Color.White, lerp) * alpha);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);

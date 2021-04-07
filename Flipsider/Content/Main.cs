@@ -44,9 +44,13 @@ namespace Flipsider
         public static string MainPath => Environment.CurrentDirectory + $@"\";
         protected override void Initialize()
         {
+            AutoloadTextures.GetAllAssetPaths(Utils.AssetDirectory);
+
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             TextureCache.LoadTextures(Content);
             EffectCache.LoadEffects(Content);
+            AutoloadTextures.LoadTexturesToAssetCache(Content);
+
             Instatiate();
 
             // Register controls

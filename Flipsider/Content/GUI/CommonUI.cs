@@ -11,10 +11,12 @@ namespace Flipsider.GUI
     internal class Box : UIElement
     {
         protected virtual Color color => Color.Black;
+
+        protected float Alpha;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Utils.DrawBoxFill(dimensions.Inf(2, 2), Color.CadetBlue);
-            Utils.DrawBoxFill(dimensions,color);
+            Utils.DrawBoxFill(dimensions.Inf(2, 2), Color.CadetBlue * Alpha);
+            Utils.DrawBoxFill(dimensions,color * Alpha);
             PostDraw(spriteBatch); 
         }
         protected virtual void PostDraw(SpriteBatch spriteBatch) { }
@@ -77,7 +79,6 @@ namespace Flipsider.GUI
     {
         protected override Color color => Color.White;
         public string inputText = "";
-        public float alpha = 1f;
         public bool hasCursor;
         public float lerp;
         public float Number => float.Parse(inputText);
@@ -108,12 +109,12 @@ namespace Flipsider.GUI
         {
             Vector2 FS = Main.font.MeasureString(inputText);
             int disp = dimensions.Height / 2 - (int)FS.Y / 2;
-            Utils.DrawTextToLeft(inputText, Color.Black * alpha, dimensions.Location.ToVector2() + new Vector2(0, disp));
+            Utils.DrawTextToLeft(inputText, Color.Black * Alpha, dimensions.Location.ToVector2() + new Vector2(0, disp));
             if (hasCursor)
             {
                 Point pos = new Point(dimensions.Location.X + (int)FS.X + 1, dimensions.Location.Y + disp);
                 Point size = new Point(2, (int)FS.Y);
-                spriteBatch.Draw(TextureCache.magicPixel, new Rectangle(pos, size), Color.Black * Time.SineTime(10f) * alpha);
+                spriteBatch.Draw(TextureCache.magicPixel, new Rectangle(pos, size), Color.Black * Time.SineTime(10f) * Alpha);
             }
             CustomDraw(spriteBatch);
         }

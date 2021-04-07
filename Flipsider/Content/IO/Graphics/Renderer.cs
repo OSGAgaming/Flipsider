@@ -94,7 +94,7 @@ namespace Flipsider
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
-            Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, Vector2.One * 10, Color.Aqua);
+            Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, Utils.ActualScreenSize + new Vector2(-80,-30), Color.Aqua);
             for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {
                 UIScreenManager.Instance.Components[i].active = true;

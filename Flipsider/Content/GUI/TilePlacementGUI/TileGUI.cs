@@ -165,7 +165,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     Vector2 mousePos = Main.MouseScreen.ToVector2();
                     Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
                     float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                    Vector2 offsetSnap = new Vector2((int)Main.mainCamera.offset.X, (int)Main.mainCamera.offset.Y);
+                    Vector2 offsetSnap = new Vector2((int)Main.mainCamera.Offset.X, (int)Main.mainCamera.Offset.Y);
                     Rectangle TileFrame = Main.Editor.AutoFrame ? Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : Main.Editor.currentFrame;
 
                     if (Main.Editor.currentType == -1)

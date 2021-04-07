@@ -22,7 +22,6 @@ namespace Flipsider.Weapons
                 ComboLag = 20;
                 if(comboState == 1 || comboState == 0)
                 {
-                    Camera.screenShake += 4;
                   //  player.velocity.X += 6f;
                 }
             }
@@ -39,10 +38,18 @@ namespace Flipsider.Weapons
                     case 0:
                         player.isAttacking = !player.Animate(5, 6, 48, 4, false);
                         player.velocity.X += 0.005f * (delay - activeTimeLeft);
+                        if (activeTimeLeft == delay - 10)
+                        {
+                            Camera.screenShake += 4;
+                        }
                         break;
                     case 1:
                         player.isAttacking = !player.Animate(5, 6, 48, 5, false);
                         player.velocity.X += 0.01f * (delay - activeTimeLeft);
+                        if (activeTimeLeft == delay - 10)
+                        {
+                            Camera.screenShake += 4;
+                        }
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);

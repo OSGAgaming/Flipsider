@@ -116,7 +116,7 @@ namespace Flipsider.Engine.Particles
 
         private void NewParticle(int index)
         {
-            _particles[index].Center = WorldSpace ? Position : Vector2.Zero;
+            _particles[index].Center = (WorldSpace ? Position : Vector2.Zero);
             _particles[index].Velocity = Vector2.Zero;
             _particles[index].Color = Color.White;
             _particles[index].Rotation = 0f;

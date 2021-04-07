@@ -10,15 +10,21 @@ namespace Flipsider.GUI.HealthManaGUI
         {
             Health health = new Health()
             {
-                dimensions = new Rectangle(new Point(20,40), TextureCache.HealthUI.Bounds.Size)
+                dimensions = new Rectangle(new Point(100,10), TextureCache.HealthUI.Bounds.Size)
             };
             elements.Add(health);
 
             Mana mana = new Mana()
             {
-                dimensions = new Rectangle(new Point(20, 65), TextureCache.ManaUI.Bounds.Size)
+                dimensions = new Rectangle(new Point(100, 35), TextureCache.ManaUI.Bounds.Size)
             };
             elements.Add(mana);
+
+            WeaponPanel weaponPanel = new WeaponPanel()
+            {
+                dimensions = new Rectangle(new Point(20, 35), TextureCache.WeaponPanel.Bounds.Size)
+            };
+            elements.Add(weaponPanel);
         }
 
         protected override void OnUpdate()
@@ -39,17 +45,6 @@ namespace Flipsider.GUI.HealthManaGUI
         float alpha;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if(Main.player.TimeOutsideOfCombat == 0)
-            {
-                alpha -= alpha / 20f;
-            }
-            else
-            {
-                alpha = alpha.ReciprocateTo(1f, 20f);
-            }
-
-            dimensions.Y = (int)MathHelper.SmoothStep(-100, 40, alpha);
-
             int ExtraChains = ExtraLife / 10;
 
             Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
@@ -71,7 +66,16 @@ namespace Flipsider.GUI.HealthManaGUI
         }
         protected override void OnUpdate()
         {
+            if (Main.player.TimeOutsideOfCombat == 0)
+            {
+                alpha -= alpha / 20f;
+            }
+            else
+            {
+                alpha = alpha.ReciprocateTo(1f, 20f);
+            }
 
+            dimensions.Y = (int)MathHelper.SmoothStep(-100, 10, alpha);
         }
         protected override void OnLeftClick()
         {
@@ -95,17 +99,6 @@ namespace Flipsider.GUI.HealthManaGUI
         float alpha;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Main.player.TimeOutsideOfCombat == 0)
-            {
-                alpha -= alpha / 20f;
-            }
-            else
-            {
-                alpha = alpha.ReciprocateTo(1f, 20f);
-            }
-
-            dimensions.Y = (int)MathHelper.SmoothStep(-100, 60, alpha);
-
             Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
             Point right = new Point(dimensions.X + dimensions.Size.X + 5, dimensions.Y - 5);
 
@@ -117,6 +110,15 @@ namespace Flipsider.GUI.HealthManaGUI
         }
         protected override void OnUpdate()
         {
+            if (Main.player.TimeOutsideOfCombat == 0)
+            {
+                alpha -= alpha / 20f;
+            }
+            else
+            {
+                alpha = alpha.ReciprocateTo(1f, 20f);
+            }
+            dimensions.Y = (int)MathHelper.SmoothStep(-100, 35, alpha);
 
         }
         protected override void OnLeftClick()
@@ -133,4 +135,39 @@ namespace Flipsider.GUI.HealthManaGUI
 
         }
     }
+
+    internal class WeaponPanel : UIElement
+    {
+        float alpha;
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(TextureCache.WeaponPanel, dimensions, Color.White);
+        }
+        protected override void OnUpdate()
+        {
+            if (Main.player.TimeOutsideOfCombat == 0)
+            {
+                alpha -= alpha / 16f;
+            }
+            else
+            {
+                alpha = alpha.ReciprocateTo(1f, 16f);
+            }
+            dimensions.Y = (int)MathHelper.SmoothStep(-100, 10, alpha);
+        }
+        protected override void OnLeftClick()
+        {
+
+        }
+        protected override void OnHover()
+        {
+
+        }
+
+        protected override void NotOnHover()
+        {
+
+        }
+    }
+
 }

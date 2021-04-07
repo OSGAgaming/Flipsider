@@ -31,7 +31,7 @@ namespace Flipsider
         {
             Main.mainCamera.FixateOnPlayer(Main.player);
             Main.mainCamera.rotation = 0;
-            Main.mainCamera.scale += (Main.targetScale - Main.mainCamera.scale) / 10f;
+            Main.mainCamera.scale += (Main.targetScale / Camera.Scaling - Main.mainCamera.scale) / 10f;
         }
 
         public void Draw()
@@ -56,7 +56,7 @@ namespace Flipsider
         {
             if (!IsActive && Main.CurrentScene.Name != "Main Menu")
             {
-                Main.mainCamera.offset -= Main.mainCamera.offset / 16f;
+                Main.mainCamera.Offset -= Main.mainCamera.Offset / 16f;
             }
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
@@ -132,19 +132,19 @@ namespace Flipsider
                     }
                     if (GameInput.Instance["MoveRight"].IsDown())
                     {
-                        Main.mainCamera.offset.X += camMoveSpeed;
+                        Main.mainCamera.Offset.X += camMoveSpeed;
                     }
                     if (GameInput.Instance["MoveLeft"].IsDown())
                     {
-                        Main.mainCamera.offset.X -= camMoveSpeed;
+                        Main.mainCamera.Offset.X -= camMoveSpeed;
                     }
                     if (GameInput.Instance["MoveUp"].IsDown())
                     {
-                        Main.mainCamera.offset.Y -= camMoveSpeed;
+                        Main.mainCamera.Offset.Y -= camMoveSpeed;
                     }
                     if (GameInput.Instance["MoveDown"].IsDown())
                     {
-                        Main.mainCamera.offset.Y += camMoveSpeed;
+                        Main.mainCamera.Offset.Y += camMoveSpeed;
                     }
                 }
             }

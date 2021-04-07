@@ -6,6 +6,10 @@ namespace Flipsider
 {
     public static partial class Utils
     {
+        public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"%UserProfile%\source\repos\Flipsider\Flipsider\Content\Textures");
+
+        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"%UserProfile%\source\repos\Flipsider\Flipsider\Content");
+
         public static IEnumerable<T> Flatten<T>(this T[,] matrix)
         {
             foreach (var item in matrix) yield return item;
