@@ -66,6 +66,7 @@ namespace Flipsider
         {
             AddModule("Collision", new Collideable(this, false));
             AddModule("RigidBody", new RigidBody(this, 1f));
+            AddModule("Hitbox", new HitBox(this));
         }
         protected LivingEntity() : base()
         {
@@ -92,17 +93,25 @@ namespace Flipsider
             AI();
             ApplyForces();
             if (!noGravity)
+
             UpdateEntityModifier("RigidBody");
+
             UpdatePosition();
+
             if(Collides && Active)
             UpdateEntityModifier("Collision");
+
+            UpdateEntityModifier("Hitbox");
+
             Constraints();
             PostAI();
+
             InFrame = ParallaxPosition.X > 
                 Utils.SafeBoundX.X - 5 && position.Y > 
                 Utils.SafeBoundY.X - 5 && ParallaxPosition.X < 
                 Utils.SafeBoundX.Y + 5 && position.Y < 
                 Utils.SafeBoundY.Y + 5;
+
             foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
             {
                 if (water.frame.Intersects(CollisionFrame))

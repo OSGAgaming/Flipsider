@@ -152,6 +152,7 @@ namespace Flipsider
      public static Texture2D _Props_TrafficLight;
      public static Texture2D _Props_Waterfall;
      public static Texture2D _Weapons_Crowbar;
+     public static Texture2D _Weapons_Crowbar_Icon;
      public static void LoadTextures()
      {
        _Birb = AutoloadTextures.Assets[@"Birb"];
@@ -297,6 +298,7 @@ namespace Flipsider
        _Props_TrafficLight = AutoloadTextures.Assets[@"Props\TrafficLight"];
        _Props_Waterfall = AutoloadTextures.Assets[@"Props\Waterfall"];
        _Weapons_Crowbar = AutoloadTextures.Assets[@"Weapons\Crowbar"];
+       _Weapons_Crowbar_Icon = AutoloadTextures.Assets[@"Weapons\Crowbar_Icon"];
      }
    }
 }

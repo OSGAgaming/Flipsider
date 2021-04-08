@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 
 namespace Flipsider.Weapons
@@ -10,7 +11,7 @@ namespace Flipsider.Weapons
 
         public Crowbar() : base(5, 108, 2)
         {
-            SetInventoryIcon(TextureCache.GreenSlime);
+            SetInventoryIcon(Textures._Weapons_Crowbar_Icon);
         }
         Player player => Main.player;
         protected override void OnActivation()
@@ -26,40 +27,47 @@ namespace Flipsider.Weapons
                 }
             }
         }
-        
-        Texture2D crowbar => TextureCache.CrowBar;
+        public override void UpdatePassive()
+        {
+            base.UpdatePassive();
+            if (!player.isAttacking)
+            {
+                InvetoryRotation = InvetoryRotation.ReciprocateTo(0f);
+                off = off.ReciprocateTo(Vector2.Zero);
+            }
+        }
         public override void UpdateActive()
         {
             if (player.isAttacking)
             {
-                
+                int MouseDisp = Mouse.GetState().Position.X < Utils.ScreenSize.X/2 ? -1 : 1;
                 switch (comboState)
                 {
                     case 0:
                         player.isAttacking = !player.Animate(5, 6, 48, 4, false);
-                        player.velocity.X += 0.005f * (delay - activeTimeLeft);
+                        player.velocity.X += 0.001f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                            Camera.screenShake += 4;
+                            Camera.screenShake += 2;
                         }
                         break;
                     case 1:
                         player.isAttacking = !player.Animate(5, 6, 48, 5, false);
-                        player.velocity.X += 0.01f * (delay - activeTimeLeft);
+                        player.velocity.X += 0.002f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                            Camera.screenShake += 4;
+                            Camera.screenShake += 2;
                         }
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
-                        if(activeTimeLeft == delay - 30)
+                        if (activeTimeLeft == delay - 30)
                         {
                             Camera.screenShake += 10;
                         }
                         if(activeTimeLeft >= delay - 30)
                         {
-                            player.velocity.X += 0.015f * (delay - activeTimeLeft);
+                            player.velocity.X += 0.015f * (delay - activeTimeLeft) * MouseDisp;
                         }
                         else
                         {
@@ -74,6 +82,8 @@ namespace Flipsider.Weapons
             }
         }
         public int ComboLag;
+
+        public float InvetoryRotation;
         public override void Update()
         {
             if (ComboLag > 0 && !player.isAttacking) ComboLag--;
@@ -81,11 +91,16 @@ namespace Flipsider.Weapons
             if (ComboLag == 0) comboState = 2;
 
         }
-        public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
+
+        Vector2 off;
+        public override void DrawInventory(SpriteBatch spriteBatch, Rectangle source)
         {
-            Rectangle frame = new Rectangle(0, 50, 69, 50);
-            spriteBatch.Draw(crowbar,player.position,frame,Color.White);
-            base.DrawInventory(spriteBatch, pos);
+            if (Main.player.leftWeapon.inventoryIcon != null)
+            {
+                Texture2D tex = Main.player.leftWeapon.inventoryIcon;
+                Rectangle rect = tex.Bounds;
+                spriteBatch.Draw(tex, source.AddPos(off), rect, Color.White, InvetoryRotation,Vector2.Zero, SpriteEffects.None,0f);
+            }
         }
     }
 

@@ -26,16 +26,19 @@ namespace Flipsider
         public bool Active;
 
         public CollideableHanlder Colliedables;
+        public HitBoxHandler HitBoxes;
         public Chunk(Point point)
         {
             Main.Updateables.Add(this);
             Colliedables = new CollideableHanlder();
+            HitBoxes = new HitBoxHandler();
             pos = point;
             Active = false;
         }
         public Chunk()
         {
             Colliedables = new CollideableHanlder();
+            HitBoxes = new HitBoxHandler();
             Active = false;
         }
         public void AddTile(Tile tile, Point pos)

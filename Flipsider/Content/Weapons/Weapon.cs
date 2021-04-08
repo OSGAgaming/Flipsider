@@ -49,9 +49,9 @@ namespace Flipsider.Weapons
 
         public virtual bool CanUse(Player player) => !player.usingWeapon;
 
-        public virtual void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
+        public virtual void DrawInventory(SpriteBatch spriteBatch, Rectangle dest)
         {
-            if (inventoryIcon != null) spriteBatch.Draw(inventoryIcon, pos, Color.White);
+            if (inventoryIcon != null) spriteBatch.Draw(inventoryIcon, dest, Color.White);
         }
 
         public virtual void Activate(Player player)

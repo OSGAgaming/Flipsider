@@ -1,4 +1,5 @@
 ﻿using Flipsider.Engine.Input;
+using Flipsider.Engine.Maths;
 using Flipsider.Weapons;
 using Flipsider.Weapons.Ranged.Pistol;
 using Microsoft.Xna.Framework;
@@ -122,10 +123,14 @@ namespace Flipsider
             MouseState mouseState = Mouse.GetState();
 
             if (mouseState.LeftButton == ButtonState.Pressed)
+            {
                 leftWeapon?.Activate(this);
+            }
 
             if (mouseState.RightButton == ButtonState.Pressed)
+            {
                 rightWeapon?.Activate(this);
+            }
 
             if (Swapping) SwapWeapons(); //TODO: move this
         }
@@ -163,6 +168,8 @@ namespace Flipsider
 
         private void PostUpdates()
         {
+            GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, 0);
+
             if (velocity.X >= acceleration)
             {
                 spriteDirection = 1;
@@ -177,7 +184,7 @@ namespace Flipsider
 
             if (isAttacking)
             {
-                TimeOutsideOfCombat = 60;
+                TimeOutsideOfCombat = 200;
             }
         }
 
@@ -200,7 +207,7 @@ namespace Flipsider
                     velocity.Y -= jumpheight;
                 }
             }
-            if (!(crouching && onGround))
+            if (!(crouching && onGround) && !isAttacking)
             {
                 if (GameInput.Instance["MoveRight"].IsDown())
                 {

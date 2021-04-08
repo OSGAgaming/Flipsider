@@ -22,6 +22,8 @@ namespace Flipsider.GUI
 
         protected virtual void OnRightClick() { }
 
+        public UIScreen? Parent;
+
         public void Update()
         {
             OnUpdate();

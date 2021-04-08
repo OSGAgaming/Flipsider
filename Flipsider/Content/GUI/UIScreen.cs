@@ -8,6 +8,12 @@ namespace Flipsider.GUI
     {
         public List<UIElement> elements = new List<UIElement>();
         public bool active;
+
+        public void AddElement(UIElement ui)
+        {
+            elements.Add(ui);
+            ui.Parent = this;
+        }
         public UIScreen()
         {
             UIScreenManager.Instance?.AddComponent(this);

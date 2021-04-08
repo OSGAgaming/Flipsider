@@ -17,13 +17,13 @@ namespace Flipsider.Weapons.Ranged.Pistol
             Camera.screenShake += 2;
         }
 
-        public override void DrawInventory(SpriteBatch spriteBatch, Vector2 pos)
+        public override void DrawInventory(SpriteBatch spriteBatch, Rectangle dest)
         {
-            base.DrawInventory(spriteBatch, pos);
+            base.DrawInventory(spriteBatch, dest);
 
             Texture2D tex = TextureCache.magicPixel;
-            Rectangle target = new Rectangle((int)pos.X, (int)pos.Y + 54, (int)(ammo / (float)maxAmmo * 48), 2);
-            Rectangle targetUnder = new Rectangle((int)pos.X - 2, (int)pos.Y + 52, 52, 6);
+            Rectangle target = new Rectangle((int)dest.X, (int)dest.Y + 54, (int)(ammo / (float)maxAmmo * 48), 2);
+            Rectangle targetUnder = new Rectangle((int)dest.X - 2, (int)dest.Y + 52, 52, 6);
             Color color = Color.Lerp(Color.Red, Color.LimeGreen, ammo / (float)(maxAmmo + 1));
 
             spriteBatch.Draw(tex, targetUnder, Color.Black);
@@ -31,7 +31,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
 
             if (reloading)
             {
-                Rectangle target2 = new Rectangle((int)pos.X, (int)pos.Y, 48, (int)(reload / (float)reloadTime * 48));
+                Rectangle target2 = new Rectangle((int)dest.X, (int)dest.Y, 48, (int)(reload / (float)reloadTime * 48));
                 spriteBatch.Draw(tex, target2, Color.Black * 0.5f);
             }
         }

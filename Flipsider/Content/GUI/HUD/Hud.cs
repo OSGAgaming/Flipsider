@@ -37,7 +37,7 @@ namespace Flipsider.GUI.HUD
     {
         public Weapon? weapon;
 
-        public override void Draw(SpriteBatch spriteBatch)
+      /*  public override void Draw(SpriteBatch spriteBatch)
         {
             float progress = Main.player.swapTimer < 15 ? Main.player.swapTimer / 30f : 1 - Main.player.swapTimer / 30f;
             Vector2 off = Vector2.SmoothStep(new Vector2(0, 0), new Vector2(8, -8), progress);
@@ -53,14 +53,16 @@ namespace Flipsider.GUI.HUD
                 spriteBatch.Draw(TextureCache.hudSlot, target2, color2);
                 spriteBatch.Draw(TextureCache.hudSlot, target, color);
 
-                weapon?.DrawInventory(spriteBatch, dimensions.Location.ToVector2() + off);
+                Point pos = dimensions.Location.Add(off);
+
+                weapon?.DrawInventory(spriteBatch, new Rectangle(pos, dimensions.Size));
             }
-        }
+        }*/
     }
 
     internal class ResourceBar : UIElement
     {
-        public float amount;
+        /*public float amount;
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -75,6 +77,6 @@ namespace Flipsider.GUI.HUD
                 string? msg = (int)(amount * 100) + "%";
                 spriteBatch.DrawString(Main.font, msg, dimensions.Center.ToVector2(), Color.White, 0, Main.font.MeasureString(msg) * 0.5f, 0.5f, 0, 0);
             }
-        }
+        }*/
     }
 }

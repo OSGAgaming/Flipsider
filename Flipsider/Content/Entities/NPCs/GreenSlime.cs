@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Maths;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider
@@ -27,6 +28,7 @@ namespace Flipsider
             Constraints();
             Jump(2f);
             Animate(5, 1, 52, 0);
+            GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, 10);
         }
 
     }

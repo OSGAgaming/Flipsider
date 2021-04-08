@@ -38,11 +38,20 @@ namespace Flipsider
 
         [NonSerialized]
         public readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
-        public void AddModule(string name, IEntityModifier IEM)
-        { if(!UpdateModules.ContainsKey(name)) UpdateModules.Add(name, IEM); }
+        public void AddModule(string name, IEntityModifier IEM){ if(!UpdateModules.ContainsKey(name)) UpdateModules.Add(name, IEM); }
         public void UpdateInEditor()
         {
             OnUpdateInEditor();
+        }
+
+        public T GetEntityModifier<T>() where T : IEntityModifier
+        {
+            foreach(KeyValuePair<string, IEntityModifier> kvp in UpdateModules)
+            {
+                if (kvp.Value is T) return (T)kvp.Value;
+            }
+
+            throw new Exception("Entity Modifier Doesnt Exist");
         }
 
         public Entity()

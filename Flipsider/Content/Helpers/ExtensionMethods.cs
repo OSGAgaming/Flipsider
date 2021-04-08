@@ -79,6 +79,31 @@ namespace Flipsider
         {
             return (v.ToVector2() / TileManager.tileRes).ToPoint();
         }
+        public static Point Add(this Point p1, Point p2)
+        {
+            return new Point(p1.X + p2.X, p1.Y + p2.Y);
+        }
+        public static Point Sub(this Point p1, Point p2)
+        {
+            return new Point(p1.X - p2.X, p1.Y - p2.Y);
+        }
+        public static Point Add(this Point p1, Vector2 p2)
+        {
+            return new Point(p1.X + (int)p2.X, p1.Y + (int)p2.Y);
+        }
+
+        public static Point Sub(this Point p1, Vector2 p2)
+        {
+            return new Point(p1.X - (int)p2.X, p1.Y - (int)p2.Y);
+        }
+        public static Rectangle AddPos(this Rectangle r, Point p)
+        {
+            return new Rectangle(r.Location.Add(p), r.Size);
+        }
+        public static Rectangle AddPos(this Rectangle r, Vector2 p)
+        {
+            return new Rectangle(r.Location.Add(p), r.Size);
+        }
         public static Rectangle Inf(this Rectangle R,int h, int v)
         {
             return new Rectangle(

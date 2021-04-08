@@ -6,25 +6,26 @@ namespace Flipsider.GUI.HealthManaGUI
 {
     internal class HealthAndMana : UIScreen
     {
+        public Vector2 LocalPosition = new Vector2(40, Utils.ActualScreenSize.Y - 50);
         protected override void OnLoad()
         {
             Health health = new Health()
             {
                 dimensions = new Rectangle(new Point(100,10), TextureCache.HealthUI.Bounds.Size)
             };
-            elements.Add(health);
+            AddElement(health);
 
             Mana mana = new Mana()
             {
                 dimensions = new Rectangle(new Point(100, 35), TextureCache.ManaUI.Bounds.Size)
             };
-            elements.Add(mana);
+            AddElement(mana);
 
             WeaponPanel weaponPanel = new WeaponPanel()
             {
                 dimensions = new Rectangle(new Point(20, 35), TextureCache.WeaponPanel.Bounds.Size)
             };
-            elements.Add(weaponPanel);
+            AddElement(weaponPanel);
         }
 
         protected override void OnUpdate()
@@ -43,6 +44,7 @@ namespace Flipsider.GUI.HealthManaGUI
         int ExtraLife => Main.player.maxLife - 50;
 
         float alpha;
+        HealthAndMana? parent => Parent as HealthAndMana;
         public override void Draw(SpriteBatch spriteBatch)
         {
             int ExtraChains = ExtraLife / 10;
@@ -75,7 +77,7 @@ namespace Flipsider.GUI.HealthManaGUI
                 alpha = alpha.ReciprocateTo(1f, 20f);
             }
 
-            dimensions.Y = (int)MathHelper.SmoothStep(-100, 10, alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(Utils.ActualScreenSize.Y + 50, (parent?.LocalPosition.Y ?? 0), alpha);
         }
         protected override void OnLeftClick()
         {
@@ -97,6 +99,9 @@ namespace Flipsider.GUI.HealthManaGUI
         float ManaPerc;
 
         float alpha;
+
+        HealthAndMana? parent => Parent as HealthAndMana;
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
@@ -118,7 +123,7 @@ namespace Flipsider.GUI.HealthManaGUI
             {
                 alpha = alpha.ReciprocateTo(1f, 20f);
             }
-            dimensions.Y = (int)MathHelper.SmoothStep(-100, 35, alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(Utils.ActualScreenSize.Y + 50, (parent?.LocalPosition.Y ?? 0) + 25, alpha);
 
         }
         protected override void OnLeftClick()
@@ -139,9 +144,12 @@ namespace Flipsider.GUI.HealthManaGUI
     internal class WeaponPanel : UIElement
     {
         float alpha;
+        HealthAndMana? parent => Parent as HealthAndMana;
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureCache.WeaponPanel, dimensions, Color.White);
+            spriteBatch.Draw(TextureCache.WeaponPanel, dimensions.Inf(10,10), Color.White);
+            Main.player.leftWeapon.DrawInventory(spriteBatch, dimensions);
         }
         protected override void OnUpdate()
         {
@@ -153,7 +161,7 @@ namespace Flipsider.GUI.HealthManaGUI
             {
                 alpha = alpha.ReciprocateTo(1f, 16f);
             }
-            dimensions.Y = (int)MathHelper.SmoothStep(-100, 10, alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(Utils.ActualScreenSize.Y + 50, (parent?.LocalPosition.Y ?? 0), alpha);
         }
         protected override void OnLeftClick()
         {
