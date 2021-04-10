@@ -78,6 +78,7 @@ namespace Flipsider
             Active = false;
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
             Chunk.Colliedables.RemoveThroughEntity(this);
+            Chunk.HitBoxes.RemoveThroughEntity(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
             OnKill();

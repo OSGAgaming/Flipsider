@@ -86,7 +86,7 @@ namespace Flipsider
         public int maxLife;
         public int damage;
         public int IFrames;
-        public static int GlobalIFrames = 20;
+        public static int GlobalIFrames = 10;
         protected virtual void Jump(Vector2 direction, bool hasToBeOnGround = true)
         {
             if (hasToBeOnGround ? onGround : true)
@@ -182,7 +182,7 @@ namespace Flipsider
 
         public void TakeDamage(int amount)
         {
-            if (IFrames == 0)
+            if (IFrames == 0 && amount != 0)
             {
                 life -= amount;
                 DTH.AddDT(Center, amount);

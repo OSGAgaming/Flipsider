@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using static Flipsider.NPC;
 
 namespace Flipsider.GUI.HealthManaGUI
 {
     internal class HealthAndMana : UIScreen
     {
-        public Vector2 LocalPosition => new Vector2(40, Utils.ActualScreenSize.Y - 50);
+        public Vector2 LocalPosition => new Vector2(40, 10);
         protected override void OnLoad()
         {
             Health health = new Health()
@@ -52,20 +53,19 @@ namespace Flipsider.GUI.HealthManaGUI
         HealthAndMana? parent => Parent as HealthAndMana;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            int ExtraChains = (int)((ExtraLife / 10)* LowerHealthPerc);
+            int ExtraChains = (int)((ExtraLife / 2)* LowerHealthPerc);
 
             Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
             Point right = new Point(dimensions.X + dimensions.Size.X + 5 + ExtraChains*2, dimensions.Y - 5);
 
             Point size = new Point((int)(TextureCache.HealthUI.Width * UpperHealthPerc), TextureCache.HealthUI.Height);
             Point pos = new Point(dimensions.X + ExtraChains * 2, dimensions.Y);
-
             for(int i = 0; i<ExtraChains; i++)
             {
                 spriteBatch.Draw(TextureCache.HealthUIExtra, new Rectangle(new Point(dimensions.X + i*2, dimensions.Y), new Point(2,6)), Color.White);
             }
 
-            spriteBatch.Draw(TextureCache.HealthUI, new Rectangle(pos, size), Color.White * alpha);
+            spriteBatch.Draw(TextureCache.HealthUI, new Rectangle(pos, size), new Rectangle(Point.Zero, size), Color.White * alpha);
             spriteBatch.Draw(TextureCache.HealthUILeftPointer, new Rectangle(left, TextureCache.HealthUILeftPointer.Bounds.Size), Color.White * alpha);
             spriteBatch.Draw(TextureCache.HealthUIRightPointer, new Rectangle(right, TextureCache.HealthUIRightPointer.Bounds.Size), Color.White * alpha);
 
@@ -82,7 +82,7 @@ namespace Flipsider.GUI.HealthManaGUI
                 alpha = alpha.ReciprocateTo(1f, 20f);
             }
 
-            dimensions.Y = (int)MathHelper.SmoothStep(Utils.ActualScreenSize.Y + 50, (parent?.LocalPosition.Y ?? 0), alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(-50, (parent?.LocalPosition.Y ?? 0), alpha);
         }
         protected override void OnLeftClick()
         {
@@ -128,7 +128,7 @@ namespace Flipsider.GUI.HealthManaGUI
             {
                 alpha = alpha.ReciprocateTo(1f, 20f);
             }
-            dimensions.Y = (int)MathHelper.SmoothStep(Utils.ActualScreenSize.Y + 50, (parent?.LocalPosition.Y ?? 0) + 25, alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(-50, (parent?.LocalPosition.Y ?? 0) + 25, alpha);
 
         }
         protected override void OnLeftClick()
@@ -166,7 +166,7 @@ namespace Flipsider.GUI.HealthManaGUI
             {
                 alpha = alpha.ReciprocateTo(1f, 16f);
             }
-            dimensions.Y = (int)MathHelper.SmoothStep(Utils.ActualScreenSize.Y + 50, (parent?.LocalPosition.Y ?? 0), alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(-50, (parent?.LocalPosition.Y ?? 0), alpha);
         }
         protected override void OnLeftClick()
         {

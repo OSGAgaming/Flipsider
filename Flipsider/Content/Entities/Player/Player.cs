@@ -171,7 +171,7 @@ namespace Flipsider
         private void PostUpdates()
         {
             GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, (HitBox hitBox) => { });
-            if (!isAttacking)
+            if (IFrames == 0)
             {
                 if (velocity.X >= acceleration)
                 {

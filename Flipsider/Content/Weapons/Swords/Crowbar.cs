@@ -43,8 +43,9 @@ namespace Flipsider.Weapons
 
             int Shake = 2;
             int Damage = damage;
+            float KnockBack = 1.2f;
 
-            switch (comboState)
+            /*switch (comboState)
             {
                 case 0:
                 T = Utils.TraverseBezier(
@@ -69,10 +70,53 @@ namespace Flipsider.Weapons
                UpTime / (float)(delay - 80));
                     Damage *= 2;
                     Shake *= 3;
+                    KnockBack *= 2;
+                    break;
+            }*/
+            Damage = 0;
+
+            switch (comboState)
+            {
+                case 0:
+                    T = Utils.TraverseBezier(
+                    player.Center + new Vector2(15 * d, 30) + new Vector2(15 * d, -20),
+                    player.Center + new Vector2(30 * d, 20) + new Vector2(15 * d, -20),
+                    player.Center + new Vector2(0, 0) + new Vector2(15 * d, -20),
+                    UpTime / (float)(delay - 90));
+                    if (activeTimeLeft == delay - 10)
+                    {
+                        Damage = 5;
+                    }
+                    break;
+                case 1:
+                    T = Utils.TraverseBezier(
+                player.Center + new Vector2(10 * d, -20) + new Vector2(25 * d, -30),
+                player.Center + new Vector2(20 * d, 10) + new Vector2(25 * d, -30),
+                player.Center + new Vector2(10 * d, 24) + new Vector2(25 * d, -30),
+                UpTime / (float)(delay - 90));
+                    if (activeTimeLeft == delay - 10)
+                    {
+                        Damage = 7;
+                    }
+                    break;
+                case 2:
+                    if (activeTimeLeft >= delay - 30)
+                        T = Utils.TraverseBezier(
+                   player.Center + new Vector2(-80 * d, -40) + new Vector2(55 * d, -20) ,
+                   player.Center + new Vector2(30 * d, 40) + new Vector2(55 * d, -20),
+                   player.Center + new Vector2(-80 * d, 17) + new Vector2(55 * d, -20),
+                   UpTime / (float)(delay - 80));
+                    Shake *= 3;
+                    KnockBack *= 3;
+                    if (activeTimeLeft == delay - 25)
+                    {
+                        Damage = 10;
+                    }
                     break;
             }
-            Main.player.GetEntityModifier<HitBox>().GenerateHitbox(
-                new Rectangle(T.ToPoint(), new Point(40, 40)),
+            
+           Main.player.GetEntityModifier<HitBox>().GenerateHitbox(
+                new Rectangle(T.ToPoint().Add(new Point(-40,-40)), new Point(80, 80)),
                 false,
                 (HitBox) => {
                     var npc = (HitBox.LE as NPC);
@@ -81,7 +125,7 @@ namespace Flipsider.Weapons
                     {
                         if (npc.IFrames == NPC.GlobalIFrames)
                         {
-                            npc.velocity = -Vector2.Normalize(player.Center - npc.Center) * 1f;
+                            npc.velocity = -Vector2.Normalize(player.Center - npc.Center) * KnockBack;
                         }
                     }
                 });
@@ -90,7 +134,7 @@ namespace Flipsider.Weapons
         {
             if (player.isAttacking)
             {
-                int MouseDisp = Mouse.GetState().Position.X < Utils.ScreenSize.X / 2 ? -1 : 1;
+                int MouseDisp = (Mouse.GetState().Position.X) < Utils.ActualScreenSize.X / 2 ? -1 : 1;
                 switch (comboState)
                 {
                     case 0:
@@ -113,7 +157,7 @@ namespace Flipsider.Weapons
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
                         if (activeTimeLeft == delay - 30)
                         {
-                            Camera.screenShake += 10;
+                            Camera.screenShake += 4;
                         }
                         if (activeTimeLeft >= delay - 30)
                         {

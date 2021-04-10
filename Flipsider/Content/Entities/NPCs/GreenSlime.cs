@@ -9,8 +9,8 @@ namespace Flipsider
         public static Texture2D icon = TextureCache.GreenSlime;
         protected override void SetDefaults()
         {
-            life = 100;
-            maxLife = 100;
+            life = 50;
+            maxLife = 50;
             width = 64;
             framewidth = width;
             height = 52;

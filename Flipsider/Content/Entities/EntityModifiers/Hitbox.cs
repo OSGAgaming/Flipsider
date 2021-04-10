@@ -83,7 +83,7 @@ namespace Flipsider.Engine.Maths
         public void Dispose()
         {
             LE.Chunk.HitBoxes.HitBoxes.Remove(this);
-            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            Debug.WriteLine(Main.layerHandler.Layers[Layer].Drawables.Remove(this));
         }
 
         public void Draw(SpriteBatch spriteBatch)
