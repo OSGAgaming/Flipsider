@@ -6,9 +6,9 @@ namespace Flipsider
 {
     public static partial class Utils
     {
-        public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}\Content\Textures");
+        public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"{MainDirectory}\Content\Textures");
 
-        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}\Content");
+        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory.Split(@"\bin")[0]}");
 
         public static IEnumerable<T> Flatten<T>(this T[,] matrix)
         {
