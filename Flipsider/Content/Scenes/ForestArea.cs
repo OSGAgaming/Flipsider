@@ -65,6 +65,7 @@ namespace Flipsider.Scenes
             Main.renderer.PrintRenderTarget(Main.layerHandler.RTGaming);
             NPC.DTH.Draw(spriteBatch);
             PropManager.ShowPropCursor();
+            NPC.ShowNPCCursor();
             Main.Editor.Draw();
             ForestAreaParticles.Update();
             ForestAreaParticles.Draw(spriteBatch);

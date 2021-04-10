@@ -46,7 +46,7 @@ namespace Flipsider
                 {
                     DT.RemoveAt(i);
                 }
-            }
+            } 
         }
 
         private class DamageText : IComponent
@@ -73,7 +73,7 @@ namespace Flipsider
             public DamageText(Vector2 position, int Damage)
             {
                 rotationSpeed = Main.rand.NextFloat(-0.01f, 0.01f);
-                velocity = (Vector2.One).RotatedBy(Main.rand.NextFloat(6.28f));
+                velocity = new Vector2(0,-1).RotatedBy(Main.rand.NextFloat(-1));
                 this.position = position;
                 Text = Damage.ToString();
             }
@@ -190,7 +190,8 @@ namespace Flipsider
             }
         }
 
-
+        public Vector2 Distance => Main.player.Center - Center;
+        public Vector2 NormDistance => Vector2.Normalize(Main.player.Center - Center);
 
         public static Type? SelectedNPCType;
         public static void ShowNPCCursor()

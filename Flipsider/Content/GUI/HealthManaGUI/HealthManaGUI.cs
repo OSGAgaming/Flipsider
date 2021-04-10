@@ -82,7 +82,7 @@ namespace Flipsider.GUI.HealthManaGUI
                 alpha = alpha.ReciprocateTo(1f, 20f);
             }
 
-            dimensions.Y = (int)MathHelper.SmoothStep(-50, (parent?.LocalPosition.Y ?? 0), alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(-100, (parent?.LocalPosition.Y ?? 0), alpha);
         }
         protected override void OnLeftClick()
         {
@@ -128,7 +128,7 @@ namespace Flipsider.GUI.HealthManaGUI
             {
                 alpha = alpha.ReciprocateTo(1f, 20f);
             }
-            dimensions.Y = (int)MathHelper.SmoothStep(-50, (parent?.LocalPosition.Y ?? 0) + 25, alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(-100, (parent?.LocalPosition.Y ?? 0) + 25, alpha);
 
         }
         protected override void OnLeftClick()
@@ -153,8 +153,11 @@ namespace Flipsider.GUI.HealthManaGUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Rectangle secondaryPanel = dimensions.Inf(-5,-5).AddPos(new Point(30, 30));
             spriteBatch.Draw(TextureCache.WeaponPanel, dimensions.Inf(10,10), Color.White);
+            spriteBatch.Draw(TextureCache.WeaponPanel, secondaryPanel, Color.White);
             Main.player.leftWeapon.DrawInventory(spriteBatch, dimensions);
+            Main.player.rightWeapon.DrawInventorySecondary(spriteBatch, secondaryPanel.Inf(-4,-4));
         }
         protected override void OnUpdate()
         {
@@ -166,7 +169,7 @@ namespace Flipsider.GUI.HealthManaGUI
             {
                 alpha = alpha.ReciprocateTo(1f, 16f);
             }
-            dimensions.Y = (int)MathHelper.SmoothStep(-50, (parent?.LocalPosition.Y ?? 0), alpha);
+            dimensions.Y = (int)MathHelper.SmoothStep(-100, (parent?.LocalPosition.Y ?? 0), alpha);
         }
         protected override void OnLeftClick()
         {

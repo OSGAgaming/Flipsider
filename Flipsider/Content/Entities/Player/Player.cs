@@ -18,11 +18,10 @@ namespace Flipsider
 
         public IStoreable? SelectedItem;
 
-        private readonly float jumpheight = 3.7f;
-        private bool crouching;
+        public bool crouching;
 
-        public int life = 500;
-        public int maxLife = 500;
+        public int life = 100;
+        public int maxLife = 100;
         public float percentLife => life / (float)maxLife;
 
         public Weapon leftWeapon = new TestGun(); //Temporary
@@ -35,6 +34,7 @@ namespace Flipsider
         public int inventorySize => 20;
         public Player(Vector2 position, bool Active = true) : base()
         {
+            AddModule("Movement", new PlayerMovement(this));
             inventory = new IStoreable[20];
             this.position = position;
             width = 30;
@@ -46,6 +46,7 @@ namespace Flipsider
         }
         public Player() : base()
         {
+            AddModule("Movement", new PlayerMovement(this));
             inventory = new IStoreable[20];
             width = 30;
             height = 60;
@@ -95,7 +96,6 @@ namespace Flipsider
 
         public int swapTimer;
         public bool Swapping => swapTimer > 0;
-
         
         private void SwapWeapons()
         {
@@ -171,17 +171,7 @@ namespace Flipsider
         private void PostUpdates()
         {
             GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, (HitBox hitBox) => { });
-            if (IFrames == 0)
-            {
-                if (velocity.X >= acceleration)
-                {
-                    spriteDirection = 1;
-                }
-                else if (velocity.X <= -acceleration)
-                {
-                    spriteDirection = -1;
-                }
-            }
+
 
             if (TimeOutsideOfCombat > 0)
                 TimeOutsideOfCombat--;
@@ -209,37 +199,9 @@ namespace Flipsider
             KeyboardState state = Keyboard.GetState();
             InFrame = true;
 
-            friction = 0.87f;
-
-            if (crouching) airResistance.X = 0.99f;
-            else if (!onGround) airResistance.X = 0.97f;
-            else airResistance.X = 0.985f;
-
             crouching = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
-            if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !crouching)
-            {
-                if (onGround && !isAttacking)
-                {
-                    velocity.Y -= jumpheight;
-                }
-            }
-            if (!(crouching && onGround) && !isAttacking)
-            {
-                if (GameInput.Instance["MoveRight"].IsDown())
-                {
-                    float amount = GameInput.Instance["MoveRight"].GetPressValue();
-                    velocity.X += acceleration * amount;
-                    friction = 0.99f;
-                }
 
-                if (GameInput.Instance["MoveLeft"].IsDown())
-                {
-                    float amount = GameInput.Instance["MoveLeft"].GetPressValue();
-                    velocity.X -= acceleration * amount;
-                    friction = 0.99f;
-                }
-            }
-
+            UpdateEntityModifier("Movement");
 
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -252,24 +214,11 @@ namespace Flipsider
             
             spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine), 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
-            Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f); });
+            //Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f); });
         }
         public override void ApplyForces()
         {
             PlayerInputs();
-            gravity = 0.08f;
-            airResistance.Y = 0.99f;
-            if (Wet)
-            {
-                airResistance.X = 0.94f;
-                gravity = 0.03f;
-            }
-            if (onGround)
-            {
-                velocity.X *= friction;
-            }
-            if (!noAirResistance)
-                velocity *= airResistance;
         }
         private bool FreeFall;
         private bool isRecovering;
@@ -299,12 +248,12 @@ namespace Flipsider
                         else if (VelYCache > 0)
                         {
                             velocity.X *= 0.97f;
-                            isRecovering = !Animate(7, 2, 48, 7, false);
+                            isRecovering = !Animate(4, 2, 48, 7, false);
                         }
                     }
                     else
                     {
-                        if (friction != 0.99f)
+                        if (GetEntityModifier<PlayerMovement>().varfriction != 0.99f)
                         {
                             Animate(6, 11, 48);
                         }

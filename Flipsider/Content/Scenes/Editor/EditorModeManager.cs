@@ -72,6 +72,9 @@ namespace Flipsider
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                 if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
                     Main.CurrentWorld.propManager.AddProp(Main.Editor.CurrentProp ?? "", tilePoint2);
+
+                if (Main.Editor.CurrentState == EditorUIState.NPCSpawnerMode && NPC.SelectedNPCType != null)
+                    NPC.SpawnNPC(Main.MouseScreen.ToVector2(), NPC.SelectedNPCType);
             }
             if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
             {

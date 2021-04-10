@@ -161,7 +161,7 @@ namespace Flipsider.Weapons
                         }
                         if (activeTimeLeft >= delay - 30)
                         {
-                            player.velocity.X += 0.013f * (delay - activeTimeLeft) * MouseDisp;
+                            player.velocity.X += 0.008f * (delay - activeTimeLeft) * MouseDisp;
                         }
                         else
                         {
@@ -198,6 +198,16 @@ namespace Flipsider.Weapons
                 spriteBatch.Draw(tex, source.AddPos(off), rect, Color.White, InvetoryRotation, Vector2.Zero, SpriteEffects.None, 0f);
             }
         }
+
+        public override void DrawInventorySecondary(SpriteBatch spriteBatch, Rectangle source)
+        {
+            if (Main.player.leftWeapon.inventoryIcon != null)
+            {
+                Texture2D tex = Main.player.leftWeapon.inventoryIcon;
+                Rectangle rect = tex.Bounds;
+                spriteBatch.Draw(tex, source.AddPos(off), rect, Color.White, InvetoryRotation, Vector2.Zero, SpriteEffects.FlipHorizontally, 0f);
+            }
+        }
     }
 
     public class ExampleProj : Projectile
@@ -213,8 +223,6 @@ namespace Flipsider.Weapons
             texture = TextureCache.magicPixel;
             Collides = true;
             noGravity = true;
-            gravity = 0.1f;
-            friction = 0.98f;
             noAirResistance = true;
             TileCollide = true;
         }

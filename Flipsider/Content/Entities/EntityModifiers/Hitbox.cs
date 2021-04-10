@@ -91,7 +91,7 @@ namespace Flipsider.Engine.Maths
             Layer = LayerHandler.CurrentLayer;
             foreach (HitBoxInfo hitBoxInfo in HitBoxes)
             {
-                // if (hitBoxInfo.box != Rectangle.Empty)
+                 if (hitBoxInfo.box != Rectangle.Empty)
                 Utils.DrawRectangle(hitBoxInfo.box, Color.White, 1f);
             }
         }

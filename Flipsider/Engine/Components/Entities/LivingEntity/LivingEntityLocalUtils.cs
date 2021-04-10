@@ -56,7 +56,7 @@ namespace Flipsider
         }
         public void CheckDrag()
         {
-            if (mouseOverlap && !mousePressed && !isDragging)
+            if (mouseOverlap && !mousePressed && !isDragging && Main.Editor.IsActive)
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {

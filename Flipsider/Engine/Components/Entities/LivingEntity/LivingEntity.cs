@@ -12,7 +12,6 @@ namespace Flipsider
         //In Collideables
         public bool noAirResistance;
         public bool noGravity;
-        public float friction = 0.982f;
         public void ResetVars()
         {
             Wet = false;
@@ -58,10 +57,6 @@ namespace Flipsider
             get => position.Y + height;
             set => position.Y = value - height;
         }
-        public float acceleration = 0.08f;
-        public float gravity = 0.8f;
-
-        public Vector2 airResistance = new Vector2(0.985f, 0.999f);
         protected override void PostConstructor()
         {
             AddModule("Collision", new Collideable(this, false));
