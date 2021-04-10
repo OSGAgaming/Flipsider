@@ -8,19 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\tafid\\.nuget\\packages\\": {}
+    "C:\\Users\\angel\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tafid\\source\\repos\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
+      "projectUniqueName": "D:\\Desktop\\Desktop\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
       "projectName": "TextureCacheGenerator",
-      "projectPath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
-      "packagesPath": "C:\\Users\\tafid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\TextureCacheGenerator\\obj\\",
+      "projectPath": "D:\\Desktop\\Desktop\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
+      "packagesPath": "C:\\Users\\angel\\.nuget\\packages\\",
+      "outputPath": "D:\\Desktop\\Desktop\\Flipsider\\TextureCacheGenerator\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tafid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\angel\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -32,7 +32,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -44,7 +43,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "imports": [
           "net461",
           "net462",
@@ -60,7 +58,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

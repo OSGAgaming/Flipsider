@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Flipsider
 {
@@ -53,7 +52,6 @@ namespace Flipsider
             TextureCache.LoadTextures(Content);
             EffectCache.LoadEffects(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
-            Debug.Write(Environment.CurrentDirectory);
             Textures.LoadTextures();
 
             Instatiate();
