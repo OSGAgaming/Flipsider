@@ -92,13 +92,14 @@ namespace Flipsider
                 Console.Write("\n\n");
             }
         }
-        public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"%UserProfile%\source\repos\Flipsider\Flipsider\Content\Textures");
-        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"%UserProfile%\source\repos\Flipsider\Flipsider\Content");
+        public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}\Content\Textures");
+        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}\Content");
         static void Main(string[] args)
         {
             GetAllAssetPaths(AssetDirectory);
             GenerateTextureCache();
             Console.WriteLine("A Total Of: " + AssetPaths.Count + " Assets were Written!");
+            Debug.Write(Environment.CurrentDirectory);
             Console.ReadLine();
         }
     }
