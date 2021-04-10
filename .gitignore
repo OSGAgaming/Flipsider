@@ -20,12 +20,10 @@ TextureCacheGenerator/bin/Debug/netcoreapp3.1/TextureCacheGenerator.pdb
 TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.csprojAssemblyReference.cache
 TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.dll
 TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.pdb
-TextureCacheGenerator/Program.cs
 .vs/Flipsider/v16/.suo
 Flipsider/Content/obj/DesktopGL/Content/.mgstats
 TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.assets.cache
 TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.csprojAssemblyReference.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.exe
 TextureCacheGenerator/obj/project.assets.json
 TextureCacheGenerator/obj/project.nuget.cache
 TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.dgspec.json
