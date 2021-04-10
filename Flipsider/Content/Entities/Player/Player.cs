@@ -248,7 +248,7 @@ namespace Flipsider
                         else if (VelYCache > 0)
                         {
                             velocity.X *= 0.97f;
-                            isRecovering = !Animate(4, 2, 48, 7, false);
+                            isRecovering = !Animate(5, 2, 48, 7, false);
                         }
                     }
                     else
