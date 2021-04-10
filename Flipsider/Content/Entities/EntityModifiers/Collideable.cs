@@ -79,7 +79,7 @@ namespace Flipsider.Engine.Maths
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-           // collisionBox.Draw(spriteBatch);
+            //collisionBox.Draw(spriteBatch);
         }
         public int Layer { get; set; }
         public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)

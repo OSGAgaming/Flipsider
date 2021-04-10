@@ -1,4 +1,5 @@
 ﻿using Flipsider.Engine.Interfaces;
+using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -83,12 +84,13 @@ namespace Flipsider
         public static DamageTextHandler DTH = new DamageTextHandler();
         public int life;
         public int maxLife;
+        public int damage;
         public int IFrames;
-        public static int GlobalIFrames = 60;
-        protected virtual void Jump(float jumpheight, bool hasToBeOnGround = true)
+        public static int GlobalIFrames = 20;
+        protected virtual void Jump(Vector2 direction, bool hasToBeOnGround = true)
         {
             if (hasToBeOnGround ? onGround : true)
-                velocity.Y -= jumpheight;
+                velocity += direction;
         }
         public struct NPCInfo
         {
@@ -117,13 +119,30 @@ namespace Flipsider
         }
         protected override void PreAI()
         {
+            if (IFrames > 0)
+                IFrames--;
+
             if (life <= 0)
             {
                 Dispose();
                 position.Y--;
             }
-            if (IFrames > 0)
-                IFrames--;
+            else
+            {
+                GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, (HitBox hitBox) =>
+                {
+                    if (hitBox.LE is Player)
+                    {
+                        var player = (hitBox.LE as Player);
+                        player?.TakeDamage(damage);
+                        if (player != null)
+                        {
+                            if(player.IFrames == Player.GlobalIFrames)
+                            player.velocity = Vector2.Normalize(player.Center - Center) * 2;
+                        }
+                    }
+                });
+            }
         }
         public static void SpawnNPC<T>(Vector2 position) where T : NPC, new()
         {
@@ -171,6 +190,8 @@ namespace Flipsider
             }
         }
 
+
+
         public static Type? SelectedNPCType;
         public static void ShowNPCCursor()
         {
@@ -192,7 +213,6 @@ namespace Flipsider
         {
             PreDraw(spriteBatch);
             spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            Utils.DrawRectangle(position, width, height, Color.Green);
         }
 
     }

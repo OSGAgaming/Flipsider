@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Flipsider.Engine.Maths;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
@@ -21,10 +22,6 @@ namespace Flipsider.Weapons
                 player.isAttacking = true;
                 player.frameY = 0;
                 ComboLag = 20;
-                if(comboState == 1 || comboState == 0)
-                {
-                  //  player.velocity.X += 6f;
-                }
             }
         }
         public override void UpdatePassive()
@@ -36,38 +33,93 @@ namespace Flipsider.Weapons
                 off = off.ReciprocateTo(Vector2.Zero);
             }
         }
+
+        protected override void ConfigureHitbox()
+        {
+            Vector2 T = Vector2.Zero;
+
+            int UpTime = delay - activeTimeLeft;
+            int d = Main.player.spriteDirection;
+
+            int Shake = 2;
+            int Damage = damage;
+
+            switch (comboState)
+            {
+                case 0:
+                T = Utils.TraverseBezier(
+                player.position + new Vector2(15 * d, 30) + new Vector2(15, 0) * d,
+                player.position + new Vector2(30 * d, 20) + new Vector2(15, 0) * d,
+                player.position + new Vector2(0, 0) + new Vector2(15, 0) * d,
+                UpTime / (float)(delay - 90));
+                    break;
+                case 1:
+                    T = Utils.TraverseBezier(
+                player.position + new Vector2(10 * d, -20) + new Vector2(25, 0) * d,
+                player.position + new Vector2(20 * d, 10) + new Vector2(25, 0) * d,
+                player.position + new Vector2(10 * d, 24) + new Vector2(25, 0) * d,
+                UpTime / (float)(delay - 90));
+                    break;
+                case 2:
+                    if(activeTimeLeft >= delay - 30)
+                    T = Utils.TraverseBezier(
+               player.position + new Vector2(-80 * d, -40) + new Vector2(45, 0) * d,
+               player.position + new Vector2(30 * d, 40) + new Vector2(45, 0) * d,
+               player.position + new Vector2(-80 * d, 17) + new Vector2(45, 0) * d,
+               UpTime / (float)(delay - 80));
+                    Damage *= 2;
+                    Shake *= 3;
+                    break;
+            }
+            Main.player.GetEntityModifier<HitBox>().GenerateHitbox(
+                new Rectangle(T.ToPoint(), new Point(40, 40)),
+                false,
+                (HitBox) => {
+                    var npc = (HitBox.LE as NPC);
+                    npc?.TakeDamage(Damage);
+                    if (npc != null)
+                    {
+                        if (npc.IFrames == NPC.GlobalIFrames)
+                        {
+                            Camera.screenShake += Shake;
+
+                            npc.velocity = -Vector2.Normalize(player.Center - npc.Center) * 1f;
+                        }
+                    }
+                });
+        }
         public override void UpdateActive()
         {
             if (player.isAttacking)
             {
-                int MouseDisp = Mouse.GetState().Position.X < Utils.ScreenSize.X/2 ? -1 : 1;
+                int MouseDisp = Mouse.GetState().Position.X < Utils.ScreenSize.X / 2 ? -1 : 1;
                 switch (comboState)
                 {
                     case 0:
                         player.isAttacking = !player.Animate(5, 6, 48, 4, false);
-                        player.velocity.X += 0.001f * (delay - activeTimeLeft) * MouseDisp;
+                        player.velocity.X += 0.004f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                            Camera.screenShake += 2;
+                           // Camera.screenShake += 2;
                         }
                         break;
                     case 1:
                         player.isAttacking = !player.Animate(5, 6, 48, 5, false);
-                        player.velocity.X += 0.002f * (delay - activeTimeLeft) * MouseDisp;
+                        player.velocity.X += 0.006f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                            Camera.screenShake += 2;
+                           // Camera.screenShake += 2;
                         }
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
                         if (activeTimeLeft == delay - 30)
                         {
-                            Camera.screenShake += 10;
+                           // Camera.screenShake += 10;
                         }
-                        if(activeTimeLeft >= delay - 30)
+                        if (activeTimeLeft >= delay - 30)
                         {
-                            player.velocity.X += 0.015f * (delay - activeTimeLeft) * MouseDisp;
+                            player.velocity.X += 0.013f * (delay - activeTimeLeft) * MouseDisp;
                         }
                         else
                         {
@@ -75,8 +127,10 @@ namespace Flipsider.Weapons
                         }
                         break;
                 }
+
+                
             }
-            if(!player.isAttacking)
+            if (!player.isAttacking)
             {
                 activeTimeLeft = 0;
             }
@@ -99,7 +153,7 @@ namespace Flipsider.Weapons
             {
                 Texture2D tex = Main.player.leftWeapon.inventoryIcon;
                 Rectangle rect = tex.Bounds;
-                spriteBatch.Draw(tex, source.AddPos(off), rect, Color.White, InvetoryRotation,Vector2.Zero, SpriteEffects.None,0f);
+                spriteBatch.Draw(tex, source.AddPos(off), rect, Color.White, InvetoryRotation, Vector2.Zero, SpriteEffects.None, 0f);
             }
         }
     }

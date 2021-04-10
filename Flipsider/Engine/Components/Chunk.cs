@@ -101,7 +101,6 @@ namespace Flipsider
                 Active = false;
                 return;
             }
-
             if (!Main.Editor.IsActive)
             {
                 if (Active)

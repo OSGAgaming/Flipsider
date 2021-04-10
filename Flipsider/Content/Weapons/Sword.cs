@@ -22,7 +22,21 @@ namespace Flipsider.Weapons
                 state = 0;
             }
         }
+
+        public override void UpdatePassive()
+        {
+            Update();
+
+            if (active)
+            {
+                activeTimeLeft--;
+                UpdateActive();
+                ConfigureHitbox();
+            }
+        }
         protected virtual void OnActivation() { }
+
+        protected virtual void ConfigureHitbox() { }
     }
 
 }

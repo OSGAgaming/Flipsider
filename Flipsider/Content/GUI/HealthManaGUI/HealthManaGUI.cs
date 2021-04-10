@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using static Flipsider.NPC;
 
 namespace Flipsider.GUI.HealthManaGUI
 {
     internal class HealthAndMana : UIScreen
     {
-        public Vector2 LocalPosition = new Vector2(40, Utils.ActualScreenSize.Y - 50);
+        public Vector2 LocalPosition => new Vector2(40, Utils.ActualScreenSize.Y - 50);
         protected override void OnLoad()
         {
             Health health = new Health()
@@ -41,18 +42,22 @@ namespace Flipsider.GUI.HealthManaGUI
     {
         float HealthPerc => Main.player.percentLife;
 
+        float UpperHealthPerc => Math.Max(0, (Main.player.life - ExtraLife) / 50f);
+
+        float LowerHealthPerc => Math.Min(1,Main.player.life / (float)ExtraLife);
+
         int ExtraLife => Main.player.maxLife - 50;
 
         float alpha;
         HealthAndMana? parent => Parent as HealthAndMana;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            int ExtraChains = ExtraLife / 10;
+            int ExtraChains = (int)((ExtraLife / 10)* LowerHealthPerc);
 
             Point left = new Point(dimensions.X - 14, dimensions.Y - 5);
             Point right = new Point(dimensions.X + dimensions.Size.X + 5 + ExtraChains*2, dimensions.Y - 5);
 
-            Point size = new Point((int)(TextureCache.HealthUI.Width * HealthPerc), TextureCache.HealthUI.Height);
+            Point size = new Point((int)(TextureCache.HealthUI.Width * UpperHealthPerc), TextureCache.HealthUI.Height);
             Point pos = new Point(dimensions.X + ExtraChains * 2, dimensions.Y);
 
             for(int i = 0; i<ExtraChains; i++)
@@ -64,7 +69,7 @@ namespace Flipsider.GUI.HealthManaGUI
             spriteBatch.Draw(TextureCache.HealthUILeftPointer, new Rectangle(left, TextureCache.HealthUILeftPointer.Bounds.Size), Color.White * alpha);
             spriteBatch.Draw(TextureCache.HealthUIRightPointer, new Rectangle(right, TextureCache.HealthUIRightPointer.Bounds.Size), Color.White * alpha);
 
-            Utils.DrawRectangle(new Rectangle(dimensions.Location, new Point(size.X + ExtraChains*2, size.Y)).Inf(2, 2), Color.Maroon, 2f);
+            Utils.DrawRectangle(new Rectangle(dimensions.Location, new Point(TextureCache.HealthUI.Width + ExtraChains*2, size.Y)).Inf(2, 2), Color.Maroon, 2f);
         }
         protected override void OnUpdate()
         {

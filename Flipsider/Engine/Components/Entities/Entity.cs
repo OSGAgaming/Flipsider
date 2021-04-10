@@ -46,9 +46,12 @@ namespace Flipsider
 
         public T GetEntityModifier<T>() where T : IEntityModifier
         {
-            foreach(KeyValuePair<string, IEntityModifier> kvp in UpdateModules)
+            if (Active)
             {
-                if (kvp.Value is T) return (T)kvp.Value;
+                foreach (KeyValuePair<string, IEntityModifier> kvp in UpdateModules)
+                {
+                    if (kvp.Value is T) return (T)kvp.Value;
+                }
             }
 
             throw new Exception("Entity Modifier Doesnt Exist");

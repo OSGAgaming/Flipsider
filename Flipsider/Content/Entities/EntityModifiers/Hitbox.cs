@@ -12,17 +12,25 @@ namespace Flipsider.Engine.Maths
     public struct HitBoxInfo
     {
         public Rectangle box;
-        public bool canTakeDamage;
-        public int damage;
+        public bool Hittable;
 
-        public HitBoxInfo(Rectangle box, bool canTakeDamage, int damage)
+        public Action<HitBox>? OnHit;
+
+        public HitBoxGrouping Grouping;
+        public HitBoxInfo(Rectangle box, bool Hittable, Action<HitBox>? OnHit = null, HitBoxGrouping Grouping = default)
         {
-            this.box = box; this.canTakeDamage = canTakeDamage; this.damage = damage;
+            this.box = box; this.Hittable = Hittable; this.OnHit = OnHit; this.OnHit = OnHit; this.Grouping = Grouping;
         }
 
-        public static HitBoxInfo InActive = new HitBoxInfo(Rectangle.Empty, false, 0);
+        public static HitBoxInfo InActive = new HitBoxInfo(Rectangle.Empty, false);
     }
-    public class HitBox : IEntityModifier
+    public enum HitBoxGrouping
+    {
+        Default,
+        Friendly,
+        Hostile
+    }
+    public class HitBox : IEntityModifier, ILayeredComponent
     {
         public bool isColliding;
 
@@ -31,6 +39,9 @@ namespace Flipsider.Engine.Maths
         private event Action? HitBoxGeneration;
 
         internal LivingEntity LE;
+
+        public int Layer { get; set; }
+
         public void Update(in Entity entity)
         {
             HitBoxes.Clear();
@@ -48,9 +59,9 @@ namespace Flipsider.Engine.Maths
                         {
                             foreach (HitBoxInfo hitBoxInfo2 in HitBoxes)
                             {
-                                if(hitBoxInfo.box.Intersects(hitBoxInfo2.box) && !hitBox.LE.Equals(LE))
+                                if (hitBoxInfo.box.Intersects(hitBoxInfo2.box) && !hitBox.LE.Equals(LE))
                                 {
-                                    OnCollide(hitBoxInfo, hitBoxInfo2);
+                                    OnCollide(hitBoxInfo2, hitBoxInfo, hitBox);
                                 }
                             }
                         }
@@ -59,27 +70,38 @@ namespace Flipsider.Engine.Maths
             }
         }
 
-        public void GenerateHitbox(Rectangle box, bool canTakeDamage, int dmg)
+        public void GenerateHitbox(Rectangle box, bool canTakeDamage, Action<HitBox> action)
         {
-            HitBoxGeneration += () => HitBoxes.Add(new HitBoxInfo(box,canTakeDamage,dmg));
+            HitBoxGeneration += () => HitBoxes.Add(new HitBoxInfo(box, canTakeDamage, action));
         }
-
-        public void OnCollide(HitBoxInfo sender, HitBoxInfo receiver)
+        public void OnCollide(HitBoxInfo sender, HitBoxInfo receiverBox, HitBox receiver)
         {
             isColliding = true;
-            if(receiver.canTakeDamage)
-            {
-                LE.position.Y -= sender.damage;
-            }
+            if(receiverBox.Hittable)
+            sender.OnHit?.Invoke(receiver);
         }
         public void Dispose()
         {
             LE.Chunk.HitBoxes.HitBoxes.Remove(this);
+            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Layer = LayerHandler.CurrentLayer;
+            foreach (HitBoxInfo hitBoxInfo in HitBoxes)
+            {
+                // if (hitBoxInfo.box != Rectangle.Empty)
+                Utils.DrawRectangle(hitBoxInfo.box, Color.White, 1f);
+            }
+        }
+
         public HitBox(LivingEntity LE)
         {
             this.LE = LE;
             LE.Chunk.HitBoxes.HitBoxes.Add(this);
+            Main.AutoAppendToLayer(this);
         }
     }
 }
+

@@ -68,7 +68,7 @@ namespace Flipsider
         protected override void LoadContent()
         {
             renderer.Load();
-            CurrentWorld = new World(200, 200);
+            CurrentWorld = new World(2000, 2000);
             CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             new EntityBloom(player, player.texture, 6.1f);
             font = Content.Load<SpriteFont>("FlipFont");

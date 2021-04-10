@@ -90,34 +90,37 @@ namespace Flipsider
             frameCounter++;
             ResetVars();
             PreAI();
-            AI();
-            ApplyForces();
-            if (!noGravity)
-
-            UpdateEntityModifier("RigidBody");
-
-            UpdatePosition();
-
-            if(Collides && Active)
-            UpdateEntityModifier("Collision");
-
-            UpdateEntityModifier("Hitbox");
-
-            Constraints();
-            PostAI();
-
-            InFrame = ParallaxPosition.X > 
-                Utils.SafeBoundX.X - 5 && position.Y > 
-                Utils.SafeBoundY.X - 5 && ParallaxPosition.X < 
-                Utils.SafeBoundX.Y + 5 && position.Y < 
-                Utils.SafeBoundY.Y + 5;
-
-            foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
+            if (Active)
             {
-                if (water.frame.Intersects(CollisionFrame))
-                    Wet = true;
+                AI();
+                ApplyForces();
+                if (!noGravity)
+
+                    UpdateEntityModifier("RigidBody");
+
+                UpdatePosition();
+
+                if (Collides && Active)
+                    UpdateEntityModifier("Collision");
+
+                UpdateEntityModifier("Hitbox");
+
+                Constraints();
+                PostAI();
+
+                InFrame = ParallaxPosition.X >
+                    Utils.SafeBoundX.X - 5 && position.Y >
+                    Utils.SafeBoundY.X - 5 && ParallaxPosition.X <
+                    Utils.SafeBoundX.Y + 5 && position.Y <
+                    Utils.SafeBoundY.Y + 5;
+
+                foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
+                {
+                    if (water.frame.Intersects(CollisionFrame))
+                        Wet = true;
+                }
+                UpdateTrailCache();
             }
-            UpdateTrailCache();
         }
         public bool isDraggable = true; //dragging stuff
         public bool isDragging = false;

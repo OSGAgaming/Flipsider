@@ -14,7 +14,58 @@ namespace Flipsider
         {
             foreach (var item in matrix) yield return item;
         }
+        public static float X(float t,
+    float x0, float x1, float x2, float x3)
+        {
+            return (float)(
+                x0 * (1 - t) * (1 - t) * (1 - t) +
+                x1 * 3 * t * (1 - t) * (1 - t) +
+                x2 * 3 * t * t * (1 - t) +
+                x3 * t * t * t
+            );
+        }
 
+        public static float Y(float t,
+            float y0, float y1, float y2, float y3)
+        {
+            return (float)(
+                 y0 * (1 - t) * (1 - t) * (1 - t) +
+                 y1 * 3 * t * (1 - t) * (1 - t) +
+                 y2 * 3 * t * t * (1 - t) +
+                 y3 * t * t * t
+             );
+        }
+        private static float X(float t,
+   float x0, float x1, float x2)
+        {
+            return (float)(
+                x0 * (1 - t) * (1 - t) +
+                x1 * 2 * t * (1 - t) +
+                x2 * t * t
+            );
+        }
+
+        public static float Y(float t,
+            float y0, float y1, float y2)
+        {
+            return (float)(
+                y0 * (1 - t) * (1 - t) +
+                y1 * 2 * t * (1 - t) +
+                y2 * t * t
+            );
+        }
+        public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
+        {
+            float x = X(t, startingPos.X, c1.X, c2.X, endPoints.X);
+            float y = Y(t, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
+            return new Vector2(x, y);
+        }
+        public static Vector2 TraverseBezier(Vector2 startingPos, Vector2 c1, Vector2 endPoints, float t)
+        {
+            float x = X(t, startingPos.X, c1.X, endPoints.X);
+            float y = Y(t, startingPos.Y, c1.Y, endPoints.Y);
+            return new Vector2(x, y);
+        }
         public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
             return LineIntersectsLine(p1, p2, new Point(r.X, r.Y), new Point(r.X + r.Width, r.Y)) ||

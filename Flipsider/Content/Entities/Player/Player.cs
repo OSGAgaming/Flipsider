@@ -137,6 +137,8 @@ namespace Flipsider
         protected override void PreAI()
         {
             ResetVars();
+            if (IFrames > 0)
+                IFrames--;
         }
         protected override void AI()
         {
@@ -168,15 +170,17 @@ namespace Flipsider
 
         private void PostUpdates()
         {
-            GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, 0);
-
-            if (velocity.X >= acceleration)
+            GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, (HitBox hitBox) => { });
+            if (!isAttacking)
             {
-                spriteDirection = 1;
-            }
-            else if (velocity.X <= -acceleration)
-            {
-                spriteDirection = -1;
+                if (velocity.X >= acceleration)
+                {
+                    spriteDirection = 1;
+                }
+                else if (velocity.X <= -acceleration)
+                {
+                    spriteDirection = -1;
+                }
             }
 
             if (TimeOutsideOfCombat > 0)
@@ -184,6 +188,18 @@ namespace Flipsider
 
             if (isAttacking)
             {
+                TimeOutsideOfCombat = 200;
+            }
+        }
+
+        public int IFrames;
+        public static readonly int GlobalIFrames = 50;
+        public void TakeDamage(int amount)
+        {
+            if (IFrames == 0)
+            {
+                life -= amount;
+                IFrames = GlobalIFrames;
                 TimeOutsideOfCombat = 200;
             }
         }
@@ -228,12 +244,13 @@ namespace Flipsider
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            float IFrameSine = (float)Math.Abs(Math.Sin(IFrames / 2));
             texture = TextureCache.player;
             Rectangle weaponFrame = new Rectangle(((frame.X / 48 - 4) * 69), frameY * 50, 69, 50);
             if(isAttacking)
                 spriteBatch.Draw(weapon, Center - new Vector2(0,18), weaponFrame, Color.White, 0f, weaponFrame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             
-            spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine), 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
             Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f); });
         }
@@ -303,17 +320,20 @@ namespace Flipsider
             }
             else
             {
-                if (DeltaPos.Y <= 0)
+                if (!isAttacking)
                 {
-                    Animate(1, 1, 48, 2, false);
-                }
-                else
-                {
-                    if (!FreeFall)
-                        FreeFall = Animate(2, 7, 48, 11, false, 1);
-                    if (FreeFall)
+                    if (DeltaPos.Y <= 0)
                     {
-                        Animate(4, 4, 48, 12);
+                        Animate(1, 1, 48, 2, false);
+                    }
+                    else
+                    {
+                        if (!FreeFall)
+                            FreeFall = Animate(2, 7, 48, 11, false, 1);
+                        if (FreeFall)
+                        {
+                            Animate(4, 4, 48, 12);
+                        }
                     }
                 }
             }
