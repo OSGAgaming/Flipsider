@@ -178,6 +178,15 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void CustomDraw(SpriteBatch spriteBatch)
         {
+            if (Main.Editor.IsActive)
+            {
+                Alpha = Alpha.ReciprocateTo(1f);
+            }
+            else
+            {
+                Alpha = Alpha.ReciprocateTo(0f);
+            }
+
             KeyboardState keyboard = Keyboard.GetState();
             if (inputText != "" && !inputText.EndsWith('.') && float.TryParse(inputText, out buffer))
             {
