@@ -81,8 +81,6 @@ namespace Flipsider.Weapons
                     {
                         if (npc.IFrames == NPC.GlobalIFrames)
                         {
-                            Camera.screenShake += Shake;
-
                             npc.velocity = -Vector2.Normalize(player.Center - npc.Center) * 1f;
                         }
                     }
@@ -100,7 +98,7 @@ namespace Flipsider.Weapons
                         player.velocity.X += 0.004f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                           // Camera.screenShake += 2;
+                            Camera.screenShake += 2;
                         }
                         break;
                     case 1:
@@ -108,14 +106,14 @@ namespace Flipsider.Weapons
                         player.velocity.X += 0.006f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                           // Camera.screenShake += 2;
+                            Camera.screenShake += 2;
                         }
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
                         if (activeTimeLeft == delay - 30)
                         {
-                           // Camera.screenShake += 10;
+                            Camera.screenShake += 10;
                         }
                         if (activeTimeLeft >= delay - 30)
                         {

@@ -31,7 +31,7 @@ namespace Flipsider
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
         }
 
         private void Instatiate()
