@@ -240,7 +240,7 @@ namespace Flipsider
                     }
                     if (isRecovering)
                     {
-                        if (VelYCache > 4)
+                        if (VelYCache > GetEntityModifier<PlayerMovement>().velocityBeforeLandStun)
                         {
                             velocity.X *= 0.8f;
                             isRecovering = !Animate(3, 7, 48, 8, false);
@@ -271,7 +271,7 @@ namespace Flipsider
             {
                 if (!isAttacking)
                 {
-                    if (DeltaPos.Y <= 0)
+                    if (DeltaPos.Y <= GetEntityModifier<PlayerMovement>().velocityBeforeFallingAnimation)
                     {
                         Animate(1, 1, 48, 2, false);
                     }

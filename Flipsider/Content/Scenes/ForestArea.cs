@@ -40,7 +40,7 @@ namespace Flipsider.Scenes
             ForestAreaParticles.SpawnModules.Add(new SetTexture(TextureCache.pixel));
             ForestAreaParticles.SpawnModules.Add(new SetScale(2f));
             ForestAreaParticles.SpawnModules.Add(new ModifyPositionToEntity(Main.player));
-            ForestAreaParticles.SpawnModules.Add(new ModifyPositionRand(new Vector2(-1000, 1000), new Vector2(300, 300), Main.rand));
+            ForestAreaParticles.SpawnModules.Add(new ModifyPositionRand(new Vector2(-1000, 1000), new Vector2(600, 600), Main.rand));
             ForestAreaParticles.SpawnModules.Add(new SetColorBetweenTwoColours(Color.White, Color.Lime, Main.rand));
             ForestAreaParticles.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -100f));
             ForestAreaParticles.SpawnModules.Add(new SetLifetime(10f));

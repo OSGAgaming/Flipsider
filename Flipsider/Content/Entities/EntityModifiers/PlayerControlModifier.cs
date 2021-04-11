@@ -25,6 +25,8 @@ namespace Flipsider.Engine.Maths
         public readonly Vector2 airResistance = new Vector2(0.985f, 0.999f);
         public readonly float maxSpeedX = 20f;
         public readonly float maxSpeedY = 20f;
+        public readonly float velocityBeforeFallingAnimation = 2f;
+        public readonly float velocityBeforeLandStun = 4f;
         //VARIABLES YOU WANT TO CHANGE ------------------------------ //
 
         public void JumpMechanic()
