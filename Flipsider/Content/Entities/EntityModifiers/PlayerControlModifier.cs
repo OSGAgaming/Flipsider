@@ -18,15 +18,16 @@ namespace Flipsider.Engine.Maths
         public Vector2 varAirResistance;
 
         //VARIABLES YOU WANT TO CHANGE ------------------------------ //    //Triv and Echo smell
-        private const int TigerTime = 5;
-        private const float jumpheight = 3.7f;
-        public const float friction = 0.85f;
-        public const float acceleration = 0.08f;
+        private readonly int TigerTime = 5;
+        private readonly float jumpheight = 3.7f;
+        public readonly float friction = 0.85f;
+        public readonly float acceleration = 0.08f;
         public readonly Vector2 airResistance = new Vector2(0.985f, 0.999f);
-        public const float maxSpeedX = 20f;
-        public const float maxSpeedY = 20f;
-        public const float velocityBeforeFallingAnimation = 2f;
-        public const float velocityBeforeLandStun = 4f;
+        public readonly float maxSpeedX = 20f;
+        public readonly float maxSpeedY = 20f;
+        public readonly float velocityBeforeFallingAnimation = 2f;
+        public readonly float velocityBeforeLandStun = 4f;
+        public readonly float jumpBoost = 1.5f;
         //VARIABLES YOU WANT TO CHANGE ------------------------------ //
 
         public void JumpMechanic()
@@ -38,6 +39,7 @@ namespace Flipsider.Engine.Maths
                 if (TigerTimer < TigerTime && !player.isAttacking)
                 {
                     player.velocity.Y -= jumpheight;
+                    player.velocity.X *= jumpBoost;
                     TigerTimer = TigerTime + 1;
                 }
             }

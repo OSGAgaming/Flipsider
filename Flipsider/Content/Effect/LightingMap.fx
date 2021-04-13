@@ -61,7 +61,7 @@ float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
 	float4 color = tex2D(s0, coords);
 	float4 MapColor = tex2D(MapSampler, coords);
 	float4 LightColor = tex2D(LightSampler, coords);
-	color.rgb += MapColor.rgb * (LightColor.a + 0.2f);
+	color.rgb += MapColor.rgb * (LightColor.a + 0.1f);
 	return color;
 }
 technique Technique1
