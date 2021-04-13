@@ -47,7 +47,7 @@ namespace Flipsider
         }
         public override void SetShaders()
         {
-            PrepareShader(Lighting.PrimtiveShader ?? new BasicEffect(Main.graphics.GraphicsDevice), "WaterDamp", _counter / 40f);
+            PrepareShader(EffectCache.PrimtiveShader ?? new BasicEffect(Main.graphics.GraphicsDevice), "WaterDamp", _counter / 40f);
         }
         public override void OnUpdate()
         {

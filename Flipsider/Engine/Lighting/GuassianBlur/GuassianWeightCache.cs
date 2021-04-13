@@ -10,6 +10,8 @@ namespace Flipsider
     {
         public float[] GuassianWeight;
         public float[] Offsets;
+
+        public static GuassianWeights DefaultGuassianWeights = new GuassianWeights(20, 1, 4f);
         private void Load(int width, float accuracy, float STDEV)
         {
             for (int i = 0; i < width; i++)

@@ -6,12 +6,10 @@ namespace Flipsider.Engine.Maths
 {
     public class CollideableHanlder
     {
-        public HashSet<Collideable> collideables = new HashSet<Collideable>();
+        public List<Collideable> collideables = new List<Collideable>();
         public void RemoveThroughEntity(Entity entity)
         {
-            Collideable[] Buffer = new Collideable[collideables.Count];
-            collideables.CopyTo(Buffer);
-            foreach (Collideable Collideable in Buffer)
+            foreach (Collideable Collideable in collideables.ToArray())
             {
                 if (ReferenceEquals(entity, Collideable.BindableEntity))
                 {

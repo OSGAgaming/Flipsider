@@ -1,4 +1,5 @@
-﻿using Flipsider.Engine;
+﻿using Flipsider.Content.IO.Graphics;
+using Flipsider.Engine;
 using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
@@ -26,18 +27,18 @@ namespace Flipsider
           //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
         }
         public static InputBinding LeftClick => GameInput.Instance["EditorPlaceTile"];
-        public static Vector2 SafeBoundX => new Vector2(Main.mainCamera.CamPos.X, Main.mainCamera.CamPos.X + Main.ActualScreenSize.X / Main.ScreenScale);
-        public static Vector2 SafeBoundY => new Vector2(Main.mainCamera.CamPos.Y, Main.mainCamera.CamPos.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
+        public static Vector2 SafeBoundX => new Vector2(Main.Camera.Position.X, Main.Camera.Position.X + Main.ActualScreenSize.X / Main.ScreenScale);
+        public static Vector2 SafeBoundY => new Vector2(Main.Camera.Position.Y, Main.Camera.Position.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
         public static void AppendToLayer(ILayeredComponent ilc) => Main.CurrentWorld.layerHandler.AppendMethodToLayer(ilc);
         public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => Main.CurrentWorld.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => Main.CurrentWorld.layerHandler;
         public static EditorMode Editor => EditorMode.Instance;
-        public static float targetScale => Main.mainCamera.targetScale;
+        public static float targetScale => Main.Camera.targetScale;
         public static TileManager tileManager => Main.CurrentWorld.tileManager;
         public static SpriteBatch spriteBatch => Main.renderer.spriteBatch;
         public static Player? player => Main.CurrentWorld.MainPlayer;
         public static GraphicsDeviceManager? graphics => Main.renderer.graphics;
-        public static Camera? mainCamera => Main.renderer.mainCamera;
+        public static GameCamera? mainCamera => Main.renderer.mainCamera;
         public static Lighting? lighting => Main.renderer.lighting;
         public static List<Water> WaterBodies => Main.CurrentWorld.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);

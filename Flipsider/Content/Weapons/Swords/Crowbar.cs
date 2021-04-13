@@ -142,7 +142,7 @@ namespace Flipsider.Weapons
                         player.velocity.X += 0.004f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                            Camera.screenShake += 2;
+                            Main.Camera.ScreenShake += 2;
                         }
                         break;
                     case 1:
@@ -150,14 +150,14 @@ namespace Flipsider.Weapons
                         player.velocity.X += 0.006f * (delay - activeTimeLeft) * MouseDisp;
                         if (activeTimeLeft == delay - 10)
                         {
-                            Camera.screenShake += 2;
+                             Main.Camera.ScreenShake += 2;
                         }
                         break;
                     case 2:
                         player.isAttacking = !player.Animate(5, 11, 48, 6, false);
                         if (activeTimeLeft == delay - 30)
                         {
-                            Camera.screenShake += 4;
+                            Main.Camera.ScreenShake += 4;
                         }
                         if (activeTimeLeft >= delay - 30)
                         {

@@ -8,21 +8,21 @@ namespace Flipsider
     public static partial class Utils
     {
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
-        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.mainCamera.CamPos - center) * strenght;
+        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.Camera.Position - center) * strenght;
 
         public static MapPass GetMap(string MapName) => Main.lighting.Maps.Get(MapName);
 
         public static void DrawToMap(string MapName, MapRender MR) => Main.lighting.Maps.DrawToMap(MapName, MR);
         public static void BeginCameraSpritebatch()
-        => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+        => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
 
         public static void BeginEndCameraSpritebatch()
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp); 
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp); 
         }
         public static void BeginAdditiveCameraSpritebatch()
-       => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+       => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
         public static void QuickApplyShader(Effect effect)
         => effect?.CurrentTechnique.Passes[0].Apply();
         public static void QuickApplyShader(Effect effect, params float[] yo)
@@ -32,19 +32,6 @@ namespace Flipsider
             {
                 effect?.Parameters[i]?.SetValue(yo[i]);
             }
-        }
-        public static void ApplyBloom(BloomSettings BS, Vector2 Dims)
-        {
-            Lighting.Bloom?.Parameters["NoOfFramesX"]?.SetValue(BS.NoOfFramesX);
-            Lighting.Bloom?.Parameters["NoOfFramesY"]?.SetValue(BS.NoOfFramesY);
-            Lighting.Bloom?.Parameters["FrameX"]?.SetValue(BS.FrameX);
-            Lighting.Bloom?.Parameters["FrameY"]?.SetValue(BS.FrameY);
-            Lighting.Bloom?.Parameters["BloomIntensity"]?.SetValue(BS.Intensity);
-            Lighting.Bloom?.Parameters["BloomSaturation"]?.SetValue(BS.Saturation);
-            Lighting.Bloom?.Parameters["Offsets"]?.SetValue(BS.Offsets);
-            Lighting.Bloom?.Parameters["Weights"]?.SetValue(BS.Weights);
-            Lighting.Bloom?.Parameters["Dims"]?.SetValue(Dims);
-            Lighting.Bloom?.CurrentTechnique.Passes[0].Apply();
         }
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);
         public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
@@ -93,14 +80,14 @@ namespace Flipsider
         {
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
-                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }
         public static void RenderBGMoving(SpriteBatch spriteBatch, float speed, Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)
         {
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
-                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.mainCamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }
         public static void DrawRectangle(Rectangle rectangle, Color color, float thickness = 1)

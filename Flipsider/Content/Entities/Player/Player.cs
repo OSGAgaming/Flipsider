@@ -61,7 +61,6 @@ namespace Flipsider
             Chunk.Colliedables.RemoveThroughEntity(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
-            Main.lighting.RemoveBloom(this);
             OnKill();
         }
         public override Entity Deserialize(Stream stream)
@@ -70,7 +69,6 @@ namespace Flipsider
             float X = binaryWriter.ReadSingle();
             float Y = binaryWriter.ReadSingle();
             Player player = new Player(new Vector2(X, Y));
-            new EntityBloom(player, player.texture, 2.6f);
             return Main.CurrentWorld.ReplacePlayer(player);
         }
         public override void Serialize(Stream stream)
@@ -240,7 +238,7 @@ namespace Flipsider
                     }
                     if (isRecovering)
                     {
-                        if (VelYCache > GetEntityModifier<PlayerMovement>().velocityBeforeLandStun)
+                        if (VelYCache > PlayerMovement.velocityBeforeLandStun)
                         {
                             velocity.X *= 0.8f;
                             isRecovering = !Animate(3, 7, 48, 8, false);
@@ -271,7 +269,7 @@ namespace Flipsider
             {
                 if (!isAttacking)
                 {
-                    if (DeltaPos.Y <= GetEntityModifier<PlayerMovement>().velocityBeforeFallingAnimation)
+                    if (DeltaPos.Y <= PlayerMovement.velocityBeforeFallingAnimation)
                     {
                         Animate(1, 1, 48, 2, false);
                     }

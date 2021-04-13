@@ -33,10 +33,6 @@ namespace Flipsider.GUI
                     pos1 = Main.MouseScreen.ToVector2().Snap(8);
                     flag = false;
                 }
-                if (mouseStateBuffer)
-                {
-                    // DrawMethods.DrawLine(pos1, Main.MouseScreen.ToVector2(), Color.White);
-                }
             }
             if (Main.Editor.StateCheck(EditorUIState.CollideablesEditorMode))
             {
@@ -52,8 +48,9 @@ namespace Flipsider.GUI
             if (Main.Editor.CurrentState == EditorUIState.CollideablesEditorMode)
             {
                 var PlayerChunk = Main.player.Chunk;
-                foreach(Collideable col in PlayerChunk.Colliedables.collideables)
+                foreach(Collideable col in PlayerChunk.Colliedables.collideables.ToArray())
                 {
+                    Utils.DrawRectangle(col.CustomHitBox, Color.Red * Time.SineTime(2f), 3);
                     if (col.CustomHitBox.ToR().Contains(Main.MouseScreen))
                     {
                         Utils.DrawRectangle(col.CustomHitBox, Color.Red, 3);

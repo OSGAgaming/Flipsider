@@ -30,7 +30,7 @@ namespace Flipsider.Engine
         protected int currentIndex;
         public Primitive()
         {
-            _effect = Lighting.PrimtiveShader ?? new BasicEffect(_device);
+            _effect = EffectCache.PrimtiveShader ?? new BasicEffect(_device);
             _trailShader = new DefaultShader();
             _device = Main.graphics.GraphicsDevice;
             _basicEffect = new BasicEffect(_device)

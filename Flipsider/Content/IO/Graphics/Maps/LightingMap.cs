@@ -14,7 +14,7 @@ namespace Flipsider
 
         internal override void OnApplyShader()
         {
-            MapEffect?.Parameters["LightMap"].SetValue(Utils.GetMap("CanLightMap").MapTarget);
+            MapEffect?.Parameters["LightMap"]?.SetValue(Utils.GetMap("CanLightMap").MapTarget);
             base.OnApplyShader();
         }
     }

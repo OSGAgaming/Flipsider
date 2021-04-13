@@ -1,4 +1,5 @@
-﻿using Flipsider.Engine.Input;
+﻿using Flipsider.Content.IO.Graphics;
+using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,13 +26,13 @@ namespace Flipsider
         {
             Instance = new EditorMode();
             Main.Updateables.Add(Instance);
-            Main.mainCamera.scale = 1;
+            Main.Camera.Scale = 1;
         }
         public void ControlEditorScreen()
         {
-            Main.mainCamera.FixateOnPlayer(Main.player);
-            Main.mainCamera.rotation = 0;
-            Main.mainCamera.scale += (Main.targetScale / Camera.Scaling - Main.mainCamera.scale) / 10f;
+            Main.Camera.UpdateTransform();
+            Main.Camera.Rotation = 0;
+            Main.Camera.Scale += (Main.targetScale / GameCamera.Scaling - Main.Camera.Scale) / 10f;
         }
 
         public void Draw()
@@ -56,7 +57,7 @@ namespace Flipsider
         {
             if (!IsActive && Main.CurrentScene.Name != "Main Menu")
             {
-                Main.mainCamera.Offset -= Main.mainCamera.Offset / 16f;
+                Main.Camera.Offset -= Main.Camera.Offset / 16f;
             }
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
@@ -126,28 +127,28 @@ namespace Flipsider
                     {
                         if (GameInput.Instance["EditorZoomIn"].IsDown())
                         {
-                            Main.mainCamera.targetScale += scrollSpeed;
+                            Main.Camera.targetScale += scrollSpeed;
                         }
                         if (GameInput.Instance["EditorZoomOut"].IsDown())
                         {
-                            Main.mainCamera.targetScale -= scrollSpeed;
+                            Main.Camera.targetScale -= scrollSpeed;
                         }
                     }
                     if (GameInput.Instance["MoveRight"].IsDown())
                     {
-                        Main.mainCamera.Offset.X += camMoveSpeed;
+                        Main.Camera.Offset.X += camMoveSpeed;
                     }
                     if (GameInput.Instance["MoveLeft"].IsDown())
                     {
-                        Main.mainCamera.Offset.X -= camMoveSpeed;
+                        Main.Camera.Offset.X -= camMoveSpeed;
                     }
                     if (GameInput.Instance["MoveUp"].IsDown())
                     {
-                        Main.mainCamera.Offset.Y -= camMoveSpeed;
+                        Main.Camera.Offset.Y -= camMoveSpeed;
                     }
                     if (GameInput.Instance["MoveDown"].IsDown())
                     {
-                        Main.mainCamera.Offset.Y += camMoveSpeed;
+                        Main.Camera.Offset.Y += camMoveSpeed;
                     }
                 }
             }
@@ -180,11 +181,11 @@ namespace Flipsider
                 IsActive = !IsActive;
                 if (IsActive)
                 {
-                    Main.mainCamera.targetScale = 0.8f;
+                    Main.Camera.targetScale = 0.8f;
                 }
                 else
                 {
-                    Main.mainCamera.targetScale = 2f;
+                    Main.Camera.targetScale = 2f;
                 }
             }
         }

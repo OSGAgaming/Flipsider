@@ -144,6 +144,14 @@ namespace Flipsider.Engine.Particles
                     //TODO: add a source rect for each particle? or make a texture-frame pair class so that all dusts can be put into a single texture atlas for improved performance.
                     //TODO: add a layer depth value?
                     spriteBatch.Draw(texture, WorldSpace ? p.ParalaxedCenter : Position + p.ParalaxedCenter, null, p.Color * p.Opacity, p.Rotation, texture.Bounds.Size.ToVector2() * 0.5f, p.Scale + p.Paralax*2, SpriteEffects.None, 0f);
+
+                    Texture2D lightTexture = TextureCache.PointLight;
+
+                    Main.lighting.Maps.DrawToMap("Lighting", (SpriteBatch sb) => {
+                        sb.Draw(lightTexture, WorldSpace ? p.ParalaxedCenter : Position + p.ParalaxedCenter , null, p.Color * p.Opacity * p.LightIntensity * 0.4f,
+                            p.Rotation, lightTexture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f + p.Paralax * 0.2f, SpriteEffects.None, 0f);
+                    }
+);
                 }
             }
         }

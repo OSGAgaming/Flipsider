@@ -25,8 +25,6 @@ namespace Flipsider.Scenes
         public override void Draw(SpriteBatch spriteBatch)
         {
             Main.renderer.RenderUI();
-            Main.renderer.lighting?.Invoke();
-            Main.renderer.RenderUI();
         }
     }
 }

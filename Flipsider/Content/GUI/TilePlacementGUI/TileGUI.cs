@@ -161,11 +161,11 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     var world = Main.CurrentWorld;
                     var tileDict = Main.tileManager.tileDict;
-                    int modifiedRes = (int)(tileRes * Main.mainCamera.scale);
+                    int modifiedRes = (int)(tileRes * Main.Camera.Scale);
                     Vector2 mousePos = Main.MouseScreen.ToVector2();
                     Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
                     float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                    Vector2 offsetSnap = new Vector2((int)Main.mainCamera.Offset.X, (int)Main.mainCamera.Offset.Y);
+                    Vector2 offsetSnap = new Vector2((int)Main.Camera.Offset.X, (int)Main.Camera.Offset.Y);
                     Rectangle TileFrame = Main.Editor.AutoFrame ? Framing.GetTileFrame(world, (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : Main.Editor.currentFrame;
 
                     if (Main.Editor.currentType == -1)

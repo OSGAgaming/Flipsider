@@ -23,7 +23,7 @@ namespace Flipsider
         }
         public void ApplyShader()
         {
-            MapEffect?.Parameters["screenPosition"]?.SetValue(Main.mainCamera.CamPos);
+            MapEffect?.Parameters["screenPosition"]?.SetValue(Main.Camera.Position);
             MapEffect?.Parameters["screenScale"]?.SetValue(Main.ScreenScale);
             MapEffect?.Parameters["screenSize"]?.SetValue(new Vector2(2560, 1440));
             MapEffect?.Parameters["noiseMap"]?.SetValue(TextureCache.Noise);

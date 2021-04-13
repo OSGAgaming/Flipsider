@@ -32,24 +32,8 @@ namespace Flipsider
             this.FrameY = FrameY;
             this.Intensity = Intensity;
             this.Saturation = Saturation;
-            Offsets = (GW ?? EntityBloom.DefaultGuassianWeights).Offsets;
-            Weights = (GW ?? EntityBloom.DefaultGuassianWeights).GuassianWeight;
-        }
-    }
-    public class EntityBloom : LightSource
-    {
-        //except this part
-        public LivingEntity BindableEntity;
-        public static GuassianWeights DefaultGuassianWeights = new GuassianWeights(20, 1, 4f);
-        public EntityBloom(LivingEntity entity, Texture2D BloomMap, float str, Vector2 pos = default, Color col = default) : base(str, pos, col)
-        {
-            DefaultGuassianWeights = new GuassianWeights(10, 1, 4f);
-            BindableEntity = entity;
-            Main.AutoAppendToLayer(this);
-        }
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-
+            Offsets = (GW ?? GuassianWeights.DefaultGuassianWeights).Offsets;
+            Weights = (GW ?? GuassianWeights.DefaultGuassianWeights).GuassianWeight;
         }
     }
 }

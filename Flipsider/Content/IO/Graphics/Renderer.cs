@@ -1,4 +1,5 @@
-﻿using Flipsider.GUI;
+﻿using Flipsider.Content.IO.Graphics;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
@@ -13,18 +14,19 @@ namespace Flipsider
         public RenderTarget2D? renderTarget;
         public Game? instance;
         public SpriteBatch spriteBatch;
-        public Camera? mainCamera;
-        public bool RenderingWater { get; set; }
+        public GameCamera? mainCamera;
+        public bool RenderPrimitiveMode { get; set; }
         public float ScreenScale
         {
             get
             {
                 if (mainCamera != null)
-                    return mainCamera.scale;
+                    return mainCamera.Scale;
                 return 1;
             }
         }
-        public Vector2 ScreenSize => graphics?.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
+
+        public readonly int UpScale = 1;
         public Renderer(Game game)
         {
             instance = game;
@@ -33,27 +35,25 @@ namespace Flipsider
                 GraphicsProfile = GraphicsProfile.HiDef
             };
             graphics.ApplyChanges();
-            mainCamera = new Camera();
-            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, 2560, 1440);
+            mainCamera = new GameCamera();
+            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, 2560 / UpScale, 1440 / UpScale);
             spriteBatch = new SpriteBatch(graphics?.GraphicsDevice);
         }
 
         public void Load()
         {
             if (instance != null)
-                lighting = new Lighting(instance.Content, 0.7f);
+                lighting = new Lighting(instance.Content);
         }
         public void Draw()
         {
             if (graphics != null)
             {
-                graphics?.GraphicsDevice.Clear(Color.CornflowerBlue);
                 graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
-                Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
+                graphics?.GraphicsDevice.Clear(Color.Transparent);
                 Render();
                 graphics?.GraphicsDevice.SetRenderTarget(null);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
-                lighting?.ApplyShader();
                 if (renderTarget != null && lighting != null)
                 {
                     RenderTarget2D r = lighting.Maps.OrderedShaderPass(spriteBatch, renderTarget);
@@ -76,20 +76,20 @@ namespace Flipsider
         {
             if (graphics != null)
             {
-                Rectangle frame = new Rectangle(0, 0, 2560, 1440);
-                spriteBatch.Draw(renderTarget, Main.mainCamera.CamPos, frame, Color.White, 0f, Vector2.Zero, 1 / ScreenScale, SpriteEffects.None, 0f);
+                Rectangle frame = new Rectangle(0, 0, 2560 / UpScale, 1440 / UpScale);
+                spriteBatch.Draw(renderTarget, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, 1 / ScreenScale, SpriteEffects.None, 0f);
             }
         }
         public void Render()
         {
             //Todo: Events
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
             Main.instance.sceneManager.Draw(spriteBatch);
             if (graphics != null)
-                lighting?.Maps.OrderedRenderPass(spriteBatch, graphics.GraphicsDevice);
+                 lighting?.Maps.OrderedRenderPass(spriteBatch, graphics.GraphicsDevice);
             spriteBatch.End();
         }
-
+        //need to move somewhere sensible
         public void RenderUI()
         {
             spriteBatch.End();
@@ -101,10 +101,8 @@ namespace Flipsider
                 UIScreenManager.Instance?.Components[i].Draw(spriteBatch);
             }
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
             UIScreenManager.Instance?.DrawOnScreen();
-            //debuganthinghere
-            // Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, new Vector2(10, 36), Color.Black);
         }
     }
 }

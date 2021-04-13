@@ -36,7 +36,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 {
                     flag = true;
                     Vector2 dXY = Main.MouseScreen.ToVector2() - pos1;
-                    Main.lighting.AddLight(dXY.Length(), pos1, Color.Green, 0.5f, dXY.ToRotation());
+                    //WMain.lighting.AddLight(dXY.Length(), pos1, Color.Green, 0.5f, dXY.ToRotation());
                 }
                 mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
                 if (mouseStateBuffer && flag)
@@ -79,10 +79,12 @@ namespace Flipsider.GUI.TilePlacementGUI
             if (Main.Editor.CurrentState == EditorUIState.LightEditorMode)
             {
                 dimensions.X += (int)(activePos.X - dimensions.X) / 16;
+                alpha = alpha.ReciprocateTo(1f, 16f); 
             }
             else
             {
                 dimensions.X += (int)(inactivePos.X + 16 - dimensions.X) / 16;
+                alpha = alpha.ReciprocateTo(0f, 16f);
             }
         }
         protected override void OnLeftClick()
@@ -93,12 +95,10 @@ namespace Flipsider.GUI.TilePlacementGUI
         private float alpha = 1f;
         protected override void OnHover()
         {
-            alpha.ReciprocateTo(0.5f, 16f);
         }
 
         protected override void NotOnHover()
         {
-            alpha.ReciprocateTo(1f, 16f);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Flipsider
             }
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.renderer.renderTarget);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.mainCamera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
 
         }
         public void AppendMethodToLayer(ILayeredComponent Method)

@@ -11,6 +11,7 @@ namespace Flipsider
     public class Map
     {
         internal Dictionary<string, MapPass> MapPasses = new Dictionary<string, MapPass>();
+
         public void OrderedRenderPass(SpriteBatch sb, GraphicsDevice GD)
         {
             int i = 0; 
@@ -25,6 +26,7 @@ namespace Flipsider
         }
 
         public List<RenderTarget2D> Buffers = new List<RenderTarget2D>();
+
         public RenderTarget2D OrderedShaderPass(SpriteBatch sb, RenderTarget2D target)
         {
             int i = 0;
@@ -34,7 +36,7 @@ namespace Flipsider
                 Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
 
                 sb.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: Main.mainCamera?.Transform, samplerState: SamplerState.PointClamp);
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: Main.Camera?.Transform, samplerState: SamplerState.PointClamp);
 
                 var Pass = Map.Value;
 
@@ -43,16 +45,16 @@ namespace Flipsider
                 RenderTarget2D rT;
                 if (i - 1 < 0) rT = target; else rT = Buffers[i - 1];
 
-                if (Main.graphics != null && Main.mainCamera != null)
+                if (Main.graphics != null && Main.Camera != null)
                 {
                     Rectangle frame = new Rectangle(0,0,2560,1440);
-                    sb.Draw(rT, Main.mainCamera.CamPos, frame, Color.White, 0f, Vector2.Zero, new Vector2(1/Main.ScreenScale, 1/Main.ScreenScale), SpriteEffects.None, 0f);
+                    sb.Draw(rT, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, new Vector2(1/Main.ScreenScale, 1/Main.ScreenScale), SpriteEffects.None, 0f);
                 }
 
                 i++;
 
                 sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Main.mainCamera?.Transform, samplerState: SamplerState.PointClamp);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Main.Camera?.Transform, samplerState: SamplerState.PointClamp);
             }
 
             Main.graphics.GraphicsDevice.SetRenderTarget(null);
