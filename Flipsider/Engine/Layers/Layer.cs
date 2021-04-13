@@ -32,7 +32,7 @@ namespace Flipsider
                     layeredComponent.Draw(spriteBatch);
                 }
             }
-            spriteBatch.Begin(transformMatrix: Main.Camera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Main.Camera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
             if (visible)
             {
                     foreach (ILayeredComponent draw in Drawables.ToArray())

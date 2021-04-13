@@ -148,7 +148,7 @@ namespace Flipsider.Engine.Particles
                     Texture2D lightTexture = TextureCache.PointLight;
 
                     Main.lighting.Maps.DrawToMap("Lighting", (SpriteBatch sb) => {
-                        sb.Draw(lightTexture, WorldSpace ? p.ParalaxedCenter : Position + p.ParalaxedCenter , null, p.Color * p.Opacity * p.LightIntensity * 0.4f,
+                        sb.Draw(lightTexture, WorldSpace ? p.ParalaxedCenter : Position + p.ParalaxedCenter , null, p.Color * p.Opacity * p.LightIntensity * 0.2f,
                             p.Rotation, lightTexture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f + p.Paralax * 0.2f, SpriteEffects.None, 0f);
                     }
 );

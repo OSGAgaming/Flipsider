@@ -21,6 +21,7 @@ namespace Flipsider
             Maps.AddMap("CanLightMap", 2, new LightingOcclusionMap());
             Maps.AddMap("Lighting", 3, new LightingMap());
             Maps.AddMap("FGWater", 4, new FgWaterPass());
+            Maps.AddMap("GodRay", 5, new GodrayMap());
         }
 
     }
