@@ -27,7 +27,7 @@ namespace Flipsider.Engine.Maths
         public readonly float maxSpeedY = 20f;
         public readonly float velocityBeforeFallingAnimation = 2f;
         public readonly float velocityBeforeLandStun = 4f;
-        public readonly float jumpBoost = 1.5f;
+        public readonly float jumpBoost = 1f;
         //VARIABLES YOU WANT TO CHANGE ------------------------------ //
 
         public void JumpMechanic()
@@ -39,7 +39,11 @@ namespace Flipsider.Engine.Maths
                 if (TigerTimer < TigerTime && !player.isAttacking)
                 {
                     player.velocity.Y -= jumpheight;
-                    player.velocity.X *= jumpBoost;
+                    float AbsVel = jumpBoost;
+                    float Dir = 0;
+                    if (state.IsKeyDown(Keys.D)) Dir = 1;
+                    if (state.IsKeyDown(Keys.A)) Dir = -1;
+                    player.velocity.X += AbsVel * Dir * jumpBoost;
                     TigerTimer = TigerTime + 1;
                 }
             }
