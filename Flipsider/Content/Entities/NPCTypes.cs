@@ -10,7 +10,6 @@ using System.Collections.Generic;
 
 namespace Flipsider
 {
-    // TODO holy shit this hurts
 #nullable disable
     internal static class NPCType
     {

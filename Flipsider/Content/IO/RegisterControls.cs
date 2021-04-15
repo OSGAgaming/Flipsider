@@ -18,7 +18,7 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("NPCEditor", Keys.N, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorPlaceTile", MouseInput.Left, Buttons.RightTrigger);
             GameInput.Instance.RegisterControl("EdtiorRemoveTile", MouseInput.Right, Buttons.RightShoulder);
-            GameInput.Instance.RegisterControl("EditorSwitchModes", Keys.Z, Buttons.RightStick);
+            GameInput.Instance.RegisterControl("EditorSwitchModes", Keys.RightAlt, Buttons.RightStick);
             GameInput.Instance.RegisterControl("EditorTileEditor", Keys.T, Buttons.LeftStick);
             GameInput.Instance.RegisterControl("EditorZoomIn", MouseInput.ScrollUp, Buttons.DPadUp);
             GameInput.Instance.RegisterControl("EditorZoomOut", MouseInput.ScrollDown, Buttons.DPadDown);

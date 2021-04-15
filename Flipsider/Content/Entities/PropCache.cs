@@ -110,11 +110,6 @@ namespace Flipsider
             AddPropType("Forest_ForestBigRockThree", TextureCache.ForestBigRockThree);
 
             AddPropType("Forest_Waterfall", TextureCache.Waterfall);
-
-            ChangeFrames("City_StreetLights", 5);
-            ChangeFrames("City_StopSigns", 3);
-            ChangeAnimSpeed("City_StreetLights", 20);
-            ChangeAnimSpeed("City_StopSigns", 20);
             # endregion
         }
    

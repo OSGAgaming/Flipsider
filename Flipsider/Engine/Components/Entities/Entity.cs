@@ -1,5 +1,6 @@
 ﻿using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -60,6 +61,7 @@ namespace Flipsider
         public Entity()
         {
             OnLoad();
+            ActionCache.Instance.EntityQueue.Add(this);
             Main.LoadQueue += AfterLoad;
         }
         protected void UpdateEntityModifier(string name)
@@ -83,10 +85,10 @@ namespace Flipsider
                 OnChunkChange();
             }
             oldPosition = position;
+
             PreUpdate();
             OnUpdate();
             PostUpdate();
-
         }
         public void AfterLoad()
         {

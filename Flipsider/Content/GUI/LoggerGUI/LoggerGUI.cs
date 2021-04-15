@@ -51,7 +51,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnDraw()
         {
-            int MaxOnscreenLogs = 5;
+            int MaxOnscreenLogs = 10;
             var logger = Logger.Logs;
 
             Vector2 ASS = Utils.ActualScreenSize;
@@ -60,7 +60,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             for (int i = 0; i < Count; i++)
             {
                 float alpha = 1 - i / (float)MaxOnscreenLogs;
-                Utils.DrawTextToLeft(logger[i], Color.Black * alpha * LogAlpha, new Vector2(30, ASS.Y - 30 - 20*i));
+                Utils.DrawTextToLeft(logger[i], Color.Yellow * alpha * LogAlpha, new Vector2(30, ASS.Y - 30 - 20*i));
             }
         }
     }

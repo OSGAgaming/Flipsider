@@ -16,6 +16,8 @@ namespace Flipsider.Engine.Input
 
         private readonly Dictionary<string, InputBinding> _controls;
 
+        public bool IsClicking => CurrentMouseState.LeftButton == ButtonState.Pressed;
+        public bool PreviousIsClicking => PreviousMouseState.LeftButton == ButtonState.Pressed;
         public KeyboardState PreviousKeyState { get; private set; }
         public KeyboardState CurrentKeyState { get; private set; }
         public MouseState PreviousMouseState { get; private set; }

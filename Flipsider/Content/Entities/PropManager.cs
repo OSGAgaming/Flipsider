@@ -1,5 +1,6 @@
 ﻿
 using Flipsider.Engine.Interfaces;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -42,7 +43,7 @@ namespace Flipsider
                     int alteredRes = Main.CurrentWorld.TileRes / 4;
                     Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
                     Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
-                    Prop prop = new Prop(PropType ?? "", position + posDis, 1, -1, 0, LayerHandler.CurrentLayer, true);
+                    Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
                     props.Add(prop);
                 }
                 TileManager.UselessCanPlaceBool = true;
@@ -63,8 +64,7 @@ namespace Flipsider
                 Vector2 tilePoint2 = Main.MouseScreen.ToVector2().Snap(alteredRes);
                 if (Main.Editor.CurrentProp != null)
                 {
-                    Prop prop = PropEntites[Main.Editor.CurrentProp];
-                    Rectangle altFrame = prop.alteredFrame;
+                    Rectangle altFrame = PropTypes[Main.Editor.CurrentProp].Bounds;
                     Main.spriteBatch.Draw(PropTypes[Main.Editor.CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(sine), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
                 }
             }
@@ -74,20 +74,6 @@ namespace Flipsider
             if (PropEntites.ContainsKey(Prop))
             {
                 PropEntites[Prop].PE = PE;
-            }
-        }
-        public static void ChangeFrames(string Prop, int frames)
-        {
-            if (PropEntites.ContainsKey(Prop))
-            {
-                PropEntites[Prop].noOfFrames = frames;
-            }
-        }
-        public static void ChangeAnimSpeed(string Prop, int speed)
-        {
-            if (PropEntites.ContainsKey(Prop))
-            {
-                PropEntites[Prop].animSpeed = speed;
             }
         }
     }
