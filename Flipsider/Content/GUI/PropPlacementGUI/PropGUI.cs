@@ -40,9 +40,60 @@ namespace Flipsider.GUI.TilePlacementGUI
                 }
             }
         }
+
+        private bool mousePressedRight = false;
+        private bool mousePressedMiddle = false;
+        Prop? chosenProp;
+        Vector2 cachedCenter;
+        Vector2 mouseCenter;
+        public void PropUpdate()
+        {
+            if (Mouse.GetState().RightButton != ButtonState.Pressed)
+            {
+                chosenProp = null;
+                if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
+                {
+                    var Props = Main.CurrentWorld.propManager.props;
+                    for (int i = 0; i < Props.Count; i++)
+                    {
+                        if (Props[i].CollisionFrame.Contains(Main.MouseScreen))
+                        {
+                            chosenProp = Props[i];
+                        }
+                    }
+                }
+            }
+
+            if (chosenProp != null)
+            {
+                Point size = PropTypes[chosenProp.prop].Bounds.Size;
+                Rectangle rect = new Rectangle(chosenProp.ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
+                if (rect.Contains(Main.MouseScreen))
+                {
+                    if (Main.Editor.StateCheck(EditorUIState.PropEditorMode) && chosenProp.Layer == LayerHandler.CurrentLayer)
+                    {
+                        if (!mousePressedMiddle && Mouse.GetState().MiddleButton == ButtonState.Pressed)
+                        {
+                            chosenProp.Dispose();
+                        }
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        {
+                            if (!mousePressedRight)
+                            {
+                                cachedCenter = chosenProp.Center;
+                                mouseCenter = Main.MouseScreen.ToVector2();
+                            }
+                            chosenProp.Center = cachedCenter + (Main.MouseScreen.ToVector2() - mouseCenter);
+                        }
+                    }
+                }
+            }
+            mousePressedRight = Mouse.GetState().RightButton == ButtonState.Pressed;
+            mousePressedMiddle = Mouse.GetState().MiddleButton == ButtonState.Pressed;
+        }
         protected override void OnUpdate()
         {
-            if(GameInput.Instance["EditorZoomIn"].IsDown())
+            if (GameInput.Instance["EditorZoomIn"].IsDown())
             {
                 Scroll += 0.05f;
             }
@@ -60,28 +111,22 @@ namespace Flipsider.GUI.TilePlacementGUI
                 alpha -= alpha / 16f;
             }
             Scroll = Math.Clamp(Scroll, -1.5f, 0);
+
+            PropUpdate();
         }
 
         public float alpha;
         protected override void OnDraw()
         {
-            Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20),10,400,Color.CadetBlue*alpha);
-            Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20 + MathHelper.Lerp(320,0,(Scroll + 1.5f)/1.5f)), 10,80, Color.White * alpha);
-            //DrawMethods.DrawText("Tiles", Color.BlanchedAlmond, new Vector2((int)Main.ScreenSize.X - 60, paddingY - 10));
+            Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20), 10, 400, Color.CadetBlue * alpha);
+            Utils.DrawBoxFill(new Vector2(Main.ActualScreenSize.X - widthOfPanel - 300, 20 + MathHelper.Lerp(320, 0, (Scroll + 1.5f) / 1.5f)), 10, 80, Color.White * alpha);
         }
-
         internal override void DrawToScreen()
         {
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
-                var Props = Main.CurrentWorld.propManager.props;
-                for (int i = 0; i < Props.Count; i++)
-                {
-                    if (Props[i].CollisionFrame.Contains(Main.MouseScreen))
-                    {
-                        Utils.DrawRectangle(Props[i].CollisionFrame, Color.White, 3);
-                    }
-                }
+                if (chosenProp != null)
+                    Utils.DrawRectangle(chosenProp.CollisionFrame, Color.White, 3);
             }
         }
     }
@@ -108,7 +153,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             int fluff = 5;
             Rectangle panelDims = new Rectangle(dimensions.X - fluff, Y - fluff, dimensions.Width + fluff * 2, dimensions.Height + fluff * 2);
             spriteBatch.Draw(TextureCache.NPCPanel, panelDims, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
-            spriteBatch.Draw(PropTypes.Values.ToArray()[index], new Rectangle(dimensions.X,Y,dimensions.Width,dimensions.Height), PropTypes.Values.ToArray()[index].Bounds, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
+            spriteBatch.Draw(PropTypes.Values.ToArray()[index], new Rectangle(dimensions.X, Y, dimensions.Width, dimensions.Height), PropTypes.Values.ToArray()[index].Bounds, Color.Lerp(Color.White, Color.Black, lerpage) * alpha);
         }
         protected override void OnUpdate()
         {

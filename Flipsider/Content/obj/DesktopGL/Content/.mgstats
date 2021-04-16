@@ -1,3 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/FGWaterMap.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/FGWaterMap.xnb","EffectProcessor","CompiledEffectContent",2830,4388,0.3931815
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/GodrayEffect.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/GodrayEffect.xnb","EffectProcessor","CompiledEffectContent",1686,1913,0.6353816
 "C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Effect/LightingMap.fx","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Effect/LightingMap.xnb","EffectProcessor","CompiledEffectContent",1410,824,0.3854505
+"C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/Textures/Foam3.png","C:/Users/tafid/source/repos/Flipsider/Flipsider/Content/bin/DesktopGL/Content/Textures/Foam3.xnb","TextureProcessor","Texture2DContent",227,4113,0.1744856

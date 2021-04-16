@@ -16,6 +16,7 @@ namespace Flipsider.Engine.Particles
         public float Scale;
         public float Opacity;
         public Texture2D Texture;
+        public List<IParticleModifier> RuntimeModules;
         public float Lifetime;
         public float Age;
         public float Paralax;
@@ -26,6 +27,8 @@ namespace Flipsider.Engine.Particles
     {
         void Invoke(Particle[] particles, int index);
     }
+
+    public interface ISpawnParticleModifier : IParticleModifier { }
 
     public interface ISpawnerModifier
     {
@@ -54,7 +57,7 @@ namespace Flipsider.Engine.Particles
             SpawnModules = new List<IParticleModifier>();
             UpdateModules = new List<IParticleModifier>();
         }
-
+ 
         public void Update()
         {
             DoSpawnRate();
@@ -66,6 +69,10 @@ namespace Flipsider.Engine.Particles
                     for (int j = 0; j < UpdateModules.Count; j++)
                     {
                         UpdateModules[j].Invoke(_particles, i);
+                    }
+                    for (int j = 0; j < _particles[i].RuntimeModules.Count; j++)
+                    {
+                        _particles[i].RuntimeModules[j].Invoke(_particles, i);
                     }
                     _particles[i].Center += _particles[i].Velocity * Time.DeltaT;
                     _particles[i].Age += Time.DeltaT;
@@ -114,6 +121,24 @@ namespace Flipsider.Engine.Particles
             }
         }
 
+        public int SpawnParticle(params IParticleModifier[] Modules)
+        {
+            for (int i = 0; i < _particles.Length; i++)
+            {
+                if (!_particles[i].Alive)
+                {
+                    NewParticle(i);
+                    for (int j = 0; j < Modules.Length; j++)
+                    {
+                        if (Modules[j] is ISpawnParticleModifier) Modules[j].Invoke(_particles, i);
+                        else _particles[i].RuntimeModules.Add(Modules[j]);
+                    }
+                    return i;
+                }
+            }
+            return 0;
+        }
+
         private void NewParticle(int index)
         {
             _particles[index].Center = (WorldSpace ? Position : Vector2.Zero);
@@ -125,6 +150,8 @@ namespace Flipsider.Engine.Particles
             _particles[index].Lifetime = 1f;
             _particles[index].Age = 0f;
             _particles[index].Alive = true;
+            _particles[index].Texture = TextureCache.pixel;
+            _particles[index].RuntimeModules = new List<IParticleModifier>();
 
             //modify position based on spawn module
             for (int i = 0; i < SpawnModules.Count; i++)

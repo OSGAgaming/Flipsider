@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Flipsider.Engine.Particles
 {
-    public class SetPosition : IParticleModifier
+    public class SetPosition : ISpawnParticleModifier
     {
         private Vector2 _pos;
 
@@ -32,6 +32,36 @@ namespace Flipsider.Engine.Particles
         public void Invoke(Particle[] particles, int index)
         {
             particles[index].LightIntensity = intensity;
+        }
+    }
+
+    public class SetRotationSpeed : IParticleModifier
+    {
+        private float intensity;
+
+        public SetRotationSpeed(float intensity)
+        {
+            this.intensity = intensity;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Rotation += intensity;
+        }
+    }
+
+    public class SlowDown : IParticleModifier
+    {
+        private Vector2 factor;
+
+        public SlowDown(Vector2 factor)
+        {
+            this.factor = factor;
+        }
+
+        public void Invoke(Particle[] particles, int index)
+        {
+            particles[index].Velocity *= factor;
         }
     }
 
@@ -112,7 +142,7 @@ namespace Flipsider.Engine.Particles
         }
     }
 
-    public class SetVelocity : IParticleModifier
+    public class SetVelocity : ISpawnParticleModifier
     {
         private Vector2 _velocity;
 
@@ -126,7 +156,7 @@ namespace Flipsider.Engine.Particles
             particles[index].Velocity = _velocity;
         }
     }
-    public class SetRandomVelocity : IParticleModifier
+    public class SetRandomVelocity : ISpawnParticleModifier
     {
         private readonly float _speed;
         private readonly Random _random;

@@ -1,12 +1,15 @@
 using Flipsider.Engine;
+using Flipsider.Engine.Interfaces;
+using Flipsider.Engine.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 
 namespace Flipsider
 {
     [Serializable]
-    public class World
+    public class World : IComponent
     {
         public LayerHandler layerHandler = new LayerHandler();
         public LevelInfo levelInfo => LevelInfo.Convert(this);
@@ -21,6 +24,9 @@ namespace Flipsider
         public Manager<Water> WaterBodies = new Manager<Water>();
         [NonSerialized]
         public PropManager propManager = new PropManager();
+
+        public ParticleSystem GlobalParticles;
+
         public bool IsTileActive(int i, int j)
         {
             if (tileManager.GetTile(i, j) == null || !tileManager.GetTile(i, j).Active)
@@ -90,11 +96,22 @@ namespace Flipsider
             return false;
         }
 
+        public void Update()
+        {
+            GlobalParticles.Update();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            GlobalParticles.Draw(spriteBatch);
+        }
+
         public World(int Width, int Height)
         {
             MaxTilesX = Width;
             MaxTilesY = Height;
             tileManager = new TileManager(Width, Height);
+            GlobalParticles = new ParticleSystem(200);
         }
     }
 }

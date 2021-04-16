@@ -23,7 +23,6 @@ namespace Flipsider
         public static Renderer renderer;
         public static World CurrentWorld;
         public static PrimTrailManager Primitives;
-        public static PropInteraction propInteraction;
         public FPS fps = new FPS();
         public Main()
         {
@@ -78,7 +77,6 @@ namespace Flipsider
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();
-            propInteraction = new PropInteraction(CurrentWorld.propManager);
         }
         private void LoadGUI()
         {

@@ -21,11 +21,9 @@ namespace Flipsider.Engine
         protected int _noOfPoints;
         protected List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
-        public bool behindTiles = false;
         protected GraphicsDevice _device;
         protected Effect _effect;
         protected BasicEffect _basicEffect;
-        protected int RENDERDISTANCE => 2000;
         protected VertexPositionColorTexture[] vertices;
         protected int currentIndex;
         public Primitive()
@@ -45,15 +43,10 @@ namespace Flipsider.Engine
         public void Dispose()
         {
             Main.Primitives.Components.Remove(this);
-
         }
         public void Update()
         {
             OnUpdate();
-        }
-        public virtual void OnUpdate()
-        {
-
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -64,23 +57,12 @@ namespace Flipsider.Engine
             if (_noOfPoints >= 1)
                 _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
         }
-        public virtual void PrimStructure(SpriteBatch spriteBatch)
-        {
+        public virtual void PrimStructure(SpriteBatch spriteBatch) { }
+        public virtual void SetShaders() { }
+        public virtual void SetDefaults() { }
+        public virtual void OnDestroy() { }
+        public virtual void OnUpdate() { }
 
-        }
-        public virtual void SetShaders()
-        {
-
-        }
-        public virtual void SetDefaults()
-        {
-
-        }
-
-        public virtual void OnDestroy()
-        {
-
-        }
         //Helper methods
     }
 }

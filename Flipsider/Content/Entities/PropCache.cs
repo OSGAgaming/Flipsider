@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static Flipsider.PropInteraction;
 
 namespace Flipsider
 {

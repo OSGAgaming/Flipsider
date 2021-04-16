@@ -23,6 +23,7 @@ namespace Flipsider.Engine.Maths
         public bool Collides;
         public CollisionInfo collisionInfo;
         public RectangleF CustomHitBox;
+
         private Rectangle r => HasBindableEntity ? BindableEntity.CollisionFrame : CustomHitBox.ToR();
         public Polygon collisionBox => CustomPolyCollide.Center == Vector2.Zero ? r.ToPolygon() : CustomPolyCollide;
         public Polygon lastCollisionBox => BindableEntity.PreCollisionFrame.ToPolygon();
