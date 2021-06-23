@@ -9,7 +9,11 @@ namespace Flipsider.GUI
     {
         public Rectangle dimensions;
 
+        public bool IsBeingClicked;
+
         public virtual void Draw(SpriteBatch spriteBatch) { }
+
+        public virtual void DrawOnScreenDirect(SpriteBatch spriteBatch) { }
 
         protected virtual void OnUpdate() { }
 
@@ -31,8 +35,12 @@ namespace Flipsider.GUI
             if (dimensions.Contains(state.Position)) OnHover();
             if (!dimensions.Contains(state.Position)) NotOnHover();
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && dimensions.Contains(state.Position)) OnLeftClick();
+            
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && !dimensions.Contains(state.Position)) OnLeftClickAway();
             if (Mouse.GetState().RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
+
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) IsBeingClicked = true;
+            else IsBeingClicked = false;
         }
 
         public void SetDimensions(int x, int y, int width, int height)

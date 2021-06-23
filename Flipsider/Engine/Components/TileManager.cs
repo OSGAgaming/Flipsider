@@ -1,5 +1,6 @@
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,13 +20,13 @@ namespace Flipsider
 
         public TileManager(int width, int height)
         {
-            chunks = new Chunk[width/Chunk.width, height/ Chunk.height];
+            chunks = new Chunk[width / Chunk.width, height / Chunk.height];
             voidChunk = new Chunk();
-            for (int i = 0; i<chunks.GetLength(0); i++)
+            for (int i = 0; i < chunks.GetLength(0); i++)
             {
                 for (int j = 0; j < chunks.GetLength(1); j++)
                 {
-                    chunks[i, j] = LoadChunk(new Point(i,j));
+                    chunks[i, j] = LoadChunk(new Point(i, j));
                 }
             }
             LoadTileTypes();
@@ -51,8 +52,8 @@ namespace Flipsider
         }
         Chunk GetChunk(Point pos)
         {
-            if(pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1))
-            return chunks?[pos.X, pos.Y] ?? LoadChunk(pos);
+            if (pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1))
+                return chunks?[pos.X, pos.Y] ?? LoadChunk(pos);
 
             return LoadChunk(pos);
         }
@@ -123,12 +124,12 @@ namespace Flipsider
             }
             return T;
         }
-     
+
         public void RemoveTile(World world, Point pos)
         {
             try
             {
-                if (Main.Editor.IsActive)
+                if (EditorModeGUI.Active)
                 {
                     if (GetTile(pos) != null)
                         GetTile(pos).Dispose();
@@ -157,7 +158,7 @@ namespace Flipsider
             BinaryWriter binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(chunks.GetLength(0));
             binaryWriter.Write(chunks.GetLength(1));
-            for(int i = 0; i< chunks.GetLength(0); i++)
+            for (int i = 0; i < chunks.GetLength(0); i++)
             {
                 for (int j = 0; j < chunks.GetLength(1); j++)
                 {
@@ -171,7 +172,7 @@ namespace Flipsider
             BinaryReader binaryReader = new BinaryReader(stream);
             int width = binaryReader.ReadInt32();
             int height = binaryReader.ReadInt32();
-            TileManager tileManager = new TileManager(width * Chunk.width,height * Chunk.height);
+            TileManager tileManager = new TileManager(width * Chunk.width, height * Chunk.height);
             Chunk chunk = new Chunk();
             for (int i = 0; i < width; i++)
             {

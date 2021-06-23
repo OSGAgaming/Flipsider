@@ -199,6 +199,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLeftClick()
         {
             Main.instance.sceneManager.SetNextScene(new ForestArea(), null, true);
+            Main.instance.sceneManager.SetNextScene(new EditorScene(), null, true);
         }
     }
 }

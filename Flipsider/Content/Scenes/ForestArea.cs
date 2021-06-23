@@ -3,6 +3,7 @@ using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Flipsider.Engine.Particles;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,11 +21,13 @@ namespace Flipsider.Scenes
         public override void Update()
         {
             Main.renderer.RenderPrimitiveMode = true;
+
             foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
             {
                 if (updateable != null)
                     updateable.Update();
             }
+
             foreach (IUpdate updateable in Main.Updateables.ToArray())
             {
                 if (updateable != null)
@@ -51,6 +54,7 @@ namespace Flipsider.Scenes
             ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(EaseFunction.ReverseLinear));
             ForestAreaParticles.UpdateModules.Add(new TurnRand(-.5f, .5f));
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 50);
@@ -73,9 +77,6 @@ namespace Flipsider.Scenes
             ForestAreaParticles.Draw(spriteBatch);
 
             Main.CurrentWorld.GlobalParticles.Draw(spriteBatch);
-
-            Main.renderer.RenderUI();
-            //spriteBatch.Draw(Main.lighting.Maps.Get("Lighting").MapTarget ?? TextureCache.ForestGrassEight,new Rectangle((int)Main.mainCamera.Position.X, (int)Main.mainCamera.Position.Y, 800/5,480/5),Color.White);
         }
     }
 }

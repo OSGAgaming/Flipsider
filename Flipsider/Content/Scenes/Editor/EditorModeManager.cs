@@ -55,10 +55,6 @@ namespace Flipsider
             => EUS == CurrentState;
         public void Update()
         {
-            if (!IsActive && Main.CurrentScene.Name != "Main Menu")
-            {
-                Main.Camera.Offset -= Main.Camera.Offset / 16f;
-            }
             ControlEditorScreen();
             if (GameInput.Instance["EditorPlaceTile"].IsDown())
             {

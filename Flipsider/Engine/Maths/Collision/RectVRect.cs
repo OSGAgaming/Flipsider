@@ -62,7 +62,7 @@ namespace Flipsider.Engine.Maths
             if ((collideable2.isStatic && collideable2.BindableEntity.Active) || !collideable2.HasBindableEntity)
             {
                 CollisionInfo CI =
-                    Collision.TestForCollisions(
+                    Collision.SAT(
                     collideable1.collisionBox,
                     collideable2.collisionBox);
 

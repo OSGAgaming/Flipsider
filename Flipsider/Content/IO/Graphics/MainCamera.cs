@@ -39,7 +39,7 @@ namespace Flipsider.Content.IO.Graphics
             EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(Main.player.Center + MatrixOffset, FollowSpeed);
             Rotation = Main.rand.Next(-ScreenShake, ScreenShake) / RotationalScreenShake;
 
-            if (!Main.Editor.IsActive && Main.CurrentScene.Name != "Main Menu")
+            if (!EditorModeGUI.Active && Main.CurrentScene.Name != "Main Menu")
             {
                 Vector2 newCenter = Main.player.Center + Offset + mouseDisp;
 

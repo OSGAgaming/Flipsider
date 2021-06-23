@@ -1,6 +1,7 @@
 ﻿
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -101,7 +102,7 @@ namespace Flipsider
                 Active = false;
                 return;
             }
-            if (!Main.Editor.IsActive)
+            if (!EditorModeGUI.Active)
             {
                 if (Active)
                 {

@@ -27,26 +27,24 @@ namespace Flipsider
         }
         public Prop AddProp(Prop prop)
         {
-                if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
-                {
-                    props.Add(prop);
-                }
-                TileManager.UselessCanPlaceBool = true;
+            if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+            {
+                props.Add(prop);
+            }
+            TileManager.UselessCanPlaceBool = true;
             return prop;
         }
         public void AddProp(string PropType, Vector2 position)
         {
             try
             {
-                if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
-                {
-                    int alteredRes = Main.CurrentWorld.TileRes / 4;
-                    Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
-                    Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
-                    Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
-                    props.Add(prop);
-                }
-                TileManager.UselessCanPlaceBool = true;
+
+                int alteredRes = Main.CurrentWorld.TileRes / 4;
+                Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
+                Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
+                Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
+                props.Add(prop);
+
             }
             catch
             {

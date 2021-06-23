@@ -57,8 +57,6 @@ namespace Flipsider
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Main.Camera?.Transform, samplerState: SamplerState.PointClamp);
             }
 
-            Main.graphics.GraphicsDevice.SetRenderTarget(null);
-
             return Buffers[Buffers.Count - 1];
         }
         public void DrawToMap(string Map, MapRender MR) => MapPasses[Map].DrawToTarget(MR);

@@ -82,7 +82,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
             {
-
                 HideExcept(chosen);
                 if (Mouse.GetState().MiddleButton != ButtonState.Pressed && mouseStateBuffer && !flag)
                 {

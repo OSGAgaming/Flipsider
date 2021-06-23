@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tafid\\source\\repos\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
+      "projectUniqueName": "C:\\Users\\tafid\\Documents\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
       "projectName": "TextureCacheGenerator",
-      "projectPath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
+      "projectPath": "C:\\Users\\tafid\\Documents\\Flipsider\\TextureCacheGenerator\\TextureCacheGenerator.csproj",
       "packagesPath": "C:\\Users\\tafid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tafid\\source\\repos\\Flipsider\\TextureCacheGenerator\\obj\\",
+      "outputPath": "C:\\Users\\tafid\\Documents\\Flipsider\\TextureCacheGenerator\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tafid\\AppData\\Roaming\\NuGet\\NuGet.Config",

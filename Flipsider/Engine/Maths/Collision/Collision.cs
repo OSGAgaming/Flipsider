@@ -67,7 +67,7 @@ namespace Flipsider.Engine.Maths
                 return Rectangle.Empty;
             }
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
             for (int i = 0; i < points.Length; i++)
             {
@@ -141,7 +141,7 @@ namespace Flipsider.Engine.Maths
             
             return new CollisionInfo(v,b);
         }
-        public static CollisionInfo TestForCollisions(Polygon shape1, Polygon shape2)
+        public static CollisionInfo SAT(Polygon shape1, Polygon shape2)
         {
             Polygon[] shapes = new Polygon[] { shape1, shape2 };
             float overlap = float.PositiveInfinity;
@@ -206,74 +206,6 @@ namespace Flipsider.Engine.Maths
         public static bool AABB(Rectangle A, Rectangle B)
         {
             return A.Intersects(B);
-        }
-        public static CollisionInfo AABBResolve(Rectangle A, Rectangle B)
-        {
-            Vector2 d = Vector2.Zero;
-            Bound bound = Bound.None;
-            if (!A.Intersects(new Rectangle(B.X - 1, B.Y - 1, B.Width + 2, B.Height + 2)))
-                return new CollisionInfo(d, bound);
-            else
-            {
-                if (A.Center.X > B.Center.X && A.Bottom > B.Center.Y && A.Top < B.Center.Y)
-                {
-                    bound = Bound.Left;
-                    d = new Vector2(B.Right - A.Left, 0);
-                }
-                if (A.Center.X < B.Center.X && A.Bottom > B.Center.Y && A.Top < B.Center.Y)
-                {
-                    bound = Bound.Right;
-                    d = new Vector2(B.Left - A.Right, 0);
-                }
-                if (A.Center.Y > B.Center.Y && A.Top > B.Center.Y)
-                {
-                    bound = Bound.Bottom;
-                    d = new Vector2(0, B.Top - A.Bottom);
-                }
-                if (A.Center.Y < B.Center.Y && A.Bottom < B.Center.Y)
-                {
-                    bound = Bound.Top;
-                    d = new Vector2(0, B.Top - A.Bottom);
-                }
-            }
-            return new CollisionInfo(d, bound);
-        }
-        public static CollisionInfo AABBResolve(Rectangle A, Rectangle ALast, Rectangle B)
-        {
-            Vector2 d = Vector2.Zero;
-            Bound bound = Bound.None;
-            if (!A.Intersects(new Rectangle(B.X, B.Y - 1, B.Width, B.Height + 2)))
-                return new CollisionInfo(d, bound);
-            else
-            {
-                if (ALast.Bottom > B.Top && ALast.Top < B.Bottom)
-                {
-                    if (ALast.Left > B.Center.X)
-                    {
-                        bound = Bound.Left;
-                        d = new Vector2(B.Right - A.Left, 0);
-                    }
-                    if (ALast.Right < B.Center.X)
-                    {
-                        bound = Bound.Right;
-                        d = new Vector2(B.Left - A.Right, 0);
-                    }
-                }
-                if (ALast.Left < B.Right && ALast.Right > B.Left)
-                {
-                    if (ALast.Top > B.Center.Y)
-                    {
-                        bound = Bound.Bottom;
-                        d = new Vector2(0, B.Bottom - A.Top);
-                    }
-                    if (ALast.Bottom < B.Center.Y)
-                    {
-                        bound = Bound.Top;
-                        d = new Vector2(0, B.Top - A.Bottom);
-                    }
-                }
-            }
-            return new CollisionInfo(d, bound);
         }
         public static CollisionInfo AABBResolvePoly(Polygon _A, Polygon _ALast, Polygon _B)
         {

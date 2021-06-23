@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Scenes
 {
-    public class DebugScene : Scene
+    public class EditorMode : Scene
     {
-        public DebugScene()
+        public EditorMode()
         {
 
         }

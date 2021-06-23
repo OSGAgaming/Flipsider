@@ -92,7 +92,7 @@ namespace Flipsider
             {
                 layer.Draw(spriteBatch);
             }
-            Main.graphics.GraphicsDevice.SetRenderTarget(Main.renderer.renderTarget);
+            Main.graphics.GraphicsDevice.SetRenderTarget(Main.renderer.RenderTarget);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
 

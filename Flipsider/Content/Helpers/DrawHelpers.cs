@@ -44,6 +44,14 @@ namespace Flipsider
             Main.spriteBatch.Draw(TextureCache.pixel, p1, null, tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, 0f);
         }
 
+        public static void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
+        {
+            Vector2 between = p2 - p1;
+            float length = between.Length();
+            float rotation = (float)Math.Atan2(between.Y, between.X);
+            sb.Draw(TextureCache.pixel, p1, null, tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, 0f);
+        }
+
         public static void DrawText(string text, Color colour, Vector2 position, float rotation = 0f)
         {
             SpriteFont font = Main.font;
@@ -99,6 +107,17 @@ namespace Flipsider
             DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
             DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(point, new Vector2(point.X + sizeX, point.Y), color, thickness);
+        }
+
+        public static void DrawRectangle(SpriteBatch sb, Rectangle rectangle, Color color, float thickness = 1)
+        {
+            Vector2 point = rectangle.Location.ToVector2();
+            int sizeX = rectangle.Size.X;
+            int sizeY = rectangle.Size.Y;
+            DrawLine(sb, new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(sb, new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
+            DrawLine(sb, point, new Vector2(point.X, point.Y + sizeY), color, thickness);
+            DrawLine(sb, point, new Vector2(point.X + sizeX, point.Y), color, thickness);
         }
         public static void DrawRectangle(RectangleF rectangle, Color color, float thickness = 1)
         {

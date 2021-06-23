@@ -1,4 +1,10 @@
-﻿namespace Flipsider.GUI
+﻿using Flipsider.Engine.Input;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+
+namespace Flipsider.GUI
 {
     public class UIScreenManager : Manager<UIScreen>
     {
@@ -13,6 +19,15 @@
                 UIS.DrawToScreen();
             }
         }
+
+        public void DrawDirectOnScreen(SpriteBatch sb)
+        {
+            foreach (UIScreen UIS in Components)
+            {
+                UIS.DrawToScreenDirect(sb);
+            }
+        }
+
         static UIScreenManager()
         {
             Instance = new UIScreenManager();

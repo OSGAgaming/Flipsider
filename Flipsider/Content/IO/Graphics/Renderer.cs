@@ -2,6 +2,7 @@
 using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Diagnostics;
 
 namespace Flipsider
@@ -9,100 +10,155 @@ namespace Flipsider
     public delegate void LayerEventDelegate(World world, SpriteBatch spriteBatch);
     public class Renderer
     {
-        internal Lighting? lighting;
-        public GraphicsDeviceManager? graphics;
-        public RenderTarget2D? renderTarget;
-        public Game? instance;
-        public SpriteBatch spriteBatch;
-        public GameCamera? mainCamera;
+        public event Action? TargetCalls;
+
+        /// <summary>
+        /// Make sure this is in line with your preffered aspect ratio
+        /// </summary>
+        protected virtual Point MaxResolution { get; set; } = new Point(2560, 1440);
+        public Rectangle Destination { get; set; } = new Rectangle(0,0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
+
+        internal Lighting? Lighting { get; set; }
+        public GraphicsDeviceManager? Graphics { get; set; }
+
+        public RenderTarget2D? RenderTarget { get; set; }
+        public RenderTarget2D? PostProcessedTarget { get; set; }
+        /// <summary>
+        /// For Convenience. Can be Misc render calls
+        /// </summary>
+        public RenderTarget2D? PreUITarget { get; set; }
+        public RenderTarget2D? PostUITarget { get; set; }
+
+        public Game? Instance { get; set; }
+        public SpriteBatch SpriteBatch { get; set; }
+
+        public GameCamera? MainCamera { get; set; }
+        public bool RenderUITarget { get; set; }
         public bool RenderPrimitiveMode { get; set; }
+
+        //Does not work yet
+        public readonly int PixelationUpscale = 1;
+
         public float ScreenScale
         {
             get
             {
-                if (mainCamera != null)
-                    return mainCamera.Scale;
+                if (MainCamera != null)
+                    return MainCamera.Scale;
                 return 1;
             }
         }
 
-        public readonly int UpScale = 1;
         public Renderer(Game game)
         {
-            instance = game;
-            graphics = new GraphicsDeviceManager(instance)
+            Instance = game;
+
+            Graphics = new GraphicsDeviceManager(Instance)
             {
                 GraphicsProfile = GraphicsProfile.HiDef
             };
-            graphics.ApplyChanges();
-            mainCamera = new GameCamera();
-            renderTarget = new RenderTarget2D(graphics?.GraphicsDevice, 2560 / UpScale, 1440 / UpScale);
-            spriteBatch = new SpriteBatch(graphics?.GraphicsDevice);
+
+            Graphics.ApplyChanges();
+            MainCamera = new GameCamera();
+
+            int X = MaxResolution.X / PixelationUpscale;
+            int Y = MaxResolution.Y / PixelationUpscale;
+
+            RenderTarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
+            PostProcessedTarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
+            PreUITarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
+            PostUITarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
+
+            SpriteBatch = new SpriteBatch(Graphics?.GraphicsDevice);
+        }
+
+        public void AddTargetCall(RenderTarget2D target, Action<SpriteBatch> Call)
+        {
+            TargetCalls += () =>
+            {
+                DrawToTarget(target, Call);
+            };
+        }
+
+        public void DrawToTarget(RenderTarget2D? target, Action<SpriteBatch> Call)
+        {
+            if (target != null)
+            {
+                Graphics?.GraphicsDevice.SetRenderTarget(target);
+                Graphics?.GraphicsDevice.Clear(Color.Transparent);
+
+                Call.Invoke(SpriteBatch);
+            }
         }
 
         public void Load()
         {
-            if (instance != null)
-                lighting = new Lighting(instance.Content);
+            if (Instance != null)
+                Lighting = new Lighting(Instance.Content);
         }
         public void Draw()
         {
-            if (graphics != null)
+            if (Graphics != null)
             {
-                graphics?.GraphicsDevice.SetRenderTarget(renderTarget);
-                graphics?.GraphicsDevice.Clear(Color.Transparent);
-                Render();
-                graphics?.GraphicsDevice.SetRenderTarget(null);
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: mainCamera?.Transform, samplerState: SamplerState.PointClamp);
-                if (renderTarget != null && lighting != null)
+                DrawToTarget(RenderTarget, RenderPreEffect);
+
+                SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
+                TargetCalls?.Invoke();
+                TargetCalls = null;
+
+                SpriteBatch.End();
+
+                //Doesnt have to be UI. Can be anything Misc that doesnt use the Main Transform
+                Graphics?.GraphicsDevice.SetRenderTarget(PreUITarget);
+                Graphics?.GraphicsDevice.Clear(Color.Transparent);
+
+                if(RenderUITarget) RenderUI(SpriteBatch);
+
+                SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: MainCamera?.Transform, samplerState: SamplerState.PointClamp);
+
+                if (RenderTarget != null && Lighting != null && PreUITarget != null)
                 {
-                    RenderTarget2D r = lighting.Maps.OrderedShaderPass(spriteBatch, renderTarget);
+                    RenderTarget2D r = Lighting.Maps.OrderedShaderPass(SpriteBatch, RenderTarget);
+
+                    Graphics?.GraphicsDevice.SetRenderTarget(PostProcessedTarget);
+                    Graphics?.GraphicsDevice.Clear(Color.Transparent);
+
                     PrintRenderTarget(r);
+
+                    Graphics?.GraphicsDevice.SetRenderTarget(PostUITarget);
+                    Graphics?.GraphicsDevice.Clear(Color.Transparent);
+
+                    PrintRenderTarget(PreUITarget);
                 }
-                spriteBatch.End();
-            }
-        }
-        public Vector2 PreferredSize
-        {
-            get
-            {
-                if (graphics != null)
-                    return new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-                return Vector2.Zero;
+
+                SpriteBatch.End();
+
+                Graphics?.GraphicsDevice.SetRenderTarget(null);
+
+                SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+                SpriteBatch.Draw(PostProcessedTarget, Destination, new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y), Color.White);
+                SpriteBatch.Draw(PostUITarget, Destination, new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y), Color.White);
+
+                RenderToScreen(SpriteBatch);
+
+                SpriteBatch.End();
+
             }
         }
 
-        public void PrintRenderTarget(RenderTarget2D renderTarget)
+        public void PrintRenderTarget(RenderTarget2D RT)
         {
-            if (graphics != null)
+            if (Graphics != null)
             {
-                Rectangle frame = new Rectangle(0, 0, 2560 / UpScale, 1440 / UpScale);
-                spriteBatch.Draw(renderTarget, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, 1 / ScreenScale, SpriteEffects.None, 0f);
+                Rectangle frame = new Rectangle(0, 0, MaxResolution.X / PixelationUpscale, MaxResolution.Y / PixelationUpscale);
+                SpriteBatch.Draw(RT, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, 1 / ScreenScale, SpriteEffects.None, 0f);
             }
         }
-        public void Render()
-        {
-            //Todo: Events
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
-            Main.instance.sceneManager.Draw(spriteBatch);
-            if (graphics != null)
-                 lighting?.Maps.OrderedRenderPass(spriteBatch, graphics.GraphicsDevice);
-            spriteBatch.End();
-        }
-        //need to move somewhere sensible
-        public void RenderUI()
-        {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
-            Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, Utils.ActualScreenSize + new Vector2(-80,-30), Color.Aqua);
-            for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
-            {
-                UIScreenManager.Instance.Components[i].active = true;
-                UIScreenManager.Instance?.Components[i].Draw(spriteBatch);
-            }
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
-            UIScreenManager.Instance?.DrawOnScreen();
-        }
+
+        public virtual void RenderPreEffect(SpriteBatch sb) { }
+        public virtual void RenderUI(SpriteBatch sb) { }
+        public virtual void RenderToScreen(SpriteBatch sb) { }
     }
 }

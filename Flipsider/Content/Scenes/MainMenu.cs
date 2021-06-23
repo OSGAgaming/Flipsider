@@ -1,6 +1,7 @@
 ﻿
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Scenes
@@ -20,11 +21,9 @@ namespace Flipsider.Scenes
                     updateable.Update();
             }
             Main.Editor.Update();
-        }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            Main.renderer.RenderUI();
+            Main.renderer.RenderUITarget = true;
+            Main.renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
         }
     }
 }

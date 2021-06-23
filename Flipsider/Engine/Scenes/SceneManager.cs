@@ -1,4 +1,5 @@
 ﻿using Flipsider.Engine.Interfaces;
+using Flipsider.Scenes;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Engine
@@ -80,6 +81,9 @@ namespace Flipsider.Engine
             //deactivate current scene (if not null), set next scene, then activate it
             _currentScene?.OnDeactivate();
             _currentScene = _nextScene;
+
+            if (_nextScene?.Name != "Editor") EditorScene.DisplayScene = _nextScene;
+
             _currentScene?.OnActivate();
             _nextScene = null;
         }

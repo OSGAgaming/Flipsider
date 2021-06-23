@@ -28,7 +28,12 @@ namespace Flipsider
         }
         public static float ReciprocateTo(this int num, float target, float ease)
         {
-            return (target - num - 16) / ease;
+            return (target - num - ease) / ease;
+        }
+
+        public static int ReciprocateToInt(this int num, float target, float ease)
+        {
+            return (int)(num + (target - num) / ease);
         }
         public static void Shuffle<T>(this Random random, ref T[] input)
         {
@@ -54,7 +59,8 @@ namespace Flipsider
 
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.Camera.Position) * Main.Camera.Scale);
 
-        public static Point ToScreen(this Point v) => (v.ToVector2() / new Vector2(Main.Camera.Scale, Main.Camera.Scale) + Main.Camera.Position).ToPoint();
+        public static Point ToScreen(this Point v) => (v.ToVector2() / Main.Camera.Scale + Main.Camera.Position).ToPoint();
+        public static Point ToDestinationScreen(this Point v) => ((v.ToVector2() / Main.Camera.Scale) + Main.Camera.Position).ToPoint();
         public static Vector2 AddParallaxAcrossX(this Vector2 v, float traversingPixels)
        =>
             v - new Vector2(Math.Clamp(Main.Camera.EntityIsolatedPosition.X * traversingPixels, -100000, 100000), 0);

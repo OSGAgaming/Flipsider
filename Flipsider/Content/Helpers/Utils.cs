@@ -35,11 +35,11 @@ namespace Flipsider
         public static EditorMode Editor => EditorMode.Instance;
         public static float targetScale => Main.Camera.targetScale;
         public static TileManager tileManager => Main.CurrentWorld.tileManager;
-        public static SpriteBatch spriteBatch => Main.renderer.spriteBatch;
+        public static SpriteBatch spriteBatch => Main.renderer.SpriteBatch;
         public static Player? player => Main.CurrentWorld.MainPlayer;
-        public static GraphicsDeviceManager? graphics => Main.renderer.graphics;
-        public static GameCamera? mainCamera => Main.renderer.mainCamera;
-        public static Lighting? lighting => Main.renderer.lighting;
+        public static GraphicsDeviceManager? graphics => Main.renderer.Graphics;
+        public static GameCamera? mainCamera => Main.renderer.MainCamera;
+        public static Lighting? lighting => Main.renderer.Lighting;
         public static List<Water> WaterBodies => Main.CurrentWorld.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
         public static Vector2 ScreenSize => Main.graphics.GraphicsDevice == null ? Vector2.One : Main.renderer.PreferredSize;

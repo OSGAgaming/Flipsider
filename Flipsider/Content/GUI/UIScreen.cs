@@ -31,10 +31,24 @@ namespace Flipsider.GUI
             }
         }
 
+        public void DrawToScreenDirect(SpriteBatch spriteBatch)
+        {
+            OnDrawToScreenDirect();
+            if (active)
+            {
+                foreach (UIElement element in elements)
+                {
+                    element.DrawOnScreenDirect(spriteBatch);
+                }
+            }
+        }
+
         protected virtual void OnUpdate() { }
 
         protected virtual void OnDraw() { }
         internal virtual void DrawToScreen() { }
+        internal virtual void OnDrawToScreenDirect() { }
+
         protected virtual void OnLoad() { }
 
         public void Update()

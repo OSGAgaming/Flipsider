@@ -11,7 +11,8 @@ namespace Flipsider.Engine.Maths
         None,
         Rectangle,
         Triangle,
-        ConvexPoly
+        ConvexPoly,
+        Line
     }
     public partial class Collideable : IEntityModifier,ILayeredComponent
     {

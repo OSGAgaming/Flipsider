@@ -2,6 +2,7 @@
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Flipsider.GUI;
+using Flipsider.GUI.TilePlacementGUI;
 using Flipsider.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,13 +21,13 @@ namespace Flipsider
         public static bool isLoading = true;
         public static GameTime gameTime;
         public static SpriteFont font;
-        public static Renderer renderer;
+        public static MainRenderer renderer;
         public static World CurrentWorld;
         public static PrimTrailManager Primitives;
         public FPS fps = new FPS();
         public Main()
         {
-            renderer = new Renderer(this);
+            renderer = new MainRenderer(this);
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -82,7 +83,11 @@ namespace Flipsider
         {
             foreach (Type type in Utils.GetInheritedClasses(typeof(UIScreen)))
             {
-                Activator.CreateInstance(type);
+                UIScreen Screen = (UIScreen)Activator.CreateInstance(type);
+                if(Screen is ModeScreen s)
+                {
+                    EditorModeGUI.AddScreen(s);
+                }
             }
         }
         public static List<IUpdate> Updateables = new List<IUpdate>();

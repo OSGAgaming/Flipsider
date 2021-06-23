@@ -1,6 +1,7 @@
 ﻿using Flipsider.Content.IO.Graphics;
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -42,20 +43,26 @@ namespace Flipsider
         public static EditorMode Editor => EditorMode.Instance;
         public static float targetScale => Camera.targetScale;
         public static TileManager tileManager => CurrentWorld.tileManager;
-        public static SpriteBatch spriteBatch => renderer.spriteBatch;
+        public static SpriteBatch spriteBatch => renderer.SpriteBatch;
         public static Player player => CurrentWorld.MainPlayer;
-        public static GraphicsDeviceManager graphics => renderer.graphics;
-        public static GameCamera Camera => renderer.mainCamera;
-        public static Lighting lighting => renderer.lighting;
+        public static GraphicsDeviceManager graphics => renderer.Graphics;
+        public static GameCamera Camera => renderer.MainCamera;
+        public static Lighting lighting => renderer.Lighting;
         public static List<Water> WaterBodies => CurrentWorld.WaterBodies.Components;
-        public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
-        public static float ScreenScale => renderer.mainCamera.Scale;
+        public static Vector2 MouseTile => new Vector2(MouseToDestination().X / TileManager.tileRes, MouseToDestination().Y / TileManager.tileRes);
+        public static float ScreenScale => renderer.MainCamera.Scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : renderer.PreferredSize;
 
         public static Vector2 AScreenSize;
         public static Vector2 ActualScreenSize => AScreenSize;
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
-        public static Vector2 AbsD => ActualScreenSize - ScreenSize;
+        public static Point MouseToDestination()
+        {
+            Point p = Mouse.GetState().Position;
+            Vector2 R = ActualScreenSize / renderer.Destination.Size.ToVector2();
+            Vector2 v = (p.ToVector2() - renderer.Destination.Location.ToVector2() ) * R / Camera.Scale + Camera.Position;
+            return v.ToPoint();
+        }
 
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
 
