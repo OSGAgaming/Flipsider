@@ -11,6 +11,7 @@ namespace Flipsider
         {
             life = 50;
             maxLife = 50;
+            https://www.youtube.com/watch?v=dQw4w9WgXcQ
             width = 64;
             framewidth = width;
             height = 52;
