@@ -39,6 +39,7 @@ namespace Flipsider
      public static Texture2D _BodyParts_FrontBicep;
      public static Texture2D _BodyParts_FrontForearm;
      public static Texture2D _GUI_AddLayer;
+     public static Texture2D _GUI_FlipIcons;
      public static Texture2D _GUI_flip_icons;
      public static Texture2D _GUI_HudSlot;
      public static Texture2D _GUI_LayerHide;
@@ -186,6 +187,7 @@ namespace Flipsider
        _BodyParts_FrontBicep = AutoloadTextures.Assets[@"BodyParts\FrontBicep"];
        _BodyParts_FrontForearm = AutoloadTextures.Assets[@"BodyParts\FrontForearm"];
        _GUI_AddLayer = AutoloadTextures.Assets[@"GUI\AddLayer"];
+       _GUI_FlipIcons = AutoloadTextures.Assets[@"GUI\FlipIcons"];
        _GUI_flip_icons = AutoloadTextures.Assets[@"GUI\flip_icons"];
        _GUI_HudSlot = AutoloadTextures.Assets[@"GUI\HudSlot"];
        _GUI_LayerHide = AutoloadTextures.Assets[@"GUI\LayerHide"];

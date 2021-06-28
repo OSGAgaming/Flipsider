@@ -106,7 +106,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Parent != null)
+            if (PreviewPanel != null)
             {
                 RelativeDimensions = new Rectangle(20, 20 + Type * Seperation, AtlasDimensions.X, AtlasDimensions.Y);
 

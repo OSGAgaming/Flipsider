@@ -68,6 +68,7 @@ namespace Flipsider
         public override void Dispose()
         {
             Active = false;
+
             Main.layerHandler.Layers[Layer].Drawables.Remove(this);
             Chunk.Colliedables.RemoveThroughEntity(this);
             UpdateModules.Clear();

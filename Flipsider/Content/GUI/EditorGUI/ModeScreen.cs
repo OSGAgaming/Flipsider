@@ -18,6 +18,8 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public virtual void DrawToSelector(SpriteBatch sb) { }
 
+        public virtual void DrawToBottomPanel(SpriteBatch sb) { }
+
         public virtual void CustomDrawToScreen() { }
 
         public virtual void CustomUpdate() { }
@@ -36,20 +38,21 @@ namespace Flipsider.GUI.TilePlacementGUI
 
     internal class PreviewElement : UIElement
     {
-        public ActiveModeSelectPreview? Parent => EditorModeGUI.B;
+        public ActiveModeSelectPreview? PreviewPanel => EditorModeGUI.B;
 
         protected Rectangle RelativeDimensions { get; set; }
 
         protected virtual void CustomUpdate() { }
         protected override void OnUpdate()
         {
-            if (Parent != null)
+            if (PreviewPanel != null)
             {
-                Point p = Parent.dimensions.Location;
-                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)Parent.ScrollValue);
+                Point p = PreviewPanel.dimensions.Location;
+                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)PreviewPanel.ScrollValue);
 
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);
             }
+
             CustomUpdate();
         }
     }

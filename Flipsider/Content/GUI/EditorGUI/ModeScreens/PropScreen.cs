@@ -56,8 +56,6 @@ namespace Flipsider.GUI.TilePlacementGUI
             int alteredRes = Main.CurrentWorld.TileRes / 4;
             Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
 
-            Logger.NewText(CurrentProp);
-
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && CanPlace)
             {
                 Main.CurrentWorld.propManager.AddProp(CurrentProp ?? "", tilePoint2);
@@ -86,7 +84,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public int Type;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Parent != null)
+            if (PreviewPanel != null)
             {
                 RelativeDimensions = new Rectangle(10 + (Type % 3) * 55, 20 + (Type / 3) * 70, 32, 32);
 

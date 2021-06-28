@@ -35,13 +35,15 @@ namespace Flipsider
         }
         public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);
         public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
-        public static void DrawBoxFill(Rectangle rectangle, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, rectangle.Location.ToVector2(), new Rectangle(0, 0, rectangle.Width, rectangle.Height), tint);
-        public static void DrawLine(Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
+        public static void DrawBoxFill(Rectangle rectangle, Color tint, float depth = 0f) => 
+            Main.spriteBatch.Draw(TextureCache.pixel, rectangle.Location.ToVector2(), new Rectangle(0, 0, rectangle.Width, rectangle.Height), 
+            tint, 0f, Vector2.Zero, 1f, SpriteEffects.None, depth);
+        public static void DrawLine(Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f, float depth = 0f)
         {
             Vector2 between = p2 - p1;
             float length = between.Length();
             float rotation = (float)Math.Atan2(between.Y, between.X);
-            Main.spriteBatch.Draw(TextureCache.pixel, p1, null, tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(TextureCache.pixel, p1, null, tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, depth);
         }
 
         public static void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
@@ -60,11 +62,11 @@ namespace Flipsider
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
-        public static float DrawTextToLeft(string text, Color colour, Vector2 position)
+        public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f)
         {
             SpriteFont font = Main.font;
             float textPositionLeft = position.X;
-            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, layerDepth);
             return font.MeasureString(text).X;
         }
 

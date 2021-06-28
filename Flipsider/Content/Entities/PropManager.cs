@@ -38,7 +38,6 @@ namespace Flipsider
         {
             try
             {
-
                 int alteredRes = Main.CurrentWorld.TileRes / 4;
                 Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
                 Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);

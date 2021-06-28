@@ -26,7 +26,7 @@ namespace Flipsider
 
         public override void RenderUI(SpriteBatch sb)
         {
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
+            sb.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
 
             Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, FPSPosition, Color.Aqua);
 
@@ -38,7 +38,7 @@ namespace Flipsider
 
             sb.End();
 
-            sb.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+            sb.Begin(SpriteSortMode.FrontToBack, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
 
             UIScreenManager.Instance?.DrawOnScreen();
 

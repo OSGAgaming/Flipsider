@@ -6,7 +6,6 @@ namespace Flipsider.GUI
 {
     internal class WaterCrationGUI : UIScreen
     {
-        public int chosen = -1;
         private float position;
         protected override void OnLoad()
         {

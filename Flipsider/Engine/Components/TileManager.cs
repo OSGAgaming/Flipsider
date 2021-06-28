@@ -91,32 +91,36 @@ namespace Flipsider
             try
             {
                 Point pos = new Point(T.i, T.j);
-                if (CanPlace || forcePlacement)
+                if ((world.IsTileActive(pos.X, pos.Y) && GetTile(pos).type != T.type) || !world.IsTileActive(pos.X, pos.Y))
                 {
-                    if (world.IsTileActive(pos.X, pos.Y))
+                    if (CanPlace || forcePlacement)
                     {
-                        GetTile(pos).Dispose();
-                        AddTileToChunk(T, pos);
-                    }
-                    else
-                    {
-                        AddTileToChunk(T, pos);
-                    }
-                }
-
-                if (Main.Editor.AutoFrame)
-                {
-                    for (int i = pos.X - 1; i < pos.X + 2; i++)
-                        for (int j = pos.Y - 1; j < pos.Y + 2; j++)
+                        if (world.IsTileActive(pos.X, pos.Y))
                         {
-                            Point position = new Point(i, j);
-                            if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(position) != null)
-                            {
-                                GetTile(position).frame = Framing.GetTileFrame(world, i, j);
-                            }
+                            GetTile(pos).Dispose();
+                            AddTileToChunk(T, pos);
                         }
+                        else
+                        {
+                            AddTileToChunk(T, pos);
+                        }
+
+                    }
+
+                    if (Main.Editor.AutoFrame)
+                    {
+                        for (int i = pos.X - 1; i < pos.X + 2; i++)
+                            for (int j = pos.Y - 1; j < pos.Y + 2; j++)
+                            {
+                                Point position = new Point(i, j);
+                                if (i > 0 && j > 0 && i < world.MaxTilesX && j < world.MaxTilesY && GetTile(position) != null)
+                                {
+                                    GetTile(position).frame = Framing.GetTileFrame(world, i, j);
+                                }
+                            }
+                    }
+                    CanPlace = true;
                 }
-                CanPlace = true;
             }
             catch
             {

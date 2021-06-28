@@ -440,7 +440,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnHover()
         {
-            TileManager.CanPlace = false;
+            CanPlace = false;
             lerp += (1 - lerp) / 16f;
         }
 

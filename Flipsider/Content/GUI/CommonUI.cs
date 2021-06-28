@@ -1,8 +1,10 @@
 ﻿using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -12,7 +14,7 @@ namespace Flipsider.GUI
     {
         protected virtual Color color => Color.Black;
 
-        protected float Alpha;
+        protected float Alpha = 1;
         public override void Draw(SpriteBatch spriteBatch)
         {
             Utils.DrawBoxFill(dimensions.Inf(2, 2), Color.CadetBlue * Alpha);
@@ -24,7 +26,7 @@ namespace Flipsider.GUI
     internal class Text : Box
     {
         protected override Color color => Color.White;
-        public string inputText = "";
+        public string inputText = "Test";
         public bool hasCursor;
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
         protected KeyboardState currentKeyboardState = Keyboard.GetState();
@@ -49,6 +51,7 @@ namespace Flipsider.GUI
             Vector2 FS = Main.font.MeasureString(inputText);
             int disp = dimensions.Height / 2 - (int)FS.Y/2;
             Utils.DrawTextToLeft(inputText, Color.Black * alpha, dimensions.Location.ToVector2() + new Vector2(0, disp));
+
             if (hasCursor)
             {
                 Point pos = new Point(dimensions.Location.X + (int)FS.X + 1, dimensions.Location.Y + disp);
@@ -80,7 +83,6 @@ namespace Flipsider.GUI
         protected override Color color => Color.White;
         public string inputText = "";
         public bool hasCursor;
-        public float lerp;
         public float Number => float.Parse(inputText);
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
         protected KeyboardState currentKeyboardState = Keyboard.GetState();
@@ -160,6 +162,62 @@ namespace Flipsider.GUI
                 UpdateInput();
             }
             PostUpdate();
+        }
+    }
+
+    internal class TextBoxScalableScroll : Text
+    {
+        public Rectangle RelativeDimensions;
+
+        public ActiveModeSelectPreview? Parent => EditorModeGUI.B;
+
+        public Action<string>? OnEnterEvent;
+
+        protected override void OnUpdate()
+        {
+            RelativeDimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
+
+            if (hasCursor)
+            {
+                Main.Editor.Interactable = false;
+                UpdateInput();
+
+                if(Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    hasCursor = false;
+                    OnEnterEvent?.Invoke(inputText);
+                }
+            }
+            PostUpdate();
+
+            if (Parent != null)
+            {
+                Point p = Parent.dimensions.Location;
+                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)Parent.ScrollValue);
+
+                dimensions = new Rectangle(Position, RelativeDimensions.Size);
+            }
+        }
+
+        protected override void PostDraw(SpriteBatch spriteBatch)
+        {
+            Vector2 FS = Main.font.MeasureString(inputText);
+            int disp = RelativeDimensions.Height / 2 - (int)FS.Y / 2;
+            Utils.DrawTextToLeft(inputText, Color.Black * Alpha, RelativeDimensions.Location.ToVector2() + new Vector2(0, disp));
+            if (hasCursor)
+            {
+                Point pos = new Point(RelativeDimensions.Location.X + (int)FS.X + 1, RelativeDimensions.Location.Y + disp);
+                Point size = new Point(2, (int)FS.Y);
+                spriteBatch.Draw(TextureCache.magicPixel, new Rectangle(pos, size), Color.Black * Time.SineTime(10f) * Alpha);
+            }
+            CustomDraw(spriteBatch);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Utils.DrawBoxFill(RelativeDimensions.Inf(2, 2), Color.CadetBlue * Alpha, 1f);
+            Utils.DrawBoxFill(RelativeDimensions, Color.White * Alpha, 0.5f);
+            PostDraw(spriteBatch);
         }
     }
 }
