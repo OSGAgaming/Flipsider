@@ -65,7 +65,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < npcPanel.Length; i++)
                 {
-                    npcPanel[i] = new NPCPreviewPanel(NPCTypes[i]);
+                    npcPanel[i] = new NPCPreviewPanel(NPCTypes[i], EditorModeGUI.B);
                     npcPanel[i].Index = i;
                 }
             }
@@ -79,7 +79,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public NPCInfo Info;
         public int Index;
         private Texture2D? tex;
-        public NPCPreviewPanel(NPCInfo Info)
+        public NPCPreviewPanel(NPCInfo Info, ScrollPanel p) : base(p)
         {
             this.Info = Info;
             tex ??= Info.type.GetField("icon")?.GetValue(null) as Texture2D;

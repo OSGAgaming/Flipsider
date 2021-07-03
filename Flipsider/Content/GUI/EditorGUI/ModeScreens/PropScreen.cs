@@ -70,7 +70,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < propPanel.Length; i++)
                 {
-                    propPanel[i] = new PropPreviewPanel();
+                    propPanel[i] = new PropPreviewPanel(EditorModeGUI.B);
                     propPanel[i].Type = i;
                 }
             }
@@ -81,6 +81,8 @@ namespace Flipsider.GUI.TilePlacementGUI
 
     internal class PropPreviewPanel : PreviewElement
     {
+        public PropPreviewPanel(ScrollPanel p) : base(p) { }
+
         public int Type;
         public override void Draw(SpriteBatch spriteBatch)
         {

@@ -38,6 +38,7 @@ namespace Flipsider
 
         //Does not work yet
         public readonly int PixelationUpscale = 1;
+        public int TargetQueueIndex;
 
         public float ScreenScale
         {
@@ -74,14 +75,18 @@ namespace Flipsider
 
         public void AddTargetCall(RenderTarget2D target, Action<SpriteBatch> Call)
         {
+
             TargetCalls += () =>
             {
                 DrawToTarget(target, Call);
             };
+
         }
 
         public void DrawToTarget(RenderTarget2D? target, Action<SpriteBatch> Call)
         {
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
             if (target != null)
             {
                 Graphics?.GraphicsDevice.SetRenderTarget(target);
@@ -89,6 +94,8 @@ namespace Flipsider
 
                 Call.Invoke(SpriteBatch);
             }
+
+            SpriteBatch.End();
         }
 
         public void Load()
@@ -100,14 +107,16 @@ namespace Flipsider
         {
             if (Graphics != null)
             {
-                DrawToTarget(RenderTarget, RenderPreEffect);
+                if (RenderTarget != null)
+                {
+                    Graphics?.GraphicsDevice.SetRenderTarget(RenderTarget);
+                    Graphics?.GraphicsDevice.Clear(Color.Transparent);
 
-                SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                    RenderPreEffect(SpriteBatch);
+                }
 
                 TargetCalls?.Invoke();
                 TargetCalls = null;
-
-                SpriteBatch.End();
 
                 //Doesnt have to be UI. Can be anything Misc that doesnt use the Main Transform
                 Graphics?.GraphicsDevice.SetRenderTarget(PreUITarget);

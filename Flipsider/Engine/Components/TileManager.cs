@@ -83,6 +83,7 @@ namespace Flipsider
         public void AddTileToChunk(Tile tile, Point point)
         {
             Point pos = new Point(point.X % Chunk.width, point.Y % Chunk.height);
+            Logger.NewText(Main.rand.Next(4));
             GetChunkToTileCoords(point).AddTile(tile, pos);
         }
         public static bool CanPlace;
@@ -104,10 +105,9 @@ namespace Flipsider
                         {
                             AddTileToChunk(T, pos);
                         }
-
                     }
 
-                    if (Main.Editor.AutoFrame)
+                    if (TileScreen.AutoFrame)
                     {
                         for (int i = pos.X - 1; i < pos.X + 2; i++)
                             for (int j = pos.Y - 1; j < pos.Y + 2; j++)
@@ -120,6 +120,10 @@ namespace Flipsider
                             }
                     }
                     CanPlace = true;
+                }
+                else
+                {
+                    T.Active = false;
                 }
             }
             catch
@@ -138,7 +142,7 @@ namespace Flipsider
                     if (GetTile(pos) != null)
                         GetTile(pos).Dispose();
                 }
-                if (Main.Editor.AutoFrame)
+                if (TileScreen.AutoFrame)
                 {
                     for (int i = pos.X - 1; i < pos.X + 2; i++)
                         for (int j = pos.Y - 1; j < pos.Y + 2; j++)

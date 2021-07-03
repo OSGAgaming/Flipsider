@@ -29,16 +29,20 @@ namespace Flipsider
             {
                 Utils.DrawToMap("CanLightMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White));
                 drawData = new DrawData(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
+
                 if (!Surrounded && Buffer1)
                 {
                     Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
                     AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
+
                 if (Surrounded && !Buffer1)
                 {
                     Chunk.Colliedables.RemoveThroughEntity(this);
                 }
+
                 Buffer1 = Surrounded;
+
                 if (Main.CurrentWorld.IsActive(i, j))
                 {
                     if (TM.GetTile(i, j) != null)
@@ -121,12 +125,15 @@ namespace Flipsider
             InFrame = true;
             wall = ifWall;
             position = pos * 32;
+
             if (layer == -1)
                 Layer = LayerHandler.CurrentLayer;
             else
                 Layer = layer;
+
             i = (int)(ParallaxPosition.X / 32);
             j = (int)(ParallaxPosition.Y / 32);
+
             world = Main.CurrentWorld;
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()

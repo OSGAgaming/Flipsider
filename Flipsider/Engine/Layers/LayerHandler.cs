@@ -35,19 +35,19 @@ namespace Flipsider
             for (int i = 0; i < N; i++)
                 L[i] = binaryReader.ReadSingle();
 
-            return new LayerManagerInfo(N,L);
+            return new LayerManagerInfo(N, L);
         }
 
         public LayerHandler Load()
         {
             LayerHandler layerHandler = new LayerHandler();
-            for(int i = 1; i<NumberOfLayers; i++)
+            for (int i = 1; i < NumberOfLayers; i++)
             {
                 layerHandler.AddLayer();
             }
             for (int i = 0; i < NumberOfLayers; i++)
             {
-                layerHandler.SetLayerParallax(i,LayerParalax[i]);
+                layerHandler.SetLayerParallax(i, LayerParalax[i]);
             }
             return layerHandler;
         }
@@ -67,7 +67,6 @@ namespace Flipsider
         public static int CurrentLayer = 0;
         public static int[] LayerCache = { -1, -1 };
         public RenderTarget2D RTGaming;
-        public int PlayerLayer => Main.player.Layer;
         internal LayerManagerInfo Info
         {
             get
@@ -87,19 +86,29 @@ namespace Flipsider
             InfoCache = Info;
             Main.graphics.GraphicsDevice.SetRenderTarget(RTGaming);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
             spriteBatch.End();
-            foreach (Layer layer in Layers)
+
+            for (int i = 0; i < Layers.Count; i++)
             {
-                layer.Draw(spriteBatch);
+                for (int j = 0; j < Layers.Count; j++)
+                {
+                    if (Layers[j].LayerDepth == i)
+                    {
+                        Layers[j].Draw(spriteBatch);
+                    }
+                }
             }
+
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.renderer.RenderTarget);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
 
         }
         public void AppendMethodToLayer(ILayeredComponent Method)
         =>
-        Layers[Method.Layer].Drawables.Add(Method);
+        GetLayer(Method.Layer).Drawables.Add(Method);
         public void AutoAppendMethodToLayer(ref ILayeredComponent Method)
         {
             if (Layers.Count > 0)
@@ -115,59 +124,38 @@ namespace Flipsider
         {
             Layers.Add(new Layer(Layers.Count));
         }
-        public void AddLayer(float paralax)
-        {
-            Layer layer = new Layer(Layers.Count);
-            layer.parallax = paralax;
-            Layers.Add(layer);
-        }
         public void SwitchLayerVisibility(int Layer)
         {
             if (Layer < Layers.Count)
-                Layers[Layer].visible = !Layers[Layer].visible;
+                GetLayer(Layer).visible = !GetLayer(Layer).visible;
+        }
+        public Layer GetLayer(int Layer)
+        {
+            for (int i = 0; i < Layers.Count; i++)
+            {
+                if(Layers[i].LayerDepth == Layer)
+                {
+                    return Layers[i];
+                }
+            }
+
+            return Layers[0];
         }
         public void SwitchLayers(int Layer1, int Layer2)
         {
-            List<ILayeredComponent> L1 = new List<ILayeredComponent>();
-            List<ILayeredComponent> L2 = new List<ILayeredComponent>();
-            for (int i = 0; i < Layers[Layer1].Drawables.Count; i++)
-            {
-                Layers[Layer1].Drawables[i].Layer = Layer2;
-                L1.Add(Layers[Layer1].Drawables[i]);
-            }
-            for (int i = 0; i < Layers[Layer2].Drawables.Count; i++)
-            {
-                Layers[Layer2].Drawables[i].Layer = Layer1;
-                L2.Add(Layers[Layer2].Drawables[i]);
+            Layer L1 = GetLayer(Layer1);
+            Layer L2 = GetLayer(Layer2);
 
-            }
-            for (int i = 0; i < Layers[Layer1].PrimitiveDrawables.Count; i++)
-            {
-                Layers[Layer1].PrimitiveDrawables[i].Layer = Layer2;
-                L1.Add(Layers[Layer1].PrimitiveDrawables[i]);
-            }
-            for (int i = 0; i < Layers[Layer2].PrimitiveDrawables.Count; i++)
-            {
-                Layers[Layer2].PrimitiveDrawables[i].Layer = Layer1;
-                L2.Add(Layers[Layer2].PrimitiveDrawables[i]);
-            }
-            Layers[Layer1].Drawables.Clear();
-            Layers[Layer2].Drawables.Clear();
-            Layers[Layer1].PrimitiveDrawables.Clear();
-            Layers[Layer2].PrimitiveDrawables.Clear();
-            for (int i = 0; i < L1.Count; i++)
-            {
-                AppendMethodToLayer(L1[i]);
-            }
-            for (int i = 0; i < L2.Count; i++)
-            {
-                AppendMethodToLayer(L2[i]);
-            }
+            int D1 = L1.LayerDepth;
+            int D2 = L2.LayerDepth;
+
+            L1.LayerDepth = D2;
+            L2.LayerDepth = D1;
         }
         public void SetLayerParallax(int Layer, float paralax)
         {
             if (Layer < Layers.Count)
-                Layers[Layer].parallax = paralax;
+                GetLayer(Layer).parallax = paralax;
         }
         public int GetLayerCount() => Layers.Count;
     }

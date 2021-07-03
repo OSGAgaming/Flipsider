@@ -86,7 +86,9 @@ namespace Flipsider
                 UIScreen Screen = (UIScreen)Activator.CreateInstance(type);
                 if(Screen is ModeScreen s)
                 {
-                    EditorModeGUI.AddScreen(s);
+                    if (s.Mode != Mode.None)
+                        EditorModeGUI.AddScreen(s);
+                    else BottomModeSelectPreview.Screen = s as LayerScreen;
                 }
             }
         }

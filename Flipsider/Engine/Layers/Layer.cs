@@ -14,14 +14,17 @@ namespace Flipsider
         public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
         [NonSerialized]
         public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
+
         public int LayerDepth;
         public float parallax;
         public bool visible = true;
+        public string? Name { get; set; }
 
         public Layer(int ld, float paralax = 0)
         {
             LayerDepth = ld;
             parallax = paralax;
+            Name = "Layer " + ld;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

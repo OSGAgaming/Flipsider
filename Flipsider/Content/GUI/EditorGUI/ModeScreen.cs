@@ -26,22 +26,31 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         internal override void DrawToScreen()
         {
-            if(EditorModeGUI.mode == Mode) CustomDrawToScreen();
+            if(EditorModeGUI.mode == Mode || Mode == Mode.None) CustomDrawToScreen();
         }
 
         protected override void OnUpdate()
         {
-            if(EditorModeGUI.mode == Mode) CustomUpdate();
+            if(EditorModeGUI.mode == Mode || Mode == Mode.None) CustomUpdate();
         }
         internal override void OnDrawToScreenDirect() { }
     }
 
-    internal class PreviewElement : UIElement
+    internal abstract class PreviewElement : UIElement
     {
-        public ActiveModeSelectPreview? PreviewPanel => EditorModeGUI.B;
+        public ScrollPanel? PreviewPanel { get; set; }
+        
+        public Rectangle RelativeDimensions { get; set; }
 
-        protected Rectangle RelativeDimensions { get; set; }
+        public PreviewElement(ScrollPanel? Parent)
+        {
+            Main.LoadQueue += () =>
+            {
+                PreviewPanel = Parent;
+            };      
+        }
 
+        protected virtual void ChangeDimensions() { }
         protected virtual void CustomUpdate() { }
         protected override void OnUpdate()
         {
@@ -50,6 +59,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 Point p = PreviewPanel.dimensions.Location;
                 Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)PreviewPanel.ScrollValue);
 
+                ChangeDimensions();
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);
             }
 

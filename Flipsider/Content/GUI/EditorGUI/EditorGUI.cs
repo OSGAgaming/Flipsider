@@ -49,9 +49,8 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public static void AddScreen(ModeScreen Screen) => ModeScreens.Add(Screen.Mode, Screen);
 
-        public static ActiveModeSelectPreview? B;
-        public static BottomModeSelectPreview? BottomPreview;
-
+        public static ActiveModeSelectPreview B = new ActiveModeSelectPreview();
+        public static BottomModeSelectPreview BottomPreview = new BottomModeSelectPreview();
 
         protected override void OnLoad()
         {
@@ -66,10 +65,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             ActiveButton A = new ActiveButton();
             elements.Add(A);
 
-            B = new ActiveModeSelectPreview();
             elements.Add(B);
-
-            BottomPreview = new BottomModeSelectPreview();
             elements.Add(BottomPreview);
         }
 

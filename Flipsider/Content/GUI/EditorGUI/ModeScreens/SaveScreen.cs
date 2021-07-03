@@ -22,7 +22,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             get
             {
                 if (Load != null)
-                    return Load.Length*50 + 100;
+                    return Load.Length * 50 + 100;
                 else return 0;
             }
         }
@@ -73,7 +73,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
                 for (int i = 0; i < files.Length; i++)
                 {
-                    Load[i] = new WorldLoadScroll();
+                    Load[i] = new WorldLoadScroll(EditorModeGUI.B);
                     Load[i].index = i;
                     Load[i].path = files[i];
                 }
@@ -84,7 +84,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
             for (int i = 0; i < files.Length; i++)
             {
-                Load[i] = new WorldLoadScroll();
+                Load[i] = new WorldLoadScroll(EditorModeGUI.B);
                 Load[i].index = i;
                 Load[i].path = files[i];
             }
@@ -97,6 +97,8 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         public string path = "";
         public int index;
+
+        public WorldLoadScroll(ScrollPanel p) : base(p) { }
         public override void Draw(SpriteBatch spriteBatch)
         {
             RelativeDimensions = new Rectangle(20, 100 + 50*index, 120, 30);

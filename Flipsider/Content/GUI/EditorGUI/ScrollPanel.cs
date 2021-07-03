@@ -15,6 +15,8 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public virtual Point PreivewDimensions { get; }
 
+        public virtual Color Color { get; }
+
         RenderTarget2D PreviewTarget { get; set; }
 
         public float ScrollValue;
@@ -22,7 +24,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         public bool Active;
         private float BarAlpha;
 
-        private float PreviewAlpha;
+        public float PreviewAlpha;
+        public int PreviewHeight;
         private float ScrollVelocity;
 
         private float ScrollSpeed = 3;
@@ -37,14 +40,19 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.CurrentScene.Name != "Main Menu")
             {
-                Utils.DrawBoxFill(dimensions, Color.Black);
+                Utils.DrawBoxFill(dimensions, Color);
+                PreviewAlpha = PreviewAlpha.ReciprocateTo(1);
 
-                if (EditorModeGUI.ModeScreens.ContainsKey(EditorModeGUI.mode))
+                dimensions = new Rectangle(v, PreivewDimensions);
+
+                Main.renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
+                spriteBatch.Draw(PreviewTarget, new Rectangle(v, PreivewDimensions), new Rectangle(new Point(0, (int)ScrollValue), PreivewDimensions), Color.White * PreviewAlpha);
+
+                PreviewAlpha = PreviewAlpha.ReciprocateTo(0);
+
+                if (Active)
                 {
-                    PreviewAlpha = PreviewAlpha.ReciprocateTo(1);
-
-                    dimensions = new Rectangle(v, PreivewDimensions);
-                    int Height = EditorModeGUI.GetActiveScreen().PreviewHeight;
+                    int Height = PreviewHeight;
 
                     if (Height != 0)
                         ScrollRoom = Math.Max(Height - PreivewDimensions.Y, 0);
@@ -52,25 +60,14 @@ namespace Flipsider.GUI.TilePlacementGUI
 
                     int Room = (int)(Math.Max(Height - PreivewDimensions.Y, 0) / (float)Height * PreivewDimensions.Y);
 
-                    Main.renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
+                    Utils.DrawRectangle(dimensions, Color.White * Time.SineTime(4f) * PreviewAlpha);
 
-                    spriteBatch.Draw(PreviewTarget, new Rectangle(v, PreivewDimensions), new Rectangle(new Point(0, (int)ScrollValue), PreivewDimensions), Color.White * PreviewAlpha);
-
-                    if (Active)
-                    {
-                        Utils.DrawRectangle(dimensions, Color.White * Time.SineTime(4f) * PreviewAlpha);
-
-                        Utils.DrawRectangle(new Rectangle(
-                            dimensions.Right - BarWidth - Padding,
-                            dimensions.Y + Padding + (int)(ScrollValue * (PreivewDimensions.Y / (float)Height)),
-                            BarWidth,
-                            dimensions.Height - Padding * 2 - Room),
-                            Color.White * BarAlpha);
-                    }
-                }
-                else
-                {
-                    PreviewAlpha = PreviewAlpha.ReciprocateTo(0);
+                    Utils.DrawRectangle(new Rectangle(
+                        dimensions.Right - BarWidth - Padding,
+                        dimensions.Y + Padding + (int)(ScrollValue * (PreivewDimensions.Y / (float)Height)),
+                        BarWidth,
+                        dimensions.Height - Padding * 2 - Room),
+                        Color.White * BarAlpha);
                 }
             }
         }

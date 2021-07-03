@@ -83,6 +83,7 @@ namespace Flipsider.GUI
         protected override Color color => Color.White;
         public string inputText = "";
         public bool hasCursor;
+        public int MaxChars = 10;
         public float Number => float.Parse(inputText);
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
         protected KeyboardState currentKeyboardState = Keyboard.GetState();
@@ -100,7 +101,7 @@ namespace Flipsider.GUI
                     bool IsNumber = (key >= Keys.D0
                                              &&
                                             key <= Keys.D9 || key == Keys.OemPeriod || key == Keys.OemMinus);
-                    if (oldKeyboardState.IsKeyUp(key) && (IsNumber && !(inputText.Contains(".") && key == Keys.OemPeriod) || key == Keys.Back))
+                    if (oldKeyboardState.IsKeyUp(key) && (IsNumber && !(inputText.Contains(".") && key == Keys.OemPeriod) && inputText.Length <= MaxChars || key == Keys.Back))
                     {
                         KeyboardInput.Instance?.InputKey(key, ref inputText);
                     }
@@ -114,7 +115,7 @@ namespace Flipsider.GUI
             Utils.DrawTextToLeft(inputText, Color.Black * Alpha, dimensions.Location.ToVector2() + new Vector2(0, disp));
             if (hasCursor)
             {
-                Point pos = new Point(dimensions.Location.X + (int)FS.X + 1, dimensions.Location.Y + disp);
+                Point pos = new Point(dimensions.Location.X + (int)FS.X + 3, dimensions.Location.Y + disp);
                 Point size = new Point(2, (int)FS.Y);
                 spriteBatch.Draw(TextureCache.magicPixel, new Rectangle(pos, size), Color.Black * Time.SineTime(10f) * Alpha);
             }
@@ -216,6 +217,72 @@ namespace Flipsider.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             Utils.DrawBoxFill(RelativeDimensions.Inf(2, 2), Color.CadetBlue * Alpha, 1f);
+            Utils.DrawBoxFill(RelativeDimensions, Color.White * Alpha, 0.5f);
+            PostDraw(spriteBatch);
+        }
+    }
+
+    internal class NumberBoxScalableScroll : NumberBox
+    {
+        public Rectangle RelativeDimensions;
+
+        public ScrollPanel? Parent => EditorModeGUI.BottomPreview;
+
+        public Action<float>? OnEnterEvent;
+
+        public int BorderWidth = 1;
+
+        public Color Color = Color.White;
+        protected override void OnUpdate()
+        {
+            RelativeDimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
+
+            if (hasCursor)
+            {
+                Main.Editor.Interactable = false;
+                UpdateInput();
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    hasCursor = false;
+                    float num;
+                    if(float.TryParse(inputText, out num)) OnEnterEvent?.Invoke(num);
+                }
+            }
+            PostUpdate();
+
+            if (Parent != null)
+            {
+                Point p = Parent.dimensions.Location;
+                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)Parent.ScrollValue);
+
+                dimensions = new Rectangle(Position, RelativeDimensions.Size);
+            }
+        }
+
+        protected override void PostDraw(SpriteBatch spriteBatch)
+        {
+            Vector2 FS = Main.font.MeasureString(inputText);
+            int disp = RelativeDimensions.Height / 2 - (int)FS.Y / 2;
+            Utils.DrawTextToLeft(inputText, Color.Black * Alpha, RelativeDimensions.Location.ToVector2() + new Vector2(0, disp));
+            if (hasCursor)
+            {
+                Point pos = new Point(RelativeDimensions.Location.X + (int)FS.X , RelativeDimensions.Location.Y + disp);
+                Point size = new Point(2, (int)FS.Y);
+                if (inputText == "")
+                {
+                    size.Y = 10;
+                    pos.Y -= 5;
+                }
+
+                spriteBatch.Draw(TextureCache.magicPixel, new Rectangle(pos, size), Color.Black * Time.SineTime(10f) * Alpha);
+            }
+            CustomDraw(spriteBatch);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Utils.DrawBoxFill(RelativeDimensions.Inf(BorderWidth, BorderWidth), Color.CadetBlue * Alpha, 1f);
             Utils.DrawBoxFill(RelativeDimensions, Color.White * Alpha, 0.5f);
             PostDraw(spriteBatch);
         }

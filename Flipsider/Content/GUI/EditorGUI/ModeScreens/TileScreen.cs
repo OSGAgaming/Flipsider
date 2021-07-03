@@ -13,7 +13,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         public static int currentType;
         public static Rectangle currentFrame;
-
+        public static bool AutoFrame = true;
         public override Mode Mode => Mode.Tile;
 
         private TilePreviewPanel[]? tilePanel;
@@ -88,7 +88,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < tilePanel.Length; i++)
                 {
-                    tilePanel[i] = new TilePreviewPanel();
+                    tilePanel[i] = new TilePreviewPanel(EditorModeGUI.B);
                     tilePanel[i].Type = i;
                 }
             }
@@ -103,6 +103,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         private Point AtlasDimensions = new Point(128, 272);
         private float ColorLerp;
         internal static int Seperation => 280;
+
+        public TilePreviewPanel(ScrollPanel p) : base(p) { }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

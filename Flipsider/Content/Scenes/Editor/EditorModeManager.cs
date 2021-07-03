@@ -56,11 +56,7 @@ namespace Flipsider
         public void Update()
         {
             ControlEditorScreen();
-            if (GameInput.Instance["EditorPlaceTile"].IsDown())
-            {
-                if (Main.Editor.CurrentState == EditorUIState.TileEditorMode)
-                    Main.tileManager.AddTile(Main.CurrentWorld,new Tile(currentType,currentFrame, Main.MouseTile));
-            }
+
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed())
             {
                 MouseState state = Mouse.GetState();
