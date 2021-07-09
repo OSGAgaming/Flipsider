@@ -76,7 +76,7 @@ namespace Flipsider
 
                 AssetPaths.Add(AssetName);
 
-                Debug.Write(AssetName + "\n");
+                //Debug.Write(AssetName + "\n");
             }
         }
 
@@ -92,9 +92,9 @@ namespace Flipsider
 
                 if (Path.GetFileName(DirectorySubPath) == "bin") continue;
 
-                Debug.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
+                //Debug.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
                 GetAllAssetPaths(DirectorySubPath);
-                Debug.Write("\n\n");
+                //Debug.Write("\n\n");
             }
         }
 

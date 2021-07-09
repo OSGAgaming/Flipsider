@@ -88,7 +88,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < tilePanel.Length; i++)
                 {
-                    tilePanel[i] = new TilePreviewPanel(EditorModeGUI.B);
+                    tilePanel[i] = new TilePreviewPanel(EditorModeGUI.ModePreview);
                     tilePanel[i].Type = i;
                 }
             }

@@ -22,6 +22,7 @@ namespace Flipsider.Engine
         public void LoadToWorld(World world)
         {
             world.layerHandler = LMI.Load();
+            world.tileManager = tileManager;
         }
         
 

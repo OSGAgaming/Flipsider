@@ -32,9 +32,10 @@ namespace Flipsider
 
             for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {
-                UIScreenManager.Instance.Components[i].active = true;
                 UIScreenManager.Instance?.Components[i].Draw(SpriteBatch);
             }
+
+            Main.instance.sceneManager.DrawTransitionUI(SpriteBatch);
 
             sb.End();
 

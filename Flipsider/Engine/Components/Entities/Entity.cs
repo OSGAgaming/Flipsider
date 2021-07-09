@@ -97,8 +97,6 @@ namespace Flipsider
                 PostConstructor();
                 if (Main.CurrentWorld != null)
                 {
-                    Logger.NewText(Main.rand.Next(5));
-
                     Main.AppendToLayer(this);
                     Chunk?.Entities.Add(this);
                 }

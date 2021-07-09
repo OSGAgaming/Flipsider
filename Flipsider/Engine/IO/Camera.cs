@@ -28,8 +28,8 @@ namespace Flipsider
         {
             Transform =
             Matrix.CreateTranslation(new Vector3(-Position, 0)) *
-            Matrix.CreateScale(GetScreenScale()) *
-            Matrix.CreateRotationZ(Rotation);       
+            Matrix.CreateRotationZ(Rotation)  *
+            Matrix.CreateScale(GetScreenScale());        
         }
 
         public void UpdateTransform()

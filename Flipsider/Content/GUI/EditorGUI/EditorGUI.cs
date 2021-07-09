@@ -1,4 +1,6 @@
-﻿using Flipsider.Engine.Input;
+﻿using Flipsider.Engine;
+using Flipsider.Engine.Input;
+using Flipsider.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,7 +23,6 @@ namespace Flipsider.GUI.TilePlacementGUI
         Lasso
     }
 
-    //Hello Im doing work. THis is work. I am working. This is a work thingie. Give me raise lmfao xd
     internal class EditorModeGUI : UIScreen
     {
         List<EditorModeButton> Buttons = new List<EditorModeButton>();
@@ -40,7 +41,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public void AddMode(Mode mode)
         {
-            EditorModeButton e = new EditorModeButton(Textures._GUI_flip_icons, mode, v);
+            EditorModeButton e = new EditorModeButton(Textures._GUI_FlipIcons, mode, v);
             Buttons.Add(e);
             elements.Add(Buttons[Buttons.Count - 1]);
         }
@@ -49,7 +50,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public static void AddScreen(ModeScreen Screen) => ModeScreens.Add(Screen.Mode, Screen);
 
-        public static ActiveModeSelectPreview B = new ActiveModeSelectPreview();
+        public static ActiveModeSelectPreview ModePreview = new ActiveModeSelectPreview();
         public static BottomModeSelectPreview BottomPreview = new BottomModeSelectPreview();
 
         protected override void OnLoad()
@@ -65,8 +66,13 @@ namespace Flipsider.GUI.TilePlacementGUI
             ActiveButton A = new ActiveButton();
             elements.Add(A);
 
-            elements.Add(B);
+            GamePlayButton Play = new GamePlayButton();
+            elements.Add(Play);
+
+            elements.Add(ModePreview);
             elements.Add(BottomPreview);
+
+            active = false;
         }
 
         protected override void OnUpdate()
@@ -119,16 +125,19 @@ namespace Flipsider.GUI.TilePlacementGUI
                     Buttons[i].v.X = v.X;
                 }
 
-                Main.Camera.Offset -= Main.Camera.Offset / 16f;
+                if (!CutsceneManager.Instance.IsPlayingCutscene) Main.Camera.Offset -= Main.Camera.Offset / 16f;
             }
 
             CanZoom = true;
         }
+
+        protected override void OnUpdatePassive() => active = Main.CurrentScene.Name == "Editor";
+
         internal override void OnDrawToScreenDirect()
         {
             Rectangle d = Main.renderer.Destination;
 
-            if (Main.CurrentScene.Name != "Main Menu")
+            if (Main.CurrentScene.Name == "Editor")
             {
                 Utils.DrawBoxFill(new Rectangle((int)v.X, 0, IconDimensions, (int)Main.ActualScreenSize.Y), new Color(30, 30, 30));
                 Utils.DrawBoxFill(new Rectangle(0, 0, d.X, (int)Main.ActualScreenSize.Y), new Color(30, 30, 30));
@@ -159,9 +168,9 @@ namespace Flipsider.GUI.TilePlacementGUI
             Rectangle source;
 
             if (!IsBeingClicked)
-                source = new Rectangle(new Point(0, (int)(mode - 1) * Dims * 2), new Point(Dims * 2, Dims * 2));
+                source = new Rectangle(new Point(0, (int)mode * Dims), new Point(Dims, Dims));
             else
-                source = new Rectangle(new Point(Dims * 2, (int)(mode - 1) * Dims * 2), new Point(Dims * 2, Dims * 2));
+                source = new Rectangle(new Point(Dims * 2, (int)mode * Dims), new Point(Dims, Dims));
 
             spriteBatch.Draw(tex, dimensions, source, Color.White);
             spriteBatch.Draw(tex, dimensions, source, Color.White);
@@ -178,7 +187,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         public override void DrawOnScreenDirect(SpriteBatch spriteBatch)
         {
             dimensions = new Rectangle(v.ToPoint(), new Point(EditorModeGUI.IconDimensions, EditorModeGUI.IconDimensions));
-            spriteBatch.Draw(Textures._PointLight, dimensions, Color.White);
+            Utils.DrawBoxFill(dimensions, new Color(30, 30, 30));
+            spriteBatch.Draw(Textures._GUI_FlipIcons, dimensions,new Rectangle(EditorModeGUI.Active ? 32 : 0,0,32,32), Color.White);
         }
         protected override void OnLeftClick()
         {
@@ -191,7 +201,19 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
     }
 
-    
+    internal class GamePlayButton : UIElement
+    {
+        Vector2 v => new Vector2(0, 0);
+        public override void DrawOnScreenDirect(SpriteBatch spriteBatch)
+        {
+            dimensions = new Rectangle(v.ToPoint(), new Point(EditorModeGUI.IconDimensions, EditorModeGUI.IconDimensions));
+            spriteBatch.Draw(Textures._PointLight, dimensions, Color.White);
+        }
+        protected override void OnLeftClick()
+        {
+            Main.instance.sceneManager.SetNextScene(EditorScene.DisplayScene, null);
+        }
+    }
 }
 
 

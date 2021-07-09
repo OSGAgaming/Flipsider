@@ -67,7 +67,6 @@ namespace Flipsider.GUI
                     if (!flag)
                         Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White, 3);
                 }
-
             }
         }
         protected override void OnDraw()

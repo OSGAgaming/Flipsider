@@ -83,7 +83,6 @@ namespace Flipsider
         public void AddTileToChunk(Tile tile, Point point)
         {
             Point pos = new Point(point.X % Chunk.width, point.Y % Chunk.height);
-            Logger.NewText(Main.rand.Next(4));
             GetChunkToTileCoords(point).AddTile(tile, pos);
         }
         public static bool CanPlace;

@@ -1,6 +1,7 @@
 using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using System;
 
 namespace Flipsider
@@ -59,7 +60,7 @@ namespace Flipsider
             SpriteFont font = Main.font;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
         }
 
         public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f)

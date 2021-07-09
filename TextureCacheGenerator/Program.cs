@@ -71,7 +71,7 @@ namespace Flipsider
 
                 AssetPaths.Add(AssetName);
 
-                Console.Write(AssetName + " Was Written!" + "\n");
+                //Console.Write(AssetName + " Was Written!" + "\n");
             }
         }
 
@@ -87,9 +87,9 @@ namespace Flipsider
 
                 if (Path.GetFileName(DirectorySubPath) == "bin") continue;
 
-                Console.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
+                //Console.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
                 GetAllAssetPaths(DirectorySubPath);
-                Console.Write("\n\n");
+                //Console.Write("\n\n");
             }
         }
         public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}\Content\Textures");
@@ -98,9 +98,9 @@ namespace Flipsider
         {
             GetAllAssetPaths(AssetDirectory);
             GenerateTextureCache();
-            Console.WriteLine("A Total Of: " + AssetPaths.Count + " Assets were Written!");
-            Debug.Write(Environment.CurrentDirectory);
-            Console.ReadLine();
+            //Console.WriteLine("A Total Of: " + AssetPaths.Count + " Assets were Written!");
+            //Debug.Write(Environment.CurrentDirectory);
+            //Console.ReadLine();
         }
     }
 }

@@ -119,8 +119,9 @@ namespace Flipsider.GUI.TilePlacementGUI
             ScreenParent = s;
             NumberBox = new NumberBoxScalableScroll();
             NumberBox.inputText = Main.layerHandler.GetLayer(Layer).parallax.ToString();
-            NumberBox.Color = new Color(50, 50, 50);
+            NumberBox.Color = new Color(120, 120, 120);
             NumberBox.MaxChars = 5;
+            NumberBox.BorderWidth = 0;
             NumberBox.OnEnterEvent = (float val) =>
             {
                 Main.layerHandler.SetLayerParallax(Layer, val);
@@ -137,7 +138,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
             if (NumberBox != null)
             {
-                NumberBox.RelativeDimensions.Location = new Point(75, Layer * 20 + 14);
+                NumberBox.RelativeDimensions.Location = new Point(75, Layer * 20 + 15);
                 NumberBox.RelativeDimensions.Height = 10;
                 NumberBox?.Draw(spriteBatch);
             }

@@ -65,7 +65,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < npcPanel.Length; i++)
                 {
-                    npcPanel[i] = new NPCPreviewPanel(NPCTypes[i], EditorModeGUI.B);
+                    npcPanel[i] = new NPCPreviewPanel(NPCTypes[i], EditorModeGUI.ModePreview);
                     npcPanel[i].Index = i;
                 }
             }

@@ -1,6 +1,8 @@
 ﻿using Flipsider.Engine.Interfaces;
+using Flipsider.GUI.TilePlacementGUI;
 using Flipsider.Scenes;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Flipsider.Engine
 {
@@ -52,7 +54,7 @@ namespace Flipsider.Engine
                     _transitionSwitchedScene = true;
                     SwitchScene();
                 }
-                _transitionProgress += Time.DeltaT;
+                _transitionProgress += Time.DeltaT * 60;
             }
 
             _currentScene?.Update();
@@ -74,6 +76,7 @@ namespace Flipsider.Engine
             _transitionProgress = 0f;
             _transitioning = true;
             _transitionSwitchedScene = false;
+
         }
 
         private void SwitchScene()
@@ -96,7 +99,18 @@ namespace Flipsider.Engine
             {
                 //the progress is from 0-1 so we need to get it via that.
                 float progress = _transitionProgress / _transitionToUse.Length;
-                _transitionToUse.Draw(Main.spriteBatch, progress);
+                _transitionToUse.Draw(spriteBatch, progress);
+                if (progress >= 1) _transitioning = false;
+            }
+        }
+
+        public void DrawTransitionUI(SpriteBatch spriteBatch)
+        {
+            if (_transitioning && _transitionToUse != null)
+            {
+                //the progress is from 0-1 so we need to get it via that.
+                float progress = _transitionProgress / _transitionToUse.Length;
+                _transitionToUse.DrawUI(spriteBatch, progress);
             }
         }
     }

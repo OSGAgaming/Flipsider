@@ -26,7 +26,7 @@ namespace Flipsider.Content.IO.Graphics
 
         public float LeftBound => TargetSize.X / (float)(2 * Scale);
 
-        public float LowerBound => TargetSize.Y - (TargetSize.Y / (float)(2 * Scale)) - (TargetSize.Y - Utils.BOTTOM);
+        public float LowerBound => Utils.BOTTOM - (TargetSize.Y / (float)(2 * Scale));
 
         public float targetScale { get; set; }
 
@@ -36,26 +36,27 @@ namespace Flipsider.Content.IO.Graphics
             Vector2 shake = new Vector2(Main.rand.Next(-ScreenShake, ScreenShake), Main.rand.Next(-ScreenShake, ScreenShake));
 
             Vector2 mouseDisp = Vector2.Normalize(Mouse.GetState().Position.ToVector2() - Utils.ScreenSize / 2) * MouseVision;
-            EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(Main.player.Center + MatrixOffset, FollowSpeed);
             Rotation = Main.rand.Next(-ScreenShake, ScreenShake) / RotationalScreenShake;
 
-            if (!EditorModeGUI.Active && Main.CurrentScene.Name != "Main Menu")
+            if (Main.CurrentScene.Name != "Main Menu")
             {
-                Vector2 newCenter = Main.player.Center + Offset + mouseDisp;
+                Vector2 newCenter = Main.player.Center + mouseDisp + MatrixOffset;
 
                 EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(newCenter, FollowSpeed);
                 EntityIsolatedPosition.X = Math.Max(EntityIsolatedPosition.X, LeftBound);
                 EntityIsolatedPosition.Y = Math.Min(EntityIsolatedPosition.Y, LowerBound);
             }
+            else
+            {
+                EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(Main.player.Center, FollowSpeed);
+            }
 
-            Position = EntityIsolatedPosition - (Main.ActualScreenSize / 2f) / Scale;
+            Position = EntityIsolatedPosition - Main.ActualScreenSize / (2 * Scale);
             MatrixOffset = shake + Offset;
         }
         public Matrix ParallaxedTransform(float Paralax)
         {
-            return Matrix.CreateTranslation(new Vector3(-Position.AddParallaxAcrossX(Paralax), 0)) *
-                      Matrix.CreateScale(GetScreenScale()) *
-                      Matrix.CreateRotationZ(Rotation);
+            return Transform * Matrix.CreateTranslation(new Vector3(-Position.AddParallaxAcrossX(Paralax) + Position, 0));
         }
 
         private static float ScaleEstimate => ((2560 - Main.ActualScreenSize.X) / 2560f + (1440 - Main.ActualScreenSize.Y) / 2560f) / 2;

@@ -8,6 +8,7 @@ using System.IO;
 using Flipsider.Engine;
 using System.Collections.Generic;
 using Flipsider.GUI.TilePlacementGUI;
+using MonoGame.Extended.BitmapFonts;
 
 namespace Flipsider
 {
@@ -28,7 +29,6 @@ namespace Flipsider
 
         public void Redo()
         {
-            Logger.NewText(EntityList.Count);
             foreach (Entity entity in EntityList)
             {
                 if (entity is Tile tile)

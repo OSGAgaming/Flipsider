@@ -28,7 +28,7 @@ namespace Flipsider.Engine
         public virtual void Update()
         {
         }
-
+        
         /// <summary>
         /// Method called to draw the scene.
         /// </summary>

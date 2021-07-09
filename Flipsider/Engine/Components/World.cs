@@ -1,6 +1,7 @@
 using Flipsider.Engine;
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Particles;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -68,6 +69,8 @@ namespace Flipsider
         }
         public void RetreiveLevelInfo(string FileName)
         {
+            Logger.NewText(Main.MainPath + FileName);
+
             if (File.Exists(Main.MainPath + FileName))
             {
                 ClearWorld();

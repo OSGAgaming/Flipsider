@@ -66,7 +66,6 @@ namespace Flipsider
         protected LivingEntity() : base()
         {
             oldPositions = new Vector2[TrailLength];
-
         }
         public override void Dispose()
         {
@@ -91,7 +90,6 @@ namespace Flipsider
                 AI();
                 ApplyForces();
                 if (!noGravity)
-
                     UpdateEntityModifier("RigidBody");
 
                 UpdatePosition();

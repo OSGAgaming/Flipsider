@@ -55,7 +55,7 @@ namespace Flipsider
             return v + new Vector2((int)((target - v) / ease).X, (int)((target - v) / ease).Y);
         }
         public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap) * snap, (int)(v.Y / snap) * snap);
-        public static Vector2 ToScreen(this Vector2 v) => (v / Main.Camera.Scale+ Main.Camera.Position);
+        public static Vector2 ToScreen(this Vector2 v) => (v / Main.Camera.Scale + Main.Camera.Position);
 
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.Camera.Position) * Main.Camera.Scale);
 

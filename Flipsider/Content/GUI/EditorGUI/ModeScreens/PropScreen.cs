@@ -70,7 +70,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 for (int i = 0; i < propPanel.Length; i++)
                 {
-                    propPanel[i] = new PropPreviewPanel(EditorModeGUI.B);
+                    propPanel[i] = new PropPreviewPanel(EditorModeGUI.ModePreview);
                     propPanel[i].Type = i;
                 }
             }

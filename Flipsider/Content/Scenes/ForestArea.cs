@@ -1,5 +1,6 @@
 ﻿
 using Flipsider.Engine;
+using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Flipsider.Engine.Particles;
@@ -22,6 +23,17 @@ namespace Flipsider.Scenes
         {
             Main.renderer.RenderPrimitiveMode = true;
 
+            if(GameInput.Instance.IsClicking) CutsceneManager.Instance?.StartCutscene(new CameraCutscene());
+
+
+            if (CutsceneManager.Instance != null)
+            {
+                if (!CutsceneManager.Instance.IsPlayingCutscene)
+                {
+                    Main.Camera.Offset -= Main.Camera.Offset / 16f;
+                }
+            }
+
             foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
             {
                 if (updateable != null)
@@ -35,6 +47,17 @@ namespace Flipsider.Scenes
             }
 
             Main.CurrentWorld.GlobalParticles.Update();
+            CutsceneManager.Instance?.Update();
+
+            Scene? scene = Main.instance.sceneManager.Scene;
+
+            if (scene != null)
+            {
+                if (scene.Name == Name)
+                {
+                    Main.renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
+                }
+            }
         }
 
         public override void OnActivate()

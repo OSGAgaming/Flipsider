@@ -73,7 +73,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
                 for (int i = 0; i < files.Length; i++)
                 {
-                    Load[i] = new WorldLoadScroll(EditorModeGUI.B);
+                    Load[i] = new WorldLoadScroll(EditorModeGUI.ModePreview);
                     Load[i].index = i;
                     Load[i].path = files[i];
                 }
@@ -84,7 +84,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
             for (int i = 0; i < files.Length; i++)
             {
-                Load[i] = new WorldLoadScroll(EditorModeGUI.B);
+                Load[i] = new WorldLoadScroll(EditorModeGUI.ModePreview);
                 Load[i].index = i;
                 Load[i].path = files[i];
             }
@@ -108,7 +108,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            Main.CurrentWorld.RetreiveLevelInfo(path);
+            Main.CurrentWorld.RetreiveLevelInfo(Path.GetFileName(path));
         }
     }
 

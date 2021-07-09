@@ -88,12 +88,12 @@ namespace Flipsider.Engine.Maths
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Layer = LayerHandler.CurrentLayer;
+            /*Layer = LayerHandler.CurrentLayer;
             foreach (HitBoxInfo hitBoxInfo in HitBoxes)
             {
                  if (hitBoxInfo.box != Rectangle.Empty)
                 Utils.DrawRectangle(hitBoxInfo.box, Color.White, 1f);
-            }
+            }*/
         }
 
         public HitBox(LivingEntity LE)

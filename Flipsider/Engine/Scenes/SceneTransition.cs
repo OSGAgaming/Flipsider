@@ -19,9 +19,14 @@ namespace Flipsider.Engine
         /// Draw the transition.
         /// </summary>
         /// <param name="transitionProgress">Value between 0 and 1 that represents the progress of the transition.</param>
-        public virtual void Draw(SpriteBatch spriteBatch, float transitionProgress)
-        {
+        public virtual void Draw(SpriteBatch spriteBatch, float transitionProgress) { }
 
-        }
+        /// <summary>
+        /// Draw the transition in the UI Layer
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="transitionProgress">Value between 0 and 1 that represents the progress of the transition.</param>
+        public virtual void DrawUI(SpriteBatch spriteBatch, float transitionProgress) { }
+
     }
 }

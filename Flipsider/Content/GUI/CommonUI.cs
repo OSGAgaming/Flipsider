@@ -23,6 +23,32 @@ namespace Flipsider.GUI
         }
         protected virtual void PostDraw(SpriteBatch spriteBatch) { }
     }
+
+    internal class Button : UIElement
+    {
+        public Texture2D? Texture;
+        public Rectangle source;
+        public Action? OnClick;
+
+        public string? OptionalText = " ";
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (Texture != null)
+            {
+                if (source == default) source = Texture.Bounds;
+
+                spriteBatch.Draw(Texture, dimensions, source, Color.White);
+            }
+
+            if(OptionalText != null) Utils.DrawText(OptionalText, Color.White, dimensions.Center.ToVector2());
+        }
+
+        protected override void OnLeftClick()
+        {
+            OnClick?.Invoke();
+        }
+    }
     internal class Text : Box
     {
         protected override Color color => Color.White;
@@ -170,7 +196,7 @@ namespace Flipsider.GUI
     {
         public Rectangle RelativeDimensions;
 
-        public ActiveModeSelectPreview? Parent => EditorModeGUI.B;
+        public ActiveModeSelectPreview? Parent => EditorModeGUI.ModePreview;
 
         public Action<string>? OnEnterEvent;
 
@@ -283,7 +309,7 @@ namespace Flipsider.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             Utils.DrawBoxFill(RelativeDimensions.Inf(BorderWidth, BorderWidth), Color.CadetBlue * Alpha, 1f);
-            Utils.DrawBoxFill(RelativeDimensions, Color.White * Alpha, 0.5f);
+            Utils.DrawBoxFill(RelativeDimensions, Color * Alpha, 0.5f);
             PostDraw(spriteBatch);
         }
     }

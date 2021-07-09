@@ -51,6 +51,7 @@ namespace Flipsider
             //Obsolete and needs to be replaced
             TextureCache.LoadTextures(Content);
             EffectCache.LoadEffects(Content);
+            Fonts.LoadFonts(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
             Textures.LoadTextures();
 

@@ -69,6 +69,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         private Color colorOfLine;
         float scaling => Main.ActualScreenSize.X / Main.ScreenSize.X;
 
+        protected override void OnUpdatePassive() => active = Main.CurrentScene.Name == "Main Menu";
+
         protected override void OnDraw()
         {
             if (Main.CurrentScene.Name == "Main Menu")
@@ -95,7 +97,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
 
 
-            if (progression > T + 50)
+            if (progression > T + 50 && Main.CurrentScene.Name == "Main Menu")
             {
                 titleStreak = titleStreak.ReciprocateTo(0, 15);
                 Utils.DrawBoxFill(new Vector2(0, 120 - titleStreak / 2), (int)Main.ActualScreenSize.X, (int)titleStreak, Color.White * alpha);
@@ -198,8 +200,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            Main.instance.sceneManager.SetNextScene(new ForestArea(), null, true);
-            Main.instance.sceneManager.SetNextScene(new EditorScene(), null, true);
+            Main.instance.sceneManager.SetNextScene(new ForestArea(), new WhiteFadeInFadeOut(), true);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Flipsider.GUI
     public class UIScreen : IComponent
     {
         public List<UIElement> elements = new List<UIElement>();
-        public bool active;
+        public bool active = true;
 
         public void AddElement(UIElement ui)
         {
@@ -21,9 +21,10 @@ namespace Flipsider.GUI
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            OnDraw();
             if (active)
             {
+                OnDraw();
+
                 foreach (UIElement element in elements)
                 {
                     element.Draw(spriteBatch);
@@ -33,9 +34,10 @@ namespace Flipsider.GUI
 
         public void DrawToScreenDirect(SpriteBatch spriteBatch)
         {
-            OnDrawToScreenDirect();
             if (active)
             {
+                OnDrawToScreenDirect();
+
                 foreach (UIElement element in elements)
                 {
                     element.DrawOnScreenDirect(spriteBatch);
@@ -45,14 +47,20 @@ namespace Flipsider.GUI
 
         protected virtual void OnUpdate() { }
 
+        protected virtual void OnUpdatePassive() { }
+
         protected virtual void OnDraw() { }
+
         internal virtual void DrawToScreen() { }
+
         internal virtual void OnDrawToScreenDirect() { }
 
         protected virtual void OnLoad() { }
 
         public void Update()
         {
+            OnUpdatePassive();
+
             if (active)
             {
                 OnUpdate();

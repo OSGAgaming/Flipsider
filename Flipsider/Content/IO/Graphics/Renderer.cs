@@ -58,7 +58,7 @@ namespace Flipsider
             {
                 GraphicsProfile = GraphicsProfile.HiDef
             };
-
+            Graphics.SynchronizeWithVerticalRetrace = true;
             Graphics.ApplyChanges();
             MainCamera = new GameCamera();
 
@@ -75,12 +75,10 @@ namespace Flipsider
 
         public void AddTargetCall(RenderTarget2D target, Action<SpriteBatch> Call)
         {
-
             TargetCalls += () =>
             {
                 DrawToTarget(target, Call);
             };
-
         }
 
         public void DrawToTarget(RenderTarget2D? target, Action<SpriteBatch> Call)

@@ -10,10 +10,12 @@ namespace Flipsider.Scenes
     {
         public override string? Name => "Editor";
         public static Scene? DisplayScene { get; set; }
-        public EditorScene()
+        public EditorScene(Scene Display)
         {
-
+            DisplayScene = Display;
         }
+
+        public EditorScene() { }
 
         public override void Update()
         {
