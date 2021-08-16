@@ -23,9 +23,6 @@ namespace Flipsider.Scenes
         {
             Main.renderer.RenderPrimitiveMode = true;
 
-            if(GameInput.Instance.IsClicking) CutsceneManager.Instance?.StartCutscene(new CameraCutscene());
-
-
             if (CutsceneManager.Instance != null)
             {
                 if (!CutsceneManager.Instance.IsPlayingCutscene)

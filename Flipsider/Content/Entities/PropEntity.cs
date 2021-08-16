@@ -30,7 +30,7 @@ namespace Flipsider
 
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {
-            Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f); });
+            Main.lighting.Maps.DrawToMap("BloomMap", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f); });
 
             spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f);
             return false;
@@ -43,7 +43,7 @@ namespace Flipsider
 
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {
-            Main.lighting.Maps.DrawToMap("FGWater", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
+            Main.lighting.Maps.DrawToMap("FGWaterMap", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
 
 
             //spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White * 0.2f, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f);
@@ -101,7 +101,7 @@ namespace Flipsider
         public override string Prop => "Forest_ForestDecoOne";
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {
-            Main.lighting.Maps.DrawToMap("Leaves", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
+            Main.lighting.Maps.DrawToMap("LeavesMap", (SpriteBatch sb) => { sb.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
             //spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White * 0.2f, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f);
             return false;
         }
@@ -115,9 +115,9 @@ namespace Flipsider
         {
             Texture2D tex = TextureCache.PointLight;
 
-            Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(TextureCache.EnergyRoccGlow, prop.Center, PropTypes[Prop].Bounds, Color.White * Time.SineTime(2f), 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
+            Main.lighting.Maps.DrawToMap("BloomMap", (SpriteBatch sb) => { sb.Draw(TextureCache.EnergyRoccGlow, prop.Center, PropTypes[Prop].Bounds, Color.White * Time.SineTime(2f), 0f, PropTypes[Prop].TextureCenter(), 1.1f, SpriteEffects.None, 0f); });
 
-            Main.lighting.Maps.DrawToMap("Lighting", (SpriteBatch sb) => { sb.Draw(tex, prop.Center + new Vector2(0, 26), tex.Bounds, Color.CadetBlue * Time.SineTime(2f) * 0.5f, 0f, tex.TextureCenter(), 0.8f, SpriteEffects.None, 0f); });
+            Main.lighting.Maps.DrawToMap("LightingMap", (SpriteBatch sb) => { sb.Draw(tex, prop.Center + new Vector2(0, 26), tex.Bounds, Color.CadetBlue * Time.SineTime(2f) * 0.5f, 0f, tex.TextureCenter(), 0.8f, SpriteEffects.None, 0f); });
 
             spriteBatch.Draw(PropTypes[Prop], prop.Center, PropTypes[Prop].Bounds, Color.White, 0f, PropTypes[Prop].TextureCenter(), 1f, SpriteEffects.None, 0f);
             return false;

@@ -69,13 +69,13 @@ namespace Flipsider
         }
         public void RetreiveLevelInfo(string FileName)
         {
-            Logger.NewText(Main.MainPath + FileName);
+            Logger.NewText(Utils.WorldPath + FileName);
 
-            if (File.Exists(Main.MainPath + FileName))
+            if (File.Exists(Utils.WorldPath + FileName))
             {
                 ClearWorld();
                 Main.Editor.CurrentSaveFile = FileName;
-                Stream stream = File.OpenRead(Main.MainPath + FileName);
+                Stream stream = File.OpenRead(Utils.WorldPath + FileName);
                 LevelInfo LevelInfo = levelInfo.Deserialize(stream);
                 LevelInfo.LoadToWorld(this);
             }

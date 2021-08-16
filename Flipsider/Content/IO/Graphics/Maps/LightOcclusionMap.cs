@@ -10,6 +10,7 @@ namespace Flipsider
 {
     public class LightingOcclusionMap : MapPass
     {
+        public override int Priority => 2;
         protected override Effect? MapEffect => null;
         internal override void OnApplyShader() { }
     }

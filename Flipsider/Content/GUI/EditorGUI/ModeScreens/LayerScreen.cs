@@ -39,14 +39,8 @@ namespace Flipsider.GUI.TilePlacementGUI
                     if (layerGUIPanels[i].Layer == l2) b = i;
                 }
 
-                Logger.NewText(layerGUIPanels[a].Layer);
-                Logger.NewText(layerGUIPanels[b].Layer);
-
                 layerGUIPanels[a].Layer = l2;
                 layerGUIPanels[b].Layer = l1;
-
-                Logger.NewText(layerGUIPanels[a].Layer);
-                Logger.NewText(layerGUIPanels[b].Layer);
             }
 
         }
@@ -76,26 +70,32 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void CustomUpdate()
         {
-            Add?.Update();
-
-            if (layerGUIPanels != null)
+            if (EditorModeGUI.mode != Mode.Cutscene)
             {
-                for (int i = 0; i < layerGUIPanels.Length; i++)
+                Add?.Update();
+
+                if (layerGUIPanels != null)
                 {
-                    layerGUIPanels[i].Update();
+                    for (int i = 0; i < layerGUIPanels.Length; i++)
+                    {
+                        layerGUIPanels[i].Update();
+                    }
                 }
             }
         }
         public override void DrawToBottomPanel(SpriteBatch sb)
         {
-            Add?.Draw(sb);
-            Utils.DrawBoxFill(new Rectangle(0, 0, Main.renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
-
-            if (layerGUIPanels != null)
+            if(EditorModeGUI.mode != Mode.Cutscene)
             {
-                for (int i = 0; i < layerGUIPanels.Length; i++)
+                Add?.Draw(sb);
+                Utils.DrawBoxFill(new Rectangle(0, 0, Main.renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
+
+                if (layerGUIPanels != null)
                 {
-                    layerGUIPanels[i].Draw(sb);
+                    for (int i = 0; i < layerGUIPanels.Length; i++)
+                    {
+                        layerGUIPanels[i].Draw(sb);
+                    }
                 }
             }
         }

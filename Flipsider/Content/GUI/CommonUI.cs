@@ -196,9 +196,16 @@ namespace Flipsider.GUI
     {
         public Rectangle RelativeDimensions;
 
-        public ActiveModeSelectPreview? Parent => EditorModeGUI.ModePreview;
+        public ScrollPanel? Parent { get; set; }
 
         public Action<string>? OnEnterEvent;
+
+        public int BorderWidth = 1;
+
+        public TextBoxScalableScroll(ScrollPanel Parent)
+        {
+            this.Parent = Parent;
+        }
 
         protected override void OnUpdate()
         {
@@ -242,7 +249,7 @@ namespace Flipsider.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Utils.DrawBoxFill(RelativeDimensions.Inf(2, 2), Color.CadetBlue * Alpha, 1f);
+            Utils.DrawBoxFill(RelativeDimensions.Inf(BorderWidth, BorderWidth), Color.CadetBlue * Alpha, 1f);
             Utils.DrawBoxFill(RelativeDimensions, Color.White * Alpha, 0.5f);
             PostDraw(spriteBatch);
         }

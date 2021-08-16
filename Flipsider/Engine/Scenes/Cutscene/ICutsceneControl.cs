@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider.Engine
 {
-    public interface ICutsceneControl 
+    public interface ICutsceneControl : ISerializable<ICutsceneControl>
     {
         public void Send(float progress);
     }

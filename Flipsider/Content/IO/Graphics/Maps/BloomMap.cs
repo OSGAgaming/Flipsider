@@ -10,6 +10,7 @@ namespace Flipsider
 {
     public class BloomMap : MapPass
     {
+        public override int Priority => 1;
         protected override Effect? MapEffect => EffectCache.BloomEffect;
 
         public RenderTarget2D HorizontalBuffer;

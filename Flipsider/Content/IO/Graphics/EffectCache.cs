@@ -16,6 +16,8 @@ namespace Flipsider
         public static Effect LightingMap;
         public static Effect PrimtiveShader;
         public static Effect GodrayEffect;
+        //public static Effect LayerColorModification;
+
         public static void LoadEffects(ContentManager content)
         {
             FGWaterMap = content.Load<Effect>(@"Effect/FGWaterMap");
@@ -25,6 +27,7 @@ namespace Flipsider
             LightingMap = content.Load<Effect>(@"Effect/LightingMap");
             PrimtiveShader = content.Load<Effect>(@"Effect/PrimtiveShader");
             GodrayEffect = content.Load<Effect>(@"Effect/GodrayEffect");
+            //LayerColorModification = content.Load<Effect>(@"Effect/LayerColorModification");
         }
     }
 }

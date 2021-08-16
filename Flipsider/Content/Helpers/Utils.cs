@@ -15,17 +15,21 @@ namespace Flipsider
         public static readonly int BOTTOM = 3000;
         public static readonly int PrefferedWidth = 1980;
         public static readonly int PrefferedHeight = 1080;
+
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-            Stream stream = File.OpenWrite(Main.MainPath + Name + ".flip");
+            Stream stream = File.OpenWrite(WorldPath + Name + ".flip");
             Main.CurrentWorld.levelInfo.Serialize(stream);
-            //Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name + ".flip");
         }
         public static void SaveCurrentWorldAsWithExtension(string Name)
         {
           //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
         }
+
+        public static string WorldPath => Main.MainPath + $@"Worlds\";
+        public static string CutscenePath => Main.MainPath + $@"Cutscenes\";
+
         public static InputBinding LeftClick => GameInput.Instance["EditorPlaceTile"];
         public static Vector2 SafeBoundX => new Vector2(Main.Camera.Position.X, Main.Camera.Position.X + Main.ActualScreenSize.X / Main.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(Main.Camera.Position.Y, Main.Camera.Position.Y + Main.ActualScreenSize.Y / Main.ScreenScale);

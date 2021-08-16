@@ -19,7 +19,7 @@ namespace Flipsider
             {
                 var Pass = Map.Value;
 
-                if(Pass.Index == i) Pass.Render(sb, GD);
+                if(Pass.Priority == i) Pass.Render(sb, GD);
 
                 i++;
             }
@@ -40,7 +40,7 @@ namespace Flipsider
 
                 var Pass = Map.Value;
 
-                if (Pass.Index == i) Pass.ApplyShader();
+                if (Pass.Priority == i) Pass.ApplyShader();
 
                 RenderTarget2D rT;
                 if (i - 1 < 0) rT = target; else rT = Buffers[i - 1];
@@ -64,7 +64,6 @@ namespace Flipsider
         public void AddMap(string MapName,int Index, MapPass MP) 
         {
             MP.Parent = this;
-            MP.Index = Index;
             MapPasses.Add(MapName, MP);
             Buffers.Add(new RenderTarget2D(Main.graphics.GraphicsDevice,2560,1440));
         }

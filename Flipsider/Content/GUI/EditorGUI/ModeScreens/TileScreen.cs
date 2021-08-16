@@ -135,10 +135,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             }
         }
 
-        protected override void CustomUpdate()
-        {
-
-        }
+        protected override void CustomUpdate() { }
     }
 }
 

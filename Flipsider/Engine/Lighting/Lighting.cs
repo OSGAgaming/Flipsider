@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using static Flipsider.PropManager;
@@ -16,12 +17,12 @@ namespace Flipsider
         {
             Maps = new Map();
 
-            Maps.AddMap("Leaves", 0, new LeavesPass());
-            Maps.AddMap("Bloom", 1, new BloomMap());
-            Maps.AddMap("CanLightMap", 2, new LightingOcclusionMap());
-            Maps.AddMap("Lighting", 3, new LightingMap());
-            Maps.AddMap("FGWater", 4, new FgWaterPass());
-            Maps.AddMap("GodRay", 5, new GodrayMap());
+            foreach (Type t in Utils.GetInheritedClasses(typeof(MapPass)))
+            {
+                MapPass? state = (MapPass?)Activator.CreateInstance(t);
+
+                if (state != null) Maps?.AddMap(t.Name, 0, state);
+            }
         }
 
     }

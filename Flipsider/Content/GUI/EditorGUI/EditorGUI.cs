@@ -20,7 +20,13 @@ namespace Flipsider.GUI.TilePlacementGUI
         NPC,
         Pencil,
         Select,
-        Lasso
+        Lasso,
+        Undo,
+        Redo,
+        Move,
+        Fill,
+        Camera,
+        Cutscene
     }
 
     internal class EditorModeGUI : UIScreen
@@ -62,6 +68,12 @@ namespace Flipsider.GUI.TilePlacementGUI
             AddMode(Mode.Pencil);
             AddMode(Mode.Select);
             AddMode(Mode.Lasso);
+            AddMode(Mode.Undo);
+            AddMode(Mode.Redo);
+            AddMode(Mode.Move);
+            AddMode(Mode.Fill);
+            AddMode(Mode.Camera);
+            AddMode(Mode.Cutscene);
 
             ActiveButton A = new ActiveButton();
             elements.Add(A);

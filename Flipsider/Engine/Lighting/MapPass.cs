@@ -17,6 +17,8 @@ namespace Flipsider
 
         internal event MapRender? MapActions;
         protected abstract Effect? MapEffect { get; }
+        public abstract int Priority { get; }
+
         internal virtual void OnApplyShader()
         {
             MapEffect?.CurrentTechnique.Passes[0].Apply();

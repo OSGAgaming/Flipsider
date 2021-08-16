@@ -10,11 +10,12 @@ namespace Flipsider
 {
     public class LightingMap : MapPass
     {
+        public override int Priority => 3;
         protected override Effect? MapEffect => EffectCache.LightingMap;
 
         internal override void OnApplyShader()
         {
-            MapEffect?.Parameters["LightMap"]?.SetValue(Utils.GetMap("CanLightMap").MapTarget);
+            MapEffect?.Parameters["LightMap"]?.SetValue(Utils.GetMap("LightingOcclusionMap").MapTarget);
             base.OnApplyShader();
         }
     }

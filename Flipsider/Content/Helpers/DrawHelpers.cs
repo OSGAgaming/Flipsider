@@ -63,11 +63,11 @@ namespace Flipsider
             Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
         }
 
-        public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f)
+        public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f, float scale = 0.5f)
         {
             SpriteFont font = Main.font;
             float textPositionLeft = position.X;
-            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, layerDepth);
+            Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, scale, SpriteEffects.None, layerDepth);
             return font.MeasureString(text).X;
         }
 

@@ -8,8 +8,9 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class LeavesPass : MapPass
+    public class LeavesMap : MapPass
     {
+        public override int Priority => 0;
         protected override Effect? MapEffect => EffectCache.LeavesEffect;
 
         internal override void OnApplyShader() 

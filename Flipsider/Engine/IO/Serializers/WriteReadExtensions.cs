@@ -5,7 +5,7 @@ namespace Flipsider.Engine
 {
     public static class WriteReadExtensions
     {
-        public static void Write<T>(this BinaryWriter writer, T value)
+        /*public static void Write<T>(this BinaryWriter writer, T value)
         {
             var serializer = SerializersManager.GetTypeSerializer<T>();
             if (serializer is null)
@@ -25,6 +25,6 @@ namespace Flipsider.Engine
             }
 
             return serializer.Read(reader);
-        }
+        }*/
     }
 }

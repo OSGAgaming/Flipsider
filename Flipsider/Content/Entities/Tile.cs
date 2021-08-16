@@ -23,7 +23,7 @@ namespace Flipsider
         {
             if (world != null && inFrame)
             {
-                Utils.DrawToMap("CanLightMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White));
+                Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White));
                 drawData = new DrawData(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
                 if (!Surrounded && Buffer1)
                 {

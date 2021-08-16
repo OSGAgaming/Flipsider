@@ -2,17 +2,42 @@
 using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Flipsider.Engine
 {
-    public class Cutscene : IComponent
+    public class Cutscene : IComponent, ISerializable<Cutscene>
     {
-        private HashSet<TimeStamp> TimeStamps = new HashSet<TimeStamp>();
-        private int CurrentStamp;
+        internal HashSet<TimeStamp> TimeStamps = new HashSet<TimeStamp>();
         private int TimeAnchor;
 
         public void AddStamp(int Time, params ICutsceneControl[]? control)
         {
+            foreach(TimeStamp stamp in TimeStamps)
+            {
+                if(stamp.Time == Time)
+                {
+                    List<ICutsceneControl> newControl = new List<ICutsceneControl>();
+
+                    if (stamp.Info != null)
+                    {
+                        foreach (ICutsceneControl c in stamp.Info)
+                        {
+                            newControl.Add(c);
+                        }
+                    }
+
+                    if (control != null)
+                    {
+                        foreach (ICutsceneControl c in control)
+                        {
+                            newControl.Add(c);
+                        }
+                    }
+                    return;
+                }
+            }
+
             TimeStamp t = new TimeStamp();
             t.Time = Time;
             t.Info = control;
@@ -41,12 +66,12 @@ namespace Flipsider.Engine
         /// <summary>
         /// Name of the scene for easy Accessibility
         /// </summary>
-        public virtual string? ID { get; }
+        public virtual string? ID { get; set; }
 
         /// <summary>
         /// Length of cutscene
         /// </summary>
-        public virtual int Length { get; }
+        public virtual int Length { get; set; }
 
         /// <summary>
         /// Progress of cutscene
@@ -72,8 +97,6 @@ namespace Flipsider.Engine
 
             if (stamp != null)
             {
-                CurrentStamp = stamp.Time;
-
                 if (Time == stamp.Time) TimeAnchor = stamp.Time;
 
                 if (stamp.Info != null)
@@ -98,6 +121,48 @@ namespace Flipsider.Engine
         public virtual void Draw(SpriteBatch spriteBatch)
         {
 
+        }
+
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter writer = new BinaryWriter(stream);
+
+            writer.Write(Length);
+            writer.Write(ID ?? "NaN");
+
+            writer.Write(TimeStamps.Count);
+
+            foreach (TimeStamp stamp in TimeStamps)
+            {
+                stamp.Serialize(stream);
+            }
+        }
+
+        public Cutscene Deserialize(Stream stream)
+        {
+            BinaryReader reader = new BinaryReader(stream);
+
+            Cutscene scene = new Cutscene();
+            List<TimeStamp> stamps = new List<TimeStamp>();
+
+            TimeStamp bufferStamp = new TimeStamp();
+
+            scene.Length = reader.ReadInt32();
+            scene.ID = reader.ReadString();
+
+            int length = reader.ReadInt32();
+
+            for (int i = 0; i < length; i++)
+            {
+                stamps.Add(bufferStamp.Deserialize(stream));
+            }
+
+            foreach (TimeStamp stamp in stamps)
+            {
+                scene.AddStamp(stamp.Time, stamp.Info);
+            }
+
+            return scene;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLoad()
         {
-            TextBox = new TextBoxScalableScroll();
+            TextBox = new TextBoxScalableScroll(EditorModeGUI.ModePreview);
             TextBox.OnEnterEvent = (string text) =>
             {
                 Utils.SaveCurrentWorldAs(TextBox.inputText);

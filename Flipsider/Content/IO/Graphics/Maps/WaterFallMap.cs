@@ -8,8 +8,9 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class FgWaterPass : MapPass
+    public class FgWaterMap : MapPass
     {
+        public override int Priority => 4;
         protected override Effect? MapEffect => EffectCache.FGWaterMap;
 
         internal override void OnApplyShader() 

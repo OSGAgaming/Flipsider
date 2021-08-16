@@ -10,6 +10,7 @@ namespace Flipsider
 {
     public class GodrayMap : MapPass
     {
+        public override int Priority => 5;
         protected override Effect? MapEffect => EffectCache.GodrayEffect;
 
         internal override void OnApplyShader() 

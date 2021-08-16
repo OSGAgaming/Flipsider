@@ -12,6 +12,8 @@ namespace Flipsider
     {
         protected override Effect? MapEffect => EffectCache.Pixelation;
 
+        public override int Priority => -1;
+
         internal override void OnApplyShader() 
         {
             MapEffect?.CurrentTechnique.Passes[0].Apply();

@@ -49,7 +49,7 @@ namespace Flipsider
         protected override void PreUpdate()
         {
             Rectangle r = PropTypes[prop].Bounds;
-            Utils.DrawToMap("CanLightMap", (SpriteBatch sb) => sb.Draw(PropTypes[prop], Center, r, Color.White, 0f, r.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f));
+            Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(PropTypes[prop], Center, r, Color.White, 0f, r.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f));
             PE?.Update(this);
         }
 
