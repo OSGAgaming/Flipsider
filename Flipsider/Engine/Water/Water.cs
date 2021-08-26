@@ -64,7 +64,7 @@ namespace Flipsider
         public Water(RectangleF _frame) : base()
         {
             SetFrame(_frame);
-            position = _frame.TL;
+            Position = _frame.TL;
             Layer = LayerHandler.CurrentLayer;
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
@@ -76,7 +76,7 @@ namespace Flipsider
         public Water(RectangleF _frame, int Layer) : base()
         {
             SetFrame(_frame);
-            position = _frame.TL;
+            Position = _frame.TL;
             this.Layer = Layer;
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
@@ -91,7 +91,7 @@ namespace Flipsider
         }
         protected override void OnUpdate()
         {
-            foreach (Chunk chunk in Main.CurrentWorld.tileManager.chunks)
+            foreach (Chunk chunk in Main.World.tileManager.chunks)
             {
                 if (chunk.Active)
                 {

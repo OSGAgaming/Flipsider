@@ -91,7 +91,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         for (int j = (int)pos1.Y / 32; j < pos1.Y / 32 + size.Y/32 - 1; j++)
                         {
-                            Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld,new Tile(Main.Editor.currentType,Main.Editor.currentFrame, new Vector2(i, j)));
+                            Main.World.tileManager.AddTile(Main.World,new Tile(Main.Editor.currentType,Main.Editor.currentFrame, new Vector2(i, j)));
                         }
                     }
                 }
@@ -115,7 +115,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                                 Tile T = Main.Editor.currentTileSet[i - (int)P.X / 32, j - (int)P.Y / 32];
                                 if (T != null)
                                 {
-                                    Main.CurrentWorld.tileManager.AddTile(Main.CurrentWorld, new Tile(T.type, T.frame, new Vector2(i, j)));
+                                    Main.World.tileManager.AddTile(Main.World, new Tile(T.type, T.frame, new Vector2(i, j)));
                                 }
                             }
                         }
@@ -130,7 +130,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     {
                         for (int j = CopyRect.Location.Y; j < CopyRect.Bottom; j++)
                         {
-                            Tile T = Main.CurrentWorld.tileManager.GetTile(i,j);
+                            Tile T = Main.World.tileManager.GetTile(i,j);
                             if (T != null)
                             {
                                 Main.Editor.currentTileSet[i - (int)pos2.X / 32, j - (int)pos2.Y / 32] = T;
@@ -158,7 +158,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 if (CanPlace)
                 {
-                    var world = Main.CurrentWorld;
+                    var world = Main.World;
                     var tileDict = Main.tileManager.tileDict;
                     int modifiedRes = (int)(tileRes * Main.Camera.Scale);
                     Vector2 mousePos = Main.MouseScreen.ToVector2();
@@ -198,7 +198,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                         {
                             Tile tile = Main.Editor.currentTileSet[i, j];
                             if(tile != null)
-                            Main.spriteBatch.Draw(Main.CurrentWorld.tileManager.tileDict[tile.type], MouseSnap + new Vector2(i*32,j*32), tile.frame, Color.Green*0.4f);
+                            Main.spriteBatch.Draw(Main.World.tileManager.tileDict[tile.type], MouseSnap + new Vector2(i*32,j*32), tile.frame, Color.Green*0.4f);
                         }
                     }
                 }

@@ -52,11 +52,11 @@ namespace Flipsider
 
         public override void Update(Prop prop)
         {
-            Vector2 position = prop.position + new Vector2(Main.rand.NextFloat(prop.width + 20) - 10, prop.height + 65);
+            Vector2 position = prop.Position + new Vector2(Main.rand.NextFloat(prop.Width + 20) - 10, prop.Height + 65);
             int rand = Main.rand.Next(10);
             if (rand == 0)
             {
-                Main.CurrentWorld.GlobalParticles.SpawnParticle(
+                Main.World.GlobalParticles.SpawnParticle(
                 new SetPosition(position),
                 new SetLightIntensityRand(0.2f, 0.3f),
                 new SetColor(Color.AliceBlue),
@@ -69,7 +69,7 @@ namespace Flipsider
             }
             if (rand == 1)
             {
-                Main.CurrentWorld.GlobalParticles.SpawnParticle(
+                Main.World.GlobalParticles.SpawnParticle(
                 new SetPosition(position),
                 new SetLightIntensityRand(0.2f, 0.3f),
                 new SetColor(Color.AliceBlue),
@@ -82,7 +82,7 @@ namespace Flipsider
             }
             if (rand == 2)
             {
-                Main.CurrentWorld.GlobalParticles.SpawnParticle(
+                Main.World.GlobalParticles.SpawnParticle(
                 new SetPosition(position),
                 new SetLightIntensityRand(0.2f, 0.3f),
                 new SetColor(Color.AliceBlue),

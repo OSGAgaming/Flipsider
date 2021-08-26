@@ -8,7 +8,7 @@ using static Flipsider.PropManager;
 
 namespace Flipsider
 {
-    public class FgWaterMap : MapPass
+    public class FGWaterMap : MapPass
     {
         public override int Priority => 4;
         protected override Effect? MapEffect => EffectCache.FGWaterMap;

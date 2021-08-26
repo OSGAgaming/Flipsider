@@ -180,7 +180,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if (Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
             {
-                Main.CurrentWorld.RetreiveLevelInfo(path);
+                Main.World.RetreiveLevelInfo(path);
             }
         }
     }

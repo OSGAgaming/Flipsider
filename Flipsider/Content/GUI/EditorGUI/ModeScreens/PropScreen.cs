@@ -29,7 +29,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         public override void CustomDrawToScreen()
         {
-            int alteredRes = Main.CurrentWorld.TileRes / 4;
+            int alteredRes = Main.World.TileRes / 4;
             Vector2 tilePoint2 = Main.MouseToDestination().ToVector2().Snap(alteredRes);
 
             if (CurrentProp != null)
@@ -53,12 +53,12 @@ namespace Flipsider.GUI.TilePlacementGUI
         public override void CustomUpdate()
         {
             Vector2 mousePos = Main.MouseToDestination().ToVector2();
-            int alteredRes = Main.CurrentWorld.TileRes / 4;
+            int alteredRes = Main.World.TileRes / 4;
             Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
 
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && CanPlace)
             {
-                Main.CurrentWorld.propManager.AddProp(CurrentProp ?? "", tilePoint2);
+                Main.World.propManager.AddProp(CurrentProp ?? "", tilePoint2);
             }
 
             CanPlace = true;

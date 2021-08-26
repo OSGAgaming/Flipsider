@@ -49,7 +49,7 @@ namespace Flipsider.Engine.Maths
             HitBoxGeneration?.Invoke();
             HitBoxGeneration = null;
 
-            foreach (Chunk chunk in Main.CurrentWorld.tileManager.chunks)
+            foreach (Chunk chunk in Main.World.tileManager.chunks)
             {
                 if (chunk.Active)
                 {

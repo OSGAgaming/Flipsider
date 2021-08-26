@@ -9,6 +9,6 @@ namespace Flipsider
     {
         public virtual void ApplyForces() { ; }
 
-        public void UpdatePosition() => position += velocity * Time.DeltaVar(120);
+        public void UpdatePosition() => Position += velocity * Time.DeltaVar(120);
     }
 }

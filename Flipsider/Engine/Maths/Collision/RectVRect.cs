@@ -22,7 +22,7 @@ namespace Flipsider.Engine.Maths
                     collideable2.collisionBox);
 
                 collideable1.collisionInfo.AABB = CI.AABB;
-                collideable1.BindableEntity.position += CI.d;
+                collideable1.BindableEntity.Position += CI.d;
                 if (collideable1.BindableEntity is LivingEntity)
                 {
                     var LivingEntity = (LivingEntity)collideable1.BindableEntity;
@@ -67,7 +67,7 @@ namespace Flipsider.Engine.Maths
                     collideable2.collisionBox);
 
                 collideable1.collisionInfo.AABB = CI.AABB;
-                collideable1.BindableEntity.position -= CI.d;
+                collideable1.BindableEntity.Position -= CI.d;
                 if (collideable1.BindableEntity is LivingEntity)
                 {
                     var LivingEntity = (LivingEntity)collideable1.BindableEntity;
@@ -112,7 +112,7 @@ namespace Flipsider.Engine.Maths
                 CollisionInfo CI =
                     Collision.Raycast(
                     collideable1.collisionBox,
-                    collideable2.collisionBox,100,Main.player.height/2);
+                    collideable2.collisionBox,100,Main.player.Height/2);
 
                 collideable1.collisionInfo.AABB = CI.AABB;
 
@@ -144,7 +144,7 @@ namespace Flipsider.Engine.Maths
                                     break;
                                 }
                         }
-                        collideable1.BindableEntity.position += CI.d;
+                        collideable1.BindableEntity.Position += CI.d;
                         LivingEntity.isColliding = true;
                     }
                 }

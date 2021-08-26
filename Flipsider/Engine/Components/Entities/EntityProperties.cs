@@ -11,23 +11,23 @@ namespace Flipsider
 {
     public abstract partial class Entity : IComponent, ILayeredComponentActive, ISerializable<Entity>
     {
-        public Rectangle CollisionFrame => new Rectangle((int)position.X, (int)position.Y, width, height);
-        public Rectangle PreCollisionFrame => new Rectangle((int)oldPosition.X, (int)oldPosition.Y, width, height);
-        public Point ChunkPosition => Main.CurrentWorld.tileManager.ToChunkCoords(position.ToPoint());
-        public Point OldChunkPosition => Main.CurrentWorld.tileManager.ToChunkCoords(oldPosition.ToPoint());
-        public Chunk Chunk => Main.CurrentWorld.tileManager.chunks[ChunkPosition.X, ChunkPosition.Y];
-        public Chunk OldChunk => Main.CurrentWorld.tileManager.chunks[OldChunkPosition.X, OldChunkPosition.Y];
-        public Vector2 DeltaPos => position - oldPosition;
-        public Vector2 ParallaxPosition => position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
+        public Rectangle CollisionFrame => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+        public Rectangle PreCollisionFrame => new Rectangle((int)OldPosition.X, (int)OldPosition.Y, Width, Height);
+        public Point ChunkPosition => Main.World.tileManager.ToChunkCoords(Position.ToPoint());
+        public Point OldChunkPosition => Main.World.tileManager.ToChunkCoords(OldPosition.ToPoint());
+        public Chunk Chunk => Main.World.tileManager.chunks[ChunkPosition.X, ChunkPosition.Y];
+        public Chunk OldChunk => Main.World.tileManager.chunks[OldChunkPosition.X, OldChunkPosition.Y];
+        public Vector2 DeltaPos => Position - OldPosition;
+        public Vector2 ParallaxPosition => Position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
         public Vector2 Center
         {
             get
             {
-                return new Vector2(position.X + width * 0.5f, position.Y + height * 0.5f);
+                return new Vector2(Position.X + Width * 0.5f, Position.Y + Height * 0.5f);
             }
             set
             {
-                position = new Vector2(value.X - width * 0.5f, value.Y - height * 0.5f);
+                Position = new Vector2(value.X - Width * 0.5f, value.Y - Height * 0.5f);
             }
         }
     }

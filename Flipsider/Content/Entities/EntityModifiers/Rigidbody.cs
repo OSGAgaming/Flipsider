@@ -30,7 +30,7 @@ namespace Flipsider.Engine.Maths
                 {
                     if (!GameInput.Instance.CurrentKeyState.IsKeyDown(Keys.W))
                     {
-                        Entity.position.Y += Inertia*Mass * Time.DeltaVar(120);
+                        Entity.Position.Y += Inertia*Mass * Time.DeltaVar(120);
                     }
                     else
                     {

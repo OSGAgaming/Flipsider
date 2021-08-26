@@ -97,6 +97,7 @@ namespace Flipsider
         {
             if(CheckActivity())
             Active = true;
+
             else
             {
                 Active = false;

@@ -45,7 +45,7 @@ namespace Flipsider.Engine
 
             LayerManagerInfo lmfao = LMI.Deserialize(stream);
 
-            Main.CurrentWorld.layerHandler = lmfao.Load();
+            Main.World.layerHandler = lmfao.Load();
             TileManager TM = tileManager.Deserialize(stream);
 
             Main.Editor.AutoFrame = true;

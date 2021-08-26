@@ -1,4 +1,5 @@
 ﻿using Flipsider.Engine.Interfaces;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,14 +15,14 @@ namespace Flipsider
 
         public void OrderedRenderPass(SpriteBatch sb, GraphicsDevice GD)
         {
-            int i = 0; 
-            foreach(KeyValuePair<string, MapPass> Map in MapPasses)
+            for (int a = 0; a < MapPasses.Count; a++)
             {
-                var Pass = Map.Value;
+                foreach (KeyValuePair<string, MapPass> Map in MapPasses)
+                {
+                    var Pass = Map.Value;
 
-                if(Pass.Priority == i) Pass.Render(sb, GD);
-
-                i++;
+                    if (Pass.Priority == a) Pass.Render(sb, GD);
+                }
             }
         }
 
@@ -29,29 +30,31 @@ namespace Flipsider
 
         public RenderTarget2D OrderedShaderPass(SpriteBatch sb, RenderTarget2D target)
         {
-            int i = 0;
-            foreach (KeyValuePair<string, MapPass> Map in MapPasses)
+            for (int a = 0; a < MapPasses.Count; a++)
             {
-                Main.graphics?.GraphicsDevice.SetRenderTarget(Buffers[i]);
+                Main.graphics?.GraphicsDevice.SetRenderTarget(Buffers[a]);
                 Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
+
+
 
                 sb.End();
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: Main.Camera?.Transform, samplerState: SamplerState.PointClamp);
 
-                var Pass = Map.Value;
+                foreach (KeyValuePair<string, MapPass> Map in MapPasses)
+                {
+                    var Pass = Map.Value;
 
-                if (Pass.Priority == i) Pass.ApplyShader();
+                    if (Pass.Priority == a) Pass.ApplyShader();
+                }
 
                 RenderTarget2D rT;
-                if (i - 1 < 0) rT = target; else rT = Buffers[i - 1];
+                if (a < 1) rT = target; else rT = Buffers[a - 1];
 
                 if (Main.graphics != null && Main.Camera != null)
                 {
-                    Rectangle frame = new Rectangle(0,0,2560,1440);
-                    sb.Draw(rT, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, new Vector2(1/Main.ScreenScale, 1/Main.ScreenScale), SpriteEffects.None, 0f);
+                    Rectangle frame = new Rectangle(0, 0, 2560, 1440);
+                    sb.Draw(rT, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, new Vector2(1 / Main.ScreenScale, 1 / Main.ScreenScale), SpriteEffects.None, 0f);
                 }
-
-                i++;
 
                 sb.End();
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Main.Camera?.Transform, samplerState: SamplerState.PointClamp);
@@ -61,11 +64,12 @@ namespace Flipsider
         }
         public void DrawToMap(string Map, MapRender MR) => MapPasses[Map].DrawToTarget(MR);
 
-        public void AddMap(string MapName,int Index, MapPass MP) 
+        public void AddMap(string MapName, int Index, MapPass MP)
         {
             MP.Parent = this;
             MapPasses.Add(MapName, MP);
-            Buffers.Add(new RenderTarget2D(Main.graphics.GraphicsDevice,2560,1440));
+
+            Buffers.Add(new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440));
         }
 
         public MapPass Get(string MapName) => MapPasses[MapName];

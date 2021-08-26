@@ -22,7 +22,7 @@ namespace Flipsider
         public static GameTime gameTime;
         public static SpriteFont font;
         public static MainRenderer renderer;
-        public static World CurrentWorld;
+        public static World World;
         public static PrimTrailManager Primitives;
         public FPS fps = new FPS();
         public Main()
@@ -69,13 +69,13 @@ namespace Flipsider
         protected override void LoadContent()
         {
             renderer.Load();
-            CurrentWorld = new World(2000, 2000);
-            CurrentWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
+            World = new World(2000, 2000);
+            World.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             font = Content.Load<SpriteFont>("FlipFont");
             #region testparticles
             #endregion
             instance = this;
-            CurrentWorld.propManager.LoadProps();
+            World.propManager.LoadProps();
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();

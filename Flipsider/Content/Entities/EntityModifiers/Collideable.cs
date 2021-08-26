@@ -44,7 +44,7 @@ namespace Flipsider.Engine.Maths
                 LivingEntity.onSlope = false;
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
-                foreach (Chunk chunk in Main.CurrentWorld.tileManager.chunks)
+                foreach (Chunk chunk in Main.World.tileManager.chunks)
                 {
                     if(chunk.Active)
                     {

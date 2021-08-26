@@ -47,15 +47,15 @@ namespace Flipsider
                 a++;
                 if (a > TrailLength - 1)
                     a = 0;
-                oldPositions[a] = position;
+                oldPositions[a] = Position;
             }
         }
 
         public bool isColliding;
         public float Bottom
         {
-            get => position.Y + height;
-            set => position.Y = value - height;
+            get => Position.Y + Height;
+            set => Position.Y = value - Height;
         }
         protected override void PostConstructor()
         {
@@ -103,12 +103,12 @@ namespace Flipsider
                 PostAI();
 
                 InFrame = ParallaxPosition.X >
-                    Utils.SafeBoundX.X - 5 && position.Y >
+                    Utils.SafeBoundX.X - 5 && Position.Y >
                     Utils.SafeBoundY.X - 5 && ParallaxPosition.X <
-                    Utils.SafeBoundX.Y + 5 && position.Y <
+                    Utils.SafeBoundX.Y + 5 && Position.Y <
                     Utils.SafeBoundY.Y + 5;
 
-                foreach (Water water in Main.CurrentWorld.WaterBodies.Components)
+                foreach (Water water in Main.World.WaterBodies.Components)
                 {
                     if (water.frame.Intersects(CollisionFrame))
                         Wet = true;

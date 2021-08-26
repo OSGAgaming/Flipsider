@@ -49,7 +49,7 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public void Recalculate()
         {
-            layerGUIPanels = new LayerGUIPanel[Main.CurrentWorld.layerHandler.GetLayerCount()];
+            layerGUIPanels = new LayerGUIPanel[Main.World.layerHandler.GetLayerCount()];
             Add = new LayerGUIAdd(this, EditorModeGUI.BottomPreview);
 
             for (int i = 0; i < layerGUIPanels.Length; i++)

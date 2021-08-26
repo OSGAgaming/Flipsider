@@ -15,19 +15,19 @@ namespace Flipsider
         public int i;
         public int j;
         public World world;
-        public bool inFrame => ParallaxPosition.X > Utils.SafeBoundX.X - 100 && position.Y > Utils.SafeBoundY.X - 100 && ParallaxPosition.X < Utils.SafeBoundX.Y + 100 && position.Y < Utils.SafeBoundY.Y + 100;
-        public bool Surrounded => Main.CurrentWorld.IsActive(i, j - 1) && Main.CurrentWorld.IsActive(i, j + 1) && Main.CurrentWorld.IsActive(i - 1, j - 1) && Main.CurrentWorld.IsActive(i + 1, j);
-        public TileManager TM => Main.CurrentWorld.tileManager;
+        public bool inFrame => ParallaxPosition.X > Utils.SafeBoundX.X - 100 && Position.Y > Utils.SafeBoundY.X - 100 && ParallaxPosition.X < Utils.SafeBoundX.Y + 100 && Position.Y < Utils.SafeBoundY.Y + 100;
+        public bool Surrounded => Main.World.IsActive(i, j - 1) && Main.World.IsActive(i, j + 1) && Main.World.IsActive(i - 1, j - 1) && Main.World.IsActive(i + 1, j);
+        public TileManager TM => Main.World.tileManager;
         bool Buffer1;
         public override void OnUpdateInEditor()
         {
             if (world != null && inFrame)
             {
-                Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White));
-                drawData = new DrawData(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
+                Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White));
+                drawData = new DrawData(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
                 if (!Surrounded && Buffer1)
                 {
-                    Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.World, i, j);
                     AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
                 if (Surrounded && !Buffer1)
@@ -35,7 +35,7 @@ namespace Flipsider
                     Chunk.Colliedables.RemoveThroughEntity(this);
                 }
                 Buffer1 = Surrounded;
-                if (Main.CurrentWorld.IsActive(i, j))
+                if (Main.World.IsActive(i, j))
                 {
                     if (TM.GetTile(i, j) != null)
                     {
@@ -55,7 +55,7 @@ namespace Flipsider
             {
                 if (InFrame && Active)
                 {
-                    spriteBatch.Draw(TM.tileDict[type], new Rectangle(position.ToPoint(), new Point(width, height)), frame, Color.White);
+                    spriteBatch.Draw(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
                     return;
                 }
             }
@@ -90,7 +90,7 @@ namespace Flipsider
             int layer = binaryReader.ReadInt32();
             Rectangle R = binaryReader.ReadRect();
             Tile tile = new Tile(type, R, new Vector2(x, y), false, layer);
-            return Main.tileManager.AddTile(Main.CurrentWorld, tile);
+            return Main.tileManager.AddTile(Main.World, tile);
         }
 
 
@@ -98,39 +98,39 @@ namespace Flipsider
         {
             if (TileManager.CanPlace && Main.tileManager.GetTile(i, j) != null)
             {
-                Polygon CollisionPoly = Framing.GetPolygon(Main.CurrentWorld, i, j);
+                Polygon CollisionPoly = Framing.GetPolygon(Main.World, i, j);
                 AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
             }
         }
         public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false, int layer = -1) : base()
         {
-            width = 32;
-            height = 32;
+            Width = 32;
+            Height = 32;
             this.type = type;
             this.frame = frame;
             Active = true;
             InFrame = true;
-            position = pos * 32;
+            Position = pos * 32;
             if (layer == -1)
                 Layer = LayerHandler.CurrentLayer;
             else
                 Layer = layer;
             i = (int)(ParallaxPosition.X / 32);
             j = (int)(ParallaxPosition.Y / 32);
-            world = Main.CurrentWorld;
+            world = Main.World;
         }
         public Tile(int type, Rectangle frame, bool ifWall = false) : base()
         {
             this.type = type;
             this.frame = frame;
             Active = false;
-            world = Main.CurrentWorld;
+            world = Main.World;
             Layer = LayerHandler.CurrentLayer;
         }
         public Tile() : base()
         {
             Active = false;
-            world = Main.CurrentWorld;
+            world = Main.World;
         }
     }
 }

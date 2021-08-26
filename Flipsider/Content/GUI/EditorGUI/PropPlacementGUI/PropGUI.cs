@@ -53,7 +53,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 chosenProp = null;
                 if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
                 {
-                    var Props = Main.CurrentWorld.propManager.props;
+                    var Props = Main.World.propManager.props;
                     for (int i = 0; i < Props.Count; i++)
                     {
                         if (Props[i].CollisionFrame.Contains(Main.MouseScreen))

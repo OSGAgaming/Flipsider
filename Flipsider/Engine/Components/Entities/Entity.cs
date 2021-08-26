@@ -10,20 +10,18 @@ using System.IO;
 
 namespace Flipsider
 {
-    [Serializable]
     public abstract partial class Entity : IComponent, ILayeredComponentActive, ISerializable<Entity>
     {
         public bool InFrame { get; set; }
-        [NonSerialized]
-        public Texture2D texture = TextureCache.magicPixel;
         public int Layer { get; set; }
         public bool Active { get; set; }
-        [NonSerialized]
-        public Vector2 position;
-        [NonSerialized]
-        public Vector2 oldPosition;
-        public int height;
-        public int width;
+        public Texture2D Texture { get; set; } = TextureCache.magicPixel;
+
+        public Vector2 Position;
+        public Vector2 OldPosition;
+        public int Height;
+        public int Width;
+
         protected virtual void PreDraw(SpriteBatch spriteBatch) { }
         protected virtual void OnDraw(SpriteBatch spriteBatch) { }
         protected virtual void PostDraw(SpriteBatch spriteBatch) { }
@@ -37,7 +35,7 @@ namespace Flipsider
         protected virtual void OnChunkChange() { }
         public virtual void OnUpdateInEditor() { }
 
-        [NonSerialized]
+
         public readonly Dictionary<string,IEntityModifier> UpdateModules = new Dictionary<string,IEntityModifier>();
         public void AddModule(string name, IEntityModifier IEM){ if(!UpdateModules.ContainsKey(name)) UpdateModules.Add(name, IEM); }
         public void UpdateInEditor()
@@ -74,9 +72,9 @@ namespace Flipsider
         {
             if (!chunk2.Entities.Contains(this))
                 chunk2.Entities.Add(this);
+
             chunk1.Entities.Remove(this);
         }
-        public bool LoadBool;
         public void Update()
         {
             if (OldChunkPosition != ChunkPosition)
@@ -84,7 +82,8 @@ namespace Flipsider
                 TransferChunk(OldChunk, Chunk);
                 OnChunkChange();
             }
-            oldPosition = position;
+
+            OldPosition = Position;
 
             PreUpdate();
             OnUpdate();
@@ -95,7 +94,7 @@ namespace Flipsider
             if (Active)
             {
                 PostConstructor();
-                if (Main.CurrentWorld != null)
+                if (Main.World != null)
                 {
                     Main.AppendToLayer(this);
                     Chunk?.Entities.Add(this);

@@ -38,7 +38,7 @@ namespace Flipsider
         {
             try
             {
-                int alteredRes = Main.CurrentWorld.TileRes / 4;
+                int alteredRes = Main.World.TileRes / 4;
                 Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
                 Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
                 Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
@@ -57,7 +57,7 @@ namespace Flipsider
             if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
             {
                 float sine = Time.SineTime(6);
-                int alteredRes = Main.CurrentWorld.TileRes / 4;
+                int alteredRes = Main.World.TileRes / 4;
                 Vector2 tilePoint2 = Main.MouseScreen.ToVector2().Snap(alteredRes);
                 if (Main.Editor.CurrentProp != null)
                 {

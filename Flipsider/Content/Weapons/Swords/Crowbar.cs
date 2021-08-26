@@ -216,11 +216,11 @@ namespace Flipsider.Weapons
         protected override void SetDefaults()
         {
             damage = 50;
-            width = 20;
+            Width = 20;
             hostile = false;
-            framewidth = width;
-            height = 20;
-            texture = TextureCache.magicPixel;
+            framewidth = Width;
+            Height = 20;
+            Texture = TextureCache.magicPixel;
             Collides = true;
             noGravity = true;
             noAirResistance = true;

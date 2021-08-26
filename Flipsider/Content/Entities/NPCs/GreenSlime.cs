@@ -12,18 +12,18 @@ namespace Flipsider
             life = 50;
             maxLife = 50;
             https://www.youtube.com/watch?v=dQw4w9WgXcQ
-            width = 64;
-            framewidth = width;
-            height = 52;
+            Width = 64;
+            framewidth = Width;
+            Height = 52;
             damage = 2;
-            position = Main.player.position;
-            texture = TextureCache.GreenSlime;
+            Position = Main.player.Position;
+            Texture = TextureCache.GreenSlime;
             hostile = true;
             Collides = true;
         }
         protected override void PreDraw(SpriteBatch spriteBatch)
         {
-            Utils.DrawText(life.ToString(), Color.White, Center + new Vector2(0, height / 2 + 10));
+            Utils.DrawText(life.ToString(), Color.White, Center + new Vector2(0, Height / 2 + 10));
         }
         int JumpSeperation;
         protected override void AI()

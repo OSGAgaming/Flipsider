@@ -133,7 +133,14 @@ namespace Flipsider.Engine
 
         public bool IsJustPressed()
         {
-            return IsJustPressed(GameInput.Instance.PreviousControllerState, GameInput.Instance.CurrentControllerState) || (_isMouse ? IsJustPressed(GameInput.Instance.PreviousMouseState, GameInput.Instance.CurrentMouseState) : IsJustPressed(GameInput.Instance.PreviousKeyState, GameInput.Instance.CurrentKeyState));
+            return IsJustPressed(GameInput.Instance.PreviousControllerState, GameInput.Instance.CurrentControllerState) || 
+                (_isMouse ? IsJustPressed(GameInput.Instance.PreviousMouseState, GameInput.Instance.CurrentMouseState) : IsJustPressed(GameInput.Instance.PreviousKeyState, GameInput.Instance.CurrentKeyState));
+        }
+
+        public bool IsJustReleased()
+        {
+            return IsJustReleased(GameInput.Instance.PreviousControllerState, GameInput.Instance.CurrentControllerState) ||
+                (_isMouse ? IsJustReleased(GameInput.Instance.PreviousMouseState, GameInput.Instance.CurrentMouseState) : IsJustReleased(GameInput.Instance.PreviousKeyState, GameInput.Instance.CurrentKeyState));
         }
 
         public bool IsJustPressed(GamePadState old, GamePadState current)
@@ -151,6 +158,23 @@ namespace Flipsider.Engine
         public bool IsJustPressed(MouseState old, MouseState current)
         {
             return IsUp(old) && IsDown(current);
+        }
+
+        public bool IsJustReleased(GamePadState old, GamePadState current)
+        {
+            if (!current.IsConnected) return false;
+
+            return IsDown(old) && IsUp(current);
+        }
+
+        public bool IsJustReleased(KeyboardState old, KeyboardState current)
+        {
+            return IsDown(old) && IsUp(current);
+        }
+
+        public bool IsJustReleased(MouseState old, MouseState current)
+        {
+            return IsDown(old) && IsUp(current);
         }
 
         public float GetPressValue()

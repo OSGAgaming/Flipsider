@@ -114,7 +114,7 @@ namespace Flipsider
             NPC.Active = true;
             NPC.SetDefaults();
             NPC.isNPC = true;
-            NPC.position = position;
+            NPC.Position = position;
             return NPC;
         }
         protected override void PreAI()
@@ -125,7 +125,7 @@ namespace Flipsider
             if (life <= 0)
             {
                 Dispose();
-                position.Y--;
+                Position.Y--;
             }
             else
             {
@@ -153,15 +153,15 @@ namespace Flipsider
             Main.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;
-            NPC.position = position;
+            NPC.Position = position;
         }
 
         public override void Serialize(Stream stream)
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(GetType().FullName ?? "Entity");
-            binaryWriter.Write(position.X);
-            binaryWriter.Write(position.Y);
+            binaryWriter.Write(Position.X);
+            binaryWriter.Write(Position.Y);
         }
 
         public override Entity Deserialize(Stream stream)
@@ -200,7 +200,7 @@ namespace Flipsider
             {
                 Vector2 mousePos = Main.MouseScreen.ToVector2();
                 float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                int alteredRes = Main.CurrentWorld.TileRes / 4;
+                int alteredRes = Main.World.TileRes / 4;
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                 Texture2D? icon = SelectedNPCType?.GetField("icon")?.GetValue(null) as Texture2D;
                 if (SelectedNPCType != null && icon != null)
@@ -213,7 +213,7 @@ namespace Flipsider
         public override void Draw(SpriteBatch spriteBatch)
         {
             PreDraw(spriteBatch);
-            spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(Texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
         }
 
     }

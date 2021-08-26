@@ -11,8 +11,6 @@ namespace Flipsider
     public delegate void MapRender(SpriteBatch spriteBatch);
     public abstract class MapPass
     {
-        public int Index;
-
         public RenderTarget2D? MapTarget;
 
         internal event MapRender? MapActions;

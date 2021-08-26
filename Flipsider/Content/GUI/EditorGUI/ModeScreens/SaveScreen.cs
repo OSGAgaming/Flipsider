@@ -15,7 +15,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     {
         TextBoxScalableScroll? TextBox;
         WorldLoadScroll[]? Load;
-        public override Mode Mode => Mode.Select;
+        public override Mode Mode => Mode.Lasso;
 
         public override int PreviewHeight
         {
@@ -108,7 +108,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         }
         protected override void OnLeftClick()
         {
-            Main.CurrentWorld.RetreiveLevelInfo(Path.GetFileName(path));
+            Main.World.RetreiveLevelInfo(Path.GetFileName(path));
         }
     }
 

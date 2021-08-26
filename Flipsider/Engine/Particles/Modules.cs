@@ -378,7 +378,7 @@ namespace Flipsider.Engine.Particles
             if (_entity == null) return;
             //TODO: Check if the entity is dead or inactive? depends on our entity system.
 
-            Vector2 between = new Vector2(_entity.position.X + _entity.width * 0.5f, _entity.position.Y + _entity.height * 0.5f);
+            Vector2 between = new Vector2(_entity.Position.X + _entity.Width * 0.5f, _entity.Position.Y + _entity.Height * 0.5f);
             between.Normalize();
             between *= _speed;
 

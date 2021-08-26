@@ -15,7 +15,7 @@ namespace Flipsider
             foreach (var item in matrix) yield return item;
         }
         public static float X(float t,
-    float x0, float x1, float x2, float x3)
+        float x0, float x1, float x2, float x3)
         {
             return (float)(
                 x0 * (1 - t) * (1 - t) * (1 - t) +
@@ -183,7 +183,7 @@ namespace Flipsider
             return chosen;
         }
 
-        
+
         public static Vector2 ReturnIntersectionLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
         {
             float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);

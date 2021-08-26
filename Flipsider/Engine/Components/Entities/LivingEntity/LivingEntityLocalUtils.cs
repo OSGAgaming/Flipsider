@@ -39,8 +39,8 @@ namespace Flipsider
         }
         public void Constraints()
         {
-            position.Y += MathHelper.Clamp(position.Y, -200, Utils.BOTTOM - height) - position.Y;
-            position.X = MathHelper.Clamp(position.X, 0, 100000);
+            Position.Y += MathHelper.Clamp(Position.Y, -200, Utils.BOTTOM - Height) - Position.Y;
+            Position.X = MathHelper.Clamp(Position.X, 0, 100000);
             if (Bottom >= Utils.BOTTOM)
             {
                 onGround = true;

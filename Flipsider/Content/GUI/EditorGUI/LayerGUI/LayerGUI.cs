@@ -10,7 +10,7 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerGUI : UIScreen
     {
         public int chosen = -1;
-        public int LayerCount => Main.CurrentWorld.layerHandler.GetLayerCount();
+        public int LayerCount => Main.World.layerHandler.GetLayerCount();
 
         public List<int> OrderCache = new List<int>();
         protected override void OnLoad()
@@ -19,7 +19,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 OrderCache.Add(i);
             }
-            for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
+            for (int i = 0; i < Main.World.layerHandler.GetLayerCount(); i++)
             {
                 LayerGUIElement textBox = new LayerGUIElement(i)
                 {
@@ -70,7 +70,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                     OrderCache.Add(i);
                 }
                 elements.Clear();
-                for (int i = 0; i < Main.CurrentWorld.layerHandler.GetLayerCount(); i++)
+                for (int i = 0; i < Main.World.layerHandler.GetLayerCount(); i++)
                 {
                     LayerGUIElement textBox = new LayerGUIElement(i)
                     {
@@ -389,7 +389,7 @@ namespace Flipsider.GUI.TilePlacementGUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(TextureCache.SwitchLayer, dimensions.Location.ToVector2(), new Rectangle(0, 0, 30, 16), isSelected ? Color.Yellow * 0.5f : Color.White);
-            Utils.DrawTextToLeft(Main.CurrentWorld.layerHandler.Layers[LG.OrderCache[Layer]].parallax.ToString(), Color.Aqua, dimensions.Location.ToVector2() + new Vector2(80,0));
+            Utils.DrawTextToLeft(Main.World.layerHandler.Layers[LG.OrderCache[Layer]].parallax.ToString(), Color.Aqua, dimensions.Location.ToVector2() + new Vector2(80,0));
         }
         bool isSelectedBuffer;
         protected override void OnUpdate()

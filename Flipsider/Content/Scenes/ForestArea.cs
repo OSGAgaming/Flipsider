@@ -43,7 +43,7 @@ namespace Flipsider.Scenes
                     updateable.Update();
             }
 
-            Main.CurrentWorld.GlobalParticles.Update();
+            Main.World.GlobalParticles.Update();
             CutsceneManager.Instance?.Update();
 
             Scene? scene = Main.instance.sceneManager.Scene;
@@ -78,7 +78,7 @@ namespace Flipsider.Scenes
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 50);
-            Main.CurrentWorld.layerHandler.DrawLayers(spriteBatch);
+            Main.World.layerHandler.DrawLayers(spriteBatch);
             Utils.BeginEndCameraSpritebatch();
             Utils.RenderBG(spriteBatch, Color.White, TextureCache.skybox, -0.9f, 0.8f, offset);
             Utils.RenderBGMoving(spriteBatch, 6f, Color.White, TextureCache.SkyboxFront, -0.9f, 0.8f, offset + new Vector2(0, -400));
@@ -96,7 +96,7 @@ namespace Flipsider.Scenes
             ForestAreaParticles.Update();
             ForestAreaParticles.Draw(spriteBatch);
 
-            Main.CurrentWorld.GlobalParticles.Draw(spriteBatch);
+            Main.World.GlobalParticles.Draw(spriteBatch);
         }
     }
 }

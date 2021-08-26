@@ -36,11 +36,11 @@ namespace Flipsider
                     tile.Active = true;
                     Vector2 pos = new Vector2(tile.i, tile.j);
                     Tile tileI = new Tile(tile.type, tile.frame, pos);
-                    Main.tileManager.AddTile(Main.CurrentWorld, tileI);
+                    Main.tileManager.AddTile(Main.World, tileI);
                 }
                 if (entity is Prop prop)
                 {
-                    Main.CurrentWorld.propManager.AddProp(prop.prop, prop.Center);
+                    Main.World.propManager.AddProp(prop.prop, prop.Center);
                 }
             }
 

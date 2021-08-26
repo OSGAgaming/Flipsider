@@ -24,8 +24,8 @@ namespace Flipsider
         public Vector2 offsetFromMouseWhileDragging;
         public override void Dispose()
         {
-            Main.CurrentWorld.layerHandler.Layers[Layer].Drawables.Remove(this);
-            Main.CurrentWorld.propManager.props.Remove(this);
+            Main.World.layerHandler.Layers[Layer].Drawables.Remove(this);
+            Main.World.propManager.props.Remove(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
             active = false;
@@ -63,14 +63,14 @@ namespace Flipsider
             bool draggable = binaryWriter.ReadBoolean();
             int Layer = binaryWriter.ReadInt32();
             Prop prop = new Prop(propEncode, position, Layer, draggable);
-            return Main.CurrentWorld.propManager.AddProp(prop);
+            return Main.World.propManager.AddProp(prop);
         }
         public override void Serialize(Stream stream)
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(propEncode.Length);
             binaryWriter.Write(propEncode);
-            binaryWriter.Write(position);
+            binaryWriter.Write(Position);
             binaryWriter.Write(draggable);
             binaryWriter.Write(Layer);
         }
@@ -82,9 +82,9 @@ namespace Flipsider
             propEncode = Encoding.UTF8.GetBytes(prop);
             this.Layer = Layer;
             draggable = Draggable;
-            position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
-            width = PropTypes[prop].Width;
-            height = PropTypes[prop].Height;
+            Position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
+            Width = PropTypes[prop].Width;
+            Height = PropTypes[prop].Height;
             if(PropEntity.keyValuePairs.ContainsKey(prop))
             PE = PropEntity.keyValuePairs[prop];
         }
@@ -92,8 +92,8 @@ namespace Flipsider
         {
             propEncode = new byte[prop.Length];
             propEncode = Encoding.UTF8.GetBytes(prop);
-            width = 1;
-            height = 1;
+            Width = 1;
+            Height = 1;
         }
         public Prop() : base()
         {

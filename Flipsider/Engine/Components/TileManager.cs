@@ -50,16 +50,21 @@ namespace Flipsider
                 return voidChunk;
             }
         }
-        Chunk GetChunk(Point pos)
+        public Chunk GetChunk(Point pos)
         {
             if (pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1))
                 return chunks?[pos.X, pos.Y] ?? LoadChunk(pos);
 
             return LoadChunk(pos);
         }
-        Chunk GetChunkToTileCoords(Point pos)
+        public Chunk GetChunkToTileCoords(Point pos)
         {
             return GetChunk(TileCoordsToChunkCoords(pos)) ?? LoadChunk(TileCoordsToChunkCoords(pos));
+        }
+        public Chunk GetChunkToWorldCoords(Vector2 pos)
+        {
+            Point p = new Point((int)pos.X / 32, (int)pos.Y / 32);
+            return GetChunk(TileCoordsToChunkCoords(p)) ?? LoadChunk(TileCoordsToChunkCoords(p));
         }
         public Point ToChunkCoords(Point pos)
         {

@@ -56,7 +56,7 @@ namespace Flipsider
                 Layer = LayerHandler.CurrentLayer
             };
             Projectile.SetDefaults();
-            Projectile.position = position;
+            Projectile.Position = position;
         }
 
         public static void ShootProjectileAtCursor<T>(Vector2 position, float vel) where T : Projectile, new()
@@ -67,13 +67,13 @@ namespace Flipsider
             };
             Projectile.SetDefaults();
             Projectile.Active = true;
-            Projectile.position = position;
+            Projectile.Position = position;
             Projectile.velocity = Vector2.Normalize(Main.MouseScreen.ToVector2() - Main.player.Center) * vel;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            Utils.DrawRectangle(position, width, height, Color.Green);
+            spriteBatch.Draw(Texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Utils.DrawRectangle(Position, Width, Height, Color.Green);
         }
         protected virtual void SetDefaults()
         {

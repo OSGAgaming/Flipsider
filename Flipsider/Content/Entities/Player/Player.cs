@@ -37,9 +37,9 @@ namespace Flipsider
         {
             AddModule("Movement", new PlayerMovement(this));
             inventory = new IStoreable[20];
-            this.position = position;
-            width = 30;
-            height = 60;
+            this.Position = position;
+            Width = 30;
+            Height = 60;
             framewidth = 48;
             noGravity = false;
             Collides = true;
@@ -49,8 +49,8 @@ namespace Flipsider
         {
             AddModule("Movement", new PlayerMovement(this));
             inventory = new IStoreable[20];
-            width = 30;
-            height = 60;
+            Width = 30;
+            Height = 60;
             framewidth = 48;
             noGravity = false;
             Collides = true;
@@ -70,13 +70,13 @@ namespace Flipsider
             float X = binaryWriter.ReadSingle();
             float Y = binaryWriter.ReadSingle();
             Player player = new Player(new Vector2(X, Y));
-            return Main.CurrentWorld.ReplacePlayer(player);
+            return Main.World.ReplacePlayer(player);
         }
         public override void Serialize(Stream stream)
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
-            binaryWriter.Write(position.X);
-            binaryWriter.Write(position.Y);
+            binaryWriter.Write(Position.X);
+            binaryWriter.Write(Position.Y);
         }
         public void AddToInventory(IStoreable item, int slot)
         {
@@ -206,12 +206,12 @@ namespace Flipsider
         public override void Draw(SpriteBatch spriteBatch)
         {
             float IFrameSine = (float)Math.Abs(Math.Sin(IFrames / 2));
-            texture = TextureCache.player;
+            Texture = TextureCache.player;
             Rectangle weaponFrame = new Rectangle(((frame.X / 48 - 4) * 69), frameY * 50, 69, 50);
             if(isAttacking)
                 spriteBatch.Draw(weapon, Center - new Vector2(0,18), weaponFrame, Color.White, 0f, weaponFrame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             
-            spriteBatch.Draw(texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine), 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(Texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine), 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             //Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f); });
         }
         public override void ApplyForces()

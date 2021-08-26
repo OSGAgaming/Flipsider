@@ -10,11 +10,11 @@ namespace Flipsider
         {
             life = 100;
             maxLife = 100;
-            width = 145;
-            framewidth = width;
-            height = 185;
-            position = Main.player.position;
-            texture = TextureCache.Blob;
+            Width = 145;
+            framewidth = Width;
+            Height = 185;
+            Position = Main.player.Position;
+            Texture = TextureCache.Blob;
             hostile = true;
             Collides = true;
         }
@@ -24,7 +24,7 @@ namespace Flipsider
             Constraints();
             //Jump(2f);
             Animate(5, 1, 185, 0);
-            position.X += NormDistance.X;
+            Position.X += NormDistance.X;
         }
     }
 }

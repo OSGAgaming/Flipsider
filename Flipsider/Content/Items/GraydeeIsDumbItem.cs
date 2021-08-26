@@ -5,7 +5,7 @@
         protected override void OnLoad()
         {
             SetInventoryIcon(TextureCache.Birb);
-            texture = TextureCache.BigBusStop;
+            Texture = TextureCache.BigBusStop;
             maxStack = 5;
         }
     }
@@ -14,7 +14,7 @@
         protected override void OnLoad()
         {
             SetInventoryIcon(TextureCache.Blob);
-            texture = TextureCache.BigBusStop;
+            Texture = TextureCache.BigBusStop;
             maxStack = 5;
         }
     }
