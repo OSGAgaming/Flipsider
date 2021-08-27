@@ -73,6 +73,8 @@ namespace Flipsider.Scenes
             ForestAreaParticles.SpawnModules.Add(new SetParalaxRand(.8f, -.8f));
             ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(EaseFunction.ReverseLinear));
             ForestAreaParticles.UpdateModules.Add(new TurnRand(-.5f, .5f));
+
+            Main.World.SetSkybox(new ForestSkybox());
         }
 
         public override void Draw(SpriteBatch spriteBatch)

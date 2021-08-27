@@ -14,6 +14,13 @@ namespace Flipsider
     {
         internal List<ParalaxLayer> Layers = new List<ParalaxLayer>();
 
+        public Skybox()
+        {
+            LoadSkyboxes();
+        }
+
+        public virtual void LoadSkyboxes() { }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach(ParalaxLayer Layer in Layers)

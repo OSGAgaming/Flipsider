@@ -96,6 +96,8 @@ namespace Flipsider
             return false;
         }
 
+        public void SetSkybox(Skybox skybox) => Skybox = skybox;
+
         public void Update()
         {
             GlobalParticles.Update();
@@ -115,7 +117,6 @@ namespace Flipsider
 
         public World(int Width, int Height)
         {
-            Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 150);
 
             MaxTilesX = Width;
             MaxTilesY = Height;
@@ -125,10 +126,6 @@ namespace Flipsider
             propManager = new PropManager();
 
             Skybox = new Skybox();
-            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\Skybox", -0.9f, 0, offset, 0.6f));
-            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\ForestBackground3", -0.8f, 0, offset, 0.6f));
-            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\ForestBackground2", -0.7f, 0, offset, 0.6f));
-            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\ForestBackground1", -0.6f, 0, offset, 0.6f));
 
             GlobalParticles = new ParticleSystem(200);
         }
