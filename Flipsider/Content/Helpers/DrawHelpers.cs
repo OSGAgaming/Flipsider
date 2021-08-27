@@ -91,7 +91,8 @@ namespace Flipsider
         {
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
-                spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Tex, 
+                    new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }
         public static void RenderBGMoving(SpriteBatch spriteBatch, float speed, Color Color, Texture2D Tex, float paralax, float scale, Vector2 offset = default, float paralaxY = 0)

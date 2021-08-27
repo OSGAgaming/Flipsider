@@ -60,13 +60,13 @@ namespace Flipsider
         public LayerHandler()
         {
             AddLayer();
-            RTGaming = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+            Target = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
         }
         [NonSerialized]
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
         public static int[] LayerCache = { -1, -1 };
-        public RenderTarget2D RTGaming;
+        public RenderTarget2D Target;
         internal LayerManagerInfo Info
         {
             get
@@ -84,7 +84,7 @@ namespace Flipsider
         {
 
             InfoCache = Info;
-            Main.graphics.GraphicsDevice.SetRenderTarget(RTGaming);
+            Main.graphics.GraphicsDevice.SetRenderTarget(Target);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.End();

@@ -77,26 +77,10 @@ namespace Flipsider.Scenes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 50);
-            Main.World.layerHandler.DrawLayers(spriteBatch);
-            Utils.BeginEndCameraSpritebatch();
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.skybox, -0.9f, 0.8f, offset);
-            Utils.RenderBGMoving(spriteBatch, 6f, Color.White, TextureCache.SkyboxFront, -0.9f, 0.8f, offset + new Vector2(0, -400));
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground3, -0.8f, 0.7f, offset + new Vector2(0, 100));
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground2, -0.7f, 0.7f, offset);
-            Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.6f, 0.7f, offset);
-            //Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { Utils.RenderBG(spriteBatch, Color.White, TextureCache.ForestBackground1, -0.6f, 0.7f, offset); });
-            Utils.BeginEndCameraSpritebatch();
-            Main.renderer.PrintRenderTarget(Main.layerHandler.RTGaming);
-            NPC.DTH.Draw(spriteBatch);
-            PropManager.ShowPropCursor();
-            NPC.ShowNPCCursor();
-            Main.Editor.Draw();
+            Main.World.Draw(spriteBatch);
 
             ForestAreaParticles.Update();
             ForestAreaParticles.Draw(spriteBatch);
-
-            Main.World.GlobalParticles.Draw(spriteBatch);
         }
     }
 }

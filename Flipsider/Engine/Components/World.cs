@@ -9,22 +9,21 @@ using System.IO;
 
 namespace Flipsider
 {
-    [Serializable]
     public class World : IComponent
     {
         public LayerHandler layerHandler = new LayerHandler();
         public LevelInfo levelInfo => LevelInfo.Convert(this);
+
         public int TileRes => TileManager.tileRes;
+
         public int MaxTilesX { get; private set; }
         public int MaxTilesY { get; private set; }
-        [NonSerialized]
+        public TileManager tileManager { get; set; }
+        public Manager<Water> WaterBodies { get; set; }
+        public PropManager propManager { get; set; }
+        public Skybox Skybox { get; set; }
+
         public Player? MainPlayer;
-        [NonSerialized]
-        public TileManager tileManager;
-        [NonSerialized]
-        public Manager<Water> WaterBodies = new Manager<Water>();
-        [NonSerialized]
-        public PropManager propManager = new PropManager();
 
         public ParticleSystem GlobalParticles;
 
@@ -69,8 +68,6 @@ namespace Flipsider
         }
         public void RetreiveLevelInfo(string FileName)
         {
-            Logger.NewText(Utils.WorldPath + FileName);
-
             if (File.Exists(Utils.WorldPath + FileName))
             {
                 ClearWorld();
@@ -106,14 +103,33 @@ namespace Flipsider
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            PropManager.ShowPropCursor();
+            NPC.ShowNPCCursor();
+
+            layerHandler.DrawLayers(spriteBatch);
+            Skybox.Draw(spriteBatch);
+            Main.renderer.PrintRenderTarget(layerHandler.Target);
+
             GlobalParticles.Draw(spriteBatch);
         }
 
         public World(int Width, int Height)
         {
+            Vector2 offset = new Vector2(0, Utils.BOTTOM - Main.ScreenSize.Y + 150);
+
             MaxTilesX = Width;
             MaxTilesY = Height;
+
             tileManager = new TileManager(Width, Height);
+            WaterBodies = new Manager<Water>();
+            propManager = new PropManager();
+
+            Skybox = new Skybox();
+            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\Skybox", -0.9f, 0, offset, 0.6f));
+            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\ForestBackground3", -0.8f, 0, offset, 0.6f));
+            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\ForestBackground2", -0.7f, 0, offset, 0.6f));
+            Skybox.Layers.Add(new ParalaxLayer(@"Backgrounds\ForestBackground1", -0.6f, 0, offset, 0.6f));
+
             GlobalParticles = new ParticleSystem(200);
         }
     }
