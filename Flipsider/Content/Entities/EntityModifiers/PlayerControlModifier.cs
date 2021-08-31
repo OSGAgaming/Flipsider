@@ -17,7 +17,7 @@ namespace Flipsider.Engine.Maths
         public float varfriction;
         public Vector2 varAirResistance;
 
-        //VARIABLES YOU WANT TO CHANGE ------------------------------ //    //Triv and OS smell
+        //VARIABLES YOU WANT TO CHANGE ------------------------------ //    //Triv and LeShell smell
         private readonly int TigerTime = 5;
         private readonly float jumpheight = 3.5f;
         public readonly float friction = 0.85f;

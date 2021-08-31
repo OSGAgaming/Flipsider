@@ -174,7 +174,8 @@ namespace Flipsider
             {
                 for (int j = 0; j < chunks.GetLength(1); j++)
                 {
-                    chunks[i, j].Serialize(stream);
+                    Chunk chunk = chunks[i, j];
+                    chunk.Serialize(stream);
                 }
             }
         }
@@ -185,6 +186,8 @@ namespace Flipsider
             int width = binaryReader.ReadInt32();
             int height = binaryReader.ReadInt32();
             TileManager tileManager = new TileManager(width * Chunk.width, height * Chunk.height);
+            Main.World.tileManager = tileManager;
+
             Chunk chunk = new Chunk();
             for (int i = 0; i < width; i++)
             {

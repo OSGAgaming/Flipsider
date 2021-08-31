@@ -7,6 +7,7 @@ using Flipsider.Engine.Particles;
 using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Flipsider.Scenes
 {
@@ -19,16 +20,37 @@ namespace Flipsider.Scenes
             ForestAreaParticles = new ParticleSystem(200);
         }
 
+        float Test;
+
         public override void Update()
         {
             Main.renderer.RenderPrimitiveMode = true;
 
+            if(Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                Test += 2.6f;
+
+            }
+            else if(Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                Test -= 2.6f;
+            }
             if (CutsceneManager.Instance != null)
             {
                 if (!CutsceneManager.Instance.IsPlayingCutscene)
                 {
                     Main.Camera.Offset -= Main.Camera.Offset / 16f;
                 }
+            }
+
+            Main.lighting.Maps.DrawToMap("SunMap", (sb) =>
+            {
+                sb.Draw(TextureCache.pixel, new Vector2(0, -Test), new Rectangle(0,0,10000,Utils.BOTTOM), Color.Orange * 0.2f, 0.2f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+            });
+
+            if(Utils.JustClicked && Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+            {
+                Main.instance.sceneManager.SetNextScene(new CityArea(), new WhiteFadeInFadeOut(), true);
             }
 
             foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
@@ -74,7 +96,7 @@ namespace Flipsider.Scenes
             ForestAreaParticles.UpdateModules.Add(new OpacityOverLifetime(EaseFunction.ReverseLinear));
             ForestAreaParticles.UpdateModules.Add(new TurnRand(-.5f, .5f));
 
-            Main.World.SetSkybox(new ForestSkybox());
+            //Main.World.SetSkybox(new ForestSkybox());
         }
 
         public override void Draw(SpriteBatch spriteBatch)

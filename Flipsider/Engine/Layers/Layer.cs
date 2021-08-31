@@ -7,12 +7,9 @@ using System.Diagnostics;
 
 namespace Flipsider
 {
-    [Serializable]
     public class Layer : IComponent
     {
-        [NonSerialized]
         public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
-        [NonSerialized]
         public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
 
         public int LayerDepth;
@@ -75,9 +72,6 @@ namespace Flipsider
 
             spriteBatch.End();
         }
-        public void Update()
-        {
-
-        }
+        public void Update() { }
     }
 }

@@ -22,6 +22,7 @@ namespace Flipsider
         public abstract string Prop { get; }
         public virtual bool Draw(SpriteBatch spriteBatch, Prop prop) { return true; }
         public virtual void Update(Prop prop) { }
+        public virtual void PostLoad(Prop prop) { }
     }
 
     public class Tree : PropEntity

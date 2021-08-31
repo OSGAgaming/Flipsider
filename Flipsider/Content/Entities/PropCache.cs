@@ -109,8 +109,11 @@ namespace Flipsider
             AddPropType("Forest_ForestBigRockThree", TextureCache.ForestBigRockThree);
 
             AddPropType("Forest_Waterfall", TextureCache.Waterfall);
+
+            AddPropType("WideRoof1", Textures._Props_City_WideRoof1);
+            AddPropType("RoofBuilding1", Textures._Props_City_RoofBuilding1);
             # endregion
         }
-   
+
     }
 }

@@ -252,6 +252,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 dimensions.X += (-dimensions.X) / 16;
             }
+
             if (Main.Editor.IsActive)
             {
                 dimensions.Y += (40 + Layer * 20 - dimensions.Y) / 3;

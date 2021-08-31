@@ -13,7 +13,11 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class PropScreen : ModeScreen
     {
         private PropPreviewPanel[]? propPanel;
-
+        private bool mousePressedRight = false;
+        private bool mousePressedMiddle = false;
+        Prop? chosenProp;
+        Vector2 cachedCenter;
+        Vector2 mouseCenter;
         public static string? CurrentProp;
         public static bool CanPlace;
         public override Mode Mode => Mode.Prop;
@@ -23,7 +27,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             get
             {
                 if (propPanel != null)
-                    return (propPanel.Length / 3) * 70;
+                    return (propPanel.Length / 3) * 70 + 70;
                 else return 0;
             }
         }
@@ -52,14 +56,52 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         public override void CustomUpdate()
         {
-            Vector2 mousePos = Main.MouseToDestination().ToVector2();
-            int alteredRes = Main.World.TileRes / 4;
-            Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
+            Vector2 mousePos = Main.MouseToDestination().ToVector2().Snap(2);
 
             if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && CanPlace)
             {
-                Main.World.propManager.AddProp(CurrentProp ?? "", tilePoint2);
+                Main.World.propManager.AddProp(CurrentProp ?? "", mousePos);
             }
+
+            if (Mouse.GetState().RightButton != ButtonState.Pressed)
+            {
+                chosenProp = null;
+
+                var Props = Main.World.propManager.props;
+                for (int i = 0; i < Props.Count; i++)
+                {
+                    if (Props[i].CollisionFrame.Contains(Main.MouseScreen))
+                    {
+                        chosenProp = Props[i];
+                    }
+                }
+
+            }
+
+            if (chosenProp != null)
+            {
+                Point size = PropManager.PropTypes[chosenProp.prop].Bounds.Size;
+                Rectangle rect = new Rectangle(chosenProp.ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
+                if (rect.Contains(Main.MouseScreen))
+                {
+                    if (!mousePressedMiddle && Mouse.GetState().MiddleButton == ButtonState.Pressed)
+                    {
+                        chosenProp.Dispose();
+                    }
+                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                    {
+                        if (!mousePressedRight)
+                        {
+                            cachedCenter = chosenProp.Center;
+                            mouseCenter = Main.MouseScreen.ToVector2();
+                        }
+                        chosenProp.Center = cachedCenter + (Main.MouseScreen.ToVector2() - mouseCenter);
+                    }
+                }
+
+            }
+            mousePressedRight = Mouse.GetState().RightButton == ButtonState.Pressed;
+            mousePressedMiddle = Mouse.GetState().MiddleButton == ButtonState.Pressed;
 
             CanPlace = true;
         }

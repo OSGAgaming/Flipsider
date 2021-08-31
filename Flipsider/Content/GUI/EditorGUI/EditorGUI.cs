@@ -26,7 +26,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         Move,
         Fill,
         Camera,
-        Cutscene
+        Cutscene,
+        Collideables
     }
 
     internal class EditorModeGUI : UIScreen
@@ -74,6 +75,7 @@ namespace Flipsider.GUI.TilePlacementGUI
             AddMode(Mode.Fill);
             AddMode(Mode.Camera);
             AddMode(Mode.Cutscene);
+            AddMode(Mode.Collideables);
 
             ActiveButton A = new ActiveButton();
             elements.Add(A);

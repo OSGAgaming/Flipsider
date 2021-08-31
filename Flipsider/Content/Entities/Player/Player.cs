@@ -16,7 +16,6 @@ namespace Flipsider
 {
     public partial class Player : LivingEntity
     {
-
         public IStoreable? SelectedItem;
 
         public bool crouching;
@@ -36,6 +35,8 @@ namespace Flipsider
         public Player(Vector2 position, bool Active = true) : base()
         {
             AddModule("Movement", new PlayerMovement(this));
+            AddModule("CorePart", new CorePart(this));
+
             inventory = new IStoreable[20];
             this.Position = position;
             Width = 30;
@@ -48,6 +49,8 @@ namespace Flipsider
         public Player() : base()
         {
             AddModule("Movement", new PlayerMovement(this));
+            AddModule("CorePart", new CorePart(this));
+
             inventory = new IStoreable[20];
             Width = 30;
             Height = 60;
@@ -170,7 +173,7 @@ namespace Flipsider
         private void PostUpdates()
         {
             GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, (HitBox hitBox) => { });
-
+            UpdateEntityModifier("CorePart");
 
             if (TimeOutsideOfCombat > 0)
                 TimeOutsideOfCombat--;
@@ -201,7 +204,6 @@ namespace Flipsider
             crouching = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
 
             UpdateEntityModifier("Movement");
-
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -209,9 +211,13 @@ namespace Flipsider
             Texture = TextureCache.player;
             Rectangle weaponFrame = new Rectangle(((frame.X / 48 - 4) * 69), frameY * 50, 69, 50);
             if(isAttacking)
-                spriteBatch.Draw(weapon, Center - new Vector2(0,18), weaponFrame, Color.White, 0f, weaponFrame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(weapon, Center - new Vector2(0,18), weaponFrame, Color.White * 0.1f, 0f, 
+                    weaponFrame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             
-            spriteBatch.Draw(Texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine), 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(Texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine) * 0.1f, 
+                0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+
+            //Utils.DrawLine(new Vector2(Center.X, Position.Y), new Vector2(Center.X, Position.Y + Height), Color.Blue);
             //Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f); });
         }
         public override void ApplyForces()

@@ -161,6 +161,7 @@ namespace Flipsider
             int highestX = (TilePos1.X > TilePos2.X) ? TilePos1.X : TilePos2.X;
             int highestY = (TilePos1.Y > TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
             Vector2 chosen = Vector2.Zero;
+
             for (int i = lowestX - 1; i < highestX + 1; i++)
             {
                 for (int j = lowestY - 1; j < highestY + 1; j++)
@@ -180,9 +181,52 @@ namespace Flipsider
                     }
                 }
             }
+            Vector2 Bottom = ReturnIntersectionLine(p1.ToVector2(), p2.ToVector2(), new Vector2(0, BOTTOM), new Vector2(1000000, BOTTOM));
+
+            if (Bottom != Vector2.Zero)
+            {
+                return Bottom;
+            }
             return chosen;
         }
 
+        public static Vector2 ReturnIntersectionTile(World world, Vector2 p1, Vector2 p2)
+        {
+            Point TilePos1 = p1.ToPoint().ToTile();
+            Point TilePos2 = p2.ToPoint().ToTile();
+            int lowestX = (TilePos1.X < TilePos2.X) ? TilePos1.X : TilePos2.X;
+            int lowestY = (TilePos1.Y < TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
+            int highestX = (TilePos1.X > TilePos2.X) ? TilePos1.X : TilePos2.X;
+            int highestY = (TilePos1.Y > TilePos2.Y) ? TilePos1.Y : TilePos2.Y;
+            Vector2 chosen = Vector2.Zero;
+
+            for (int i = lowestX - 1; i < highestX + 1; i++)
+            {
+                for (int j = lowestY - 1; j < highestY + 1; j++)
+                {
+                    if (i >= 0 && i < world.MaxTilesX && j >= 0 && j < world.MaxTilesY)
+                    {
+                        if (world.IsTileActive(i, j))
+                        {
+                            int tileRes = world.TileRes;
+                            if (LineIntersectsRect(p1.ToPoint(), p2.ToPoint(), new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes)))
+                            {
+                                Vector2 inter = ReturnIntersectRect(p1, p2, new Rectangle(i * tileRes, j * tileRes, tileRes, tileRes));
+                                if (Vector2.Distance(inter, p1) < Vector2.Distance(chosen, p1))
+                                    chosen = inter;
+                            }
+                        }
+                    }
+                }
+            }
+            Vector2 Bottom = ReturnIntersectionLine(p1, p2, new Vector2(0, BOTTOM), new Vector2(1000000, BOTTOM));
+
+            if (Bottom != Vector2.Zero && chosen == Vector2.Zero)
+            {
+                return Bottom;
+            }
+            return chosen;
+        }
 
         public static Vector2 ReturnIntersectionLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
         {

@@ -21,6 +21,7 @@ namespace Flipsider
         public Vector2 OldPosition;
         public int Height;
         public int Width;
+        public Vector2 Size => new Vector2(Width, Height);
 
         protected virtual void PreDraw(SpriteBatch spriteBatch) { }
         protected virtual void OnDraw(SpriteBatch spriteBatch) { }

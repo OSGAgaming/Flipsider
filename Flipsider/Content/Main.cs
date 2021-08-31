@@ -34,6 +34,10 @@ namespace Flipsider
             IsFixedTimeStep = true;
         }
 
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            Utils.SaveCurrentWorldAs("CurrentWorld");
+        }
         private void Instatiate()
         {
             GetAllTypes();
@@ -62,7 +66,6 @@ namespace Flipsider
 
             Camera.targetScale = 2f;
 
-
             base.Initialize();
         }
 
@@ -79,13 +82,18 @@ namespace Flipsider
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();
+
+            TileManager.CanPlace = true;
+
+            World.RetreiveLevelInfo("CurrentWorld.flip");
+
         }
         private void LoadGUI()
         {
             foreach (Type type in Utils.GetInheritedClasses(typeof(UIScreen)))
             {
                 UIScreen Screen = (UIScreen)Activator.CreateInstance(type);
-                if(Screen is ModeScreen s)
+                if (Screen is ModeScreen s)
                 {
                     if (s.Mode != Mode.None)
                         EditorModeGUI.AddScreen(s);

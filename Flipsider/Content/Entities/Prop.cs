@@ -11,7 +11,6 @@ using System.IO;
 
 namespace Flipsider
 {
-    [Serializable]
     public partial class Prop : Entity
     {
         public bool draggable;
@@ -20,7 +19,6 @@ namespace Flipsider
         public byte[] propEncode;
         //dragging stuff
         public bool isDragging = false;
-        [NonSerialized]
         public Vector2 offsetFromMouseWhileDragging;
         public override void Dispose()
         {
@@ -34,6 +32,10 @@ namespace Flipsider
         public int interactRange;
 
         public PropEntity? PE;
+        protected override void PostConstructor()
+        {
+            PE?.PostLoad(this);
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

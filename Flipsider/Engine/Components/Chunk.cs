@@ -13,7 +13,7 @@ using System.Text;
 namespace Flipsider
 {
     [Serializable]
-    public class Chunk : IUpdate,ISerializable<Chunk>
+    public class Chunk : IUpdate, ISerializable<Chunk>
     {
         public const int width = 62;
         public const int height = 34;
@@ -59,44 +59,40 @@ namespace Flipsider
         public void Serialize(Stream stream)
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
-            binaryWriter.Write(pos.X);
-            binaryWriter.Write(pos.Y);
+            binaryWriter.Write(pos);
             binaryWriter.Write(Entities.Count);
             for (int i = 0; i < Entities.Count; i++)
             {
-                binaryWriter.Write(Entities[i].GetType().FullName ?? "Empty");
-                if(Entities[i] != null)
-                Entities[i].Serialize(stream);
+                binaryWriter.Write(Entities[i].GetType());
+                if (Entities[i] != null)
+                    Entities[i].Serialize(stream);
             }
         }
         public Chunk Deserialize(Stream stream)
         {
             BinaryReader binaryReader = new BinaryReader(stream);
 
-            Point pos = new Point(binaryReader.ReadInt32(), binaryReader.ReadInt32());
+            Point pos = binaryReader.ReadPoint();
             int EntityLength = binaryReader.ReadInt32();
 
             Chunk chunk = new Chunk(pos);
-            for(int i = 0; i<EntityLength; i++)
+            for (int i = 0; i < EntityLength; i++)
             {
-                string typeName = binaryReader.ReadString();
-                    Type? type = Type.GetType(typeName);
-                  if (type != null)
-                  {
-                     Entity? entity = Activator.CreateInstance(type) as Entity;
-                     if (entity != null)
-                     {
-                        entity.Deserialize(stream);
-                     }
-                  }
+                Type? type = binaryReader.ReadType();
+
+                if (type != null)
+                {
+                    Entity? entity = Activator.CreateInstance(type) as Entity;
+                    entity?.Deserialize(stream);
+                }
             }
             return chunk;
         }
 
         public void Update()
         {
-            if(CheckActivity())
-            Active = true;
+            if (CheckActivity())
+                Active = true;
 
             else
             {
@@ -109,8 +105,8 @@ namespace Flipsider
                 {
                     foreach (Entity entity in Entities.ToArray())
                     {
-                        if(entity.Active)
-                        entity.Update();
+                        if (entity.Active)
+                            entity.Update();
                     }
                 }
             }
@@ -119,7 +115,7 @@ namespace Flipsider
                 foreach (Entity entity in Entities.ToArray())
                 {
                     if (entity.Active)
-                    entity.UpdateInEditor();
+                        entity.UpdateInEditor();
                 }
             }
         }

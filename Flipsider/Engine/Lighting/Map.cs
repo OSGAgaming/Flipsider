@@ -35,8 +35,6 @@ namespace Flipsider
                 Main.graphics?.GraphicsDevice.SetRenderTarget(Buffers[a]);
                 Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
 
-
-
                 sb.End();
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: Main.Camera?.Transform, samplerState: SamplerState.PointClamp);
 

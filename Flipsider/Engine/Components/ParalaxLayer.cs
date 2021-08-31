@@ -25,5 +25,29 @@ namespace Flipsider
             this.Scale = Scale;
             this.Offset = Offset;
         }
+
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter writer = new BinaryWriter(stream);
+
+            writer.Write(Priority);
+            writer.Write(Parallax);
+            writer.Write(Scale);
+            if(Path != null) writer.Write(Path);
+            writer.Write(Offset);
+        }
+
+        public ParalaxLayer Deserialize(Stream stream)
+        {
+            BinaryReader reader = new BinaryReader(stream);
+
+            int Priority = reader.ReadInt32();
+            float Parallax = reader.ReadSingle();
+            float Scale = reader.ReadSingle();
+            string Path = reader.ReadString();
+            Vector2 Offset = reader.ReadVector2();
+
+            return new ParalaxLayer(Path, Parallax, Priority, Offset, Scale);
+        }
     }
 }

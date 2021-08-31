@@ -6,6 +6,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Flipsider.Engine;
+using Flipsider.GUI.TilePlacementGUI;
+
 namespace Flipsider
 {
     public class Tile : NonLivingEntity, IDrawData
@@ -92,7 +94,6 @@ namespace Flipsider
             Tile tile = new Tile(type, R, new Vector2(x, y), false, layer);
             return Main.tileManager.AddTile(Main.World, tile);
         }
-
 
         protected override void PostConstructor()
         {

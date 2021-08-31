@@ -73,10 +73,10 @@ namespace Flipsider
                 ClearWorld();
                 Main.Editor.CurrentSaveFile = FileName;
                 Stream stream = File.OpenRead(Utils.WorldPath + FileName);
-                LevelInfo LevelInfo = levelInfo.Deserialize(stream);
-                LevelInfo.LoadToWorld(this);
+                levelInfo.Deserialize(stream);
             }
         }
+
         public Player ReplacePlayer(Player player)
         {
             if (player != null)
@@ -117,7 +117,6 @@ namespace Flipsider
 
         public World(int Width, int Height)
         {
-
             MaxTilesX = Width;
             MaxTilesY = Height;
 

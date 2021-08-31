@@ -1,4 +1,5 @@
 using Flipsider.Engine.Interfaces;
+using Flipsider.GUI.TilePlacementGUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -51,8 +52,6 @@ namespace Flipsider
             }
             return layerHandler;
         }
-
-
     }
     [Serializable]
     public class LayerHandler
@@ -82,7 +81,6 @@ namespace Flipsider
         public LayerManagerInfo InfoCache;
         public void DrawLayers(SpriteBatch spriteBatch)
         {
-
             InfoCache = Info;
             Main.graphics.GraphicsDevice.SetRenderTarget(Target);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
@@ -107,8 +105,9 @@ namespace Flipsider
 
         }
         public void AppendMethodToLayer(ILayeredComponent Method)
-        =>
-        GetLayer(Method.Layer).Drawables.Add(Method);
+        {
+            GetLayer(Method.Layer).Drawables.Add(Method);
+        }
         public void AutoAppendMethodToLayer(ref ILayeredComponent Method)
         {
             if (Layers.Count > 0)
@@ -133,7 +132,7 @@ namespace Flipsider
         {
             for (int i = 0; i < Layers.Count; i++)
             {
-                if(Layers[i].LayerDepth == Layer)
+                if (Layers[i].LayerDepth == Layer)
                 {
                     return Layers[i];
                 }

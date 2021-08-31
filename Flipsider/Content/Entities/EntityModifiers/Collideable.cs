@@ -28,6 +28,7 @@ namespace Flipsider.Engine.Maths
         private Rectangle r => HasBindableEntity ? BindableEntity.CollisionFrame : CustomHitBox.ToR();
         public Polygon collisionBox => CustomPolyCollide.Center == Vector2.Zero ? r.ToPolygon() : CustomPolyCollide;
         public Polygon lastCollisionBox => BindableEntity.PreCollisionFrame.ToPolygon();
+
         public bool isStatic;
         internal void BindEntityToCollideable(Entity entity) =>
             BindableEntity = entity;
@@ -44,6 +45,7 @@ namespace Flipsider.Engine.Maths
                 LivingEntity.onSlope = false;
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
+
                 foreach (Chunk chunk in Main.World.tileManager.chunks)
                 {
                     if(chunk.Active)
@@ -81,7 +83,7 @@ namespace Flipsider.Engine.Maths
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            //collisionBox.Draw(spriteBatch);
+            collisionBox.Draw();
         }
         public int Layer { get; set; }
         public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
@@ -92,7 +94,7 @@ namespace Flipsider.Engine.Maths
             this.isStatic = isStatic;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
             entity.Chunk.Colliedables.collideables.Add(this);
-            Main.AutoAppendToLayer(this);
+            //Main.AutoAppendToLayer(this);
         }
         public Collideable(Entity entity, bool isStatic,Polygon polygon, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
         {
@@ -103,7 +105,7 @@ namespace Flipsider.Engine.Maths
             CustomPolyCollide = polygon;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
             entity.Chunk.Colliedables.collideables.Add(this);
-            Main.AutoAppendToLayer(this);
+            //Main.AutoAppendToLayer(this);
         }
     }
 }
