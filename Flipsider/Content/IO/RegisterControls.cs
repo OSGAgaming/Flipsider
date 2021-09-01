@@ -31,6 +31,8 @@ namespace Flipsider
             GameInput.Instance.RegisterControl("WaterEditorMode", Keys.Tab, Buttons.LeftShoulder);
             GameInput.Instance.RegisterControl("CollideablesEditorMode", Keys.LeftAlt, Buttons.LeftShoulder);
             GameInput.Instance.RegisterControl("Esc", Keys.Escape, Buttons.LeftShoulder);
+            GameInput.Instance.RegisterControl("Delete", Keys.Delete, Buttons.Y);
+
         }
     }
 }

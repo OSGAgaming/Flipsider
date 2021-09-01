@@ -81,6 +81,7 @@ namespace Flipsider
         {
             if (player != null)
             {
+                MainPlayer?.Dispose();
                 MainPlayer = player;
                 return player;
             }

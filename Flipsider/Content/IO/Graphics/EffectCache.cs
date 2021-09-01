@@ -18,7 +18,7 @@ namespace Flipsider
         public static Effect GodrayEffect;
         public static Effect SunMapEffect;
         public static Effect FrontFaceBuildingEffect;
-        //public static Effect LayerColorModification;
+        public static Effect LayerColorModification;
 
         public static void LoadEffects(ContentManager content)
         {
@@ -31,7 +31,7 @@ namespace Flipsider
             GodrayEffect = content.Load<Effect>(@"Effect/GodrayEffect");
             SunMapEffect = content.Load<Effect>(@"Effect/SunMapEffect");
             FrontFaceBuildingEffect = content.Load<Effect>(@"Effect/FrontFaceBuildingEffect");
-            //LayerColorModification = content.Load<Effect>(@"Effect/LayerColorModification");
+            LayerColorModification = content.Load<Effect>(@"Effect/LayerColorModification");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Flipsider.Engine
 {
     public class FormatVersion
     {
-        internal static readonly byte CurrentVersion = 1;
+        internal static readonly byte CurrentVersion = 2;
 
         internal static byte Version;
 

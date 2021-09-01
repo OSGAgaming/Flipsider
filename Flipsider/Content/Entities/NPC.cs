@@ -203,6 +203,7 @@ namespace Flipsider
                 int alteredRes = Main.World.TileRes / 4;
                 Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
                 Texture2D? icon = SelectedNPCType?.GetField("icon")?.GetValue(null) as Texture2D;
+
                 if (SelectedNPCType != null && icon != null)
                 {
                     Main.spriteBatch.Draw(icon, Main.MouseScreen.ToVector2(), icon?.Bounds, Color.White * Math.Abs(sine), 0f, (icon ?? TextureCache.BackBicep).TextureCenter(), 1f, SpriteEffects.None, 0f);

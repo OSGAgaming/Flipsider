@@ -106,8 +106,10 @@ namespace Flipsider
                     Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }
-        public static void DrawRectangle(Rectangle rectangle, Color color, float thickness = 1)
+        public static void DrawRectangle(Rectangle rectangle, Color color = default, float thickness = 1)
         {
+            if (color == default) color = Color.White;
+
             Vector2 point = rectangle.Location.ToVector2();
             int sizeX = rectangle.Size.X;
             int sizeY = rectangle.Size.Y;
@@ -127,8 +129,10 @@ namespace Flipsider
             DrawLine(sb, point, new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(sb, point, new Vector2(point.X + sizeX, point.Y), color, thickness);
         }
-        public static void DrawRectangle(RectangleF rectangle, Color color, float thickness = 1)
+        public static void DrawRectangle(RectangleF rectangle, Color color = default, float thickness = 1)
         {
+            if (color == default) color = Color.White;
+
             Vector2 point = rectangle.TL;
             float sizeX = rectangle.w;
             float sizeY = rectangle.h;

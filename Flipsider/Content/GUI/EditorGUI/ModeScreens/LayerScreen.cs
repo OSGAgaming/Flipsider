@@ -14,7 +14,9 @@ namespace Flipsider.GUI.TilePlacementGUI
     internal class LayerScreen : ModeScreen
     {
         private LayerGUIPanel[]? layerGUIPanels;
-        LayerGUIAdd? Add;
+        private LayerGUIAdd? Add;
+        public static LayerScreen? Instance;
+        NumberBoxScalableScroll? PlayerLayer;
 
         public override int PreviewHeight
         {
@@ -45,7 +47,11 @@ namespace Flipsider.GUI.TilePlacementGUI
 
         }
 
-        protected override void OnLoad() => Recalculate();
+        protected override void OnLoad()
+        {
+            Recalculate();
+            Instance = this;
+        }
 
         public void Recalculate()
         {
@@ -56,6 +62,20 @@ namespace Flipsider.GUI.TilePlacementGUI
             {
                 layerGUIPanels[i] = new LayerGUIPanel(i, EditorModeGUI.BottomPreview, this);
             }
+
+            PlayerLayer = new NumberBoxScalableScroll();
+            PlayerLayer.inputText = Main.player.Layer.ToString();
+            PlayerLayer.Color = new Color(120, 120, 120);
+            PlayerLayer.MaxChars = 3;
+            PlayerLayer.BorderWidth = 0;
+
+            PlayerLayer.RelativeDimensions.Location = new Point(300, 10);
+            PlayerLayer.RelativeDimensions.Height = 10;
+
+            PlayerLayer.OnEnterEvent = (float val) =>
+            {
+                Main.player.Layer = (int)val;
+            };
         }
 
         internal override void OnDrawToScreenDirect()
@@ -68,12 +88,13 @@ namespace Flipsider.GUI.TilePlacementGUI
                 }
             }
         }
+
         public override void CustomUpdate()
         {
             if (EditorModeGUI.mode != Mode.Cutscene)
             {
                 Add?.Update();
-
+                PlayerLayer?.Update();
                 if (layerGUIPanels != null)
                 {
                     for (int i = 0; i < layerGUIPanels.Length; i++)
@@ -87,8 +108,14 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             if(EditorModeGUI.mode != Mode.Cutscene)
             {
+                PlayerLayer?.Draw(sb);
                 Add?.Draw(sb);
+
                 Utils.DrawBoxFill(new Rectangle(0, 0, Main.renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
+                Utils.DrawTextToLeft("Player Layer", Color.White, new Vector2(320, 7));
+
+                Utils.DrawTextToLeft("Plx", Color.White, new Vector2(77, 0), 0, 0.4f);
+                Utils.DrawTextToLeft("Sat", Color.White, new Vector2(190, 0), 0, 0.4f);
 
                 if (layerGUIPanels != null)
                 {
@@ -108,6 +135,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         public float Alpha;
         public bool isBeingPicked;
         NumberBoxScalableScroll? NumberBox;
+        NumberBoxScalableScroll? SaturationBox;
+        RGBPicker? RGB;
 
         public static bool IsGrabbing;
         public Vector2 Correction;
@@ -116,34 +145,65 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             this.Layer = Layer;
             Hide = new LayerGUIHide(this, p);
+            RGB = new RGBPicker(this, p);
+
             ScreenParent = s;
+
             NumberBox = new NumberBoxScalableScroll();
             NumberBox.inputText = Main.layerHandler.GetLayer(Layer).parallax.ToString();
             NumberBox.Color = new Color(120, 120, 120);
             NumberBox.MaxChars = 5;
-            NumberBox.BorderWidth = 0;
             NumberBox.OnEnterEvent = (float val) =>
             {
                 Main.layerHandler.SetLayerParallax(Layer, val);
             };
 
+            SaturationBox = new NumberBoxScalableScroll();
+            SaturationBox.inputText = Main.layerHandler.GetLayer(Layer).SaturationValue.ToString();
+            SaturationBox.Color = new Color(120, 120, 120);
+            SaturationBox.MaxChars = 5;
+            SaturationBox.OnEnterEvent = (float val) =>
+            {
+                Main.layerHandler.GetLayer(Layer).SaturationValue = val;
+            };
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            RelativeDimensions = new Rectangle(0, Layer * 20 + 10, 128, 20);
+            RelativeDimensions = new Rectangle(0, Layer * 20 + 10, 220, 20);
 
             Utils.DrawBoxFill(RelativeDimensions, new Color(10, 10, 10), 1f);
             Utils.DrawRectangle(RelativeDimensions, Color.White * Alpha);
+
+            if(LayerHandler.CurrentLayer == Layer)
+            {
+                Utils.DrawRectangle(RelativeDimensions, Color.Yellow * Alpha, 2);
+
+                if (PreviewPanel != null)
+                {
+                    if (GameInput.Instance["Delete"].IsJustPressed() && PreviewPanel.Active)
+                    {
+                        Main.layerHandler.RemoveLayer(Layer);
+                        LayerScreen.Instance?.Recalculate();
+                    }
+                }
+            }
+
             Utils.DrawTextToLeft(Main.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40), new Vector2(25, Layer * 20 + 13));
 
             if (NumberBox != null)
             {
                 NumberBox.RelativeDimensions.Location = new Point(75, Layer * 20 + 15);
-                NumberBox.RelativeDimensions.Height = 10;
                 NumberBox?.Draw(spriteBatch);
             }
 
+            if (SaturationBox != null)
+            {
+                SaturationBox.RelativeDimensions.Location = new Point(185, Layer * 20 + 15);
+                SaturationBox?.Draw(spriteBatch);
+            }
+
             Hide.Draw(spriteBatch);
+            RGB?.Draw(spriteBatch);
         }
 
         public override void DrawOnScreenDirect(SpriteBatch spriteBatch)
@@ -176,6 +236,8 @@ namespace Flipsider.GUI.TilePlacementGUI
         {
             Hide.Update();
             NumberBox?.Update();
+            RGB?.Update();
+            SaturationBox?.Update();
 
             if (PreviewPanel != null)
             {
@@ -227,6 +289,85 @@ namespace Flipsider.GUI.TilePlacementGUI
         protected override void OnLeftClick()
         {
             Main.layerHandler.SwitchLayerVisibility(Panel.Layer);
+        }
+    }
+
+    internal class RGBPicker : PreviewElement
+    {
+        public LayerGUIPanel Panel;
+        public NumberBoxScalableScroll? R;
+        public NumberBoxScalableScroll? G;
+        public NumberBoxScalableScroll? B;
+
+        public RGBPicker(LayerGUIPanel Parent, ScrollPanel p) : base(p)
+        {
+            Panel = Parent;
+            Layer layer = Main.layerHandler.GetLayer(Panel.Layer);
+            Vector4 c = layer.ColorModification;
+
+            R = new NumberBoxScalableScroll
+            {
+                inputText = c.X.ToString(),
+                Color = new Color(120, 120, 120),
+                MaxChars = 3,
+                BorderWidth = 1,
+                BorderColor = Color.Red,
+                OnEnterEvent = (float val) =>
+                {
+                    layer.ColorModification.X = val;
+                }
+            };
+
+            G = new NumberBoxScalableScroll
+            {
+                inputText = c.Y.ToString(),
+                Color = new Color(120, 120, 120),
+                MaxChars = 3,
+                BorderWidth = 1,
+                BorderColor = Color.Blue,
+                OnEnterEvent = (float val) =>
+                {
+                    layer.ColorModification.Y = val;
+                }
+            };
+
+            B = new NumberBoxScalableScroll
+            {
+                inputText = c.Z.ToString(),
+                Color = new Color(120, 120, 120),
+                MaxChars = 3,
+                BorderWidth = 1,
+                BorderColor = Color.Green,
+                OnEnterEvent = (float val) =>
+                {
+                    layer.ColorModification.Z = val;
+                }
+            };
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            RelativeDimensions = new Rectangle(Panel.RelativeDimensions.Location, new Point(20, 20));
+            PreviewPanel = EditorModeGUI.BottomPreview;
+
+            if (R != null && G != null && B != null)
+            {
+                R.RelativeDimensions.Location = Panel.RelativeDimensions.Location.Add(new Vector2(100, 5));
+                G.RelativeDimensions.Location = Panel.RelativeDimensions.Location.Add(new Vector2(130, 5));
+                B.RelativeDimensions.Location = Panel.RelativeDimensions.Location.Add(new Vector2(160, 5));
+            }
+
+            R?.Draw(spriteBatch);
+            G?.Draw(spriteBatch);
+            B?.Draw(spriteBatch);
+
+            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !Main.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
+        }
+
+        protected override void CustomUpdate()
+        {
+            R?.Update();
+            G?.Update();
+            B?.Update();
         }
     }
 

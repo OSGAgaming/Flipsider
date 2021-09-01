@@ -16,7 +16,7 @@ namespace Flipsider.Content.IO.Graphics
 
         public float FollowSpeed => 32f;
 
-        public float RotationalScreenShake => 800f;
+        public float RotationalScreenShake => 3000f;
 
         public float MouseVision => 20f;
 
@@ -51,8 +51,8 @@ namespace Flipsider.Content.IO.Graphics
                 EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(Main.player.Center, FollowSpeed);
             }
 
-            Position = EntityIsolatedPosition - Main.ActualScreenSize / (2 * Scale);
-            MatrixOffset = shake + Offset;
+            Position = EntityIsolatedPosition - Main.ActualScreenSize / (2 * Scale) + shake;
+            MatrixOffset = Offset;
         }
         public Matrix ParallaxedTransform(float Paralax)
         {

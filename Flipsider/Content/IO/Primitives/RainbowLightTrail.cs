@@ -7,10 +7,6 @@ namespace Flipsider
 {
     internal class RainbowLightTrail : Primitive
     {
-        public RainbowLightTrail()
-        {
-
-        }
         public override void SetDefaults()
         {
             _alphaValue = 0.7f;

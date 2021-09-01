@@ -263,9 +263,17 @@ namespace Flipsider.GUI
 
         public Action<float>? OnEnterEvent;
 
-        public int BorderWidth = 1;
+        public int BorderWidth = 0;
 
         public Color Color = Color.White;
+        public Color BorderColor = Color.CadetBlue;
+
+        public NumberBoxScalableScroll()
+        {
+            RelativeDimensions.Height = 10;
+
+        }
+
         protected override void OnUpdate()
         {
             RelativeDimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
@@ -315,7 +323,7 @@ namespace Flipsider.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Utils.DrawBoxFill(RelativeDimensions.Inf(BorderWidth, BorderWidth), Color.CadetBlue * Alpha, 1f);
+            Utils.DrawRectangle(RelativeDimensions.Inf(BorderWidth, BorderWidth), BorderColor * Alpha, BorderWidth);
             Utils.DrawBoxFill(RelativeDimensions, Color * Alpha, 0.5f);
             PostDraw(spriteBatch);
         }

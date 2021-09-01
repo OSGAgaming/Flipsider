@@ -56,6 +56,8 @@ namespace Flipsider.Engine
             Logger.NewText(SKB.Layers.Count);
             Main.World.SetSkybox(new CitySkybox());
 
+            LayerScreen.Instance?.Recalculate();
+
             TileManagerBuffer = null;
 
             Main.Editor.AutoFrame = true;

@@ -89,6 +89,8 @@ namespace Flipsider.GUI.TilePlacementGUI
             active = false;
         }
 
+        public bool IsDraggingPlayer;
+
         protected override void OnUpdate()
         {
             if (Active)
@@ -157,6 +159,22 @@ namespace Flipsider.GUI.TilePlacementGUI
                 Utils.DrawBoxFill(new Rectangle(0, 0, d.X, (int)Main.ActualScreenSize.Y), new Color(30, 30, 30));
 
                 Utils.DrawRectangle(d, Color.White);
+
+                if (Main.player.CollisionFrame.Contains(Main.MouseToDestination()) && GameInput.Instance.IsClicking)
+                {
+                    IsDraggingPlayer = true;  
+                }
+
+                if(!GameInput.Instance.IsClicking)
+                {
+                    IsDraggingPlayer = false;
+                }
+
+                if(IsDraggingPlayer)
+                {
+                    Utils.DrawRectangle(Main.player.CollisionFrame);
+                    Main.player.Center = Main.MouseToDestination().ToVector2();
+                }
             }
         }
     }

@@ -17,14 +17,14 @@ float4 AdjustSaturation(float4 color, float saturation)
 	// human eye is more sensitive to green light, and less to blue.
 	float grey = dot(color, float3(0.3, 0.59, 0.11));
 
-	return lerp(grey, color, saturation);
+	return lerp(float4(grey, grey, grey, color.a), color, saturation);
 }
-float4 LayerEffect(float2 coords: TEXCOORD0) : COLOR0
+float4 LayerEffect(float2 coords: TEXCOORD0, float4 color : COLOR0) : COLOR0
 {
-  float4 color = tex2D(s0, coords);
+  color *= tex2D(s0, coords);
 
   // Combine the two images.
-  return AdjustSaturation(color * 0, saturationValue);
+  return AdjustSaturation(color * colorModification, saturationValue);
 }
 technique Technique1
 {

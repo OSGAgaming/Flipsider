@@ -4,10 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace Flipsider
 {
-    public class Layer : IComponent
+    public class Layer : IComponent, ISerializable<Layer>
     {
         public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
         public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
@@ -16,7 +17,7 @@ namespace Flipsider
         public float parallax;
         public bool visible = true;
 
-        public float SaturationValue = 0.5f;
+        public float SaturationValue = 1f;
         public Vector4 ColorModification = new Vector4(1, 1, 1, 1);
 
         public string? Name { get; set; }
@@ -37,11 +38,11 @@ namespace Flipsider
                 }
             }
 
-            //EffectCache.LayerColorModification?.Parameters["saturationValue"]?.SetValue(0f);
-            //EffectCache.LayerColorModification?.Parameters["colorModification"]?.SetValue(ColorModification);
-            //EffectCache.LayerColorModification?.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: BlendState.AlphaBlend, transformMatrix: Main.Camera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
 
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Main.Camera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
+            EffectCache.LayerColorModification?.Parameters["saturationValue"]?.SetValue(SaturationValue);
+            EffectCache.LayerColorModification?.Parameters["colorModification"]?.SetValue(ColorModification);
+            EffectCache.LayerColorModification?.CurrentTechnique.Passes[0].Apply();
 
             if (visible)
             {
@@ -64,7 +65,7 @@ namespace Flipsider
                         draw.Draw(spriteBatch);
                     }
                 }
-                if (Main.player.Layer == LayerDepth + 1)
+                if (Main.player.Layer == LayerDepth)
                 {
                     Main.player.Draw(spriteBatch);
                 }
@@ -73,5 +74,17 @@ namespace Flipsider
             spriteBatch.End();
         }
         public void Update() { }
+
+        public void Serialize(Stream stream)
+        {
+            BinaryWriter writer = new BinaryWriter(stream);
+
+
+        }
+
+        public Layer Deserialize(Stream stream)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

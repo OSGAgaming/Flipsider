@@ -97,7 +97,7 @@ namespace Flipsider
                 PostConstructor();
                 if (Main.World != null)
                 {
-                    Main.AppendToLayer(this);
+                    if(!(this is Player)) Main.AppendToLayer(this);
                     Chunk?.Entities.Add(this);
                 }
             }
