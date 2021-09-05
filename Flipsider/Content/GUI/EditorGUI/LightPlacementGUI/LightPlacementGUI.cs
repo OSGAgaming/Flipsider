@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class LightPlacementGUI : UIScreen
     {

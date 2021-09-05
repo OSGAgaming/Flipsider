@@ -9,7 +9,7 @@ using Flipsider.Engine;
 using System.Collections.Generic;
 using Flipsider.Engine.Input;
 using Microsoft.Xna.Framework.Input;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 
 namespace Flipsider
 {

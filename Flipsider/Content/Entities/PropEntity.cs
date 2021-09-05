@@ -10,7 +10,7 @@ using static Flipsider.PropManager;
 using System.IO;
 using System.Collections.Generic;
 using Flipsider.Engine.Particles;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using Flipsider.Engine.Maths;
 
 namespace Flipsider

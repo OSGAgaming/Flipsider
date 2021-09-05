@@ -2,7 +2,7 @@
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Flipsider.GUI;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using Flipsider.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

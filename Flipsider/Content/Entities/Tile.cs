@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Flipsider.Engine;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 
 namespace Flipsider
 {
@@ -97,10 +97,13 @@ namespace Flipsider
 
         protected override void PostConstructor()
         {
-            if (TileManager.CanPlace && Main.tileManager.GetTile(i, j) != null)
+            if (Main.World.IsActive(i, j))
             {
-                Polygon CollisionPoly = Framing.GetPolygon(Main.World, i, j);
-                AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                if (TileManager.CanPlace && Main.tileManager.GetTile(i, j) != null)
+                {
+                    Polygon CollisionPoly = Framing.GetPolygon(Main.World, i, j);
+                    AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                }
             }
         }
         public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false, int layer = -1) : base()

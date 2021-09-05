@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using static Flipsider.NPC;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     public static class Logger
     {

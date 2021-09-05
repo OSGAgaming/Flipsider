@@ -1,3 +1,5 @@
+using Flipsider.Engine.Maths;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -181,6 +183,8 @@ namespace Flipsider
                     }
                 }
             }
+
+            
             Vector2 Bottom = ReturnIntersectionLine(p1.ToVector2(), p2.ToVector2(), new Vector2(0, BOTTOM), new Vector2(1000000, BOTTOM));
 
             if (Bottom != Vector2.Zero)
@@ -219,6 +223,17 @@ namespace Flipsider
                     }
                 }
             }
+
+            foreach (Collideable col in Main.player.Chunk.Colliedables.collideables)
+            {
+                if (LineIntersectsRect(p1.ToPoint(), p2.ToPoint(), col.CustomHitBox.ToR()))
+                {
+                    Vector2 inter = ReturnIntersectRect(p1, p2, col.CustomHitBox.ToR());
+                    if (Vector2.Distance(inter, p1) < Vector2.Distance(chosen, p1))
+                        chosen = inter;
+                }
+            }
+
             Vector2 Bottom = ReturnIntersectionLine(p1, p2, new Vector2(0, BOTTOM), new Vector2(1000000, BOTTOM));
 
             if (Bottom != Vector2.Zero && chosen == Vector2.Zero)

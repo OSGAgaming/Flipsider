@@ -1,6 +1,6 @@
 ﻿namespace Flipsider.GUI
 {
-    namespace Flipsider.GUI.TilePlacementGUI
+    namespace Flipsider.GUI
     {
 
 

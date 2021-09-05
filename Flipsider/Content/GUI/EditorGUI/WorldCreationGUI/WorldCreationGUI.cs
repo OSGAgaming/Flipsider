@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class WorldCreationGUI : UIScreen
     {

@@ -98,7 +98,7 @@ namespace Flipsider
 
         public int swapTimer;
         public bool Swapping => swapTimer > 0;
-        
+
         private void SwapWeapons()
         {
             swapTimer++;
@@ -124,14 +124,17 @@ namespace Flipsider
         {
             MouseState mouseState = Mouse.GetState();
 
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (Utils.MouseInBounds)
             {
-                leftWeapon?.Activate(this);
-            }
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    leftWeapon?.Activate(this);
+                }
 
-            if (mouseState.RightButton == ButtonState.Pressed)
-            {
-                rightWeapon?.Activate(this);
+                if (mouseState.RightButton == ButtonState.Pressed)
+                {
+                    rightWeapon?.Activate(this);
+                }
             }
 
             if (Swapping) SwapWeapons(); //TODO: move this
@@ -163,11 +166,15 @@ namespace Flipsider
             {
                 swapTimer = 1;
             }
-            if (mouseState.LeftButton == ButtonState.Pressed)
-                leftWeapon?.Activate(this);
 
-            if (mouseState.RightButton == ButtonState.Pressed)
-                rightWeapon?.Activate(this);
+            if (Utils.MouseInBounds)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    leftWeapon?.Activate(this);
+
+                if (mouseState.RightButton == ButtonState.Pressed)
+                    rightWeapon?.Activate(this);
+            }
         }
 
         private void PostUpdates()
@@ -210,11 +217,11 @@ namespace Flipsider
             float IFrameSine = (float)Math.Abs(Math.Sin(IFrames / 2));
             Texture = TextureCache.player;
             Rectangle weaponFrame = new Rectangle(((frame.X / 48 - 4) * 69), frameY * 50, 69, 50);
-            if(isAttacking)
-                spriteBatch.Draw(weapon, Center - new Vector2(0,18), weaponFrame, Color.White * 0.1f, 0f, 
+            if (isAttacking)
+                spriteBatch.Draw(weapon, Center - new Vector2(0, 18), weaponFrame, Color.White * 0.01f, 0f,
                     weaponFrame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            
-            spriteBatch.Draw(Texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine) * 0.1f, 
+
+            spriteBatch.Draw(Texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine) * 0.01f,
                 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
             //Utils.DrawLine(new Vector2(Center.X, Position.Y), new Vector2(Center.X, Position.Y + Height), Color.Blue);
@@ -234,7 +241,7 @@ namespace Flipsider
         {
             if (onGround)
             {
-                if(!isAttacking)
+                if (!isAttacking)
                 {
                     if (FreeFall)
                     {

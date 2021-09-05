@@ -1,6 +1,6 @@
 ﻿using Flipsider.Content.IO.Graphics;
 using Flipsider.GUI;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;

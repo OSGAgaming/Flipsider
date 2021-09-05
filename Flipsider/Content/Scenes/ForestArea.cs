@@ -4,7 +4,7 @@ using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
 using Flipsider.Engine.Maths;
 using Flipsider.Engine.Particles;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

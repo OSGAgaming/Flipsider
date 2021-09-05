@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class ScrollPanel : UIElement
     {

@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class WaterScreen : ModeScreen
     {

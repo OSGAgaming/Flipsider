@@ -1,5 +1,5 @@
 ﻿using Flipsider.Engine.Interfaces;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 

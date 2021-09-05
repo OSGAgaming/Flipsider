@@ -1,4 +1,4 @@
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;

@@ -1,6 +1,7 @@
 ﻿
 using Flipsider.Engine.Input;
 using Flipsider.Engine.Interfaces;
+using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +17,7 @@ namespace Flipsider.Engine.Maths
         public int TigerTimer;
         public float varfriction;
         public Vector2 varAirResistance;
+        public bool JumpBuffer = false;
 
         //VARIABLES YOU WANT TO CHANGE ------------------------------ //    //Triv and LeShell smell
         private readonly int TigerTime = 5;
@@ -30,21 +32,38 @@ namespace Flipsider.Engine.Maths
         public readonly float jumpBoost = 1f;
         //VARIABLES YOU WANT TO CHANGE ------------------------------ //
 
+        public void Jump()
+        {
+            KeyboardState state = Keyboard.GetState();
+
+            player.velocity.Y -= jumpheight;
+            float AbsVel = jumpBoost;
+            float Dir = 0;
+            if (state.IsKeyDown(Keys.D)) Dir = 1;
+            if (state.IsKeyDown(Keys.A)) Dir = -1;
+            player.velocity.X += AbsVel * Dir * jumpBoost;
+            TigerTimer = TigerTime + 1;
+        }
+
         public void JumpMechanic()
         {
             KeyboardState state = Keyboard.GetState();
+            bool JustStepped = 
+                player.GetEntityModifier<CorePart>().Get<RightLeg>().JustMovedLeg ||
+                player.GetEntityModifier<CorePart>().Get<LeftLeg>().JustMovedLeg;
+
+            if(JustStepped && JumpBuffer)
+            {
+                JumpBuffer = false;
+                Jump();
+            }
 
             if ((state.IsKeyDown(Keys.Up) || state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Space)) && !player.crouching)
             {
                 if (TigerTimer < TigerTime && !player.isAttacking)
                 {
-                    player.velocity.Y -= jumpheight;
-                    float AbsVel = jumpBoost;
-                    float Dir = 0;
-                    if (state.IsKeyDown(Keys.D)) Dir = 1;
-                    if (state.IsKeyDown(Keys.A)) Dir = -1;
-                    player.velocity.X += AbsVel * Dir * jumpBoost;
-                    TigerTimer = TigerTime + 1;
+                    if (!JustStepped) JumpBuffer = true;
+                    if (JustStepped) Jump();
                 }
             }
         }

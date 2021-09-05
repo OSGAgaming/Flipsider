@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     //Hello Im doing work. THis is work. I am working. This is a work thingie. Give me raise lmfao xd
     internal class ModeScreen : UIScreen

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class SettingsGUI : UIScreen
     {

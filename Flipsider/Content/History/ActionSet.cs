@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Flipsider.Engine;
 using System.Collections.Generic;
-using Flipsider.GUI.TilePlacementGUI;
+using Flipsider.GUI;
 using MonoGame.Extended.BitmapFonts;
 
 namespace Flipsider

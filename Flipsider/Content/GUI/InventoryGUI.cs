@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using static Flipsider.Item;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class InventoryGUI : UIScreen
     {

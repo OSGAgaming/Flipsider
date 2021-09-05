@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     public enum Mode
     {
@@ -173,6 +173,7 @@ namespace Flipsider.GUI.TilePlacementGUI
                 if(IsDraggingPlayer)
                 {
                     Utils.DrawRectangle(Main.player.CollisionFrame);
+                    Main.player.velocity = (GameInput.Instance.CurrentMouseState.Position.ToVector2() - GameInput.Instance.PreviousMouseState.Position.ToVector2()) / 60f;
                     Main.player.Center = Main.MouseToDestination().ToVector2();
                 }
             }

@@ -9,7 +9,7 @@ using System.Linq;
 using static Flipsider.NPC;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class NPCScreen : ModeScreen
     {

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using static Flipsider.NPC;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class NPCGUI : UIScreen
     {

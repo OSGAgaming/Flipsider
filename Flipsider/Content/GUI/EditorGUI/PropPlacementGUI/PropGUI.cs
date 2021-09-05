@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using static Flipsider.PropManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class PropGUI : UIScreen
     {

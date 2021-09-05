@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using static Flipsider.TileManager;
 
-namespace Flipsider.GUI.TilePlacementGUI
+namespace Flipsider.GUI
 {
     internal class PlayerLayerTextBox : NumberBoxScalable
     {
