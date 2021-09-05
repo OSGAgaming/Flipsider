@@ -1,4 +1,0 @@
-C:\Users\tafid\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.csprojAssemblyReference.cache
-C:\Users\tafid\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.AssemblyInfoInputs.cache
-C:\Users\tafid\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.AssemblyInfo.cs
-C:\Users\tafid\source\repos\Flipsider\FlipsiderEngine\obj\Debug\netcoreapp3.1\FlipsiderEngine.csproj.CoreCompileInputs.cache
