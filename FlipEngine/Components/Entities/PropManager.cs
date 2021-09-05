@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static Flipsider.PropManager;
+using static FlipEngine.PropManager;
 
 namespace FlipEngine
 {
@@ -52,20 +52,6 @@ namespace FlipEngine
             }
         }
 
-        public static void ShowPropCursor()
-        {
-            if (Main.Editor.CurrentState == EditorUIState.PropEditorMode)
-            {
-                float sine = Time.SineTime(6);
-                int alteredRes = Main.World.TileRes / 4;
-                Vector2 tilePoint2 = Main.MouseScreen.ToVector2().Snap(alteredRes);
-                if (Main.Editor.CurrentProp != null)
-                {
-                    Rectangle altFrame = PropTypes[Main.Editor.CurrentProp].Bounds;
-                    Main.spriteBatch.Draw(PropTypes[Main.Editor.CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(sine), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
-                }
-            }
-        }
         public static void AddPropInteraction(string Prop, PropEntity PE)
         {
             if (PropEntites.ContainsKey(Prop))

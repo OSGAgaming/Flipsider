@@ -19,8 +19,6 @@ namespace FlipEngine
         public PropManager propManager { get; set; }
         public Skybox Skybox { get; set; }
 
-        public Player? MainPlayer;
-
         public ParticleSystem GlobalParticles;
 
         public bool IsTileActive(int i, int j)
@@ -72,27 +70,6 @@ namespace FlipEngine
                 levelInfo.Deserialize(stream);
             }
         }
-
-        public Player ReplacePlayer(Player player)
-        {
-            if (player != null)
-            {
-                MainPlayer?.Dispose();
-                MainPlayer = player;
-                return player;
-            }
-            return MainPlayer ?? new Player();
-        }
-        public bool AppendPlayer(Player player)
-        {
-            if (player != null)
-            {
-                MainPlayer = player;
-                return true;
-            }
-            return false;
-        }
-
         public void SetSkybox(Skybox skybox) => Skybox = skybox;
 
         public void Update()
@@ -102,7 +79,6 @@ namespace FlipEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            PropManager.ShowPropCursor();
             NPC.ShowNPCCursor();
 
             layerHandler.DrawLayers(spriteBatch);

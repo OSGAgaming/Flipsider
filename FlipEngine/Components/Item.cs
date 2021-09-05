@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
-using static Flipsider.IStoreable;
+using static FlipEngine.IStoreable;
 
 namespace FlipEngine
 {

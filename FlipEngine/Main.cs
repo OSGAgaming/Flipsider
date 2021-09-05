@@ -37,7 +37,6 @@ namespace FlipEngine
         {
             GetAllTypes();
             sceneManager = new SceneManager();
-            sceneManager.SetNextScene(new MainMenu(), null);
             rand = new Random();
         }
         public static string MainPath => Environment.CurrentDirectory + $@"\";

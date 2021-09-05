@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace FlipEngine.Engine.Maths
+namespace FlipEngine
 {
     public class HitBoxHandler
     {

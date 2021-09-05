@@ -1,7 +1,3 @@
-
-
-using Flipsider.Engine.Particles;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -10,7 +6,7 @@ using System.IO;
 
 namespace FlipEngine
 {
-    public class Skybox : Engine.Interfaces.IDrawable, ISerializable<Skybox>
+    public class Skybox : IDrawable, ISerializable<Skybox>
     {
         internal List<ParalaxLayer> Layers = new List<ParalaxLayer>();
 

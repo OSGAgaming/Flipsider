@@ -1,12 +1,10 @@
-﻿
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 using System.Text;
 
-using static Flipsider.PropManager;
+using static FlipEngine.PropManager;
 using System.IO;
 
 namespace FlipEngine

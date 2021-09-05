@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace FlipEngine.Engine.Maths
+namespace FlipEngine
 {
     public struct HitBoxInfo
     {
