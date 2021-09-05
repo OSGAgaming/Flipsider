@@ -169,12 +169,6 @@ namespace FlipEngine
         {
             if (Layers.Count != 1)
             {
-                if (Main.player.Layer == Layer)
-                {
-                    Logger.NewText("Cannot remove layer with player in it");
-                    return;
-                }
-
                 Layers.RemoveAt(Layer);
 
                 for (int i = Layer; i < Layers.Count; i++)

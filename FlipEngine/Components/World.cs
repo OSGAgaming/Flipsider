@@ -44,7 +44,6 @@ namespace FlipEngine
             {
                 propManager.props[i].Dispose();
             }
-            MainPlayer?.Dispose();
         }
         public bool IsActive(int i, int j)
         {
@@ -65,7 +64,6 @@ namespace FlipEngine
             if (File.Exists(Utils.WorldPath + FileName))
             {
                 ClearWorld();
-                Main.Editor.CurrentSaveFile = FileName;
                 Stream stream = File.OpenRead(Utils.WorldPath + FileName);
                 levelInfo.Deserialize(stream);
             }
@@ -79,8 +77,6 @@ namespace FlipEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            NPC.ShowNPCCursor();
-
             layerHandler.DrawLayers(spriteBatch);
             Skybox.Draw(spriteBatch);
             Main.renderer.PrintRenderTarget(layerHandler.Target);

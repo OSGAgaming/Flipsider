@@ -43,7 +43,7 @@ namespace FlipEngine
 
             FormatVersion.Version = binaryReader.ReadByte();
 
-            Main.Editor.AutoFrame = false;
+            TileScreen.AutoFrame = false;
 
             LayerManagerInfo lmfao = LMI.Deserialize(stream);
 
@@ -51,14 +51,11 @@ namespace FlipEngine
             TileManager TM = tileManager.Deserialize(stream);
             Skybox SKB = skybox.Deserialize(stream);
 
-            Logger.NewText(SKB.Layers.Count);
-            Main.World.SetSkybox(new CitySkybox());
-
             LayerScreen.Instance?.Recalculate();
 
             TileManagerBuffer = null;
 
-            Main.Editor.AutoFrame = true;
+            TileScreen.AutoFrame = true;
 
             binaryReader.Close();
             return new LevelInfo(TM, lmfao.Load(), SKB);

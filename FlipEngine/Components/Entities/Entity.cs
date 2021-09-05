@@ -60,7 +60,7 @@ namespace FlipEngine
         public Entity()
         {
             OnLoad();
-            ActionCache.Instance.EntityQueue.Add(this);
+            //ActionCache.Instance.EntityQueue.Add(this);
             Main.LoadQueue += AfterLoad;
         }
         protected void UpdateEntityModifier(string name)
@@ -97,7 +97,6 @@ namespace FlipEngine
                 PostConstructor();
                 if (Main.World != null)
                 {
-                    if(!(this is Player)) Main.AppendToLayer(this);
                     Chunk?.Entities.Add(this);
                 }
             }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace Flipsider
+namespace FlipEngine
 {
     // TODO dude.
 #nullable disable

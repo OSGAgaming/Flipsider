@@ -48,11 +48,13 @@ namespace FlipEngine
 
         public bool CheckActivity()
         {
-            Point PlayerChunkPos = Main.player.ChunkPosition;
+            /*Point PlayerChunkPos = Main.player.ChunkPosition;
             return pos.X >= PlayerChunkPos.X - 1 &&
                    pos.X <= PlayerChunkPos.X + 1 &&
                    pos.Y >= PlayerChunkPos.Y - 1 &&
                    pos.Y <= PlayerChunkPos.Y + 1;
+            */
+            return true;
         }
         public void Serialize(Stream stream)
         {

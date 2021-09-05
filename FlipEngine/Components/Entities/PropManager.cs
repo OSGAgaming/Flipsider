@@ -27,7 +27,7 @@ namespace FlipEngine
         }
         public Prop AddProp(Prop prop)
         {
-            if (TileManager.UselessCanPlaceBool || Main.isLoading || Main.Editor.CurrentState == EditorUIState.WorldSaverMode)
+            if (TileManager.UselessCanPlaceBool || Main.isLoading)
             {
                 props.Add(prop);
             }

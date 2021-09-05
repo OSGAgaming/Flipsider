@@ -56,7 +56,7 @@ namespace FlipEngine
         }
         public void CheckDrag()
         {
-            if (mouseOverlap && !mousePressed && !isDragging && Main.Editor.IsActive)
+            if (mouseOverlap && !mousePressed && !isDragging)
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
@@ -78,11 +78,10 @@ namespace FlipEngine
         }
         public void DrawConstant(SpriteBatch spriteBatch) //for stuff that really shouldn't be overridden
         {
-            if (isDraggable && Main.Editor.IsActive && mouseOverlap && !mousePressed && !isDragging)
+            if (isDraggable && mouseOverlap && !mousePressed && !isDragging)
             {
                 Utils.DrawRectangle(CollisionFrame, Color.White, 3);
             }
         }
-
     }
 }

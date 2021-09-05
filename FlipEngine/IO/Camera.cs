@@ -7,6 +7,11 @@ namespace FlipEngine
 {
     public class CameraTransform
     {
+        public float LeftBound => TargetSize.X / (float)(2 * Scale);
+        public float LowerBound => Utils.BOTTOM - (TargetSize.Y / (float)(2 * Scale));
+
+        public Vector2 Offset;
+        public float targetScale { get; set; }
         public Matrix Transform { get; set; }
 
         public float Scale { get; set; }
@@ -44,7 +49,10 @@ namespace FlipEngine
 
             return new Vector3(scaleX * Scale, scaleY * Scale, 1.0f);
         }
-
+        public Matrix ParallaxedTransform(float Paralax) => Transform * Matrix.CreateTranslation(new Vector3(-Position.AddParallaxAcrossX(Paralax) + Position, 0));
+        
         public Matrix GetTransform() => Transform;
+
+        public Chunk ActiveChunk => Main.World.tileManager.GetChunkToWorldCoords(Position);
     }
 }

@@ -36,13 +36,10 @@ namespace FlipEngine
         public static void AutoAppendToLayer(ILayeredComponent ilc) => World.layerHandler.AutoAppendMethodToLayer(ref ilc);
         public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => World.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => World.layerHandler;
-        public static EditorMode Editor => EditorMode.Instance;
-        public static float targetScale => Camera.targetScale;
         public static TileManager tileManager => World.tileManager;
         public static SpriteBatch spriteBatch => renderer.SpriteBatch;
-        public static Player player => World.MainPlayer;
         public static GraphicsDeviceManager graphics => renderer.Graphics;
-        public static GameCamera Camera => renderer.MainCamera;
+        public static CameraTransform Camera => renderer.MainCamera;
         public static Lighting lighting => renderer.Lighting;
         public static List<Water> WaterBodies => World.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseToDestination().X / TileManager.tileRes, MouseToDestination().Y / TileManager.tileRes);

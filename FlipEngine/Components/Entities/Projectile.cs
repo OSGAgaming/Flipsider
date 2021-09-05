@@ -59,17 +59,6 @@ namespace FlipEngine
             Projectile.Position = position;
         }
 
-        public static void ShootProjectileAtCursor<T>(Vector2 position, float vel) where T : Projectile, new()
-        {
-            T Projectile = new T
-            {
-                Layer = LayerHandler.CurrentLayer
-            };
-            Projectile.SetDefaults();
-            Projectile.Active = true;
-            Projectile.Position = position;
-            Projectile.velocity = Vector2.Normalize(Main.MouseScreen.ToVector2() - Main.player.Center) * vel;
-        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Center, frame, Color.White, 0f, frame.Size.ToVector2() / 2, 1f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);

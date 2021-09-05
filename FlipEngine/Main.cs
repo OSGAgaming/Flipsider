@@ -16,13 +16,13 @@ namespace FlipEngine
         public static bool isLoading = true;
         public static GameTime gameTime;
         public static SpriteFont font;
-        public static MainRenderer renderer;
+        public static Renderer renderer;
         public static World World;
         public static PrimTrailManager Primitives;
         public FPS fps = new FPS();
         public Main()
         {
-            renderer = new MainRenderer(this);
+            renderer = new Renderer(this);
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -51,13 +51,11 @@ namespace FlipEngine
             EffectCache.LoadEffects(Content);
             Fonts.LoadFonts(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
-            Textures.LoadTextures();
+            //Textures.LoadTextures();
 
             Instatiate();
 
             // Register controls
-            RegisterControls.Invoke();
-
             Camera.targetScale = 2f;
 
             base.Initialize();
@@ -67,12 +65,8 @@ namespace FlipEngine
         {
             renderer.Load();
             World = new World(2000, 2000);
-            World.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             font = Content.Load<SpriteFont>("FlipFont");
-            #region testparticles
-            #endregion
             instance = this;
-            World.propManager.LoadProps();
             LoadGUI();
             isLoading = false;
             Primitives = new PrimTrailManager();

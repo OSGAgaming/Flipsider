@@ -65,10 +65,6 @@ namespace FlipEngine
                         draw.Draw(spriteBatch);
                     }
                 }
-                if (Main.player.Layer == LayerDepth)
-                {
-                    Main.player.Draw(spriteBatch);
-                }
             }
 
             spriteBatch.End();

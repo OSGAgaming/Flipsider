@@ -110,7 +110,7 @@ namespace FlipEngine
                 CollisionInfo CI =
                     Collision.Raycast(
                     collideable1.collisionBox,
-                    collideable2.collisionBox,100,Main.player.Height/2);
+                    collideable2.collisionBox,100,100);
 
                 collideable1.collisionInfo.AABB = CI.AABB;
 

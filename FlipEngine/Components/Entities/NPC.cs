@@ -105,6 +105,7 @@ namespace FlipEngine
         public float percentLife => life / (float)maxLife;
 
         public bool hostile;
+        protected virtual void OnCollision(HitBox hitbox) { }
 
         public static NPC SpawnNPC(Vector2 position, Type type)
         {
@@ -116,6 +117,7 @@ namespace FlipEngine
             NPC.Position = position;
             return NPC;
         }
+
         protected override void PreAI()
         {
             if (IFrames > 0)
@@ -128,19 +130,7 @@ namespace FlipEngine
             }
             else
             {
-                GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, (HitBox hitBox) =>
-                {
-                    if (hitBox.LE is Player)
-                    {
-                        var player = (hitBox.LE as Player);
-                        player?.TakeDamage(damage);
-                        if (player != null)
-                        {
-                            if(player.IFrames == Player.GlobalIFrames)
-                            player.velocity = Vector2.Normalize(player.Center - Center) * 2;
-                        }
-                    }
-                });
+                GetEntityModifier<HitBox>().GenerateHitbox(CollisionFrame, true, OnCollision);
             }
         }
         public static void SpawnNPC<T>(Vector2 position) where T : NPC, new()
@@ -189,26 +179,7 @@ namespace FlipEngine
             }
         }
 
-        public Vector2 Distance => Main.player.Center - Center;
-        public Vector2 NormDistance => Vector2.Normalize(Main.player.Center - Center);
-
         public static Type? SelectedNPCType;
-        public static void ShowNPCCursor()
-        {
-            if (Main.Editor.CurrentState == EditorUIState.NPCSpawnerMode)
-            {
-                Vector2 mousePos = Main.MouseScreen.ToVector2();
-                float sine = (float)Math.Sin(Main.gameTime.TotalGameTime.TotalSeconds * 6);
-                int alteredRes = Main.World.TileRes / 4;
-                Vector2 tilePoint2 = new Vector2((int)mousePos.X / alteredRes * alteredRes, (int)mousePos.Y / alteredRes * alteredRes);
-                Texture2D? icon = SelectedNPCType?.GetField("icon")?.GetValue(null) as Texture2D;
-
-                if (SelectedNPCType != null && icon != null)
-                {
-                    Main.spriteBatch.Draw(icon, Main.MouseScreen.ToVector2(), icon?.Bounds, Color.White * Math.Abs(sine), 0f, (icon ?? TextureCache.BackBicep).TextureCenter(), 1f, SpriteEffects.None, 0f);
-                }
-            }
-        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
