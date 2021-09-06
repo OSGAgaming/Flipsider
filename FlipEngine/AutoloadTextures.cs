@@ -15,7 +15,7 @@ namespace FlipEngine
 
         internal static Dictionary<string, Texture2D> Assets = new Dictionary<string, Texture2D>();
 
-        public static string TextureCachePath => Utils.MainDirectory;
+        public static string TextureCachePath => Utils.LocalDirectory;
         public static void GenerateTextureCache()
         {
             FileStream stream = File.Open(TextureCachePath + @"\AutoloadTextureCache.cs", FileMode.Create);
