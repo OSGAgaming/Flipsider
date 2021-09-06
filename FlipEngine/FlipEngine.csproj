@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\Flipsider\Lib\MonoGame.Framework.dll</HintPath>
     </Reference>

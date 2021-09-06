@@ -8,7 +8,7 @@ using System.IO;
 
 #nullable disable
 // TODO fix this..
-namespace FlipEngine
+namespace Flipsider
 {
     [Serializable]
     public class Water : Entity

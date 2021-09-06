@@ -12,3 +12,8 @@ C:\Users\tafid\Documents\Flipsider\FlipEngine\obj\Debug\netcoreapp3.1\FlipEngine
 C:\Users\tafid\Documents\Flipsider\FlipEngine\obj\Debug\netcoreapp3.1\FlipEngine.dll
 C:\Users\tafid\Documents\Flipsider\FlipEngine\obj\Debug\netcoreapp3.1\FlipEngine.pdb
 C:\Users\tafid\Documents\Flipsider\FlipEngine\obj\Debug\netcoreapp3.1\FlipEngine.genruntimeconfig.cache
+C:\Users\tafid\Documents\Flipsider\FlipEngine\bin\Debug\netcoreapp3.1\MonoGame.Extended.dll
+C:\Users\tafid\Documents\Flipsider\FlipEngine\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\tafid\Documents\Flipsider\FlipEngine\bin\Debug\netcoreapp3.1\MonoGame.Framework.dll
+C:\Users\tafid\Documents\Flipsider\FlipEngine\bin\Debug\netcoreapp3.1\MonoGame.Framework.xml
+C:\Users\tafid\Documents\Flipsider\FlipEngine\obj\Debug\netcoreapp3.1\FlipEngine.csproj.CopyComplete

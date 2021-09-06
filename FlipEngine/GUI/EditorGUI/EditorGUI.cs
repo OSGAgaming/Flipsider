@@ -44,7 +44,7 @@ namespace FlipEngine
 
         public void AddMode(Mode mode)
         {
-            EditorModeButton e = new EditorModeButton(Textures._GUI_FlipIcons, mode, v);
+            EditorModeButton e = new EditorModeButton(TextureCache.skybox, mode, v);
             Buttons.Add(e);
             elements.Add(Buttons[Buttons.Count - 1]);
         }
@@ -200,7 +200,7 @@ namespace FlipEngine
         {
             dimensions = new Rectangle(v.ToPoint(), new Point(EditorModeGUI.IconDimensions, EditorModeGUI.IconDimensions));
             Utils.DrawBoxFill(dimensions, new Color(30, 30, 30));
-            spriteBatch.Draw(Textures._GUI_FlipIcons, dimensions,new Rectangle(EditorModeGUI.Active ? 32 : 0,0,32,32), Color.White);
+            spriteBatch.Draw(TextureCache.skybox, dimensions,new Rectangle(EditorModeGUI.Active ? 32 : 0,0,32,32), Color.White);
         }
         protected override void OnLeftClick()
         {
