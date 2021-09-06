@@ -223,7 +223,7 @@ namespace FlipEngine
         }
         protected override void OnLeftClick()
         {
-            Main.instance.sceneManager.SetNextScene(EditorScene.DisplayScene, null);
+            SceneManager.Instance.SetNextScene(EditorScene.DisplayScene, null);
         }
     }
 }

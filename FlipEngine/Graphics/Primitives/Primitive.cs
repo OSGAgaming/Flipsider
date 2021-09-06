@@ -4,11 +4,6 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public class PrimTrailManager : Manager<Primitive>
-    {
-
-
-    }
     public partial class Primitive : IComponent
     {
         protected float _width;

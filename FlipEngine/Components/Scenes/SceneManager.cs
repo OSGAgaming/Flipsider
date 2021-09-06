@@ -5,9 +5,11 @@ namespace FlipEngine
 {
     public class SceneManager : IUpdate
     {
-        public SceneManager()
+        public static SceneManager Instance;
+
+        static SceneManager()
         {
-            //because you suck
+            Instance = new SceneManager();
         }
 
         private Scene? _currentScene;

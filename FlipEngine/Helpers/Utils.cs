@@ -46,8 +46,6 @@ namespace FlipEngine
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
         public static Vector2 AbsD => Main.ActualScreenSize - Main.ScreenSize;
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
-        public static Scene? CurrentScene => Main.instance.sceneManager.Scene;
-
         public static bool MouseInBounds => Main.renderer.Destination.Contains(Mouse.GetState().Position);
     }
 }

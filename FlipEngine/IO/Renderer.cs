@@ -47,6 +47,17 @@ namespace FlipEngine
                 return 1;
             }
         }
+        public Vector2 PreferredSize
+        {
+            get
+            {
+                if (Graphics != null)
+                    return new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+                return Vector2.Zero;
+            }
+        }
+
+        Vector2 FPSPosition => Utils.ActualScreenSize + new Vector2(-80, -30);
 
         public Renderer(Game game)
         {
@@ -162,18 +173,38 @@ namespace FlipEngine
             }
         }
 
-        public virtual void RenderPreEffect(SpriteBatch sb) { }
-        public virtual void RenderUI(SpriteBatch sb) { }
-        public virtual void RenderToScreen(SpriteBatch sb) { }
-
-        public Vector2 PreferredSize
+        public virtual void RenderPreEffect(SpriteBatch sb) 
         {
-            get
-            {
-                if (Graphics != null)
-                    return new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
-                return Vector2.Zero;
-            }
+            sb.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+
+            SceneManager.Instance.Draw(SpriteBatch);
+
+            if (Graphics != null)
+                Lighting?.Maps.OrderedRenderPass(SpriteBatch, Graphics.GraphicsDevice);
+
+            sb.End();
         }
+        public virtual void RenderUI(SpriteBatch sb) 
+        {
+            sb.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
+
+            Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, FPSPosition, Color.Aqua);
+
+            for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
+            {
+                UIScreenManager.Instance?.Components[i].Draw(SpriteBatch);
+            }
+
+            SceneManager.Instance.DrawTransitionUI(SpriteBatch);
+
+            sb.End();
+
+            sb.Begin(SpriteSortMode.FrontToBack, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+
+            UIScreenManager.Instance?.DrawOnScreen();
+
+            sb.End();
+        }
+        public virtual void RenderToScreen(SpriteBatch sb) { }
     }
 }

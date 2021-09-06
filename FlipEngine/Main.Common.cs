@@ -59,6 +59,6 @@ namespace FlipEngine
 
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
 
-        public static Scene CurrentScene => instance.sceneManager.Scene;
+        public static Scene CurrentScene => SceneManager.Instance.Scene;
     }
 }

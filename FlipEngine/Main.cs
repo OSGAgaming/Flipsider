@@ -10,7 +10,6 @@ namespace FlipEngine
 #nullable disable
     internal partial class Main : Game
     {
-        public SceneManager sceneManager;
         public static Random rand;
         public static Main instance;
         public static bool isLoading = true;
@@ -18,7 +17,7 @@ namespace FlipEngine
         public static SpriteFont font;
         public static Renderer renderer;
         public static World World;
-        public static PrimTrailManager Primitives;
+        public static Manager<Primitive> Primitives;
         public FPS fps = new FPS();
         public Main()
         {
@@ -36,7 +35,6 @@ namespace FlipEngine
         private void Instatiate()
         {
             GetAllTypes();
-            sceneManager = new SceneManager();
             rand = new Random();
         }
         public static string MainPath => Environment.CurrentDirectory + $@"\";
@@ -69,7 +67,7 @@ namespace FlipEngine
             instance = this;
             LoadGUI();
             isLoading = false;
-            Primitives = new PrimTrailManager();
+            Primitives = new Manager<Primitive>();
 
             TileManager.CanPlace = true;
 
@@ -97,7 +95,7 @@ namespace FlipEngine
             instance.fps.Update(gameTime);
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
             Main.gameTime = gameTime;
-            sceneManager.Update();
+            SceneManager.Instance.Update();
             LoadQueue?.Invoke();
             LoadQueue = null;
             base.Update(gameTime);
