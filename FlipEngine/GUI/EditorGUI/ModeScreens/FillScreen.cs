@@ -69,12 +69,13 @@ namespace FlipEngine
 
         public override void CustomUpdate()
         {
-            if (GameInput.Instance["EditorPlaceTile"].IsDown())
+            MouseState state = Mouse.GetState();
+            if (GameInput.Instance.IsClicking)
             {
                 Main.tileManager.AddTile(Main.World, new Tile(TileScreen.currentType, TileScreen.currentFrame, Main.MouseTile));
             }
 
-            if (GameInput.Instance["EdtiorRemoveTile"].IsDown())
+            if (GameInput.Instance.IsRightClicking)
             {
                 Main.World.tileManager.RemoveTile(Main.World, Main.MouseTile.ToPoint());
             }

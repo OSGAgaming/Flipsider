@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace Flipsider
+namespace TextureCacheGenerator
 {
     class Program
     {

@@ -84,7 +84,7 @@ namespace FlipEngine
 
                 Utils.DrawLine(sb, Mouse.GetState().Position.Sub(new Point(PreviewPanel.dimensions.X, PreviewPanel.dimensions.Y)).ToVector2(), p.Add(new Point(2, DialogueBoxDimensions.Y)).ToVector2(), Color.White, 1);
 
-                if (GameInput.Instance["LC"].IsJustPressed() && !IsHoveringOverThingy)
+                if (GameInput.Instance.JustClickingLeft && !IsHoveringOverThingy)
                 {
                     if (PreviewPanel != null)
                     {

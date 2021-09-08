@@ -14,7 +14,7 @@ namespace FlipEngine
                 Main.Updateables.Add(this);
             else
             {
-                Main.UpdateablesOffScreen.Add(this);
+                Main.AlwaysUpdate.Add(this);
             }
         }
         internal List<T> Components = new List<T>();

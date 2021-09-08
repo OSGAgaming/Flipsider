@@ -75,8 +75,6 @@ namespace Flipsider
             World = new World(2000, 2000);
             World.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
             font = Content.Load<SpriteFont>("FlipFont");
-            #region testparticles
-            #endregion
             instance = this;
             World.propManager.LoadProps();
             LoadGUI();

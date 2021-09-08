@@ -62,7 +62,7 @@ namespace FlipEngine
             isHovering = false;
 
 
-            if (GameInput.Instance["LC"].IsJustPressed())
+            if (GameInput.Instance.JustClickingLeft)
             {
                 if (controller != null && controller is VectorController c && !IsHoveringOverThingy)
                 {

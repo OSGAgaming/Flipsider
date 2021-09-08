@@ -58,7 +58,7 @@ namespace FlipEngine
         {
             Vector2 mousePos = Main.MouseToDestination().ToVector2().Snap(2);
 
-            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && CanPlace)
+            if (GameInput.Instance.JustClickingLeft && CanPlace)
             {
                 Main.World.propManager.AddProp(CurrentProp ?? "", mousePos);
             }

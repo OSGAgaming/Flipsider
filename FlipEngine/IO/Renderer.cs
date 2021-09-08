@@ -205,6 +205,9 @@ namespace FlipEngine
 
             sb.End();
         }
-        public virtual void RenderToScreen(SpriteBatch sb) { }
+        public virtual void RenderToScreen(SpriteBatch sb)
+        {
+            UIScreenManager.Instance?.DrawDirectOnScreen(sb);
+        }
     }
 }

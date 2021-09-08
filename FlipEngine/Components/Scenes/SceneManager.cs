@@ -7,6 +7,11 @@ namespace FlipEngine
     {
         public static SceneManager Instance;
 
+        public SceneManager()
+        {
+            Main.Updateables.Add(this);
+        }
+
         static SceneManager()
         {
             Instance = new SceneManager();

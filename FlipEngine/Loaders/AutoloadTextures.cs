@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,67 +17,25 @@ namespace FlipEngine
         internal static Dictionary<string, Texture2D> Assets = new Dictionary<string, Texture2D>();
 
         public static string TextureCachePath => Utils.LocalDirectory;
-        public static void GenerateTextureCache()
-        {
-            FileStream stream = File.Open(TextureCachePath + @"\AutoloadTextureCache.cs", FileMode.Create);
-            using (StreamWriter sw = new StreamWriter(stream))
-            {
-                sw.WriteLine($@"using Microsoft.Xna.Framework;");
-                sw.WriteLine($@"using Microsoft.Xna.Framework.Content;");
-                sw.WriteLine($@"using Microsoft.Xna.Framework.Graphics;");
-                sw.WriteLine($@"using System.Collections.Generic;");
-                sw.WriteLine($@"using System.Diagnostics;");
-                sw.WriteLine($@"using System.IO;");
 
-                sw.WriteLine($@"namespace FlipEngine");
-                sw.WriteLine(@"{");
-
-                sw.WriteLine(@"   public static class Textures");
-                sw.WriteLine(@"   {");
-
-                sw.WriteLine(@"#nullable disable");
-
-                foreach (string s in AssetPaths)
-                {
-                    string NewString = s.Replace(@"\","_");
-                    sw.WriteLine(@$"     public static Texture2D _{NewString};");
-                }
-
-                sw.WriteLine(@"     public static void LoadTextures()");
-                sw.WriteLine(@"     {");
-                foreach (string s in AssetPaths)
-                {
-                    string NewString = s.Replace(@"\", "_");
-                    sw.WriteLine($"       _{NewString} = AutoloadTextures.Assets[@\"{s}\"];");
-                }
-                sw.WriteLine(@"     }");
-
-                sw.WriteLine(@"   }");
-
-                sw.WriteLine(@"}");
-            }
-
-        }
         public static void AddAssetsFromDirectories(string DirectoryPath)
         {
-            if (Path.GetFileName(DirectoryPath) == "bin") return;
-
             string[] filePaths = Directory.GetFiles(DirectoryPath);
             for (int i = 0; i < filePaths.Length; i++)
             {
                 string filePath = filePaths[i];
 
-                if (!filePath.Contains(".png")) continue;
+                if (!filePath.Contains(".xnb")) continue;
 
                 string charSeprator = @"Textures\";
                 int Index = filePath.IndexOf(charSeprator) + charSeprator.Length;
                 string AlteredPath = filePath.Substring(Index);
 
-                var AssetName = AlteredPath.Split(".pn")[0];
+                var AssetName = AlteredPath.Split(".xn")[0];
 
                 AssetPaths.Add(AssetName);
 
-                //Debug.Write(AssetName + "\n");
+                Debug.Write(AssetName + "\n");
             }
         }
 
@@ -90,11 +49,9 @@ namespace FlipEngine
             {
                 var DirectorySubPath = remainingDirecotries[i];
 
-                if (Path.GetFileName(DirectorySubPath) == "bin") continue;
-
-                //Debug.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
+                Debug.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
                 GetAllAssetPaths(DirectorySubPath);
-                //Debug.Write("\n\n");
+                Debug.Write("\n\n");
             }
         }
 
@@ -102,7 +59,9 @@ namespace FlipEngine
         {
             foreach(string Asset in AssetPaths)
             {
-                Assets.Add(Asset, content.Load<Texture2D>(Path.GetFileName(Utils.AssetDirectory) + $"/" + Asset));
+                string LoadName = Path.GetFileName(Utils.AssetDirectory) + "/" + Asset.Replace(@"\", "/");
+                Assets.Add(Asset, content.Load<Texture2D>(LoadName));
+                Console.WriteLine(LoadName);
             }
         }
     }

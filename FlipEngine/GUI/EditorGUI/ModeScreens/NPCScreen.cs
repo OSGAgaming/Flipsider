@@ -50,7 +50,7 @@ namespace FlipEngine
 
         public override void CustomUpdate()
         {
-            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && SelectedNPCType != null)
+            if (GameInput.Instance.JustClickingLeft && SelectedNPCType != null)
             {
                 SpawnNPC(Main.MouseToDestination().ToVector2(), SelectedNPCType);
             }

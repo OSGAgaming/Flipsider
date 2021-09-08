@@ -81,14 +81,7 @@ namespace FlipEngine
             {
                 BarAlpha += (1 - BarAlpha) / 16f;
 
-                if (GameInput.Instance["EditorZoomIn"].IsDown())
-                {
-                    ScrollVelocity -= ScrollSpeed;
-                }
-                if (GameInput.Instance["EditorZoomOut"].IsDown())
-                {
-                    ScrollVelocity += ScrollSpeed;
-                }
+                ScrollVelocity -= GameInput.Instance.DeltaScroll * ScrollSpeed;
 
                 ScrollVelocity *= 0.8f;
                 ScrollValue += ScrollVelocity;

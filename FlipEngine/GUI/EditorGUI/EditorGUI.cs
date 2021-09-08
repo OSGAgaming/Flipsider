@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace FlipEngine
@@ -91,6 +92,8 @@ namespace FlipEngine
         {
             if (Active)
             {
+                KeyboardState state = Keyboard.GetState();
+
                 for (int i = 0; i < Buttons.Count; i++)
                 {
                     Buttons[i].v.Y = Buttons[i].v.Y.ReciprocateTo(v.Y + (i + 1) * IconDimensions, 16f);
@@ -102,29 +105,22 @@ namespace FlipEngine
 
                 if (CanZoom)
                 {
-                    if (GameInput.Instance["EditorZoomIn"].IsDown())
-                    {
-                        Main.Camera.targetScale += scrollSpeed;
-                    }
-                    if (GameInput.Instance["EditorZoomOut"].IsDown())
-                    {
-                        Main.Camera.targetScale -= scrollSpeed;
-                    }
+                    Main.Camera.targetScale += GameInput.Instance.DeltaScroll * scrollSpeed;
                 }
 
-                if (GameInput.Instance["MoveRight"].IsDown())
+                if (state.IsKeyDown(Keys.R))
                 {
                     Main.Camera.Offset.X += camMoveSpeed;
                 }
-                if (GameInput.Instance["MoveLeft"].IsDown())
+                if (state.IsKeyDown(Keys.A))
                 {
                     Main.Camera.Offset.X -= camMoveSpeed;
                 }
-                if (GameInput.Instance["MoveUp"].IsDown())
+                if (state.IsKeyDown(Keys.W))
                 {
                     Main.Camera.Offset.Y -= camMoveSpeed;
                 }
-                if (GameInput.Instance["MoveDown"].IsDown())
+                if (state.IsKeyDown(Keys.S))
                 {
                     Main.Camera.Offset.Y += camMoveSpeed;
                 }
@@ -200,14 +196,14 @@ namespace FlipEngine
         {
             dimensions = new Rectangle(v.ToPoint(), new Point(EditorModeGUI.IconDimensions, EditorModeGUI.IconDimensions));
             Utils.DrawBoxFill(dimensions, new Color(30, 30, 30));
-            spriteBatch.Draw(TextureCache.skybox, dimensions,new Rectangle(EditorModeGUI.Active ? 32 : 0,0,32,32), Color.White);
+            spriteBatch.Draw(Textures._GUI_FlipIcons, dimensions, new Rectangle(EditorModeGUI.Active ? 32 : 0, 0, 32, 32), Color.White);
         }
         protected override void OnLeftClick()
         {
             EditorModeGUI.Active = !EditorModeGUI.Active;
             EditorModeGUI.mode = Mode.None;
 
-            if(EditorModeGUI.Active) Main.Camera.targetScale = 0.8f;
+            if (EditorModeGUI.Active) Main.Camera.targetScale = 0.8f;
             else Main.Camera.targetScale = 2f;
 
         }

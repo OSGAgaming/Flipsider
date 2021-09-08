@@ -163,7 +163,9 @@ namespace FlipEngine
 
                 if (PreviewPanel != null)
                 {
-                    if (GameInput.Instance["Delete"].IsJustPressed() && PreviewPanel.Active)
+                    if (GameInput.Instance.CurrentKeyState.IsKeyDown(Keys.Delete) &&
+                        !GameInput.Instance.PreviousKeyState.IsKeyDown(Keys.Delete) && 
+                        PreviewPanel.Active)
                     {
                         Main.layerHandler.RemoveLayer(Layer);
                         LayerScreen.Instance?.Recalculate();

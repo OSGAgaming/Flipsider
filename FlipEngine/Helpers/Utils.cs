@@ -26,10 +26,6 @@ namespace FlipEngine
         public static string WorldPath => Main.MainPath + $@"Worlds\";
         public static string CutscenePath => Main.MainPath + $@"Cutscenes\";
 
-        public static InputBinding LeftClick => GameInput.Instance["EditorPlaceTile"];
-        public static bool JustClicked => GameInput.Instance["EditorPlaceTile"].IsJustPressed();
-        public static bool JustUnclicked => GameInput.Instance["EditorPlaceTile"].IsJustReleased();
-
         public static Vector2 SafeBoundX => new Vector2(Main.Camera.Position.X, Main.Camera.Position.X + Main.ActualScreenSize.X / Main.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(Main.Camera.Position.Y, Main.Camera.Position.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
         public static void AppendToLayer(ILayeredComponent ilc) => Main.World.layerHandler.AppendMethodToLayer(ilc);

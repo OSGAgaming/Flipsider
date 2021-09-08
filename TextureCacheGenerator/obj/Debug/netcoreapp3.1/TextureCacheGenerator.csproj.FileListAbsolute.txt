@@ -26,7 +26,6 @@ C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\bin\Debug\netcoreapp3.1
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\bin\Debug\netcoreapp3.1\MonoGame.Framework.dll
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\bin\Debug\netcoreapp3.1\Flipsider.pdb
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\bin\Debug\netcoreapp3.1\MonoGame.Framework.xml
-C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.csprojAssemblyReference.cache
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.AssemblyInfoInputs.cache
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.AssemblyInfo.cs
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.csproj.CoreCompileInputs.cache
@@ -34,3 +33,5 @@ C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.dll
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.pdb
 C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.genruntimeconfig.cache
+C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.csproj.AssemblyReference.cache
+C:\Users\tafid\Documents\Flipsider\TextureCacheGenerator\obj\Debug\netcoreapp3.1\TextureCacheGenerator.GeneratedMSBuildEditorConfig.editorconfig

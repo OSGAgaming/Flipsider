@@ -34,9 +34,8 @@ namespace FlipEngine
             MouseState state = Mouse.GetState();
             if (dimensions.Contains(state.Position)) OnHover();
             if (!dimensions.Contains(state.Position)) NotOnHover();
-            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && dimensions.Contains(state.Position)) OnLeftClick();
-            
-            if (GameInput.Instance["EditorPlaceTile"].IsJustPressed() && !dimensions.Contains(state.Position)) OnLeftClickAway();
+            if (GameInput.Instance.JustClickingLeft && dimensions.Contains(state.Position)) OnLeftClick();        
+            if (GameInput.Instance.JustClickingLeft && !dimensions.Contains(state.Position)) OnLeftClickAway();
             if (Mouse.GetState().RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) IsBeingClicked = true;

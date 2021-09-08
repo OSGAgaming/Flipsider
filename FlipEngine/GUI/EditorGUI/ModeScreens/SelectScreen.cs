@@ -29,14 +29,14 @@ namespace FlipEngine
         {
             Utils.DrawSquare(MouseSnap, 4, Color.White);
 
-            if(Utils.JustUnclicked)
+            if(GameInput.Instance.JustClickingLeft)
             {
                 MoveMode = false;
             }
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                if(Utils.JustClicked)
+                if(GameInput.Instance.JustClickingLeft)
                 {
                     foreach (Entity entity in EntityCache)
                     {

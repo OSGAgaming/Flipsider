@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FlipEngine
 {
@@ -35,6 +36,7 @@ namespace FlipEngine
         private void Instatiate()
         {
             GetAllTypes();
+            SceneManager.Instance.SetNextScene(new EditorScene(), null);
             rand = new Random();
         }
         public static string MainPath => Environment.CurrentDirectory + $@"\";
@@ -53,6 +55,7 @@ namespace FlipEngine
 
             Instatiate();
 
+
             // Register controls
             Camera.targetScale = 2f;
 
@@ -66,6 +69,13 @@ namespace FlipEngine
             font = Content.Load<SpriteFont>("FlipFont");
             instance = this;
             LoadGUI();
+
+            foreach (Type type in Utils.GetInheritedClasses(typeof(IUpdateGT)))
+            {
+                IUpdateGT Screen = (IUpdateGT)Activator.CreateInstance(type);
+                GameTimeUpdateables.Add(Screen);
+            }
+
             isLoading = false;
             Primitives = new Manager<Primitive>();
 
@@ -88,21 +98,26 @@ namespace FlipEngine
             }
         }
         public static List<IUpdate> Updateables = new List<IUpdate>();
-        public static List<IUpdate> UpdateablesOffScreen = new List<IUpdate>();
+        public static List<IUpdateGT> GameTimeUpdateables = new List<IUpdateGT>();
+        public static List<IUpdate> AlwaysUpdate = new List<IUpdate>();
+
         public static event Action LoadQueue;
         protected override void Update(GameTime gameTime)
         {
-            instance.fps.Update(gameTime);
-            AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
+            AScreenSize =
+                graphics.GraphicsDevice == null ? Vector2.One :
+                graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
+
+            foreach (IUpdateGT gt in GameTimeUpdateables.ToArray()) gt.Update(gameTime);
+            foreach (IUpdate gt in Updateables.ToArray()) gt.Update();
+            foreach (IUpdate gt in AlwaysUpdate.ToArray()) gt.Update();
+
             Main.gameTime = gameTime;
-            SceneManager.Instance.Update();
+
             LoadQueue?.Invoke();
             LoadQueue = null;
+
             base.Update(gameTime);
-        }
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
         }
 
         protected override void Draw(GameTime gameTime)

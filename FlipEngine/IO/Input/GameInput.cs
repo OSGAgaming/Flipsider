@@ -18,6 +18,16 @@ namespace FlipEngine
 
         public bool IsClicking => CurrentMouseState.LeftButton == ButtonState.Pressed;
         public bool PreviousIsClicking => PreviousMouseState.LeftButton == ButtonState.Pressed;
+
+        public bool IsRightClicking => CurrentMouseState.RightButton == ButtonState.Pressed;
+        public bool PreviousRightIsClicking => PreviousMouseState.RightButton == ButtonState.Pressed;
+
+        public bool JustClickingLeft => IsClicking && !PreviousIsClicking;
+        public bool JustClickingRight => IsRightClicking && !PreviousRightIsClicking;
+
+        public bool JusReleasedLeft => !IsClicking && PreviousIsClicking;
+        public bool JustReleaseRight => !IsRightClicking && PreviousRightIsClicking;
+
         public KeyboardState PreviousKeyState { get; private set; }
         public KeyboardState CurrentKeyState { get; private set; }
         public MouseState PreviousMouseState { get; private set; }
@@ -34,7 +44,7 @@ namespace FlipEngine
 
         public GameInput()
         {
-            Main.UpdateablesOffScreen.Add(this);
+            Main.AlwaysUpdate.Add(this);
             _controls = new Dictionary<string, InputBinding>();
         }
 
