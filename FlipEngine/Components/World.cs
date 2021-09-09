@@ -21,12 +21,6 @@ namespace FlipEngine
 
         public ParticleSystem GlobalParticles;
 
-        public bool IsTileActive(int i, int j)
-        {
-            if (tileManager.GetTile(i, j) == null || !tileManager.GetTile(i, j).Active)
-            return false;
-            return true;
-        }
         public void ClearWorld()
         {
             int width = tileManager.chunks.GetLength(0);
@@ -45,7 +39,7 @@ namespace FlipEngine
                 propManager.props[i].Dispose();
             }
         }
-        public bool IsActive(int i, int j)
+        public bool IsTileActive(int i, int j)
         {
             if (i > 0 && j > 0)
             {
@@ -68,8 +62,8 @@ namespace FlipEngine
                 levelInfo.Deserialize(stream);
             }
         }
-        public void SetSkybox(Skybox skybox) => Skybox = skybox;
 
+        public void SetSkybox(Skybox skybox) => Skybox = skybox;
         public void Update()
         {
             GlobalParticles.Update();

@@ -28,6 +28,7 @@ namespace FlipEngine
 
         public static Vector2 SafeBoundX => new Vector2(Main.Camera.Position.X, Main.Camera.Position.X + Main.ActualScreenSize.X / Main.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(Main.Camera.Position.Y, Main.Camera.Position.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
+        public static Rectangle CameraBounds => new Rectangle(Main.Camera.Position.ToPoint(), (Main.ActualScreenSize / Main.ScreenScale).ToPoint());
         public static void AppendToLayer(ILayeredComponent ilc) => Main.World.layerHandler.AppendMethodToLayer(ilc);
         public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => Main.World.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => Main.World.layerHandler;

@@ -6,7 +6,7 @@
     }
     public interface ILayeredComponentActive : ILayeredComponent
     {
-        public bool InFrame { get; set; }
+        public bool InFrame { get; }
     }
     public interface IDrawData : ILayeredComponentActive
     {

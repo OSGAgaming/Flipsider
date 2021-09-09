@@ -18,7 +18,7 @@ namespace FlipEngine
         public int j;
         public World world;
         public bool inFrame => ParallaxPosition.X > Utils.SafeBoundX.X - 100 && Position.Y > Utils.SafeBoundY.X - 100 && ParallaxPosition.X < Utils.SafeBoundX.Y + 100 && Position.Y < Utils.SafeBoundY.Y + 100;
-        public bool Surrounded => Main.World.IsActive(i, j - 1) && Main.World.IsActive(i, j + 1) && Main.World.IsActive(i - 1, j - 1) && Main.World.IsActive(i + 1, j);
+        public bool Surrounded => Main.World.IsTileActive(i, j - 1) && Main.World.IsTileActive(i, j + 1) && Main.World.IsTileActive(i - 1, j - 1) && Main.World.IsTileActive(i + 1, j);
         public TileManager TM => Main.World.tileManager;
         bool Buffer1;
         public override void OnUpdateInEditor()
@@ -37,17 +37,6 @@ namespace FlipEngine
                     Chunk.Colliedables.RemoveThroughEntity(this);
                 }
                 Buffer1 = Surrounded;
-                if (Main.World.IsActive(i, j))
-                {
-                    if (TM.GetTile(i, j) != null)
-                    {
-                        InFrame = true;
-                    }
-                    else
-                    {
-                        InFrame = false;
-                    }
-                }
             }
         }
         public DrawData drawData { get; set; }
@@ -97,7 +86,7 @@ namespace FlipEngine
 
         protected override void PostConstructor()
         {
-            if (Main.World.IsActive(i, j))
+            if (Main.World.IsTileActive(i, j))
             {
                 if (TileManager.CanPlace && Main.tileManager.GetTile(i, j) != null)
                 {
@@ -113,7 +102,6 @@ namespace FlipEngine
             this.type = type;
             this.frame = frame;
             Active = true;
-            InFrame = true;
             Position = pos * 32;
             if (layer == -1)
                 Layer = LayerHandler.CurrentLayer;

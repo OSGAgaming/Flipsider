@@ -12,7 +12,7 @@ namespace FlipEngine
 {
     public abstract partial class Entity : IComponent, ILayeredComponentActive, ISerializable<Entity>
     {
-        public bool InFrame { get; set; }
+        public bool InFrame => Utils.CameraBounds.Inf(Width, Height).Contains(ParallaxPosition);
         public int Layer { get; set; }
         public bool Active { get; set; }
         public Texture2D Texture { get; set; } = TextureCache.magicPixel;

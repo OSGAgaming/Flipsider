@@ -101,18 +101,6 @@ namespace FlipEngine
 
                 Constraints();
                 PostAI();
-
-                InFrame = ParallaxPosition.X >
-                    Utils.SafeBoundX.X - 5 && Position.Y >
-                    Utils.SafeBoundY.X - 5 && ParallaxPosition.X <
-                    Utils.SafeBoundX.Y + 5 && Position.Y <
-                    Utils.SafeBoundY.Y + 5;
-
-                foreach (Water water in Main.World.WaterBodies.Components)
-                {
-                    if (water.frame.Intersects(CollisionFrame))
-                        Wet = true;
-                }
                 UpdateTrailCache();
             }
         }
@@ -130,7 +118,5 @@ namespace FlipEngine
         protected virtual void OnCollide() { }
 
         protected virtual void OnKill() { }
-
-
     }
 }

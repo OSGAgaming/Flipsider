@@ -78,7 +78,6 @@ namespace FlipEngine
         public Prop(string prop, Vector2 pos, int Layer = 0, bool Draggable = true) : base()
         {
             Active = true;
-            InFrame = true;
             propEncode = Encoding.UTF8.GetBytes(prop);
             this.Layer = Layer;
             draggable = Draggable;
