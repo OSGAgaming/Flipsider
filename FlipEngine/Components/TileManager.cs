@@ -28,12 +28,12 @@ namespace FlipEngine
             }
             //LoadTileTypes();
         }
+
         public void AddTileType(int type, Texture2D atlas, bool ifWall = false)
         {
             tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32), ifWall));
             tileDict.Add(type, atlas);
         }
-
 
         Chunk LoadChunk(Point pos)
         {

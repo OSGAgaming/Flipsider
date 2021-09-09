@@ -33,7 +33,7 @@ namespace FlipEngine
 
             if (SelectedNPCType != null && icon != null)
             {
-                Main.spriteBatch.Draw(icon, Main.MouseToDestination().ToVector2(), icon?.Bounds, Color.White * Math.Abs(Time.SineTime(3f)), 0f, (icon ?? TextureCache.BackBicep).TextureCenter(), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(icon, Main.MouseToDestination().ToVector2(), icon?.Bounds, Color.White * Math.Abs(Time.SineTime(3f)), 0f, (icon ?? TextureCache.pixel).TextureCenter(), 1f, SpriteEffects.None, 0f);
             }
         }
         public override void DrawToSelector(SpriteBatch sb)

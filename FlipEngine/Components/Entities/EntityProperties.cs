@@ -17,6 +17,7 @@ namespace FlipEngine
         public Point OldChunkPosition => Main.World.tileManager.ToChunkCoords(OldPosition.ToPoint());
         public Chunk Chunk => Main.World.tileManager.chunks[ChunkPosition.X, ChunkPosition.Y];
         public Chunk OldChunk => Main.World.tileManager.chunks[OldChunkPosition.X, OldChunkPosition.Y];
+        public bool WithinChunk => ChunkPosition.X > 0 && ChunkPosition.Y > 0;
         public Vector2 DeltaPos => Position - OldPosition;
         public Vector2 ParallaxPosition => Position.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
         public Vector2 Center

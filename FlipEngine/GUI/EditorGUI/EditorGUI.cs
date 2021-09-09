@@ -45,7 +45,7 @@ namespace FlipEngine
 
         public void AddMode(Mode mode)
         {
-            EditorModeButton e = new EditorModeButton(TextureCache.skybox, mode, v);
+            EditorModeButton e = new EditorModeButton(Textures._GUI_FlipIcons, mode, v);
             Buttons.Add(e);
             elements.Add(Buttons[Buttons.Count - 1]);
         }
@@ -85,8 +85,6 @@ namespace FlipEngine
 
             active = false;
         }
-
-        public bool IsDraggingPlayer;
 
         protected override void OnUpdate()
         {

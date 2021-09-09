@@ -20,6 +20,7 @@ namespace FlipEngine
         public static World World;
         public static Manager<Primitive> Primitives;
         public FPS fps = new FPS();
+
         public Main()
         {
             renderer = new Renderer(this);
@@ -51,7 +52,7 @@ namespace FlipEngine
             EffectCache.LoadEffects(Content);
             Fonts.LoadFonts(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
-            //Textures.LoadTextures();
+            Textures.LoadTextures();
 
             Instatiate();
 

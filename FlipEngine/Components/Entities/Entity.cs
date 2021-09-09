@@ -60,8 +60,11 @@ namespace FlipEngine
         public Entity()
         {
             OnLoad();
-            //ActionCache.Instance.EntityQueue.Add(this);
-            Main.LoadQueue += AfterLoad;
+            if (WithinChunk)
+            {
+                //ActionCache.Instance.EntityQueue.Add(this);
+                Main.LoadQueue += AfterLoad;
+            }
         }
         protected void UpdateEntityModifier(string name)
         {
@@ -104,9 +107,7 @@ namespace FlipEngine
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             PreDraw(spriteBatch);
-
             OnDraw(spriteBatch);
-
             PostDraw(spriteBatch);
         }
 
