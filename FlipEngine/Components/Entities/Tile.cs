@@ -17,13 +17,12 @@ namespace FlipEngine
         public int i;
         public int j;
         public World world;
-        public bool inFrame => ParallaxPosition.X > Utils.SafeBoundX.X - 100 && Position.Y > Utils.SafeBoundY.X - 100 && ParallaxPosition.X < Utils.SafeBoundX.Y + 100 && Position.Y < Utils.SafeBoundY.Y + 100;
         public bool Surrounded => Main.World.IsTileActive(i, j - 1) && Main.World.IsTileActive(i, j + 1) && Main.World.IsTileActive(i - 1, j - 1) && Main.World.IsTileActive(i + 1, j);
         public TileManager TM => Main.World.tileManager;
         bool Buffer1;
         public override void OnUpdateInEditor()
         {
-            if (world != null && inFrame)
+            if (world != null && InFrame)
             {
                 Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White));
                 drawData = new DrawData(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
@@ -80,7 +79,7 @@ namespace FlipEngine
             int y = binaryReader.ReadInt32();
             int layer = binaryReader.ReadInt32();
             Rectangle R = binaryReader.ReadRect();
-            Tile tile = new Tile(type, R, new Vector2(x, y), false, layer);
+            Tile tile = new Tile(type, R, new Vector2(x, y), layer);
             return Main.tileManager.AddTile(Main.World, tile);
         }
 
@@ -95,7 +94,7 @@ namespace FlipEngine
                 }
             }
         }
-        public Tile(int type, Rectangle frame, Vector2 pos, bool ifWall = false, int layer = -1) : base()
+        public Tile(int type, Rectangle frame, Vector2 pos, int layer = -1) : base()
         {
             Width = 32;
             Height = 32;
@@ -111,7 +110,7 @@ namespace FlipEngine
             j = (int)(ParallaxPosition.Y / 32);
             world = Main.World;
         }
-        public Tile(int type, Rectangle frame, bool ifWall = false) : base()
+        public Tile(int type, Rectangle frame) : base()
         {
             this.type = type;
             this.frame = frame;

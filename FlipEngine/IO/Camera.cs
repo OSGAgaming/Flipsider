@@ -7,11 +7,9 @@ namespace FlipEngine
 {
     public class CameraTransform
     {
-        public float LeftBound => TargetSize.X / (float)(2 * Scale);
-        public float LowerBound => Utils.BOTTOM - (TargetSize.Y / (float)(2 * Scale));
-
         public Vector2 Offset;
         public float targetScale { get; set; }
+
         public Matrix Transform { get; set; }
 
         public float Scale { get; set; }
@@ -25,6 +23,10 @@ namespace FlipEngine
         public virtual Vector2 MatrixOffset { get; set; }
 
         public virtual Vector2 OffsetPosition => Position + MatrixOffset;
+
+        public float LeftBound => TargetSize.X / (float)(2 * Scale);
+
+        public float LowerBound => Utils.BOTTOM - (TargetSize.Y / (float)(2 * Scale));
 
         protected virtual void OnUpdateTransform() { }
 

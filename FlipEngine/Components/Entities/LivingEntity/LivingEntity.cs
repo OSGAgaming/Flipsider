@@ -108,15 +108,8 @@ namespace FlipEngine
         public bool isDragging = false;
         public bool mousePressed = false; //this is so you have to click on it, instead of overlapping with click
         public Vector2 offsetFromMouseWhileDragging;
-        public bool mouseOverlap //touch up please
-        {
-            get
-            {
-                return CollisionFrame.Contains(Main.MouseScreen.ToVector2());
-            }
-        }
+        public bool mouseOverlap => CollisionFrame.Contains(Main.MouseScreen.ToVector2());
         protected virtual void OnCollide() { }
-
         protected virtual void OnKill() { }
     }
 }

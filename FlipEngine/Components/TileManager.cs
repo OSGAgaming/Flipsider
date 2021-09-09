@@ -29,9 +29,9 @@ namespace FlipEngine
             //LoadTileTypes();
         }
 
-        public void AddTileType(int type, Texture2D atlas, bool ifWall = false)
+        public void AddTileType(int type, Texture2D atlas)
         {
-            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32), ifWall));
+            tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32)));
             tileDict.Add(type, atlas);
         }
 
