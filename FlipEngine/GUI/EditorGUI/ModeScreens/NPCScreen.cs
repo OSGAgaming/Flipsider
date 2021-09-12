@@ -101,17 +101,6 @@ namespace FlipEngine
         protected override void OnLeftClick()
         {
             SelectedNPCType = Info.type;
-            Logger.NewText(Info.type.Name);
-        }
-
-        protected override void OnHover()
-        {
-            Logger.NewText(Info.type.Name);
-
-        }
-        protected override void CustomUpdate()
-        {
-
         }
     }
 }

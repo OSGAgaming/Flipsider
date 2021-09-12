@@ -71,8 +71,8 @@ namespace FlipEngine
             }
             public DamageText(Vector2 position, int Damage)
             {
-                rotationSpeed = Main.rand.NextFloat(-0.01f, 0.01f);
-                velocity = new Vector2(0,-1).RotatedBy(Main.rand.NextFloat(-1));
+                rotationSpeed = FlipE.rand.NextFloat(-0.01f, 0.01f);
+                velocity = new Vector2(0,-1).RotatedBy(FlipE.rand.NextFloat(-1));
                 this.position = position;
                 Text = Damage.ToString();
             }

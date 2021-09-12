@@ -71,7 +71,7 @@ namespace FlipEngine
         }
         protected override void PostDraw(SpriteBatch spriteBatch)
         {
-            Vector2 FS = Main.font.MeasureString(inputText);
+            Vector2 FS = FlipE.font.MeasureString(inputText);
             int disp = dimensions.Height / 2 - (int)FS.Y/2;
             Utils.DrawTextToLeft(inputText, Color.Black * alpha, dimensions.Location.ToVector2() + new Vector2(0, disp));
 
@@ -132,7 +132,7 @@ namespace FlipEngine
         }
         protected override void PostDraw(SpriteBatch spriteBatch)
         {
-            Vector2 FS = Main.font.MeasureString(inputText);
+            Vector2 FS = FlipE.font.MeasureString(inputText);
             int disp = dimensions.Height / 2 - (int)FS.Y / 2;
             Utils.DrawTextToLeft(inputText, Color.Black * Alpha, dimensions.Location.ToVector2() + new Vector2(0, disp));
             if (hasCursor)
@@ -164,7 +164,7 @@ namespace FlipEngine
     {
         protected override void OnUpdate()
         {
-            dimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
+            dimensions.Width = (int)FlipE.font.MeasureString(inputText).X + 10;
             if (hasCursor)
             {
                 UpdateInput();
@@ -176,7 +176,7 @@ namespace FlipEngine
     {
         protected override void OnUpdate()
         {
-            dimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
+            dimensions.Width = (int)FlipE.font.MeasureString(inputText).X + 10;
             if (hasCursor)
             {
                 UpdateInput();
@@ -202,7 +202,7 @@ namespace FlipEngine
 
         protected override void OnUpdate()
         {
-            RelativeDimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
+            RelativeDimensions.Width = (int)FlipE.font.MeasureString(inputText).X + 10;
 
             if (hasCursor)
             {
@@ -227,7 +227,7 @@ namespace FlipEngine
 
         protected override void PostDraw(SpriteBatch spriteBatch)
         {
-            Vector2 FS = Main.font.MeasureString(inputText);
+            Vector2 FS = FlipE.font.MeasureString(inputText);
             int disp = RelativeDimensions.Height / 2 - (int)FS.Y / 2;
             Utils.DrawTextToLeft(inputText, Color.Black * Alpha, RelativeDimensions.Location.ToVector2() + new Vector2(0, disp));
             if (hasCursor)
@@ -268,7 +268,7 @@ namespace FlipEngine
 
         protected override void OnUpdate()
         {
-            RelativeDimensions.Width = (int)Main.font.MeasureString(inputText).X + 10;
+            RelativeDimensions.Width = (int)FlipE.font.MeasureString(inputText).X + 10;
 
             if (hasCursor)
             {
@@ -294,7 +294,7 @@ namespace FlipEngine
 
         protected override void PostDraw(SpriteBatch spriteBatch)
         {
-            Vector2 FS = Main.font.MeasureString(inputText);
+            Vector2 FS = FlipE.font.MeasureString(inputText);
             int disp = RelativeDimensions.Height / 2 - (int)FS.Y / 2;
             Utils.DrawTextToLeft(inputText, Color.Black * Alpha, RelativeDimensions.Location.ToVector2() + new Vector2(0, disp));
             if (hasCursor)

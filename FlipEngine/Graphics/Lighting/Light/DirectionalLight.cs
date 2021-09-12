@@ -15,7 +15,7 @@ namespace FlipEngine
             Layer = LayerHandler.CurrentLayer;
             points = new Vector2[Accuracy];
             //Mesh = new LightPrimitives(this);
-            Main.Primitives.AddComponent(Mesh);
+            Main.Renderer.Primitives.AddComponent(Mesh);
         }
 
         public void SetRotation(float rotation)

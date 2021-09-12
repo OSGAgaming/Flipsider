@@ -15,6 +15,11 @@ namespace FlipEngine
         public string msg = "";
         int average = 0;
         int torture;
+
+        public static FPS Instance;
+
+        static FPS(){ Instance = new FPS(); }
+
         public void Update(GameTime gameTime)
         {
             torture++;

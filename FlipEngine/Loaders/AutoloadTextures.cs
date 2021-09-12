@@ -61,7 +61,6 @@ namespace FlipEngine
             {
                 string LoadName = Path.GetFileName(Utils.AssetDirectory) + "/" + Asset.Replace(@"\", "/");
                 Assets.Add(Asset, content.Load<Texture2D>(LoadName));
-                Console.WriteLine(content.Load<Texture2D>(LoadName) == null);
             }
         }
     }

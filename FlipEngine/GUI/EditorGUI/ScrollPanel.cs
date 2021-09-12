@@ -45,7 +45,7 @@ namespace FlipEngine
 
                 dimensions = new Rectangle(v, PreivewDimensions);
 
-                Main.renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
+                Main.Renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
                 spriteBatch.Draw(PreviewTarget, new Rectangle(v, PreivewDimensions), new Rectangle(new Point(0, (int)ScrollValue), PreivewDimensions), Color.White * PreviewAlpha);
 
                 PreviewAlpha = PreviewAlpha.ReciprocateTo(0);

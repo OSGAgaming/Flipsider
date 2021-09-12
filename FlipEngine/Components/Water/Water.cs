@@ -66,8 +66,8 @@ namespace FlipEngine
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
-            Main.Primitives.AddComponent(PrimitiveInstance);
-            Main.Primitives.AddComponent(PrimitiveInstanceDamp);
+            Main.Renderer.Primitives.AddComponent(PrimitiveInstance);
+            Main.Renderer.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
         }
         public Water(RectangleF _frame, int Layer) : base()
@@ -78,8 +78,8 @@ namespace FlipEngine
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
-            Main.Primitives.AddComponent(PrimitiveInstance);
-            Main.Primitives.AddComponent(PrimitiveInstanceDamp);
+            Main.Renderer.Primitives.AddComponent(PrimitiveInstance);
+            Main.Renderer.Primitives.AddComponent(PrimitiveInstanceDamp);
             Main.AppendPrimitiveToLayer(this);
         }
         public Water()
@@ -103,8 +103,8 @@ namespace FlipEngine
                             if (entity.Wet && frame.Intersects(entity.CollisionFrame))
                             {
                                 Vector2 v = new Vector2(Math.Abs(entity.velocity.X), Math.Abs(entity.velocity.Y));
-                                SplashPerc((entity.Center.X - frame.X + entity.velocity.X * 12) / frame.Width, new Vector2(0, -v.X / 4 * Main.rand.NextFloat(1, 1.5f)));
-                                SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X / 7 * Main.rand.NextFloat(1, 1.5f)));
+                                SplashPerc((entity.Center.X - frame.X + entity.velocity.X * 12) / frame.Width, new Vector2(0, -v.X / 4 * FlipE.rand.NextFloat(1, 1.5f)));
+                                SplashPerc((entity.Center.X - frame.X - entity.velocity.X * 12) / frame.Width, new Vector2(0, v.X / 7 * FlipE.rand.NextFloat(1, 1.5f)));
                             }
                         }
                     }

@@ -20,7 +20,7 @@ namespace FlipEngine
         public List<Point> points = new List<Point>();
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
         {
-            points.Add(new Point(pos, pos - new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), isStatic));
+            points.Add(new Point(pos, pos - new Vector2(FlipE.rand.Next(-10, 10), FlipE.rand.Next(-10, 10)), isStatic));
 
             return points.Count - 1;
         }

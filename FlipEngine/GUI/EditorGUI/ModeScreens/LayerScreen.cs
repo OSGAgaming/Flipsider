@@ -94,7 +94,7 @@ namespace FlipEngine
             {
                 Add?.Draw(sb);
 
-                Utils.DrawBoxFill(new Rectangle(0, 0, Main.renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
+                Utils.DrawBoxFill(new Rectangle(0, 0, Main.Renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
                 Utils.DrawTextToLeft("Player Layer", Color.White, new Vector2(320, 7));
 
                 Utils.DrawTextToLeft("Plx", Color.White, new Vector2(77, 0), 0, 0.4f);

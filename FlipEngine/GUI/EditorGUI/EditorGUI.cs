@@ -106,8 +106,9 @@ namespace FlipEngine
                     Main.Camera.targetScale += GameInput.Instance.DeltaScroll * scrollSpeed;
                 }
 
-                if (state.IsKeyDown(Keys.R))
+                if (state.IsKeyDown(Keys.D))
                 {
+                    Logger.NewText(Main.Camera.Offset);
                     Main.Camera.Offset.X += camMoveSpeed;
                 }
                 if (state.IsKeyDown(Keys.A))
@@ -141,7 +142,7 @@ namespace FlipEngine
 
         internal override void OnDrawToScreenDirect()
         {
-            Rectangle d = Main.renderer.Destination;
+            Rectangle d = Main.Renderer.Destination;
 
             if (Main.CurrentScene.Name == "Editor")
             {

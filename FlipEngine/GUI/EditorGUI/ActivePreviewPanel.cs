@@ -12,7 +12,7 @@ namespace FlipEngine
     {
         public override Point v => new Point(20, 32);
 
-        public override Point PreivewDimensions => new Point(160, Main.renderer.Destination.Height);
+        public override Point PreivewDimensions => new Point(160, Main.Renderer.Destination.Height);
 
         public override Color Color => Color.Black;
 
@@ -40,9 +40,9 @@ namespace FlipEngine
 
     internal class BottomModeSelectPreview : ScrollPanel
     {
-        public override Point v => new Point(Main.renderer.Destination.Left, Main.renderer.Destination.Bottom);
+        public override Point v => new Point(Main.Renderer.Destination.Left, Main.Renderer.Destination.Bottom);
 
-        public override Point PreivewDimensions => new Point(Main.renderer.Destination.Width, (int)Main.ActualScreenSize.Y - Main.renderer.Destination.Bottom);
+        public override Point PreivewDimensions => new Point(Main.Renderer.Destination.Width, (int)Main.ActualScreenSize.Y - Main.Renderer.Destination.Bottom);
 
         public override Color Color => new Color(20, 20, 20);
 

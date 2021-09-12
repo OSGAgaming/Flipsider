@@ -51,9 +51,12 @@ namespace FlipEngine
             }
             else
             {
-                if (tileDict[currentType] != null)
-                    Main.spriteBatch.Draw(tileDict[currentType], tilePoint + new Vector2(tileRes / 2), TileFrame, Color.White * 
-                        Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                if (tileDict.ContainsKey(currentType))
+                {
+                    if (tileDict[currentType] != null)
+                        Main.spriteBatch.Draw(tileDict[currentType], tilePoint + new Vector2(tileRes / 2), TileFrame, Color.White *
+                            Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
+                }
             }
 
             //Utils.DrawRectangle(new Rectangle(Main.MouseToDestination(), new Point(10, 10)), Color.White);

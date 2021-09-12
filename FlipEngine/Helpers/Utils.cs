@@ -33,16 +33,16 @@ namespace FlipEngine
         public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => Main.World.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => Main.World.layerHandler;
         public static TileManager tileManager => Main.World.tileManager;
-        public static SpriteBatch spriteBatch => Main.renderer.SpriteBatch;
-        public static GraphicsDeviceManager? graphics => Main.renderer.Graphics;
-        public static Lighting? lighting => Main.renderer.Lighting;
+        public static SpriteBatch spriteBatch => Main.Renderer.SpriteBatch;
+        public static GraphicsDeviceManager? graphics => Main.Renderer.Graphics;
+        public static Lighting? lighting => Main.Renderer.Lighting;
         public static List<Water> WaterBodies => Main.World.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
-        public static Vector2 ScreenSize => Main.graphics.GraphicsDevice == null ? Vector2.One : Main.renderer.PreferredSize;
+        public static Vector2 ScreenSize => Main.graphics.GraphicsDevice == null ? Vector2.One : Main.Renderer.PreferredSize;
         public static Vector2 ActualScreenSize => Main.AScreenSize;
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
         public static Vector2 AbsD => Main.ActualScreenSize - Main.ScreenSize;
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
-        public static bool MouseInBounds => Main.renderer.Destination.Contains(Mouse.GetState().Position);
+        public static bool MouseInBounds => Main.Renderer.Destination.Contains(Mouse.GetState().Position);
     }
 }

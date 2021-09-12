@@ -35,7 +35,7 @@ namespace FlipEngine
 
         public void Dispose()
         {
-            Main.Primitives.Components.Remove(this);
+            Main.Renderer.Primitives.Components.Remove(this);
         }
         public void Update()
         {

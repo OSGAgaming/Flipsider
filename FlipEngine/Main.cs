@@ -11,19 +11,14 @@ namespace FlipEngine
 #nullable disable
     internal partial class Main : Game
     {
-        public static Random rand;
         public static Main instance;
         public static bool isLoading = true;
-        public static GameTime gameTime;
-        public static SpriteFont font;
-        public static Renderer renderer;
-        public static World World;
-        public static Manager<Primitive> Primitives;
-        public FPS fps = new FPS();
+        public static Renderer Renderer { get; set; }
+        public static World World { get; set; }
 
         public Main()
         {
-            renderer = new Renderer(this);
+            Renderer = new Renderer(this);
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -38,7 +33,6 @@ namespace FlipEngine
         {
             GetAllTypes();
             SceneManager.Instance.SetNextScene(new EditorScene(), null);
-            rand = new Random();
         }
         public static string MainPath => Environment.CurrentDirectory + $@"\";
         protected override void Initialize()
@@ -53,9 +47,8 @@ namespace FlipEngine
             Fonts.LoadFonts(Content);
             AutoloadTextures.LoadTexturesToAssetCache(Content);
             Textures.LoadTextures();
-
+            FlipE.Load(Content);
             Instatiate();
-
 
             // Register controls
             Camera.targetScale = 2f;
@@ -65,9 +58,8 @@ namespace FlipEngine
 
         protected override void LoadContent()
         {
-            renderer.Load();
+            Renderer.Load();
             World = new World(2000, 2000);
-            font = Content.Load<SpriteFont>("FlipFont");
             instance = this;
             LoadGUI();
 
@@ -78,7 +70,6 @@ namespace FlipEngine
             }
 
             isLoading = false;
-            Primitives = new Manager<Primitive>();
 
             TileManager.CanPlace = true;
 
@@ -109,11 +100,11 @@ namespace FlipEngine
                 graphics.GraphicsDevice == null ? Vector2.One :
                 graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
 
+            FlipE.Update(gameTime);
+
             foreach (IUpdateGT gt in GameTimeUpdateables.ToArray()) gt.Update(gameTime);
             foreach (IUpdate gt in Updateables.ToArray()) gt.Update();
             foreach (IUpdate gt in AlwaysUpdate.ToArray()) gt.Update();
-
-            Main.gameTime = gameTime;
 
             LoadQueue?.Invoke();
             LoadQueue = null;
@@ -123,7 +114,7 @@ namespace FlipEngine
 
         protected override void Draw(GameTime gameTime)
         {
-            renderer.Draw();
+            Renderer.Draw();
             base.Draw(gameTime);
         }
     }

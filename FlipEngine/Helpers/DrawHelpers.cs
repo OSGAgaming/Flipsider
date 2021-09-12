@@ -56,7 +56,7 @@ namespace FlipEngine
 
         public static void DrawText(string text, Color colour, Vector2 position, float rotation = 0f)
         {
-            SpriteFont font = Main.font;
+            SpriteFont font = FlipE.font;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
             Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
@@ -64,7 +64,7 @@ namespace FlipEngine
 
         public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f, float scale = 0.5f)
         {
-            SpriteFont font = Main.font;
+            SpriteFont font = FlipE.font;
             float textPositionLeft = position.X;
             Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, scale, SpriteEffects.None, layerDepth);
             return font.MeasureString(text).X;

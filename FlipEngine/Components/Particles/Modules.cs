@@ -77,7 +77,7 @@ namespace FlipEngine
 
         public void Invoke(Particle[] particles, int index)
         {
-            particles[index].LightIntensity = Main.rand.NextFloat(intensityMin, intensityMax);
+            particles[index].LightIntensity = FlipE.rand.NextFloat(intensityMin, intensityMax);
         }
     }
     public class ModifyPosition : IParticleModifier
@@ -216,7 +216,7 @@ namespace FlipEngine
 
         public void Invoke(Particle[] particles, int index)
         {
-            particles[index].Paralax = Main.rand.NextFloat(_pMin, _pMax);
+            particles[index].Paralax = FlipE.rand.NextFloat(_pMin, _pMax);
         }
     }
 
@@ -326,14 +326,14 @@ namespace FlipEngine
         {
             this.lower = lower;
             this.upper = upper;
-            _turnRadians = Main.rand.NextFloat(lower, upper);
+            _turnRadians = FlipE.rand.NextFloat(lower, upper);
         }
 
         public void Invoke(Particle[] particles, int index)
         {
             if (particles[index].Age <= Time.DeltaT)
             {
-                _turnRadians = Main.rand.NextFloat(lower, upper);
+                _turnRadians = FlipE.rand.NextFloat(lower, upper);
             }
             Vector2 v = particles[index].Velocity;
             float speed = v.Length();

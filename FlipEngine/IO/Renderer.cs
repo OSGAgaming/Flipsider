@@ -8,6 +8,8 @@ namespace FlipEngine
     public delegate void LayerEventDelegate(World world, SpriteBatch spriteBatch);
     public class Renderer
     {
+        public Manager<Primitive> Primitives;
+
         public event Action? TargetCalls;
 
         /// <summary>
@@ -24,14 +26,13 @@ namespace FlipEngine
         /// <summary>
         /// For Convenience. Can be Misc render calls
         /// </summary>
-        public RenderTarget2D? PreUITarget { get; set; }
-        public RenderTarget2D? PostUITarget { get; set; }
+        public RenderTarget2D? UITarget { get; set; }
 
         public Game? Instance { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
 
         public CameraTransform? MainCamera { get; set; }
-        public bool RenderUITarget { get; set; }
+        public bool RenderUITarget { get; set; } = true;
         public bool RenderPrimitiveMode { get; set; }
 
         //Does not work yet
@@ -76,10 +77,10 @@ namespace FlipEngine
 
             RenderTarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
             PostProcessedTarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
-            PreUITarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
-            PostUITarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
+            UITarget = new RenderTarget2D(Graphics?.GraphicsDevice, X, Y);
 
             SpriteBatch = new SpriteBatch(Graphics?.GraphicsDevice);
+            Primitives = new Manager<Primitive>();
         }
 
         public void AddTargetCall(RenderTarget2D target, Action<SpriteBatch> Call)
@@ -126,14 +127,14 @@ namespace FlipEngine
                 TargetCalls = null;
 
                 //Doesnt have to be UI. Can be anything Misc that doesnt use the Main Transform
-                Graphics?.GraphicsDevice.SetRenderTarget(PreUITarget);
+                Graphics?.GraphicsDevice.SetRenderTarget(UITarget);
                 Graphics?.GraphicsDevice.Clear(Color.Transparent);
 
                 if(RenderUITarget) RenderUI(SpriteBatch);
 
                 SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: MainCamera?.Transform, samplerState: SamplerState.PointClamp);
 
-                if (RenderTarget != null && Lighting != null && PreUITarget != null)
+                if (RenderTarget != null && Lighting != null && UITarget != null)
                 {
                     RenderTarget2D r = Lighting.Maps.OrderedShaderPass(SpriteBatch, RenderTarget);
 
@@ -141,11 +142,6 @@ namespace FlipEngine
                     Graphics?.GraphicsDevice.Clear(Color.Transparent);
 
                     PrintRenderTarget(r);
-
-                    Graphics?.GraphicsDevice.SetRenderTarget(PostUITarget);
-                    Graphics?.GraphicsDevice.Clear(Color.Transparent);
-
-                    PrintRenderTarget(PreUITarget);
                 }
 
                 SpriteBatch.End();
@@ -155,7 +151,8 @@ namespace FlipEngine
                 SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
                 SpriteBatch.Draw(PostProcessedTarget, Destination, new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y), Color.White);
-                SpriteBatch.Draw(PostUITarget, Destination, new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y), Color.White);
+                SpriteBatch.Draw(UITarget, Destination, new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y), Color.White);
+                SpriteBatch.Draw(RenderTarget, Destination, new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y), Color.White);
 
                 RenderToScreen(SpriteBatch);
 
@@ -179,8 +176,7 @@ namespace FlipEngine
 
             SceneManager.Instance.Draw(SpriteBatch);
 
-            if (Graphics != null)
-                Lighting?.Maps.OrderedRenderPass(SpriteBatch, Graphics.GraphicsDevice);
+            if (Graphics != null) Lighting?.Maps.OrderedRenderPass(SpriteBatch, Graphics.GraphicsDevice);
 
             sb.End();
         }
@@ -188,7 +184,7 @@ namespace FlipEngine
         {
             sb.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
 
-            Main.instance.fps.DrawFps(Main.spriteBatch, Main.font, FPSPosition, Color.Aqua);
+            FPS.Instance.DrawFps(Main.spriteBatch, FlipE.font, FPSPosition, Color.Aqua);
 
             for (int i = 0; i < UIScreenManager.Instance?.Components.Count; i++)
             {
@@ -196,6 +192,7 @@ namespace FlipEngine
             }
 
             SceneManager.Instance.DrawTransitionUI(SpriteBatch);
+            UIScreenManager.Instance?.DrawOnScreen();
 
             sb.End();
 
