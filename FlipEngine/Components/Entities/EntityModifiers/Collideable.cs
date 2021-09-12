@@ -44,7 +44,7 @@ namespace FlipEngine
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
 
-                foreach (Chunk chunk in Main.World.tileManager.chunks)
+                foreach (Chunk chunk in FlipGame.World.tileManager.chunks)
                 {
                     if(chunk.Active)
                     {
@@ -77,7 +77,7 @@ namespace FlipEngine
         public void Dispose()
         {
             BindableEntity.Chunk.Colliedables.collideables.Remove(this);
-            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            FlipGame.layerHandler.Layers[Layer].Drawables.Remove(this);
         }
         public void Draw(SpriteBatch spriteBatch)
         {

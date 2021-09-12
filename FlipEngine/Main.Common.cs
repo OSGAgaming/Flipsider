@@ -8,7 +8,7 @@ namespace FlipEngine
 {
     // TODO holy shit this hurts
 #nullable disable
-    internal partial class Main : Game
+    internal partial class FlipGame : Game
     {
         private void GetAllTypes()
         {
@@ -53,7 +53,7 @@ namespace FlipEngine
         {
             Point p = Mouse.GetState().Position;
             Vector2 R = ActualScreenSize / Renderer.Destination.Size.ToVector2();
-            Vector2 v = (p.ToVector2() - Renderer.Destination.Location.ToVector2() ) * R / Camera.Scale + Camera.Position;
+            Vector2 v = (p.ToVector2() - Renderer.Destination.Location.ToVector2() ) * R / Camera.Scale + Camera.TransformPosition;
             return v.ToPoint();
         }
 

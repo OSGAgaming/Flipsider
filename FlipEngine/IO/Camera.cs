@@ -8,6 +8,9 @@ namespace FlipEngine
     public class CameraTransform : IUpdateGT
     {
         public Vector2 Offset;
+        public Vector2 Position;
+        public Vector2 TransformPosition;
+
         public float targetScale { get; set; } = 1;
 
         public Matrix Transform { get; set; }
@@ -16,13 +19,11 @@ namespace FlipEngine
 
         public float Rotation { get; set; }
 
-        public Vector2 Position;
-
-        public virtual Vector2 TargetSize { get; } = Main.ActualScreenSize;
+        public virtual Vector2 TargetSize { get; } = FlipGame.ActualScreenSize;
 
         public virtual Vector2 MatrixOffset { get; set; }
 
-        public virtual Vector2 OffsetPosition => Position + MatrixOffset;
+        public virtual Vector2 OffsetPosition => TransformPosition + MatrixOffset;
 
         public float LeftBound => TargetSize.X / (float)(2 * Scale);
 
@@ -35,7 +36,7 @@ namespace FlipEngine
         protected virtual void TransformConfiguration()
         {
             Transform =
-            Matrix.CreateTranslation(new Vector3(-(Position + Offset), 0)) *
+            Matrix.CreateTranslation(new Vector3(-TransformPosition, 0)) *
             Matrix.CreateRotationZ(Rotation)  *
             Matrix.CreateScale(GetScreenScale());        
         }
@@ -49,13 +50,14 @@ namespace FlipEngine
 
         public void Update(GameTime gameTime)
         {
-            Position.X = Math.Max(Position.X, LeftBound);
-            Position.Y = Math.Min(Position.Y, LowerBound);
+            TransformPosition = Position + Offset;
+
+            TransformPosition.X = Math.Max(TransformPosition.X, LeftBound);
+            TransformPosition.Y = Math.Min(TransformPosition.Y, LowerBound);
 
             Scale += (targetScale - Scale) / Smoothing;
-            UpdateTransform();
 
-            Logger.NewText(Offset);
+            UpdateTransform();
         }
 
         public Vector3 GetScreenScale()
@@ -65,10 +67,15 @@ namespace FlipEngine
 
             return new Vector3(scaleX * Scale, scaleY * Scale, 1.0f);
         }
-        public Matrix ParallaxedTransform(float Paralax) => Transform * Matrix.CreateTranslation(new Vector3(-Position.AddParallaxAcrossX(Paralax) + Position, 0));
+        public Matrix ParallaxedTransform(float Paralax) => Transform * Matrix.CreateTranslation(new Vector3(-TransformPosition.AddParallaxAcrossX(Paralax) + TransformPosition, 0));
         
         public Matrix GetTransform() => Transform;
 
-        public Chunk ActiveChunk => Main.World.tileManager.GetChunkToWorldCoords(Position);
+        public Chunk ActiveChunk => FlipGame.World.tileManager.GetChunkToWorldCoords(TransformPosition);
+
+        public CameraTransform()
+        {
+            FlipE.GameTimeUpdateables.Add(this);
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace FlipEngine
 
         public SceneManager()
         {
-            Main.Updateables.Add(this);
+            FlipE.Updateables.Add(this);
         }
 
         static SceneManager()

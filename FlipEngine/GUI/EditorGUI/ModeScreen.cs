@@ -44,7 +44,7 @@ namespace FlipEngine
 
         public PreviewElement(ScrollPanel? Parent)
         {
-            Main.LoadQueue += () =>
+            FlipE.LoadQueue += () =>
             {
                 PreviewPanel = Parent;
             };      

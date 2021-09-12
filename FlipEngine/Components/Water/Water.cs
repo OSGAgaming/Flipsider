@@ -55,7 +55,7 @@ namespace FlipEngine
             Rectangle Frame = binaryReader.ReadRect();
             int Layer = binaryReader.ReadInt32();
             Water water = new Water(new RectangleF(Frame.Location.ToVector2(),Frame.Size.ToVector2()), Layer);
-            Main.WaterBodies.Add(water);
+            FlipGame.WaterBodies.Add(water);
             return water;
         }
         public Water(RectangleF _frame) : base()
@@ -66,9 +66,9 @@ namespace FlipEngine
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
-            Main.Renderer.Primitives.AddComponent(PrimitiveInstance);
-            Main.Renderer.Primitives.AddComponent(PrimitiveInstanceDamp);
-            Main.AppendPrimitiveToLayer(this);
+            FlipGame.Renderer.Primitives.AddComponent(PrimitiveInstance);
+            FlipGame.Renderer.Primitives.AddComponent(PrimitiveInstanceDamp);
+            FlipGame.AppendPrimitiveToLayer(this);
         }
         public Water(RectangleF _frame, int Layer) : base()
         {
@@ -78,9 +78,9 @@ namespace FlipEngine
             Initialize();
             PrimitiveInstance = new WaterPrimtives(this);
             PrimitiveInstanceDamp = new WaterPrimitivesDampened(this);
-            Main.Renderer.Primitives.AddComponent(PrimitiveInstance);
-            Main.Renderer.Primitives.AddComponent(PrimitiveInstanceDamp);
-            Main.AppendPrimitiveToLayer(this);
+            FlipGame.Renderer.Primitives.AddComponent(PrimitiveInstance);
+            FlipGame.Renderer.Primitives.AddComponent(PrimitiveInstanceDamp);
+            FlipGame.AppendPrimitiveToLayer(this);
         }
         public Water()
         {
@@ -88,7 +88,7 @@ namespace FlipEngine
         }
         protected override void OnUpdate()
         {
-            foreach (Chunk chunk in Main.World.tileManager.chunks)
+            foreach (Chunk chunk in FlipGame.World.tileManager.chunks)
             {
                 if (chunk.Active)
                 {

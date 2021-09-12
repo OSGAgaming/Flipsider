@@ -22,8 +22,8 @@ namespace FlipEngine
         }
         public void ApplyShader()
         {
-            MapEffect?.Parameters["screenPosition"]?.SetValue(Main.Camera.Position);
-            MapEffect?.Parameters["screenScale"]?.SetValue(Main.ScreenScale);
+            MapEffect?.Parameters["screenPosition"]?.SetValue(FlipGame.Camera.TransformPosition);
+            MapEffect?.Parameters["screenScale"]?.SetValue(FlipGame.ScreenScale);
             MapEffect?.Parameters["screenSize"]?.SetValue(new Vector2(2560, 1440));
             MapEffect?.Parameters["noiseMap"]?.SetValue(TextureCache.Noise);
             MapEffect?.Parameters["Map"]?.SetValue(MapTarget);
@@ -51,7 +51,7 @@ namespace FlipEngine
 
         public virtual void Load()
         {
-            MapTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+            MapTarget = new RenderTarget2D(FlipGame.graphics.GraphicsDevice, 2560, 1440);
         }
     }
 }

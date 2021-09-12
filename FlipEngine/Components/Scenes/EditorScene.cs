@@ -20,18 +20,18 @@ namespace FlipEngine
             int YToLeft = 32;
 
             int XToRight = XToLeft + 32;
-            int YToRight = (int)(XToRight * (Main.ActualScreenSize.Y / Main.ActualScreenSize.X));
+            int YToRight = (int)(XToRight * (FlipGame.ActualScreenSize.Y / FlipGame.ActualScreenSize.X));
 
-            Main.Renderer.Destination = new Rectangle(XToLeft, YToLeft, (int)Main.ActualScreenSize.X - XToRight, (int)Main.ActualScreenSize.Y - YToRight);
+            FlipGame.Renderer.Destination = new Rectangle(XToLeft, YToLeft, (int)FlipGame.ActualScreenSize.X - XToRight, (int)FlipGame.ActualScreenSize.Y - YToRight);
 
             DisplayScene?.Update();
-            Main.World.Update();
+            FlipGame.World.Update();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             DisplayScene?.Draw(spriteBatch);
-            Main.World.Draw(spriteBatch);
+            FlipGame.World.Draw(spriteBatch);
         }
     }
 }

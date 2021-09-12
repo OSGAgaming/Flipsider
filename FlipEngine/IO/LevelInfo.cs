@@ -47,7 +47,7 @@ namespace FlipEngine
 
             LayerManagerInfo lmfao = LMI.Deserialize(stream);
 
-            Main.World.layerHandler = lmfao.Load();
+            FlipGame.World.layerHandler = lmfao.Load();
             TileManager TM = tileManager.Deserialize(stream);
             Skybox SKB = skybox.Deserialize(stream);
 

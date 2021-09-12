@@ -49,7 +49,7 @@ namespace FlipEngine
             HitBoxGeneration?.Invoke();
             HitBoxGeneration = null;
 
-            foreach (Chunk chunk in Main.World.tileManager.chunks)
+            foreach (Chunk chunk in FlipGame.World.tileManager.chunks)
             {
                 if (chunk.Active)
                 {
@@ -83,7 +83,7 @@ namespace FlipEngine
         public void Dispose()
         {
             LE.Chunk.HitBoxes.HitBoxes.Remove(this);
-            Debug.WriteLine(Main.layerHandler.Layers[Layer].Drawables.Remove(this));
+            Debug.WriteLine(FlipGame.layerHandler.Layers[Layer].Drawables.Remove(this));
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -100,7 +100,7 @@ namespace FlipEngine
         {
             this.LE = LE;
             LE.Chunk.HitBoxes.HitBoxes.Add(this);
-            Main.AutoAppendToLayer(this);
+            FlipGame.AutoAppendToLayer(this);
         }
     }
 }

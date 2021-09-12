@@ -87,7 +87,7 @@ namespace FlipEngine
             Point pos = new Point(point.X % Chunk.width, point.Y % Chunk.height);
             GetChunkToTileCoords(point).AddTile(tile, pos);
         }
-        public static bool CanPlace;
+        public static bool CanPlace = true;
         public Tile AddTile(World world, Tile T, bool forcePlacement = false)
         {
             try
@@ -183,7 +183,7 @@ namespace FlipEngine
             int width = binaryReader.ReadInt32();
             int height = binaryReader.ReadInt32();
             TileManager tileManager = new TileManager(width * Chunk.width, height * Chunk.height);
-            Main.World.tileManager = tileManager;
+            FlipGame.World.tileManager = tileManager;
 
             Chunk chunk = new Chunk();
             for (int i = 0; i < width; i++)

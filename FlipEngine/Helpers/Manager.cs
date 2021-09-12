@@ -11,10 +11,10 @@ namespace FlipEngine
         public Manager(bool ingame = true)
         {
             if (ingame)
-                Main.Updateables.Add(this);
+                FlipE.Updateables.Add(this);
             else
             {
-                Main.AlwaysUpdate.Add(this);
+                FlipE.AlwaysUpdate.Add(this);
             }
         }
         internal List<T> Components = new List<T>();

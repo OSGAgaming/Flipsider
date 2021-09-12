@@ -66,7 +66,7 @@ namespace FlipEngine
             {
                 if (controller != null && controller is VectorController c && !IsHoveringOverThingy)
                 {
-                    c.CameraStamp = Main.MouseToDestination().ToVector2();
+                    c.CameraStamp = FlipGame.MouseToDestination().ToVector2();
                 }
             }
 

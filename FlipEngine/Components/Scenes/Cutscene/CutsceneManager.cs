@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public class CutsceneManager : IUpdate
+    public class CutsceneManager : ILoadUpdate
     {
         private Cutscene? currentCutscene;
 

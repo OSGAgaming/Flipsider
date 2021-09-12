@@ -10,7 +10,6 @@ namespace FlipEngine
         public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}");
         public static string LocalDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory.Split(@"\bin")[0]}");
 
-
         public static IEnumerable<T> Flatten<T>(this T[,] matrix)
         {
             foreach (var item in matrix) yield return item;

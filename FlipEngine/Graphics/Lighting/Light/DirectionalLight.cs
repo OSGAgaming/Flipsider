@@ -15,7 +15,7 @@ namespace FlipEngine
             Layer = LayerHandler.CurrentLayer;
             points = new Vector2[Accuracy];
             //Mesh = new LightPrimitives(this);
-            Main.Renderer.Primitives.AddComponent(Mesh);
+            FlipGame.Renderer.Primitives.AddComponent(Mesh);
         }
 
         public void SetRotation(float rotation)
@@ -30,8 +30,8 @@ namespace FlipEngine
             {
                 Vector2 diffVec = (Vector2.UnitX * strength).RotatedBy(rotation);
                 Vector2 secondPos = origin + diffVec.RotatedBy(i / (Accuracy / angularCoverage));
-                Vector2 intersection = Utils.ReturnIntersectionTile(Main.World, origin.ToPoint(), secondPos.ToPoint());
-                bool intersectionState = Utils.LineIntersectsTile(Main.World, origin.ToPoint(), secondPos.ToPoint());
+                Vector2 intersection = Utils.ReturnIntersectionTile(FlipGame.World, origin.ToPoint(), secondPos.ToPoint());
+                bool intersectionState = Utils.LineIntersectsTile(FlipGame.World, origin.ToPoint(), secondPos.ToPoint());
                 if (intersectionState)
                 {
                     points[i + Accuracy / 2] = intersection;

@@ -8,11 +8,11 @@ using System.IO;
 
 namespace FlipEngine
 {
-    public class DamageTextHandler : IUpdate
+    public class DamageTextHandler : ILoadUpdate
     {
         public DamageTextHandler()
         {
-            Main.Updateables.Add(this);
+            FlipE.Updateables.Add(this);
         }
 
         private readonly List<DamageText> DT = new List<DamageText>();
@@ -139,7 +139,7 @@ namespace FlipEngine
             {
                 Layer = LayerHandler.CurrentLayer
             };                             
-            Main.AppendToLayer(NPC);
+            FlipGame.AppendToLayer(NPC);
             NPC.SetDefaults();
             NPC.isNPC = true;
             NPC.Position = position;

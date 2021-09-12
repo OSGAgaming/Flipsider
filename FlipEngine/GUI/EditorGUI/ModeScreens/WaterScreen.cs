@@ -16,7 +16,7 @@ namespace FlipEngine
         private bool flag = true;
         private bool mouseStateBuffer;
         private Vector2 pos1;
-        private Vector2 MouseSnap => Main.MouseToDestination().ToVector2().Snap(8);
+        private Vector2 MouseSnap => FlipGame.MouseToDestination().ToVector2().Snap(8);
 
         public override Mode Mode => Mode.Water;
 
@@ -26,7 +26,7 @@ namespace FlipEngine
 
             for (int i = 0; i < Utils.WaterBodies.Count; i++)
             {
-                if (Utils.WaterBodies[i].frame.Contains(Main.MouseScreen))
+                if (Utils.WaterBodies[i].frame.Contains(FlipGame.MouseToDestination()))
                 {
                     Utils.DrawRectangle(Utils.WaterBodies[i].frame, Color.White, 3);
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
@@ -38,7 +38,7 @@ namespace FlipEngine
             }
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                Vector2 MouseScreen = Main.MouseToDestination().ToVector2().Snap(8);
+                Vector2 MouseScreen = FlipGame.MouseToDestination().ToVector2().Snap(8);
                 if (!flag)
                     Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.White, 3);
             }
@@ -54,12 +54,12 @@ namespace FlipEngine
             if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
             {
                 flag = true;
-                Main.WaterBodies.Add(new Water(new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4))));
+                FlipGame.WaterBodies.Add(new Water(new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4))));
             }
             mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
             if (mouseStateBuffer && flag)
             {
-                pos1 = Main.MouseToDestination().ToVector2().Snap(8);
+                pos1 = FlipGame.MouseToDestination().ToVector2().Snap(8);
                 flag = false;
             }
             if (mouseStateBuffer)

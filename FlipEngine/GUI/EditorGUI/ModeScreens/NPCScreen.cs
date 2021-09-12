@@ -33,7 +33,7 @@ namespace FlipEngine
 
             if (SelectedNPCType != null && icon != null)
             {
-                Main.spriteBatch.Draw(icon, Main.MouseToDestination().ToVector2(), icon?.Bounds, Color.White * Math.Abs(Time.SineTime(3f)), 0f, (icon ?? TextureCache.pixel).TextureCenter(), 1f, SpriteEffects.None, 0f);
+                FlipGame.spriteBatch.Draw(icon, FlipGame.MouseToDestination().ToVector2(), icon?.Bounds, Color.White * Math.Abs(Time.SineTime(3f)), 0f, (icon ?? TextureCache.pixel).TextureCenter(), 1f, SpriteEffects.None, 0f);
             }
         }
         public override void DrawToSelector(SpriteBatch sb)
@@ -52,7 +52,7 @@ namespace FlipEngine
         {
             if (GameInput.Instance.JustClickingLeft && SelectedNPCType != null)
             {
-                SpawnNPC(Main.MouseToDestination().ToVector2(), SelectedNPCType);
+                SpawnNPC(FlipGame.MouseToDestination().ToVector2(), SelectedNPCType);
             }
 
             CanPlace = true;

@@ -78,7 +78,7 @@ namespace FlipEngine
         public LayerHandler()
         {
             AddLayer();
-            Target = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+            Target = new RenderTarget2D(FlipGame.graphics.GraphicsDevice, 2560, 1440);
         }
 
         public List<Layer> Layers = new List<Layer>();
@@ -106,8 +106,8 @@ namespace FlipEngine
         public void DrawLayers(SpriteBatch spriteBatch)
         {
             InfoCache = Info;
-            Main.graphics.GraphicsDevice.SetRenderTarget(Target);
-            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+            FlipGame.graphics.GraphicsDevice.SetRenderTarget(Target);
+            FlipGame.graphics.GraphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.End();
 
@@ -122,10 +122,10 @@ namespace FlipEngine
                 }
             }
 
-            Main.graphics.GraphicsDevice.SetRenderTarget(Main.Renderer.RenderTarget);
-            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+            FlipGame.graphics.GraphicsDevice.SetRenderTarget(FlipGame.Renderer.RenderTarget);
+            FlipGame.graphics.GraphicsDevice.Clear(Color.Transparent);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
 
         }
         public void AppendMethodToLayer(ILayeredComponent Method)

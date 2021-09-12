@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public class FPS : IUpdateGT
+    public class FPS : ILoadUpdateGT
     {
         private float frames = 0;
         private float updates = 0;

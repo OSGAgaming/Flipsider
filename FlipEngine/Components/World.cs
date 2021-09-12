@@ -14,6 +14,7 @@ namespace FlipEngine
 
         public int MaxTilesX { get; private set; }
         public int MaxTilesY { get; private set; }
+
         public TileManager tileManager { get; set; }
         public Manager<Water> WaterBodies { get; set; }
         public PropManager propManager { get; set; }
@@ -73,7 +74,7 @@ namespace FlipEngine
         {
             layerHandler.DrawLayers(spriteBatch);
             Skybox.Draw(spriteBatch);
-            Main.Renderer.PrintRenderTarget(layerHandler.Target);
+            FlipGame.Renderer.PrintRenderTarget(layerHandler.Target);
 
             GlobalParticles.Draw(spriteBatch);
         }
@@ -89,7 +90,7 @@ namespace FlipEngine
 
             Skybox = new Skybox();
 
-            GlobalParticles = new ParticleSystem(200);
+            GlobalParticles = new ParticleSystem();
         }
     }
 }

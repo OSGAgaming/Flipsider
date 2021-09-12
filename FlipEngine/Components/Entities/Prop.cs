@@ -20,8 +20,8 @@ namespace FlipEngine
         public Vector2 offsetFromMouseWhileDragging;
         public override void Dispose()
         {
-            Main.World.layerHandler.Layers[Layer].Drawables.Remove(this);
-            Main.World.propManager.props.Remove(this);
+            FlipGame.World.layerHandler.Layers[Layer].Drawables.Remove(this);
+            FlipGame.World.propManager.props.Remove(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
             active = false;
@@ -63,7 +63,7 @@ namespace FlipEngine
             bool draggable = binaryWriter.ReadBoolean();
             int Layer = binaryWriter.ReadInt32();
             Prop prop = new Prop(propEncode, position, Layer, draggable);
-            return Main.World.propManager.AddProp(prop);
+            return FlipGame.World.propManager.AddProp(prop);
         }
         public override void Serialize(Stream stream)
         {
@@ -81,7 +81,7 @@ namespace FlipEngine
             propEncode = Encoding.UTF8.GetBytes(prop);
             this.Layer = Layer;
             draggable = Draggable;
-            Position = pos.AddParallaxAcrossX(Main.layerHandler.Layers[Layer].parallax);
+            Position = pos.AddParallaxAcrossX(FlipGame.layerHandler.Layers[Layer].parallax);
             Width = PropTypes[prop].Width;
             Height = PropTypes[prop].Height;
             if(PropEntity.keyValuePairs.ContainsKey(prop))

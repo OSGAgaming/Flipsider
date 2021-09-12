@@ -45,7 +45,7 @@ namespace FlipEngine
         }
         public override void SetShaders()
         {
-            PrepareShader(EffectCache.PrimtiveShader ?? new BasicEffect(Main.graphics.GraphicsDevice), "WaterDamp", _counter / 40f);
+            PrepareShader(EffectCache.PrimtiveShader ?? new BasicEffect(FlipGame.graphics.GraphicsDevice), "WaterDamp", _counter / 40f);
         }
         public override void OnUpdate()
         {

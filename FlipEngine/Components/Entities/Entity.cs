@@ -63,7 +63,7 @@ namespace FlipEngine
             if (WithinChunk)
             {
                 //ActionCache.Instance.EntityQueue.Add(this);
-                Main.LoadQueue += AfterLoad;
+                FlipE.LoadQueue += AfterLoad;
             }
         }
         protected void UpdateEntityModifier(string name)
@@ -98,7 +98,7 @@ namespace FlipEngine
             if (Active)
             {
                 PostConstructor();
-                if (Main.World != null)
+                if (FlipGame.World != null)
                 {
                     Chunk?.Entities.Add(this);
                 }

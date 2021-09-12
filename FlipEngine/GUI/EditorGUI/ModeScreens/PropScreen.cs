@@ -33,13 +33,13 @@ namespace FlipEngine
         }
         public override void CustomDrawToScreen()
         {
-            int alteredRes = Main.World.TileRes / 4;
-            Vector2 tilePoint2 = Main.MouseToDestination().ToVector2().Snap(alteredRes);
+            int alteredRes = FlipGame.World.TileRes / 4;
+            Vector2 tilePoint2 = FlipGame.MouseToDestination().ToVector2().Snap(alteredRes);
 
             if (CurrentProp != null)
             {
                 Rectangle altFrame = PropManager.PropTypes[CurrentProp].Bounds;
-                Main.spriteBatch.Draw(PropManager.PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(Time.SineTime(6)), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                FlipGame.spriteBatch.Draw(PropManager.PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(Time.SineTime(6)), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public override void DrawToSelector(SpriteBatch sb)
@@ -56,21 +56,21 @@ namespace FlipEngine
 
         public override void CustomUpdate()
         {
-            Vector2 mousePos = Main.MouseToDestination().ToVector2().Snap(2);
+            Vector2 mousePos = FlipGame.MouseToDestination().ToVector2().Snap(2);
 
             if (GameInput.Instance.JustClickingLeft && CanPlace)
             {
-                Main.World.propManager.AddProp(CurrentProp ?? "", mousePos);
+                FlipGame.World.propManager.AddProp(CurrentProp ?? "", mousePos);
             }
 
             if (Mouse.GetState().RightButton != ButtonState.Pressed)
             {
                 chosenProp = null;
 
-                var Props = Main.World.propManager.props;
+                var Props = FlipGame.World.propManager.props;
                 for (int i = 0; i < Props.Count; i++)
                 {
-                    if (Props[i].CollisionFrame.Contains(Main.MouseScreen))
+                    if (Props[i].CollisionFrame.Contains(FlipGame.MouseScreen))
                     {
                         chosenProp = Props[i];
                     }
@@ -82,7 +82,7 @@ namespace FlipEngine
             {
                 Point size = PropManager.PropTypes[chosenProp.prop].Bounds.Size;
                 Rectangle rect = new Rectangle(chosenProp.ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
-                if (rect.Contains(Main.MouseScreen))
+                if (rect.Contains(FlipGame.MouseScreen))
                 {
                     if (!mousePressedMiddle && Mouse.GetState().MiddleButton == ButtonState.Pressed)
                     {
@@ -93,9 +93,9 @@ namespace FlipEngine
                         if (!mousePressedRight)
                         {
                             cachedCenter = chosenProp.Center;
-                            mouseCenter = Main.MouseScreen.ToVector2();
+                            mouseCenter = FlipGame.MouseScreen.ToVector2();
                         }
-                        chosenProp.Center = cachedCenter + (Main.MouseScreen.ToVector2() - mouseCenter);
+                        chosenProp.Center = cachedCenter + (FlipGame.MouseScreen.ToVector2() - mouseCenter);
                     }
                 }
 

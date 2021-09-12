@@ -53,8 +53,8 @@ namespace FlipEngine
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
-            Vector2 zoom = new Vector2(Main.ScreenScale);
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * Main.ScreenScale) + Main.Camera.Position.X, height / -(2 * Main.ScreenScale) - Main.Camera.Position.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Vector2 zoom = new Vector2(FlipGame.ScreenScale);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * FlipGame.ScreenScale) + FlipGame.Camera.TransformPosition.X, height / -(2 * FlipGame.ScreenScale) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
             effects.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
@@ -67,8 +67,8 @@ namespace FlipEngine
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
-            Vector2 zoom = new Vector2(Main.ScreenScale);
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation((width / (2 * Main.ScreenScale) + Main.Camera.Position.X), height / -(2 * Main.ScreenScale) - Main.Camera.Position.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Vector2 zoom = new Vector2(FlipGame.ScreenScale);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation((width / (2 * FlipGame.ScreenScale) + FlipGame.Camera.TransformPosition.X), height / -(2 * FlipGame.ScreenScale) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
             effects.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
@@ -81,8 +81,8 @@ namespace FlipEngine
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
-            Vector2 zoom = new Vector2(Main.ScreenScale);
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * Main.ScreenScale) + Main.Camera.Position.X, height / -(2 * Main.ScreenScale) - Main.Camera.Position.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Vector2 zoom = new Vector2(FlipGame.ScreenScale);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * FlipGame.ScreenScale) + FlipGame.Camera.TransformPosition.X, height / -(2 * FlipGame.ScreenScale) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
@@ -92,8 +92,8 @@ namespace FlipEngine
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
-            Vector2 zoom = new Vector2(Main.ScreenScale);
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * Main.ScreenScale) + Main.Camera.Position.X, height / -(2 * Main.ScreenScale) - Main.Camera.Position.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Vector2 zoom = new Vector2(FlipGame.ScreenScale);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * FlipGame.ScreenScale) + FlipGame.Camera.TransformPosition.X, height / -(2 * FlipGame.ScreenScale) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
             _basicEffect.View = view;

@@ -8,21 +8,21 @@ namespace FlipEngine
     public static partial class Utils
     {
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
-        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.Camera.Position - center) * strenght;
+        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (FlipGame.Camera.TransformPosition - center) * strenght;
 
-        public static MapPass GetMap(string MapName) => Main.lighting.Maps.Get(MapName);
+        public static MapPass GetMap(string MapName) => FlipGame.lighting.Maps.Get(MapName);
 
-        public static void DrawToMap(string MapName, MapRender MR) => Main.lighting.Maps.DrawToMap(MapName, MR);
+        public static void DrawToMap(string MapName, MapRender MR) => FlipGame.lighting.Maps.DrawToMap(MapName, MR);
         public static void BeginCameraSpritebatch()
-        => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+        => FlipGame.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
 
         public static void BeginEndCameraSpritebatch()
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp); 
+            FlipGame.spriteBatch.End();
+            FlipGame.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp); 
         }
         public static void BeginAdditiveCameraSpritebatch()
-       => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+       => FlipGame.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
         public static void QuickApplyShader(Effect effect)
         => effect?.CurrentTechnique.Passes[0].Apply();
         public static void QuickApplyShader(Effect effect, params float[] yo)
@@ -33,17 +33,17 @@ namespace FlipEngine
                 effect?.Parameters[i]?.SetValue(yo[i]);
             }
         }
-        public static void DrawPixel(Vector2 pos, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, tint);
-        public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => Main.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
+        public static void DrawPixel(Vector2 pos, Color tint) => FlipGame.spriteBatch.Draw(TextureCache.pixel, pos, tint);
+        public static void DrawBoxFill(Vector2 pos, int width, int height, Color tint) => FlipGame.spriteBatch.Draw(TextureCache.pixel, pos, new Rectangle(0, 0, width, height), tint);
         public static void DrawBoxFill(Rectangle rectangle, Color tint, float depth = 0f) => 
-            Main.spriteBatch.Draw(TextureCache.pixel, rectangle.Location.ToVector2(), new Rectangle(0, 0, rectangle.Width, rectangle.Height), 
+            FlipGame.spriteBatch.Draw(TextureCache.pixel, rectangle.Location.ToVector2(), new Rectangle(0, 0, rectangle.Width, rectangle.Height), 
             tint, 0f, Vector2.Zero, 1f, SpriteEffects.None, depth);
         public static void DrawLine(Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f, float depth = 0f)
         {
             Vector2 between = p2 - p1;
             float length = between.Length();
             float rotation = (float)Math.Atan2(between.Y, between.X);
-            Main.spriteBatch.Draw(TextureCache.pixel, p1, null, tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, depth);
+            FlipGame.spriteBatch.Draw(TextureCache.pixel, p1, null, tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, depth);
         }
 
         public static void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2, Color tint, float lineWidth = 1f)
@@ -59,14 +59,14 @@ namespace FlipEngine
             SpriteFont font = FlipE.font;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+            FlipGame.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
         }
 
         public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f, float scale = 0.5f)
         {
             SpriteFont font = FlipE.font;
             float textPositionLeft = position.X;
-            Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, scale, SpriteEffects.None, layerDepth);
+            FlipGame.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, scale, SpriteEffects.None, layerDepth);
             return font.MeasureString(text).X;
         }
 
@@ -92,7 +92,7 @@ namespace FlipEngine
             for (int i = 0; i < 6; i++)
                 spriteBatch.Draw(Tex, 
                     new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - 
-                    new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, 
+                    new Vector2(FlipGame.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, 
                     new Vector2(0, Tex.Height), scale, SpriteEffects.None, 0f);
 
         }
@@ -101,7 +101,7 @@ namespace FlipEngine
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
                 spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY)
-                    - new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, 
+                    - new Vector2(FlipGame.Camera.LeftBound * -paralax, 0) + offset, dims, 
                     Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }

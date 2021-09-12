@@ -38,7 +38,7 @@ namespace FlipEngine
                 }
             }
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: BlendState.AlphaBlend, transformMatrix: Main.Camera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: BlendState.AlphaBlend, transformMatrix: FlipGame.Camera.ParallaxedTransform(parallax), samplerState: SamplerState.PointClamp);
 
             EffectCache.LayerColorModification?.Parameters["saturationValue"]?.SetValue(SaturationValue);
             EffectCache.LayerColorModification?.Parameters["colorModification"]?.SetValue(ColorModification);
@@ -74,8 +74,6 @@ namespace FlipEngine
         public void Serialize(Stream stream)
         {
             BinaryWriter writer = new BinaryWriter(stream);
-
-
         }
 
         public Layer Deserialize(Stream stream)

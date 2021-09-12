@@ -34,10 +34,12 @@ namespace FlipEngine
         bool CanSpawn(out float percentageOfSpeed);
     }
 
-    public class ParticleSystem : IUpdate
+    public class ParticleSystem : ILoadUpdate
     {
         private float _spawnTimer;
+
         internal readonly Particle[] _particles;
+        internal readonly int EngineMaxParticles;
 
         public bool SpawningEnabled { get; set; }
         public float SpawnRate { get; set; }
@@ -48,9 +50,9 @@ namespace FlipEngine
         public List<IParticleModifier> SpawnModules { get; private set; }
         public List<IParticleModifier> UpdateModules { get; private set; }
 
-        public ParticleSystem(int maxParticles)
+        public ParticleSystem()
         {
-            _particles = new Particle[maxParticles];
+            _particles = new Particle[EngineMaxParticles];
             SpawningEnabled = true;
 
             SpawnModules = new List<IParticleModifier>();
@@ -173,7 +175,7 @@ namespace FlipEngine
 
                     Texture2D lightTexture = TextureCache.PointLight;
 
-                    Main.lighting.Maps.DrawToMap("LightingMap", (SpriteBatch sb) => {
+                    FlipGame.lighting.Maps.DrawToMap("LightingMap", (SpriteBatch sb) => {
                         sb.Draw(lightTexture, WorldSpace ? p.ParalaxedCenter : Position + p.ParalaxedCenter , null, p.Color * p.Opacity * p.LightIntensity * 0.2f,
                             p.Rotation, lightTexture.Bounds.Size.ToVector2() * 0.5f, p.Scale * p.LightIntensity * 0.1f + p.Paralax * 0.2f, SpriteEffects.None, 0f);
                     }

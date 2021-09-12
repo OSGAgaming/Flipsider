@@ -27,17 +27,17 @@ namespace FlipEngine
 
         public override void CustomDrawToScreen()
         {
-            var world = Main.World;
-            var tileDict = Main.tileManager.tileDict;
+            var world = FlipGame.World;
+            var tileDict = FlipGame.tileManager.tileDict;
             int tileRes = TileManager.tileRes;
 
-            int modifiedRes = (int)(tileRes * Main.Camera.Scale);
+            int modifiedRes = (int)(tileRes * FlipGame.Camera.Scale);
 
-            Vector2 mousePos = Main.MouseToDestination().ToVector2();
+            Vector2 mousePos = FlipGame.MouseToDestination().ToVector2();
             Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
 
             float sine = Time.SineTime(2f);
-            Vector2 offsetSnap = new Vector2((int)Main.Camera.Offset.X, (int)Main.Camera.Offset.Y);
+            Vector2 offsetSnap = new Vector2((int)FlipGame.Camera.Offset.X, (int)FlipGame.Camera.Offset.Y);
 
             Rectangle TileFrame = TileScreen.AutoFrame ? Framing.GetTileFrame(world,
                 (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : TileScreen.currentFrame;
@@ -49,7 +49,7 @@ namespace FlipEngine
             else
             {
                 if (tileDict[TileScreen.currentType] != null)
-                    Main.spriteBatch.Draw(tileDict[TileScreen.currentType], tilePoint + new Vector2(tileRes / 2), TileFrame, Color.White *
+                    FlipGame.spriteBatch.Draw(tileDict[TileScreen.currentType], tilePoint + new Vector2(tileRes / 2), TileFrame, Color.White *
                         Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
             }
 
@@ -72,17 +72,17 @@ namespace FlipEngine
             MouseState state = Mouse.GetState();
             if (GameInput.Instance.IsClicking)
             {
-                Main.tileManager.AddTile(Main.World, new Tile(TileScreen.currentType, TileScreen.currentFrame, Main.MouseTile));
+                FlipGame.tileManager.AddTile(FlipGame.World, new Tile(TileScreen.currentType, TileScreen.currentFrame, FlipGame.MouseTile));
             }
 
             if (GameInput.Instance.IsRightClicking)
             {
-                Main.World.tileManager.RemoveTile(Main.World, Main.MouseTile.ToPoint());
+                FlipGame.World.tileManager.RemoveTile(FlipGame.World, FlipGame.MouseTile.ToPoint());
             }
         }
         protected override void OnLoad()
         {
-            tilePanel = new TilePreviewPanel[Main.tileManager.tileTypes.Count];
+            tilePanel = new TilePreviewPanel[FlipGame.tileManager.tileTypes.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)

@@ -28,7 +28,7 @@ namespace FlipEngine
         public HitBoxHandler HitBoxes;
         public Chunk(Point point)
         {
-            Main.Updateables.Add(this);
+            FlipE.Updateables.Add(this);
             Colliedables = new CollideableHanlder();
             HitBoxes = new HitBoxHandler();
             pos = point;
@@ -48,7 +48,7 @@ namespace FlipEngine
 
         public bool CheckActivity()
         {
-            Point PlayerChunkPos = Main.World.tileManager.ToChunkCoords(Main.Camera.Position.ToPoint());
+            Point PlayerChunkPos = FlipGame.World.tileManager.ToChunkCoords(FlipGame.Camera.TransformPosition.ToPoint());
             return pos.X >= PlayerChunkPos.X - 1 &&
                    pos.X <= PlayerChunkPos.X + 1 &&
                    pos.Y >= PlayerChunkPos.Y - 1 &&

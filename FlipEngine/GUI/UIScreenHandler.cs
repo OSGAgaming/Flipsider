@@ -6,12 +6,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FlipEngine
 {
-    public class UIScreenManager : Manager<UIScreen>
+    public class UIScreenManager : Manager<UIScreen>, IAlwaysUpdate
     {
         public static UIScreenManager? Instance;
-        public UIScreenManager() : base(false)
-        {
-        }
+
+        public UIScreenManager() : base(false) { }
+
         public void DrawOnScreen()
         {
             foreach (UIScreen UIS in Components)

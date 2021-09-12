@@ -8,13 +8,13 @@ namespace FlipEngine
 {
     public class CameraInterpolater : CutsceneController<CameraTransform, Vector2>
     {
-        public override CameraTransform receiver => Main.Camera;
+        public override CameraTransform receiver => FlipGame.Camera;
 
         public CameraInterpolater(Vector2 startValue, Vector2 endValue) : base(startValue, endValue) { }
 
         public CameraInterpolater() : base(Vector2.Zero, Vector2.Zero) { }
 
-        public override void Send(float progress) => receiver.Offset = Vector2.Lerp(startValue - receiver.Position, endValue - receiver.Position, progress);
+        public override void Send(float progress) => receiver.Offset = Vector2.Lerp(startValue - receiver.TransformPosition, endValue - receiver.TransformPosition, progress);
 
         public override void Serialize(Stream stream)
         {
@@ -33,7 +33,7 @@ namespace FlipEngine
 
     public class ZoomInterpolater : CutsceneController<CameraTransform, float>
     {
-        public override CameraTransform receiver => Main.Camera;
+        public override CameraTransform receiver => FlipGame.Camera;
 
         public ZoomInterpolater(float Value) : base(Value, Value) { }
 

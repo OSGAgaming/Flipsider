@@ -5,13 +5,14 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public class GameInput : IUpdate
+    public class GameInput : IAlwaysUpdate
     {
         public static GameInput Instance;
 
         static GameInput()
         {
             Instance = new GameInput();
+            FlipE.AlwaysUpdate.Add(Instance);
         }
 
         private readonly Dictionary<string, InputBinding> _controls;
@@ -44,7 +45,7 @@ namespace FlipEngine
 
         public GameInput()
         {
-            Main.AlwaysUpdate.Add(this);
+
             _controls = new Dictionary<string, InputBinding>();
         }
 

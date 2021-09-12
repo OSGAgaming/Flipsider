@@ -23,7 +23,7 @@ namespace FlipEngine
         {
             _effect = EffectCache.PrimtiveShader ?? new BasicEffect(_device);
             _trailShader = new DefaultShader();
-            _device = Main.graphics.GraphicsDevice;
+            _device = FlipGame.graphics.GraphicsDevice;
             _basicEffect = new BasicEffect(_device)
             {
                 VertexColorEnabled = true
@@ -35,7 +35,7 @@ namespace FlipEngine
 
         public void Dispose()
         {
-            Main.Renderer.Primitives.Components.Remove(this);
+            FlipGame.Renderer.Primitives.Components.Remove(this);
         }
         public void Update()
         {

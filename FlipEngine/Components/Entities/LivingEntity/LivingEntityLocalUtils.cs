@@ -60,13 +60,13 @@ namespace FlipEngine
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
-                    offsetFromMouseWhileDragging = Main.MouseScreen.ToVector2() - Center;
+                    offsetFromMouseWhileDragging = FlipGame.MouseScreen.ToVector2() - Center;
                     isDragging = true;
                 }
             }
             if (isDragging)
             {
-                Center = Main.MouseScreen.ToVector2() + offsetFromMouseWhileDragging;
+                Center = FlipGame.MouseScreen.ToVector2() + offsetFromMouseWhileDragging;
                 velocity = Vector2.Zero;
                 if (Mouse.GetState().LeftButton != ButtonState.Pressed)
                 {

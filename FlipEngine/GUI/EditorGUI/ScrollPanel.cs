@@ -33,19 +33,19 @@ namespace FlipEngine
         private int Padding = 10;
         public ScrollPanel()
         {
-            PreviewTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2000, 2000);
+            PreviewTarget = new RenderTarget2D(FlipGame.graphics.GraphicsDevice, 2000, 2000);
         }
         protected virtual void CustomDrawDirect(SpriteBatch sb) { }
         public override void DrawOnScreenDirect(SpriteBatch spriteBatch)
         {
-            if (Main.CurrentScene.Name != "Main Menu")
+            if (FlipGame.CurrentScene.Name != "Main Menu")
             {
                 Utils.DrawBoxFill(dimensions, Color);
                 PreviewAlpha = PreviewAlpha.ReciprocateTo(1);
 
                 dimensions = new Rectangle(v, PreivewDimensions);
 
-                Main.Renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
+                FlipGame.Renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
                 spriteBatch.Draw(PreviewTarget, new Rectangle(v, PreivewDimensions), new Rectangle(new Point(0, (int)ScrollValue), PreivewDimensions), Color.White * PreviewAlpha);
 
                 PreviewAlpha = PreviewAlpha.ReciprocateTo(0);

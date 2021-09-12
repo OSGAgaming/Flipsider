@@ -36,7 +36,7 @@ namespace FlipEngine
                 VectorController controller = (VectorController)Nodes[i];
                 if (i == 0)
                 {
-                    scene.AddStamp(controller.Lerp, new CameraInterpolater(Main.Camera.Position, controller.CameraStamp));
+                    scene.AddStamp(controller.Lerp, new CameraInterpolater(FlipGame.Camera.TransformPosition, controller.CameraStamp));
                 }
                 else
                 {

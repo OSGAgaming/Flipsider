@@ -70,7 +70,7 @@ namespace FlipEngine
         public override void Dispose()
         {
             Active = false;
-            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            FlipGame.layerHandler.Layers[Layer].Drawables.Remove(this);
             Chunk.Colliedables.RemoveThroughEntity(this);
             Chunk.HitBoxes.RemoveThroughEntity(this);
             UpdateModules.Clear();
@@ -108,7 +108,7 @@ namespace FlipEngine
         public bool isDragging = false;
         public bool mousePressed = false; //this is so you have to click on it, instead of overlapping with click
         public Vector2 offsetFromMouseWhileDragging;
-        public bool mouseOverlap => CollisionFrame.Contains(Main.MouseScreen.ToVector2());
+        public bool mouseOverlap => CollisionFrame.Contains(FlipGame.MouseScreen.ToVector2());
         protected virtual void OnCollide() { }
         protected virtual void OnKill() { }
     }

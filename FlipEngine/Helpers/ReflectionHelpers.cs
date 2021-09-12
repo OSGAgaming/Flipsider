@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FlipEngine
@@ -8,6 +9,15 @@ namespace FlipEngine
         public static Type[] GetInheritedClasses(Type MyType)
         {
             return MyType.Assembly.GetTypes().Where(TheType => TheType.IsClass && !TheType.IsAbstract && MyType.IsAssignableFrom(TheType)).ToArray();
+        }
+
+        public static IEnumerable<T> GetInheritedClasses<T>()
+        {
+            foreach (Type instance in GetInheritedClasses(typeof(T)))
+            {
+                T Screen = (T)Activator.CreateInstance(instance);
+                yield return Screen;
+            }
         }
     }
 }

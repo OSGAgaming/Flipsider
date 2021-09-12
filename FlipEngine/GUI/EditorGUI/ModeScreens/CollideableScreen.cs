@@ -16,7 +16,7 @@ namespace FlipEngine
         private bool flag = true;
         private bool mouseStateBuffer;
         private Vector2 pos1;
-        private Vector2 MouseSnap => Main.MouseToDestination().ToVector2().Snap(8);
+        private Vector2 MouseSnap => FlipGame.MouseToDestination().ToVector2().Snap(8);
 
         public override Mode Mode => Mode.Collideables;
 
@@ -24,12 +24,12 @@ namespace FlipEngine
         {
             Utils.DrawSquare(MouseSnap, 4, Color.Blue);
 
-            var PlayerChunk = Main.Camera.ActiveChunk;
+            var PlayerChunk = FlipGame.Camera.ActiveChunk;
 
             foreach (Collideable col in PlayerChunk.Colliedables.collideables.ToArray())
             {
                 Utils.DrawRectangle(col.CustomHitBox, Color.Red * Time.SineTime(2f), 3);
-                if (col.CustomHitBox.ToR().Contains(Main.MouseToDestination()))
+                if (col.CustomHitBox.ToR().Contains(FlipGame.MouseToDestination()))
                 {
                     Utils.DrawRectangle(col.CustomHitBox.ToR().Inf(2,2), Color.White, 3);
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
@@ -41,7 +41,7 @@ namespace FlipEngine
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                Vector2 MouseScreen = Main.MouseToDestination().ToVector2().Snap(8);
+                Vector2 MouseScreen = FlipGame.MouseToDestination().ToVector2().Snap(8);
                 if (!flag)
                     Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.Red, 3);
             }
@@ -57,12 +57,12 @@ namespace FlipEngine
             if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
             {
                 flag = true;
-                Main.Camera.ActiveChunk.Colliedables.AddCustomHitBox(null, true, false, new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
+                FlipGame.Camera.ActiveChunk.Colliedables.AddCustomHitBox(null, true, false, new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
             }
             mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
             if (mouseStateBuffer && flag)
             {
-                pos1 = Main.MouseToDestination().ToVector2().Snap(8);
+                pos1 = FlipGame.MouseToDestination().ToVector2().Snap(8);
                 flag = false;
             }
         }

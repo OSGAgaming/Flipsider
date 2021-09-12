@@ -31,16 +31,16 @@ namespace FlipEngine
         {
             int tileRes = TileManager.tileRes;
 
-            var world = Main.World;
-            var tileDict = Main.tileManager.tileDict;
+            var world = FlipGame.World;
+            var tileDict = FlipGame.tileManager.tileDict;
 
-            int modifiedRes = (int)(tileRes * Main.Camera.Scale);
+            int modifiedRes = (int)(tileRes * FlipGame.Camera.Scale);
 
-            Vector2 mousePos = Main.MouseToDestination().ToVector2();
+            Vector2 mousePos = FlipGame.MouseToDestination().ToVector2();
             Vector2 tilePoint = new Vector2((int)mousePos.X / tileRes * tileRes, (int)mousePos.Y / tileRes * tileRes);
 
             float sine = Time.SineTime(2f);
-            Vector2 offsetSnap = new Vector2((int)Main.Camera.Offset.X, (int)Main.Camera.Offset.Y);
+            Vector2 offsetSnap = new Vector2((int)FlipGame.Camera.Offset.X, (int)FlipGame.Camera.Offset.Y);
 
             Rectangle TileFrame = AutoFrame ? Framing.GetTileFrame(world, 
                 (int)mousePos.X / tileRes, (int)mousePos.Y / tileRes) : currentFrame;
@@ -54,7 +54,7 @@ namespace FlipEngine
                 if (tileDict.ContainsKey(currentType))
                 {
                     if (tileDict[currentType] != null)
-                        Main.spriteBatch.Draw(tileDict[currentType], tilePoint + new Vector2(tileRes / 2), TileFrame, Color.White *
+                        FlipGame.spriteBatch.Draw(tileDict[currentType], tilePoint + new Vector2(tileRes / 2), TileFrame, Color.White *
                             Math.Abs(sine), 0f, new Vector2(tileRes / 2, tileRes / 2), 1f, SpriteEffects.None, 0f);
                 }
             }
@@ -77,17 +77,17 @@ namespace FlipEngine
         {
             if (GameInput.Instance.IsClicking)
             {
-                Main.tileManager.AddTile(Main.World, new Tile(currentType, currentFrame, Main.MouseTile));
+                FlipGame.tileManager.AddTile(FlipGame.World, new Tile(currentType, currentFrame, FlipGame.MouseTile));
             }
 
             if (GameInput.Instance.IsRightClicking)
             {
-                Main.World.tileManager.RemoveTile(Main.World, Main.MouseTile.ToPoint());
+                FlipGame.World.tileManager.RemoveTile(FlipGame.World, FlipGame.MouseTile.ToPoint());
             }
         }
         protected override void OnLoad()
         {
-            tilePanel = new TilePreviewPanel[Main.tileManager.tileTypes.Count];
+            tilePanel = new TilePreviewPanel[FlipGame.tileManager.tileTypes.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)
@@ -119,9 +119,9 @@ namespace FlipEngine
                 if (Type == TileScreen.currentType) ColorLerp = ColorLerp.ReciprocateTo(1);
                 else ColorLerp = ColorLerp.ReciprocateTo(0);
 
-                if (Main.tileManager.tileDict[Type] != null)
+                if (FlipGame.tileManager.tileDict[Type] != null)
                 {
-                    spriteBatch.Draw(Main.tileManager.tileDict[Type], RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp));
+                    spriteBatch.Draw(FlipGame.tileManager.tileDict[Type], RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp));
                     Utils.DrawRectangle(RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp), 1);
                 }
             }

@@ -33,7 +33,7 @@ namespace FlipEngine
         public static void LoadTextures(ContentManager content)
         {
 
-            pixel = new Texture2D(Main.graphics.GraphicsDevice, 1, 1);
+            pixel = new Texture2D(FlipGame.graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new Color[] { Color.White });
 
             AddLayer = content.Load<Texture2D>("Textures/GUI/AddLayer");

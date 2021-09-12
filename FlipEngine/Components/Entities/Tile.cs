@@ -17,8 +17,8 @@ namespace FlipEngine
         public int i;
         public int j;
         public World world;
-        public bool Surrounded => Main.World.IsTileActive(i, j - 1) && Main.World.IsTileActive(i, j + 1) && Main.World.IsTileActive(i - 1, j - 1) && Main.World.IsTileActive(i + 1, j);
-        public TileManager TM => Main.World.tileManager;
+        public bool Surrounded => FlipGame.World.IsTileActive(i, j - 1) && FlipGame.World.IsTileActive(i, j + 1) && FlipGame.World.IsTileActive(i - 1, j - 1) && FlipGame.World.IsTileActive(i + 1, j);
+        public TileManager TM => FlipGame.World.tileManager;
         bool Buffer1;
         public override void OnUpdateInEditor()
         {
@@ -28,7 +28,7 @@ namespace FlipEngine
                 drawData = new DrawData(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
                 if (!Surrounded && Buffer1)
                 {
-                    Polygon CollisionPoly = Framing.GetPolygon(Main.World, i, j);
+                    Polygon CollisionPoly = Framing.GetPolygon(FlipGame.World, i, j);
                     AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
                 if (Surrounded && !Buffer1)
@@ -55,7 +55,7 @@ namespace FlipEngine
         {
             Active = false;
 
-            Main.layerHandler.Layers[Layer].Drawables.Remove(this);
+            FlipGame.layerHandler.Layers[Layer].Drawables.Remove(this);
             Chunk.Colliedables.RemoveThroughEntity(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
@@ -80,16 +80,16 @@ namespace FlipEngine
             int layer = binaryReader.ReadInt32();
             Rectangle R = binaryReader.ReadRect();
             Tile tile = new Tile(type, R, new Vector2(x, y), layer);
-            return Main.tileManager.AddTile(Main.World, tile);
+            return FlipGame.tileManager.AddTile(FlipGame.World, tile);
         }
 
         protected override void PostConstructor()
         {
-            if (Main.World.IsTileActive(i, j))
+            if (FlipGame.World.IsTileActive(i, j))
             {
-                if (TileManager.CanPlace && Main.tileManager.GetTile(i, j) != null)
+                if (TileManager.CanPlace && FlipGame.tileManager.GetTile(i, j) != null)
                 {
-                    Polygon CollisionPoly = Framing.GetPolygon(Main.World, i, j);
+                    Polygon CollisionPoly = Framing.GetPolygon(FlipGame.World, i, j);
                     AddModule("Collision", new Collideable(this, true, CollisionPoly, true, default, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
             }
@@ -108,20 +108,20 @@ namespace FlipEngine
                 Layer = layer;
             i = (int)(ParallaxPosition.X / 32);
             j = (int)(ParallaxPosition.Y / 32);
-            world = Main.World;
+            world = FlipGame.World;
         }
         public Tile(int type, Rectangle frame) : base()
         {
             this.type = type;
             this.frame = frame;
             Active = false;
-            world = Main.World;
+            world = FlipGame.World;
             Layer = LayerHandler.CurrentLayer;
         }
         public Tile() : base()
         {
             Active = false;
-            world = Main.World;
+            world = FlipGame.World;
         }
     }
 }

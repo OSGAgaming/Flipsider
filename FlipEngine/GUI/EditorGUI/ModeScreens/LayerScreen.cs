@@ -54,7 +54,7 @@ namespace FlipEngine
 
         public void Recalculate()
         {
-            layerGUIPanels = new LayerGUIPanel[Main.World.layerHandler.GetLayerCount()];
+            layerGUIPanels = new LayerGUIPanel[FlipGame.World.layerHandler.GetLayerCount()];
             Add = new LayerGUIAdd(this, EditorModeGUI.BottomPreview);
 
             for (int i = 0; i < layerGUIPanels.Length; i++)
@@ -69,7 +69,7 @@ namespace FlipEngine
             {
                 for (int i = 0; i < layerGUIPanels.Length; i++)
                 {
-                    layerGUIPanels[i].DrawOnScreenDirect(Main.spriteBatch);
+                    layerGUIPanels[i].DrawOnScreenDirect(FlipGame.spriteBatch);
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace FlipEngine
             {
                 Add?.Draw(sb);
 
-                Utils.DrawBoxFill(new Rectangle(0, 0, Main.Renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
+                Utils.DrawBoxFill(new Rectangle(0, 0, FlipGame.Renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
                 Utils.DrawTextToLeft("Player Layer", Color.White, new Vector2(320, 7));
 
                 Utils.DrawTextToLeft("Plx", Color.White, new Vector2(77, 0), 0, 0.4f);
@@ -133,21 +133,21 @@ namespace FlipEngine
             ScreenParent = s;
 
             NumberBox = new NumberBoxScalableScroll();
-            NumberBox.inputText = Main.layerHandler.GetLayer(Layer).parallax.ToString();
+            NumberBox.inputText = FlipGame.layerHandler.GetLayer(Layer).parallax.ToString();
             NumberBox.Color = new Color(120, 120, 120);
             NumberBox.MaxChars = 5;
             NumberBox.OnEnterEvent = (float val) =>
             {
-                Main.layerHandler.SetLayerParallax(Layer, val);
+                FlipGame.layerHandler.SetLayerParallax(Layer, val);
             };
 
             SaturationBox = new NumberBoxScalableScroll();
-            SaturationBox.inputText = Main.layerHandler.GetLayer(Layer).SaturationValue.ToString();
+            SaturationBox.inputText = FlipGame.layerHandler.GetLayer(Layer).SaturationValue.ToString();
             SaturationBox.Color = new Color(120, 120, 120);
             SaturationBox.MaxChars = 5;
             SaturationBox.OnEnterEvent = (float val) =>
             {
-                Main.layerHandler.GetLayer(Layer).SaturationValue = val;
+                FlipGame.layerHandler.GetLayer(Layer).SaturationValue = val;
             };
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -167,13 +167,13 @@ namespace FlipEngine
                         !GameInput.Instance.PreviousKeyState.IsKeyDown(Keys.Delete) && 
                         PreviewPanel.Active)
                     {
-                        Main.layerHandler.RemoveLayer(Layer);
+                        FlipGame.layerHandler.RemoveLayer(Layer);
                         LayerScreen.Instance?.Recalculate();
                     }
                 }
             }
 
-            Utils.DrawTextToLeft(Main.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40), new Vector2(25, Layer * 20 + 13));
+            Utils.DrawTextToLeft(FlipGame.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40), new Vector2(25, Layer * 20 + 13));
 
             if (NumberBox != null)
             {
@@ -196,7 +196,7 @@ namespace FlipEngine
             if (isBeingPicked)
             {
                 Utils.DrawBoxFill(new Rectangle(Mouse.GetState().Position.Add(Correction), RelativeDimensions.Size), new Color(90, 90, 90) * 0.2f, .1f);
-                Utils.DrawTextToLeft(Main.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40) * 0.2f, Mouse.GetState().Position.ToVector2());
+                Utils.DrawTextToLeft(FlipGame.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40) * 0.2f, Mouse.GetState().Position.ToVector2());
                 if (PreviewPanel != null)
                 {
                     Utils.DrawRectangle(new Rectangle(0, MouseLayer * 20 + 10 - (int)PreviewPanel.ScrollValue, 128, 20).AddPos(PreviewPanel.dimensions.Location), Color.Blue * Alpha);
@@ -233,11 +233,11 @@ namespace FlipEngine
                     IsGrabbing = false;
                     isBeingPicked = false;
 
-                    if (MouseLayer >= 0 && MouseLayer < Main.layerHandler.GetLayerCount() && MouseLayer != Layer)
+                    if (MouseLayer >= 0 && MouseLayer < FlipGame.layerHandler.GetLayerCount() && MouseLayer != Layer)
                     {
                         if (PreviewPanel != null)
                         {
-                            Main.layerHandler.SwitchLayers(MouseLayer, Layer);
+                            FlipGame.layerHandler.SwitchLayers(MouseLayer, Layer);
                             Logger.NewText("Layer " + Layer + " and Layer " + MouseLayer + " have been switched");
 
                             ScreenParent.Switch(Layer, MouseLayer);
@@ -268,12 +268,12 @@ namespace FlipEngine
             RelativeDimensions = new Rectangle(Panel.RelativeDimensions.Location, new Point(20, 20));
             PreviewPanel = EditorModeGUI.BottomPreview;
 
-            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !Main.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
+            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !FlipGame.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
         }
 
         protected override void OnLeftClick()
         {
-            Main.layerHandler.SwitchLayerVisibility(Panel.Layer);
+            FlipGame.layerHandler.SwitchLayerVisibility(Panel.Layer);
         }
     }
 
@@ -287,7 +287,7 @@ namespace FlipEngine
         public RGBPicker(LayerGUIPanel Parent, ScrollPanel p) : base(p)
         {
             Panel = Parent;
-            Layer layer = Main.layerHandler.GetLayer(Panel.Layer);
+            Layer layer = FlipGame.layerHandler.GetLayer(Panel.Layer);
             Vector4 c = layer.ColorModification;
 
             R = new NumberBoxScalableScroll
@@ -345,7 +345,7 @@ namespace FlipEngine
             G?.Draw(spriteBatch);
             B?.Draw(spriteBatch);
 
-            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !Main.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
+            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !FlipGame.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
         }
 
         protected override void CustomUpdate()
@@ -373,7 +373,7 @@ namespace FlipEngine
 
         protected override void OnLeftClick()
         {
-            Main.layerHandler.AddLayer();
+            FlipGame.layerHandler.AddLayer();
             Panel.Recalculate();
         }
     }

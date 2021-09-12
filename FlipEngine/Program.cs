@@ -7,7 +7,7 @@ namespace FlipEngine
         [STAThread]
         private static void Main()
         {
-            using (Main? game = new Main())
+            using (FlipGame? game = new FlipGame())
                 game.Run();
         }
     }

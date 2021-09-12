@@ -33,7 +33,7 @@ namespace FlipEngine
 
         public static Dictionary<Mode, ModeScreen> ModeScreens = new Dictionary<Mode, ModeScreen>();
 
-        Vector2 v => new Vector2(Main.ActualScreenSize.X - IconDimensions, 0);
+        Vector2 v => new Vector2(FlipGame.ActualScreenSize.X - IconDimensions, 0);
 
         public static Mode mode;
 
@@ -98,30 +98,29 @@ namespace FlipEngine
                     Buttons[i].v.X = v.X;
                 }
 
-                float scrollSpeed = 0.02f;
+                float scrollSpeed = 0.0002f;
                 float camMoveSpeed = 5f;
 
                 if (CanZoom)
                 {
-                    Main.Camera.targetScale += GameInput.Instance.DeltaScroll * scrollSpeed;
+                    FlipGame.Camera.targetScale += GameInput.Instance.DeltaScroll * scrollSpeed;
                 }
 
                 if (state.IsKeyDown(Keys.D))
                 {
-                    Logger.NewText(Main.Camera.Offset);
-                    Main.Camera.Offset.X += camMoveSpeed;
+                    FlipGame.Camera.Offset.X += camMoveSpeed;
                 }
                 if (state.IsKeyDown(Keys.A))
                 {
-                    Main.Camera.Offset.X -= camMoveSpeed;
+                    FlipGame.Camera.Offset.X -= camMoveSpeed;
                 }
                 if (state.IsKeyDown(Keys.W))
                 {
-                    Main.Camera.Offset.Y -= camMoveSpeed;
+                    FlipGame.Camera.Offset.Y -= camMoveSpeed;
                 }
                 if (state.IsKeyDown(Keys.S))
                 {
-                    Main.Camera.Offset.Y += camMoveSpeed;
+                    FlipGame.Camera.Offset.Y += camMoveSpeed;
                 }
             }
             else
@@ -132,22 +131,22 @@ namespace FlipEngine
                     Buttons[i].v.X = v.X;
                 }
 
-                if (!CutsceneManager.Instance.IsPlayingCutscene) Main.Camera.Offset -= Main.Camera.Offset / 16f;
+                if (!CutsceneManager.Instance.IsPlayingCutscene) FlipGame.Camera.Offset -= FlipGame.Camera.Offset / 16f;
             }
 
             CanZoom = true;
         }
 
-        protected override void OnUpdatePassive() => active = Main.CurrentScene.Name == "Editor";
+        protected override void OnUpdatePassive() => active = FlipGame.CurrentScene.Name == "Editor";
 
         internal override void OnDrawToScreenDirect()
         {
-            Rectangle d = Main.Renderer.Destination;
+            Rectangle d = FlipGame.Renderer.Destination;
 
-            if (Main.CurrentScene.Name == "Editor")
+            if (FlipGame.CurrentScene.Name == "Editor")
             {
-                Utils.DrawBoxFill(new Rectangle((int)v.X, 0, IconDimensions, (int)Main.ActualScreenSize.Y), new Color(30, 30, 30));
-                Utils.DrawBoxFill(new Rectangle(0, 0, d.X, (int)Main.ActualScreenSize.Y), new Color(30, 30, 30));
+                Utils.DrawBoxFill(new Rectangle((int)v.X, 0, IconDimensions, (int)FlipGame.ActualScreenSize.Y), new Color(30, 30, 30));
+                Utils.DrawBoxFill(new Rectangle(0, 0, d.X, (int)FlipGame.ActualScreenSize.Y), new Color(30, 30, 30));
 
                 Utils.DrawRectangle(d, Color.White);
             }
@@ -190,7 +189,7 @@ namespace FlipEngine
 
     internal class ActiveButton : UIElement
     {
-        Vector2 v => new Vector2(Main.ActualScreenSize.X - EditorModeGUI.IconDimensions, 0);
+        Vector2 v => new Vector2(FlipGame.ActualScreenSize.X - EditorModeGUI.IconDimensions, 0);
         public override void DrawOnScreenDirect(SpriteBatch spriteBatch)
         {
             dimensions = new Rectangle(v.ToPoint(), new Point(EditorModeGUI.IconDimensions, EditorModeGUI.IconDimensions));
@@ -202,8 +201,8 @@ namespace FlipEngine
             EditorModeGUI.Active = !EditorModeGUI.Active;
             EditorModeGUI.mode = Mode.None;
 
-            if (EditorModeGUI.Active) Main.Camera.targetScale = 0.8f;
-            else Main.Camera.targetScale = 2f;
+            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 0.8f;
+            else FlipGame.Camera.targetScale = 2f;
 
         }
     }

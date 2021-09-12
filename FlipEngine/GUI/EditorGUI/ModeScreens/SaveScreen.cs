@@ -68,7 +68,7 @@ namespace FlipEngine
 
                 Load = null;
 
-                string[] files = Directory.GetFiles(Main.MainPath.Remove(Main.MainPath.Length - 1), "*.flip");
+                string[] files = Directory.GetFiles(FlipGame.MainPath.Remove(FlipGame.MainPath.Length - 1), "*.flip");
                 Load = new WorldLoadScroll[files.Length];
 
                 for (int i = 0; i < files.Length; i++)
@@ -79,7 +79,7 @@ namespace FlipEngine
                 }
             };
 
-            string[] files = Directory.GetFiles(Main.MainPath.Remove(Main.MainPath.Length - 1), "*.flip");
+            string[] files = Directory.GetFiles(FlipGame.MainPath.Remove(FlipGame.MainPath.Length - 1), "*.flip");
             Load = new WorldLoadScroll[files.Length];
 
             for (int i = 0; i < files.Length; i++)
@@ -108,7 +108,7 @@ namespace FlipEngine
         }
         protected override void OnLeftClick()
         {
-            Main.World.RetreiveLevelInfo(Path.GetFileName(path));
+            FlipGame.World.RetreiveLevelInfo(Path.GetFileName(path));
         }
     }
 

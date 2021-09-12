@@ -49,7 +49,7 @@ namespace FlipEngine
 
         public void SetDimensionsPercentage(float x, float y, int width, int height)
         {
-            dimensions = new Rectangle((int)(x * Main.ScreenSize.X), (int)(y * Main.ScreenSize.Y), width, height);
+            dimensions = new Rectangle((int)(x * FlipGame.ScreenSize.X), (int)(y * FlipGame.ScreenSize.Y), width, height);
         }
     }
 }

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public class Verlet : IUpdate
+    public class Verlet : ILoadUpdate
     {
         public Verlet()
         {
-            Main.Updateables.Add(this);
         }
+
         private readonly float _gravity = 0.5f;
         private readonly float _bounce = 0.9f;
         private readonly float _AR = 0.99f;
@@ -281,7 +281,7 @@ namespace FlipEngine
         {
             for (int i = 0; i < points.Count; i++)
             {
-                Vector2 size = Main.ScreenSize;
+                Vector2 size = FlipGame.ScreenSize;
                 if (!points[i].isStatic)
                 {
                     points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;

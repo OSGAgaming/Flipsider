@@ -22,7 +22,7 @@ namespace FlipEngine
         private Vector2 DeltaMouse;
         public bool MoveMode;
 
-        private Vector2 MouseSnap => Main.MouseToDestination().ToVector2().Snap(8);
+        private Vector2 MouseSnap => FlipGame.MouseToDestination().ToVector2().Snap(8);
         private Rectangle DragRectangle => new Rectangle((int)pos1.X, (int)pos1.Y, (int)(MouseSnap.X - pos1.X) + 4, (int)(MouseSnap.Y - pos1.Y) + 4);
 
         public override void CustomDrawToScreen()
@@ -53,7 +53,7 @@ namespace FlipEngine
 
                 EntityCache.Clear();
 
-                Chunk ActiveChunk = Main.World.tileManager.GetChunkToWorldCoords(DragRectangle.Location.ToVector2());
+                Chunk ActiveChunk = FlipGame.World.tileManager.GetChunkToWorldCoords(DragRectangle.Location.ToVector2());
                 foreach(Entity entity in ActiveChunk.Entities)
                 {
                     Rectangle entityRect = new Rectangle(entity.Position.ToPoint(), new Point(entity.Width, entity.Height));
@@ -94,7 +94,7 @@ namespace FlipEngine
             mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
             if (mouseStateBuffer && flag)
             {
-                pos1 = Main.MouseToDestination().ToVector2().Snap(8);
+                pos1 = FlipGame.MouseToDestination().ToVector2().Snap(8);
                 flag = false;
             }
         }
