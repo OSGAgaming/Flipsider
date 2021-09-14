@@ -31,6 +31,7 @@ namespace FlipEngine
             {
                 for (int a = 0; a < MapPasses.Count; a++)
                 {
+                    Logger.NewText(a);
                     FlipGame.graphics?.GraphicsDevice.SetRenderTarget(Buffers[a]);
                     FlipGame.graphics?.GraphicsDevice.Clear(Color.Transparent);
 
@@ -50,7 +51,7 @@ namespace FlipEngine
                     if (FlipGame.graphics != null && FlipGame.Camera != null)
                     {
                         Rectangle frame = new Rectangle(0, 0, 2560, 1440);
-                        sb.Draw(rT, FlipGame.Camera.TransformPosition, frame, Color.White, 0f, Vector2.Zero, new Vector2(1 / FlipGame.ScreenScale, 1 / FlipGame.ScreenScale), SpriteEffects.None, 0f);
+                        sb.Draw(rT, FlipGame.Camera.TransformPosition, frame, Color.White, 0f, Vector2.Zero, Vector2.One / FlipGame.ScreenScale, SpriteEffects.None, 0f);
                     }
 
                     sb.End();

@@ -92,6 +92,11 @@ namespace FlipEngine
             PreUpdate();
             OnUpdate();
             PostUpdate();
+
+            if(!Chunk.Entities.Contains(this))
+            {
+                Chunk.Entities.Add(this);
+            }
         }
         public void AfterLoad()
         {
@@ -100,6 +105,7 @@ namespace FlipEngine
                 PostConstructor();
                 if (FlipGame.World != null)
                 {
+                    FlipGame.AppendToLayer(this);
                     Chunk?.Entities.Add(this);
                 }
             }

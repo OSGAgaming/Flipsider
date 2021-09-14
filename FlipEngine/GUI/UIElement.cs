@@ -31,14 +31,14 @@ namespace FlipEngine
         public void Update()
         {
             OnUpdate();
-            MouseState state = Mouse.GetState();
+            MouseState state = GameInput.Instance.CurrentMouseState;
             if (dimensions.Contains(state.Position)) OnHover();
             if (!dimensions.Contains(state.Position)) NotOnHover();
             if (GameInput.Instance.JustClickingLeft && dimensions.Contains(state.Position)) OnLeftClick();        
             if (GameInput.Instance.JustClickingLeft && !dimensions.Contains(state.Position)) OnLeftClickAway();
-            if (Mouse.GetState().RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
+            if (state.RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
 
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) IsBeingClicked = true;
+            if (state.LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) IsBeingClicked = true;
             else IsBeingClicked = false;
         }
 

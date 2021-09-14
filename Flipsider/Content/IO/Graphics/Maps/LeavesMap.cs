@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class LeavesMap : MapPass
     {
-        public override int Priority => 0;
+        public override int Priority => 1;
         protected override Effect? MapEffect => EffectCache.LeavesEffect;
 
         internal override void OnApplyShader() 

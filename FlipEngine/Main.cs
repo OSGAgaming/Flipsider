@@ -19,6 +19,8 @@ namespace FlipEngine
 
         protected virtual void OnLoadContent() { }
         protected virtual void OnInitialize() { }
+        protected virtual void LoadContentEnd() { }
+        protected virtual void InitializeEnd() { }
         protected virtual void OnUpdate(GameTime gameTime) { }
         protected virtual void OnDraw(GameTime gameTime) { }
 
@@ -38,7 +40,6 @@ namespace FlipEngine
         private void Instatiate()
         {
             GetAllTypes();
-            SceneManager.Instance.SetNextScene(new EditorScene(), null);
         }
         protected override void Initialize()
         {
@@ -48,6 +49,7 @@ namespace FlipEngine
             FlipE.Load(Content);
             Instatiate();
 
+            InitializeEnd();
             base.Initialize();
         }
 
@@ -60,6 +62,7 @@ namespace FlipEngine
             isLoading = false;
 
             World.RetreiveLevelInfo("CurrentWorld.flip");
+            LoadContentEnd();
         }
 
         protected override void Update(GameTime gameTime)

@@ -11,7 +11,6 @@ namespace FlipEngine
     public partial class PropManager
     {
         public List<Prop> props = new List<Prop>();
-        public int Layer { get; set; }
 
         public static Dictionary<string, Texture2D> PropTypes = new Dictionary<string, Texture2D>();
 
@@ -33,13 +32,18 @@ namespace FlipEngine
         }
         public void AddProp(string PropType, Vector2 position)
         {
-
-            int alteredRes = FlipGame.World.TileRes / 4;
-            Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
-            Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
-            Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
-            props.Add(prop);
-
+            if (PropType != null && PropType != "")
+            {
+                Texture2D? tex = PropTypes[PropType ?? ""];
+                if (tex != null)
+                {
+                    int alteredRes = FlipGame.World.TileRes / 4;
+                    Vector2 Bounds = tex.Bounds.Size.ToVector2();
+                    Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
+                    Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
+                    props.Add(prop);
+                }
+            }
         }
 
         public static void AddPropInteraction(string Prop, PropEntity PE)

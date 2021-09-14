@@ -32,7 +32,7 @@ namespace FlipEngine
             int tileRes = TileManager.tileRes;
 
             var world = FlipGame.World;
-            var tileDict = FlipGame.tileManager.tileDict;
+            var tileDict = TileManager.tileDict;
 
             int modifiedRes = (int)(tileRes * FlipGame.Camera.Scale);
 
@@ -77,6 +77,7 @@ namespace FlipEngine
         {
             if (GameInput.Instance.IsClicking)
             {
+                Logger.NewText(FlipGame.MouseTile);
                 FlipGame.tileManager.AddTile(FlipGame.World, new Tile(currentType, currentFrame, FlipGame.MouseTile));
             }
 
@@ -87,7 +88,7 @@ namespace FlipEngine
         }
         protected override void OnLoad()
         {
-            tilePanel = new TilePreviewPanel[FlipGame.tileManager.tileTypes.Count];
+            tilePanel = new TilePreviewPanel[TileManager.tileTypes.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)
@@ -119,9 +120,9 @@ namespace FlipEngine
                 if (Type == TileScreen.currentType) ColorLerp = ColorLerp.ReciprocateTo(1);
                 else ColorLerp = ColorLerp.ReciprocateTo(0);
 
-                if (FlipGame.tileManager.tileDict[Type] != null)
+                if (TileManager.tileDict[Type] != null)
                 {
-                    spriteBatch.Draw(FlipGame.tileManager.tileDict[Type], RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp));
+                    spriteBatch.Draw(TileManager.tileDict[Type], RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp));
                     Utils.DrawRectangle(RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp), 1);
                 }
             }

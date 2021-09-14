@@ -1,7 +1,4 @@
-﻿
-
-using Flipsider;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -49,7 +46,7 @@ namespace FlipEngine
 
         public bool CheckActivity()
         {
-            Point PlayerChunkPos = FlipGame.World.tileManager.ToChunkCoords(Main.player.Position.ToPoint());
+            Point PlayerChunkPos = FlipGame.World.tileManager.ToChunkCoords(FlipGame.Camera.Position.ToPoint());
             return true;          
         }
         public void Serialize(Stream stream)

@@ -46,7 +46,7 @@ namespace FlipEngine
         {
             Logger.TimeWithoutLog++;
 
-            if (Logger.TimeWithoutLog > 180) LogAlpha = LogAlpha.ReciprocateTo(0);
+            if (Logger.TimeWithoutLog > 280) LogAlpha = LogAlpha.ReciprocateTo(0);
             else LogAlpha = LogAlpha.ReciprocateTo(1,3f);
         }
         protected override void OnDraw()
