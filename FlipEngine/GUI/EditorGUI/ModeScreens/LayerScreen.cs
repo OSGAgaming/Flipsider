@@ -224,11 +224,13 @@ namespace FlipEngine
             RGB?.Update();
             SaturationBox?.Update();
 
+            MouseState state = GameInput.Instance.CurrentMouseState;
+
             if (PreviewPanel != null)
             {
-                MouseLayer = ((Mouse.GetState().Y - PreviewPanel.dimensions.Location.Y) - 10 + (int)PreviewPanel.ScrollValue) / 20;
+                MouseLayer = ((state.Y - PreviewPanel.dimensions.Location.Y) - 10 + (int)PreviewPanel.ScrollValue) / 20;
 
-                if (Mouse.GetState().LeftButton != ButtonState.Pressed && isBeingPicked)
+                if (state.LeftButton != ButtonState.Pressed && isBeingPicked)
                 {
                     IsGrabbing = false;
                     isBeingPicked = false;

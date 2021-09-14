@@ -28,7 +28,7 @@ namespace Flipsider
 
             Textures.LoadTextures();
             SceneManager.Instance.SetNextScene(new MainMenu(), null);
-
+            EffectCache.LoadEffects(Content);
             // Register controls
         }
         protected override void OnLoadContent()

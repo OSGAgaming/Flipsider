@@ -33,19 +33,13 @@ namespace FlipEngine
         }
         public void AddProp(string PropType, Vector2 position)
         {
-            try
-            {
-                int alteredRes = FlipGame.World.TileRes / 4;
-                Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
-                Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
-                Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
-                props.Add(prop);
 
-            }
-            catch
-            {
+            int alteredRes = FlipGame.World.TileRes / 4;
+            Vector2 Bounds = PropTypes[PropType ?? ""].Bounds.Size.ToVector2();
+            Vector2 posDis = -Bounds / 2 + new Vector2(alteredRes / 2);
+            Prop prop = new Prop(PropType ?? "", position + posDis, LayerHandler.CurrentLayer, true);
+            props.Add(prop);
 
-            }
         }
 
         public static void AddPropInteraction(string Prop, PropEntity PE)

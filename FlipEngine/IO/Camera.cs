@@ -50,13 +50,14 @@ namespace FlipEngine
 
         public void Update(GameTime gameTime)
         {
-            TransformPosition = Position + Offset;
+            TransformPosition = Position;
 
             TransformPosition.X = Math.Max(TransformPosition.X, LeftBound);
             TransformPosition.Y = Math.Min(TransformPosition.Y, LowerBound);
 
             Scale += (targetScale - Scale) / Smoothing;
 
+            if (Keyboard.GetState().IsKeyDown(Keys.D)) Logger.NewText(Position);
             UpdateTransform();
         }
 

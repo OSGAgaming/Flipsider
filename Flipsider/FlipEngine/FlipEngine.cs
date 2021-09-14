@@ -46,6 +46,10 @@ namespace FlipEngine
             AlwaysUpdate.AddRange(Utils.GetInheritedClasses<ILoadAlwaysUpdate>()
                 .Cast<IUpdate>().ToList());
 
+            if (FlipGame.World == null) FlipGame.World = new World(2000, 2000);
+            if (FlipGame.Camera == null) FlipGame.Renderer.MainCamera = new CameraTransform();
+            if (FlipGame.CurrentScene == null) SceneManager.Instance.SetNextScene(new EditorScene());
+
             foreach (Type type in Utils.GetInheritedClasses(typeof(UIScreen)))
             {
                 UIScreen? Screen = Activator.CreateInstance(type) as UIScreen;

@@ -1,19 +1,18 @@
-﻿
 using FlipEngine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace Flipsider
 {
+    // TODO dude.
+#nullable disable
     public class PropCache : ILoadable
     {
         public void Load()
         {
-            # region death
             PropManager.AddPropType("Misc_Sky", TextureCache.GreenSlime);
 
             PropManager.AddPropType("Ruins_1", TextureCache.BrickStructure1);
@@ -112,8 +111,6 @@ namespace Flipsider
 
             PropManager.AddPropType("WideRoof1", Textures._Props_City_WideRoof1);
             PropManager.AddPropType("RoofBuilding1", Textures._Props_City_RoofBuilding1);
-            # endregion
         }
-
     }
 }

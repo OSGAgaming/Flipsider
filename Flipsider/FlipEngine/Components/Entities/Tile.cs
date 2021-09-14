@@ -24,8 +24,8 @@ namespace FlipEngine
         {
             if (world != null && InFrame)
             {
-                Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White));
-                drawData = new DrawData(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
+                Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(TileManager.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White));
+                drawData = new DrawData(TileManager.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
                 if (!Surrounded && Buffer1)
                 {
                     Polygon CollisionPoly = Framing.GetPolygon(FlipGame.World, i, j);
@@ -45,7 +45,7 @@ namespace FlipEngine
             {
                 if (InFrame && Active)
                 {
-                    spriteBatch.Draw(TM.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
+                    spriteBatch.Draw(TileManager.tileDict[type], new Rectangle(Position.ToPoint(), new Point(Width, Height)), frame, Color.White);
                     return;
                 }
             }

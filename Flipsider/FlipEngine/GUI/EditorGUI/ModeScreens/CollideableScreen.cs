@@ -1,6 +1,4 @@
-﻿
-
-using Flipsider;
+﻿using Flipsider;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -46,7 +44,6 @@ namespace FlipEngine
                 if (!flag)
                     Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.Red, 3);
             }
-
         }
         public override void DrawToSelector(SpriteBatch sb)
         {
@@ -67,10 +64,7 @@ namespace FlipEngine
                 flag = false;
             }
         }
-        protected override void OnLoad()
-        {
-
-        }
+        protected override void OnLoad() { }
 
         internal override void OnDrawToScreenDirect() { }
     }

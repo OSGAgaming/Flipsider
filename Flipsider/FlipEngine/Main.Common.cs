@@ -42,7 +42,7 @@ namespace FlipEngine
         public static CameraTransform Camera => Renderer.MainCamera;
         public static Lighting lighting => Renderer.Lighting;
         public static List<Water> WaterBodies => World.WaterBodies.Components;
-        public static Vector2 MouseTile => MouseToDestination().ToVector2() / TileManager.tileRes;
+        public static Vector2 MouseTile => (MouseToDestination().ToVector2() / TileManager.tileRes).Snap(1);
         public static float ScreenScale => Renderer.MainCamera.Scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : Renderer.PreferredSize;
 

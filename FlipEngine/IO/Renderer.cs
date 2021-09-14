@@ -152,7 +152,6 @@ namespace FlipEngine
 
                 SpriteBatch.Draw(PostProcessedTarget, Destination, new Rectangle(0, 0, (int)FlipGame.ActualScreenSize.X, (int)FlipGame.ActualScreenSize.Y), Color.White);
                 SpriteBatch.Draw(UITarget, Destination, new Rectangle(0, 0, (int)FlipGame.ActualScreenSize.X, (int)FlipGame.ActualScreenSize.Y), Color.White);
-                SpriteBatch.Draw(RenderTarget, Destination, new Rectangle(0, 0, (int)FlipGame.ActualScreenSize.X, (int)FlipGame.ActualScreenSize.Y), Color.White);
 
                 RenderToScreen(SpriteBatch);
 

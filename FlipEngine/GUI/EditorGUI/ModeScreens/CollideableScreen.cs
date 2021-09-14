@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -44,7 +43,6 @@ namespace FlipEngine
                 if (!flag)
                     Utils.DrawRectangle(pos1, (int)(MouseScreen.X - pos1.X) + 4, (int)(MouseScreen.Y - pos1.Y) + 4, Color.Red, 3);
             }
-
         }
         public override void DrawToSelector(SpriteBatch sb)
         {
@@ -56,7 +54,7 @@ namespace FlipEngine
             if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
             {
                 flag = true;
-                FlipGame.Camera.ActiveChunk.Colliedables.AddCustomHitBox(Main.player, true, false, new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
+                FlipGame.Camera.ActiveChunk.Colliedables.AddCustomHitBox(null, true, false, new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
             }
             mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
             if (mouseStateBuffer && flag)
@@ -65,10 +63,7 @@ namespace FlipEngine
                 flag = false;
             }
         }
-        protected override void OnLoad()
-        {
-
-        }
+        protected override void OnLoad() { }
 
         internal override void OnDrawToScreenDirect() { }
     }

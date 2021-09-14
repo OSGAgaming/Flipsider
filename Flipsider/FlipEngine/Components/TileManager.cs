@@ -10,8 +10,8 @@ namespace FlipEngine
     public partial class TileManager : ISerializable<TileManager>
     {
         public const int tileRes = 32;
-        public List<Tile> tileTypes = new List<Tile>();
-        public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
+        public static List<Tile> tileTypes = new List<Tile>();
+        public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
         public Chunk[,] chunks;
         private Chunk voidChunk;
 
@@ -29,7 +29,7 @@ namespace FlipEngine
             //LoadTileTypes();
         }
 
-        public void AddTileType(int type, Texture2D atlas)
+        public static void AddTileType(int type, Texture2D atlas)
         {
             tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32)));
             tileDict.Add(type, atlas);

@@ -26,6 +26,7 @@ namespace FlipEngine
         public static Texture2D Spot;
         public static Texture2D Voronoi;
         public static Texture2D WormNoisePixelated;
+        public static Texture2D Icons;
 
         public static Texture2D AddLayer;
         public static Texture2D RemoveLayer;
@@ -47,7 +48,7 @@ namespace FlipEngine
             TileGUIPanels = content.Load<Texture2D>("Textures/TGUI");
             LayerHide = content.Load<Texture2D>("Textures/GUI/LayerHide");
             SwitchLayer = content.Load<Texture2D>("Textures/GUI/SwitchLayer");
-
+            Icons = content.Load<Texture2D>("Textures/GUI/FlipIcons");
 
             magicPixel = content.Load<Texture2D>("Textures/GUI/MagicPixel");
             NPCPanel = content.Load<Texture2D>("Textures/NPCPanel");
