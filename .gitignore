@@ -8,17 +8,6 @@ bin/
 Wiki/Flipsider/data/wikiovw.sli-journal
 Wiki/Flipsider/data/wikiovw.sli
 
-.vs/Flipsider/v16/.suo
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.assets.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.csprojAssemblyReference.cache
-TextureCacheGenerator/obj/project.assets.json
-TextureCacheGenerator/obj/project.nuget.cache
-TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.dgspec.json
-TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.g.props
-.vs/Flipsider/v16/.suo
-
 # typically, you'd want to ignore these with a universa
 # gitignore, but it's important to not ignore these if they're
 # vital. generally, there's no reason to ignore these.
