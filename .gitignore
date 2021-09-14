@@ -1,53 +1,13 @@
-Flipsider/Content/obj/
-Flipsider/obj/
-Flipsider/Content/bin/
-Flipsider/bin/
-.vs/
+# build and personal caches
+obj/
+bin/
+.vs/ # vs-specific, .idea, .vscode, etc. would also be useful
+
+# Flipsider/Content/Content.mgcb - this shouldn't be ignored
+
 Wiki/Flipsider/data/wikiovw.sli-journal
 Wiki/Flipsider/data/wikiovw.sli
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
-Flipsider/Content/Content.mgcb
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
-.vs/Flipsider/v16/.suo
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/Flipsider.dll
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/Flipsider.pdb
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/TextureCacheGenerator.dll
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/TextureCacheGenerator.pdb
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.csprojAssemblyReference.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.dll
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.pdb
-TextureCacheGenerator/Program.cs
-.vs/Flipsider/v16/.suo
-Flipsider/Content/obj/DesktopGL/Content/.mgstats
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.assets.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.csprojAssemblyReference.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.exe
-TextureCacheGenerator/obj/project.assets.json
-TextureCacheGenerator/obj/project.nuget.cache
-TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.dgspec.json
-TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.g.props
-.vs/Flipsider/v16/.suo
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
-.vs/Flipsider/v16/.suo
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
-Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/Flipsider.dll
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/Flipsider.pdb
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/TextureCacheGenerator.dll
-TextureCacheGenerator/bin/Debug/netcoreapp3.1/TextureCacheGenerator.pdb
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.assets.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.csprojAssemblyReference.cache
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.dll
-TextureCacheGenerator/obj/Debug/netcoreapp3.1/TextureCacheGenerator.pdb
-TextureCacheGenerator/obj/project.assets.json
-TextureCacheGenerator/obj/project.nuget.cache
-TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.dgspec.json
-TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.g.props
+
 .vs/Flipsider/v16/.suo
 Flipsider/bin/Debug/netcoreapp3.1/Flipsider.dll
 Flipsider/bin/Debug/netcoreapp3.1/Flipsider.pdb
@@ -58,8 +18,12 @@ TextureCacheGenerator/obj/project.nuget.cache
 TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.dgspec.json
 TextureCacheGenerator/obj/TextureCacheGenerator.csproj.nuget.g.props
 .vs/Flipsider/v16/.suo
-*.pdb
-*.dll
-*.cache
-*.dll
-FlipEngine/bin/Debug/netcoreapp3.1/FlipEngine.pdb
+
+# typically, you'd want to ignore these with a universa
+# gitignore, but it's important to not ignore these if they're
+# vital. generally, there's no reason to ignore these.
+# remnants left over from attempting to get the gitignore to work?
+# *.pdb
+# *.dll
+# *.cache
+# *.dll
