@@ -1,4 +1,5 @@
-﻿using Flipsider.Engine.Input;
+﻿
+using FlipEngine;
 using Flipsider.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,7 +41,7 @@ namespace Flipsider.GUI
 
         public void EditorAction()
         {
-            Main.instance.sceneManager.SetNextScene(new EditorScene(), null);
+            SceneManager.Instance.SetNextScene(new EditorScene(), null);
             On = false;
         }
     }

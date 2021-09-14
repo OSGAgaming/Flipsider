@@ -1,4 +1,5 @@
-﻿using Flipsider.Scenes;
+﻿using FlipEngine;
+using Flipsider.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -83,10 +84,10 @@ namespace Flipsider.GUI
             }
             if (alpha > 0.01f)
             {
-                Main.Camera.Offset.Y += (12 - Main.Camera.Offset.Y) / 16f;
+                Main.Gamecamera.Offset.Y += (12 - Main.Gamecamera.Offset.Y) / 16f;
                 Utils.DrawBoxFill(Vector2.Zero, 1980, 1080, Color.Lerp(Color.Black, Color.White, lerp) * alpha);
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Gamecamera.Transform, samplerState: SamplerState.PointClamp);
                 Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.skybox, -0.9f, 0.4f* scaling, new Vector2(-200, lerp + Utils.BOTTOM));
                 Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground3, -0.6f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.6f);
                 Utils.RenderBG(Main.spriteBatch, Color.Lerp(Color.Black, Color.White, lerp) * alpha, TextureCache.ForestBackground2, -0.5f, 0.4f * scaling, new Vector2(-900, Utils.BOTTOM - 1350 / scaling), -0.5f);
@@ -200,7 +201,7 @@ namespace Flipsider.GUI
         }
         protected override void OnLeftClick()
         {
-            Main.instance.sceneManager.SetNextScene(new ForestArea(), new WhiteFadeInFadeOut(), true);
+            SceneManager.Instance.SetNextScene(new ForestArea(), new WhiteFadeInFadeOut(), true);
         }
     }
 }

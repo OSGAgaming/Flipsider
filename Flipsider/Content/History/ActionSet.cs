@@ -1,11 +1,11 @@
-using Flipsider.Engine.Interfaces;
+using FlipEngine;
 using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 using System.IO;
-using Flipsider.Engine;
+using FlipEngine;
 using System.Collections.Generic;
 using Flipsider.GUI;
 using MonoGame.Extended.BitmapFonts;

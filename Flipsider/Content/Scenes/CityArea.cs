@@ -1,10 +1,4 @@
-﻿
-using Flipsider.Engine;
-using Flipsider.Engine.Input;
-using Flipsider.Engine.Interfaces;
-using Flipsider.Engine.Maths;
-using Flipsider.Engine.Particles;
-using Flipsider.GUI;
+﻿using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,23 +12,23 @@ namespace Flipsider.Scenes
 
         public override void Update()
         {
-            Main.renderer.RenderPrimitiveMode = true;
+            Main.Renderer.RenderPrimitiveMode = true;
 
             if (CutsceneManager.Instance != null)
             {
                 if (!CutsceneManager.Instance.IsPlayingCutscene)
                 {
-                    Main.Camera.Offset -= Main.Camera.Offset / 16f;
+                    Main.Gamecamera.Offset -= Main.Gamecamera.Offset / 16f;
                 }
             }
 
-            foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
+            foreach (IUpdate updateable in FlipE.AlwaysUpdate.ToArray())
             {
                 if (updateable != null)
                     updateable.Update();
             }
 
-            foreach (IUpdate updateable in Main.Updateables.ToArray())
+            foreach (IUpdate updateable in FlipE.Updateables.ToArray())
             {
                 if (updateable != null)
                     updateable.Update();
@@ -43,13 +37,13 @@ namespace Flipsider.Scenes
             Main.World.GlobalParticles.Update();
             CutsceneManager.Instance?.Update();
 
-            Scene? scene = Main.instance.sceneManager.Scene;
+            Scene? scene = SceneManager.Instance.Scene;
 
             if (scene != null)
             {
                 if (scene.Name == Name)
                 {
-                    Main.renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
+                    Main.Renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
                 }
             }
         }

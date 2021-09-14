@@ -1,6 +1,4 @@
-﻿
-using Flipsider.Engine.Input;
-using Flipsider.Engine.Interfaces;
+﻿using FlipEngine;
 using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

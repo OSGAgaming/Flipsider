@@ -1,3 +1,4 @@
+using FlipEngine;
 using Flipsider.Engine.Maths;
 using Flipsider.GUI;
 using Microsoft.Xna.Framework;
@@ -10,7 +11,7 @@ namespace Flipsider
     {
         public static string AssetDirectory => Environment.ExpandEnvironmentVariables($@"{MainDirectory}\Content\Textures");
 
-        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory.Split(@"\bin")[0]}");
+        public static string MainDirectory => Environment.ExpandEnvironmentVariables($@"{Environment.CurrentDirectory}");
 
         public static IEnumerable<T> Flatten<T>(this T[,] matrix)
         {

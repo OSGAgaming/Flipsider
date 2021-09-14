@@ -15,7 +15,7 @@ namespace FlipEngine
         public bool InFrame => Utils.CameraBounds.Inf(Width, Height).Contains(ParallaxPosition);
         public int Layer { get; set; }
         public bool Active { get; set; }
-        public Texture2D Texture { get; set; } = TextureCache.magicPixel;
+        public Texture2D Texture { get; set; } = FlipTextureCache.magicPixel;
 
         public Vector2 Position;
         public Vector2 OldPosition;

@@ -1,10 +1,5 @@
 ﻿
-using Flipsider.Engine;
-using Flipsider.Engine.Input;
-using Flipsider.Engine.Interfaces;
-using Flipsider.Engine.Maths;
-using Flipsider.Engine.Particles;
-using Flipsider.GUI;
+using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,14 +12,14 @@ namespace Flipsider.Scenes
 
         public ForestArea()
         {
-            ForestAreaParticles = new ParticleSystem(200);
+            ForestAreaParticles = new ParticleSystem();
         }
 
         float Test;
 
         public override void Update()
         {
-            Main.renderer.RenderPrimitiveMode = true;
+            Main.Renderer.RenderPrimitiveMode = true;
 
             if(Keyboard.GetState().IsKeyDown(Keys.Right))
             {
@@ -39,7 +34,7 @@ namespace Flipsider.Scenes
             {
                 if (!CutsceneManager.Instance.IsPlayingCutscene)
                 {
-                    Main.Camera.Offset -= Main.Camera.Offset / 16f;
+                    Main.Gamecamera.Offset -= Main.Gamecamera.Offset / 16f;
                 }
             }
 
@@ -50,31 +45,19 @@ namespace Flipsider.Scenes
 
             if(Utils.JustClicked && Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.LeftShift))
             {
-                Main.instance.sceneManager.SetNextScene(new CityArea(), new WhiteFadeInFadeOut(), true);
-            }
-
-            foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
-            {
-                if (updateable != null)
-                    updateable.Update();
-            }
-
-            foreach (IUpdate updateable in Main.Updateables.ToArray())
-            {
-                if (updateable != null)
-                    updateable.Update();
+                SceneManager.Instance.SetNextScene(new CityArea(), new WhiteFadeInFadeOut(), true);
             }
 
             Main.World.GlobalParticles.Update();
             CutsceneManager.Instance?.Update();
 
-            Scene? scene = Main.instance.sceneManager.Scene;
+            Scene? scene = SceneManager.Instance.Scene;
 
             if (scene != null)
             {
                 if (scene.Name == Name)
                 {
-                    Main.renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
+                    Main.Renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
                 }
             }
         }
@@ -87,8 +70,8 @@ namespace Flipsider.Scenes
             ForestAreaParticles.SpawnModules.Add(new SetTexture(TextureCache.pixel));
             ForestAreaParticles.SpawnModules.Add(new SetScale(2f));
             ForestAreaParticles.SpawnModules.Add(new ModifyPositionToEntity(Main.player));
-            ForestAreaParticles.SpawnModules.Add(new ModifyPositionRand(new Vector2(-1000, 1000), new Vector2(600, 600), Main.rand));
-            ForestAreaParticles.SpawnModules.Add(new SetColorBetweenTwoColours(Color.White, Color.Lime, Main.rand));
+            ForestAreaParticles.SpawnModules.Add(new ModifyPositionRand(new Vector2(-1000, 1000), new Vector2(600, 600), FlipE.rand));
+            ForestAreaParticles.SpawnModules.Add(new SetColorBetweenTwoColours(Color.White, Color.Lime, FlipE.rand));
             ForestAreaParticles.SpawnModules.Add(new SetVelocity(Vector2.UnitY * -100f));
             ForestAreaParticles.SpawnModules.Add(new SetLifetime(10f));
             ForestAreaParticles.SpawnModules.Add(new SetLightIntensityRand(0.2f, 1f));

@@ -1,9 +1,10 @@
-﻿using Flipsider.Weapons;
+﻿using FlipEngine;
+using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using static Flipsider.Item;
+using static FlipEngine.Item;
 
 namespace Flipsider.GUI
 {

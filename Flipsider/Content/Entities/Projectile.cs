@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using FlipEngine;
 namespace Flipsider
 {
     public class Projectile : LivingEntity

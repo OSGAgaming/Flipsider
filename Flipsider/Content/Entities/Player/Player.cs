@@ -1,6 +1,5 @@
-﻿using Flipsider.Engine.Input;
+﻿using FlipEngine;
 using Flipsider.Engine.Maths;
-using Flipsider.Engine.Particles;
 using Flipsider.Weapons;
 using Flipsider.Weapons.Ranged.Pistol;
 using Microsoft.Xna.Framework;
@@ -73,7 +72,7 @@ namespace Flipsider
             float X = binaryWriter.ReadSingle();
             float Y = binaryWriter.ReadSingle();
             Player player = new Player(new Vector2(X, Y));
-            return Main.World.ReplacePlayer(player);
+            return Main.FlipWorld.ReplacePlayer(player);
         }
         public override void Serialize(Stream stream)
         {
@@ -206,8 +205,6 @@ namespace Flipsider
         private void PlayerInputs()
         {
             KeyboardState state = Keyboard.GetState();
-            InFrame = true;
-
             crouching = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
 
             UpdateEntityModifier("Movement");

@@ -1,4 +1,4 @@
-using Flipsider.Engine.Interfaces;
+using FlipEngine;
 using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,7 +38,6 @@ namespace Flipsider
 
             AppendBodyPart(new RightArm());
             AppendBodyPart(new LeftArm());
-            Logger.NewText("Drawing Parts");
 
             Main.AppendToLayer(this);
         }

@@ -1,7 +1,7 @@
 ﻿using Flipsider.Content.IO.Graphics;
-using Flipsider.Engine;
-using Flipsider.Engine.Input;
-using Flipsider.Engine.Interfaces;
+using FlipEngine;
+
+using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -26,32 +26,14 @@ namespace Flipsider
         static EditorMode()
         {
             Instance = new EditorMode();
-            Main.Updateables.Add(Instance);
-            Main.Camera.Scale = 1;
-        }
-        public void ControlEditorScreen()
-        {
-            Main.Camera.Rotation = 0;
-            Main.Camera.Scale += (Main.targetScale / GameCamera.Scaling - Main.Camera.Scale) / 16f;
-
-            Main.Camera.UpdateTransform();
+            FlipE.Updateables.Add(Instance);
+            Main.Gamecamera.Scale = 1;
         }
 
-        public void Draw()
-        {
-            if (Main.player.SelectedItem != null)
-            {
-                Texture2D tex = Main.player.SelectedItem.inventoryIcon ?? TextureCache.magicPixel;
-                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2 + Vector2.One * 4, Color.Black * 0.3f * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
-                Main.spriteBatch.Draw(tex, Main.MouseScreen.ToVector2() - tex.Bounds.Size.ToVector2() / 2, Color.White * (float)Math.Abs(Math.Sin(Time.TotalTimeMil / 120f)));
-            }
-        }
         public bool CanSwitch;
-        internal bool StateCheck(EditorUIState EUS)
-            => EUS == CurrentState;
+
         public void Update()
         {
-            ControlEditorScreen();
             CanZoom = true;
             CanSwitch = true;
             Interactable = true;

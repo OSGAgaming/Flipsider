@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using FlipEngine;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Flipsider
 {
@@ -24,7 +25,7 @@ namespace Flipsider
             Constraints();
             //Jump(2f);
             Animate(5, 1, 185, 0);
-            Position.X += NormDistance.X;
+            //Position.X += NormDistance.X;
         }
     }
 }

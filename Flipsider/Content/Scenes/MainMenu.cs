@@ -1,6 +1,6 @@
 ﻿
-using Flipsider.Engine;
-using Flipsider.Engine.Interfaces;
+using FlipEngine;
+using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,15 +15,15 @@ namespace Flipsider.Scenes
         public override string? Name => "Main Menu";
         public override void Update()
         {
-            foreach (IUpdate updateable in Main.UpdateablesOffScreen.ToArray())
+            foreach (IUpdate updateable in FlipE.AlwaysUpdate.ToArray())
             {
                 if (updateable != null)
                     updateable.Update();
             }
             Main.Editor.Update();
 
-            Main.renderer.RenderUITarget = true;
-            Main.renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
+            Main.Renderer.RenderUITarget = true;
+            Main.Renderer.Destination = new Rectangle(0, 0, (int)Main.ActualScreenSize.X, (int)Main.ActualScreenSize.Y);
         }
     }
 }

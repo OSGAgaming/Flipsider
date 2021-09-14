@@ -268,7 +268,7 @@ namespace FlipEngine
             RelativeDimensions = new Rectangle(Panel.RelativeDimensions.Location, new Point(20, 20));
             PreviewPanel = EditorModeGUI.BottomPreview;
 
-            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !FlipGame.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
+            spriteBatch.Draw(FlipTextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !FlipGame.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
         }
 
         protected override void OnLeftClick()
@@ -345,7 +345,7 @@ namespace FlipEngine
             G?.Draw(spriteBatch);
             B?.Draw(spriteBatch);
 
-            spriteBatch.Draw(TextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !FlipGame.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
+            spriteBatch.Draw(FlipTextureCache.LayerHide, RelativeDimensions, new Rectangle(0, !FlipGame.layerHandler.GetLayer(Panel.Layer).visible ? 32 : 0, 32, 32), Color.White);
         }
 
         protected override void CustomUpdate()
@@ -368,7 +368,7 @@ namespace FlipEngine
             RelativeDimensions = new Rectangle(new Point(0, 0), new Point(10, 10));
             PreviewPanel = EditorModeGUI.BottomPreview;
 
-            spriteBatch.Draw(TextureCache.AddLayer, RelativeDimensions, new Rectangle(0, IsBeingClicked ? 32 : 0, 32, 32), Color.White);
+            spriteBatch.Draw(FlipTextureCache.AddLayer, RelativeDimensions, new Rectangle(0, IsBeingClicked ? 32 : 0, 32, 32), Color.White);
         }
 
         protected override void OnLeftClick()

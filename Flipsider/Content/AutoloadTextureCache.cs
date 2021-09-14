@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using FlipEngine;
 namespace Flipsider
 {
    public static class Textures

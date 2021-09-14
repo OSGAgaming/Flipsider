@@ -1,7 +1,7 @@
 ﻿using Flipsider.Content.IO.Graphics;
-using Flipsider.Engine;
-using Flipsider.Engine.Input;
-using Flipsider.Engine.Interfaces;
+using FlipEngine;
+
+using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -34,28 +34,14 @@ namespace Flipsider
         public static bool JustClicked => GameInput.Instance["EditorPlaceTile"].IsJustPressed();
         public static bool JustUnclicked => GameInput.Instance["EditorPlaceTile"].IsJustReleased();
 
-        public static Vector2 SafeBoundX => new Vector2(Main.Camera.Position.X, Main.Camera.Position.X + Main.ActualScreenSize.X / Main.ScreenScale);
-        public static Vector2 SafeBoundY => new Vector2(Main.Camera.Position.Y, Main.Camera.Position.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
-        public static void AppendToLayer(ILayeredComponent ilc) => Main.World.layerHandler.AppendMethodToLayer(ilc);
-        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => Main.World.layerHandler.AppendPrimitiveToLayer(ilc);
-        public static LayerHandler layerHandler => Main.World.layerHandler;
-        public static EditorMode Editor => EditorMode.Instance;
-        public static float targetScale => Main.Camera.targetScale;
-        public static TileManager tileManager => Main.World.tileManager;
-        public static SpriteBatch spriteBatch => Main.renderer.SpriteBatch;
-        public static Player? player => Main.World.MainPlayer;
-        public static GraphicsDeviceManager? graphics => Main.renderer.Graphics;
-        public static GameCamera? mainCamera => Main.renderer.MainCamera;
-        public static Lighting? lighting => Main.renderer.Lighting;
-        public static List<Water> WaterBodies => Main.World.WaterBodies.Components;
+        public static Vector2 SafeBoundX => new Vector2(Main.Gamecamera.Position.X, Main.Gamecamera.Position.X + Main.ActualScreenSize.X / Main.ScreenScale);
+        public static Vector2 SafeBoundY => new Vector2(Main.Gamecamera.Position.Y, Main.Gamecamera.Position.Y + Main.ActualScreenSize.Y / Main.ScreenScale);
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
-        public static Vector2 ScreenSize => Main.graphics.GraphicsDevice == null ? Vector2.One : Main.renderer.PreferredSize;
+        public static Vector2 ScreenSize => Main.graphics.GraphicsDevice == null ? Vector2.One : Main.Renderer.PreferredSize;
         public static Vector2 ActualScreenSize => Main.AScreenSize;
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
         public static Vector2 AbsD => Main.ActualScreenSize - Main.ScreenSize;
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
-        public static Scene? CurrentScene => Main.instance.sceneManager.Scene;
-
-        public static bool MouseInBounds => Main.renderer.Destination.Contains(Mouse.GetState().Position);
+        public static bool MouseInBounds => Main.Renderer.Destination.Contains(Mouse.GetState().Position);
     }
 }

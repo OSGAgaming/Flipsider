@@ -1,6 +1,4 @@
-﻿using Flipsider.Engine.Input;
-using Flipsider.Weapons;
-using Flipsider.Weapons.Ranged.Pistol;
+﻿using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,7 +10,7 @@ using System.IO;
 // TODO fix this..
 namespace Flipsider
 {
-    public partial class Player : LivingEntity
+    public partial class Player
     {
         internal float TimeOutsideOfCombat = 0f;
     }

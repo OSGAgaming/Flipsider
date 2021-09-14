@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using FlipEngine;
 
 namespace Flipsider
 {
@@ -55,27 +56,27 @@ namespace Flipsider
             return v + new Vector2((int)((target - v) / ease).X, (int)((target - v) / ease).Y);
         }
         public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap) * snap, (int)(v.Y / snap) * snap);
-        public static Vector2 ToScreen(this Vector2 v) => (v / Main.Camera.Scale + Main.Camera.Position);
+        public static Vector2 ToScreen(this Vector2 v) => (v / Main.Gamecamera.Scale + Main.Gamecamera.Position);
 
-        public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.Camera.Position) * Main.Camera.Scale);
+        public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.Gamecamera.Position) * Main.Gamecamera.Scale);
 
-        public static Point ToScreen(this Point v) => (v.ToVector2() / Main.Camera.Scale + Main.Camera.Position).ToPoint();
-        public static Point ToDestinationScreen(this Point v) => ((v.ToVector2() / Main.Camera.Scale) + Main.Camera.Position).ToPoint();
+        public static Point ToScreen(this Point v) => (v.ToVector2() / Main.Gamecamera.Scale + Main.Gamecamera.Position).ToPoint();
+        public static Point ToDestinationScreen(this Point v) => ((v.ToVector2() / Main.Gamecamera.Scale) + Main.Gamecamera.Position).ToPoint();
         public static Vector2 AddParallaxAcrossX(this Vector2 v, float traversingPixels)
        =>
-            v - new Vector2(Math.Clamp(Main.Camera.EntityIsolatedPosition.X * traversingPixels, -100000, 100000), 0);
+            v - new Vector2(Math.Clamp(Main.Gamecamera.EntityIsolatedPosition.X * traversingPixels, -100000, 100000), 0);
         public static Vector2 InvParallaxAcrossX(this Vector2 v, float traversingPixels)
         =>
-             v + new Vector2(Math.Clamp(Main.Camera.EntityIsolatedPosition.X * traversingPixels, -100000, 100000), 0);
+             v + new Vector2(Math.Clamp(Main.Gamecamera.EntityIsolatedPosition.X * traversingPixels, -100000, 100000), 0);
         public static Vector2 AddParallaxAcrossY(this Vector2 v, float traversingPixels)
         {
-            float traverseFunction = Math.Clamp(Main.Camera.EntityIsolatedPosition.Y * traversingPixels, -100000, 100000);
+            float traverseFunction = Math.Clamp(Main.Gamecamera.EntityIsolatedPosition.Y * traversingPixels, -100000, 100000);
             return v - new Vector2(0, traverseFunction);
         }
 
         public static Vector2 AddParallaxAcrossXY(this Vector2 v, Vector2 traversingPixels)
         {
-            return v - Main.Camera.EntityIsolatedPosition * traversingPixels;
+            return v - Main.Gamecamera.EntityIsolatedPosition * traversingPixels;
         }
         public static Vector2 ToTile(this Vector2 v)
         {

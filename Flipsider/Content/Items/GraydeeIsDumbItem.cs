@@ -1,4 +1,6 @@
-﻿namespace Flipsider
+﻿using FlipEngine;
+
+namespace Flipsider
 {
     public class GraydeeIsDumbItem : Item
     {

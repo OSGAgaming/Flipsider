@@ -22,6 +22,7 @@ namespace TextureCacheGenerator
                 sw.WriteLine($@"using System.Collections.Generic;");
                 sw.WriteLine($@"using System.Diagnostics;");
                 sw.WriteLine($@"using System.IO;");
+                sw.WriteLine($@"using FlipEngine;");
 
                 sw.WriteLine($@"namespace Flipsider");
                 sw.WriteLine(@"{");

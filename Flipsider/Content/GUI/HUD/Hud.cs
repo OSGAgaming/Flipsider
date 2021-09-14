@@ -1,4 +1,5 @@
-﻿using Flipsider.Weapons;
+﻿using FlipEngine;
+using Flipsider.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -75,7 +76,7 @@ namespace Flipsider.GUI.HUD
                 spriteBatch.Draw(TextureCache.magicPixel, target, color);
 
                 string? msg = (int)(amount * 100) + "%";
-                spriteBatch.DrawString(Main.font, msg, dimensions.Center.ToVector2(), Color.White, 0, Main.font.MeasureString(msg) * 0.5f, 0.5f, 0, 0);
+                spriteBatch.DrawString(FlipE.font, msg, dimensions.Center.ToVector2(), Color.White, 0, FlipE.font.MeasureString(msg) * 0.5f, 0.5f, 0, 0);
             }
         }*/
     }

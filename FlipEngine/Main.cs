@@ -9,13 +9,20 @@ namespace FlipEngine
 {
     // TODO holy shit this hurts
 #nullable disable
-    internal partial class FlipGame : Game
+    public partial class FlipGame : Game
     {
         public static Renderer Renderer { get; set; }
         public static World World { get; set; }
 
         public static FlipGame Instance;
         public static bool isLoading = true;
+
+        protected virtual void OnLoadContent() { }
+        protected virtual void OnInitialize() { }
+        protected virtual void OnUpdate(GameTime gameTime) { }
+        protected virtual void OnDraw(GameTime gameTime) { }
+
+        public static string MainPath => Environment.CurrentDirectory + $@"\";
 
         public FlipGame()
         {
@@ -33,11 +40,10 @@ namespace FlipEngine
             GetAllTypes();
             SceneManager.Instance.SetNextScene(new EditorScene(), null);
         }
-        public static string MainPath => Environment.CurrentDirectory + $@"\";
         protected override void Initialize()
         {
+            OnInitialize();
             AScreenSize = graphics.GraphicsDevice == null ? Vector2.One : graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
-            World = new World(2000, 2000);
 
             FlipE.Load(Content);
             Instatiate();
@@ -47,30 +53,30 @@ namespace FlipEngine
 
         protected override void LoadContent()
         {
+            OnLoadContent();
             Renderer.Load();
 
             Instance = this;
             isLoading = false;
 
             World.RetreiveLevelInfo("CurrentWorld.flip");
-
         }
 
         protected override void Update(GameTime gameTime)
         {
+            OnUpdate(gameTime);
+
             AScreenSize =
                 graphics.GraphicsDevice == null ? Vector2.One :
                 graphics.GraphicsDevice.Viewport.Bounds.Size.ToVector2();
 
             FlipE.Update(gameTime);
-            
-            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            OnDraw(gameTime);
             Renderer.Draw();
-            base.Draw(gameTime);
         }
     }
 }

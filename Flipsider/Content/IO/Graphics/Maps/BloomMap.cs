@@ -1,10 +1,10 @@
-﻿using Flipsider.Engine.Interfaces;
+﻿using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static Flipsider.PropManager;
+
 
 namespace Flipsider
 {
@@ -27,7 +27,7 @@ namespace Flipsider
             MapEffect?.CurrentTechnique.Passes[PassIndex].Apply();
 
             Rectangle frame = new Rectangle(0, 0, 2560, 1440);
-            Main.spriteBatch.Draw(previousTarget, Main.Camera.Position, frame, Color.White, 0f, Vector2.Zero, new Vector2(1 / Main.ScreenScale, 1 / Main.ScreenScale), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(previousTarget, Main.Gamecamera.Position, frame, Color.White, 0f, Vector2.Zero, new Vector2(1 / Main.ScreenScale, 1 / Main.ScreenScale), SpriteEffects.None, 0f);
         }
         private readonly float SCALING = 2;
         internal override void OnApplyShader() 

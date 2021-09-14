@@ -1,13 +1,13 @@
-using Flipsider.Engine.Interfaces;
+using FlipEngine;
 using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 using System.IO;
-using Flipsider.Engine;
+using FlipEngine;
 using System.Collections.Generic;
-using Flipsider.Engine.Input;
+
 using Microsoft.Xna.Framework.Input;
 using Flipsider.GUI;
 
@@ -162,7 +162,7 @@ namespace Flipsider
         public ActionCache()
         {
             Load();
-            Main.UpdateablesOffScreen.Add(this);
+            FlipE.AlwaysUpdate.Add(this);
         }
         static ActionCache()
         {

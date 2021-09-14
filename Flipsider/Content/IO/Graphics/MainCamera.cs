@@ -1,3 +1,4 @@
+using FlipEngine;
 using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -8,8 +9,6 @@ namespace Flipsider.Content.IO.Graphics
 {
     public class GameCamera : CameraTransform
     {
-        public Vector2 Offset;
-
         public int ScreenShake { get; set; }
 
         public Entity? FocalEntity { get; set; }
@@ -24,19 +23,13 @@ namespace Flipsider.Content.IO.Graphics
 
         public override Vector2 TargetSize => Main.ActualScreenSize;
 
-        public float LeftBound => TargetSize.X / (float)(2 * Scale);
-
-        public float LowerBound => Utils.BOTTOM - (TargetSize.Y / (float)(2 * Scale));
-
-        public float targetScale { get; set; }
-
         protected override void OnUpdateTransform()
         {
             if (ScreenShake > 0) ScreenShake--;
-            Vector2 shake = new Vector2(Main.rand.Next(-ScreenShake, ScreenShake), Main.rand.Next(-ScreenShake, ScreenShake));
+            Vector2 shake = new Vector2(FlipE.rand.Next(-ScreenShake, ScreenShake), FlipE.rand.Next(-ScreenShake, ScreenShake));
 
             Vector2 mouseDisp = Vector2.Normalize(Mouse.GetState().Position.ToVector2() - Utils.ScreenSize / 2) * MouseVision;
-            Rotation = Main.rand.Next(-ScreenShake, ScreenShake) / RotationalScreenShake;
+            Rotation = FlipE.rand.Next(-ScreenShake, ScreenShake) / RotationalScreenShake;
 
             if (Main.CurrentScene.Name != "Main Menu")
             {

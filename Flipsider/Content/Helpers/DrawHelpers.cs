@@ -1,3 +1,4 @@
+using FlipEngine;
 using Flipsider.Engine.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,21 +10,21 @@ namespace Flipsider
     public static partial class Utils
     {
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
-        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.Camera.Position - center) * strenght;
+        public static Vector2 GetParallaxOffset(Vector2 center, float strenght) => (Main.Gamecamera.Position - center) * strenght;
 
         public static MapPass GetMap(string MapName) => Main.lighting.Maps.Get(MapName);
 
         public static void DrawToMap(string MapName, MapRender MR) => Main.lighting.Maps.DrawToMap(MapName, MR);
         public static void BeginCameraSpritebatch()
-        => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+        => Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Gamecamera.Transform, samplerState: SamplerState.PointClamp);
 
         public static void BeginEndCameraSpritebatch()
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp); 
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: Main.Gamecamera.Transform, samplerState: SamplerState.PointClamp); 
         }
         public static void BeginAdditiveCameraSpritebatch()
-       => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.Camera.Transform, samplerState: SamplerState.PointClamp);
+       => Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: Main.Gamecamera.Transform, samplerState: SamplerState.PointClamp);
         public static void QuickApplyShader(Effect effect)
         => effect?.CurrentTechnique.Passes[0].Apply();
         public static void QuickApplyShader(Effect effect, params float[] yo)
@@ -57,7 +58,7 @@ namespace Flipsider
 
         public static void DrawText(string text, Color colour, Vector2 position, float rotation = 0f)
         {
-            SpriteFont font = Main.font;
+            SpriteFont font = FlipE.font;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
             Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, rotation, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
@@ -65,7 +66,7 @@ namespace Flipsider
 
         public static float DrawTextToLeft(string text, Color colour, Vector2 position, float layerDepth = 0f, float scale = 0.5f)
         {
-            SpriteFont font = Main.font;
+            SpriteFont font = FlipE.font;
             float textPositionLeft = position.X;
             Main.spriteBatch.DrawString(Fonts.Calibri, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, scale, SpriteEffects.None, layerDepth);
             return font.MeasureString(text).X;
@@ -93,7 +94,7 @@ namespace Flipsider
             for (int i = 0; i < 6; i++)
                 spriteBatch.Draw(Tex, 
                     new Vector2(i * (Tex.Width * scale), 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY) - 
-                    new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, 
+                    new Vector2(Main.Gamecamera.LeftBound * -paralax, 0) + offset, dims, Color, 0f, 
                     new Vector2(0, Tex.Height), scale, SpriteEffects.None, 0f);
 
         }
@@ -102,7 +103,7 @@ namespace Flipsider
             Rectangle dims = new Rectangle(0, 0, Tex.Width, Tex.Height);
             for (int i = 0; i < 6; i++)
                 spriteBatch.Draw(Tex, new Vector2(i * (Tex.Width * scale) + speed * Time.TotalTimeSec, 0).AddParallaxAcrossX(paralax).AddParallaxAcrossY(paralaxY)
-                    - new Vector2(Main.Camera.LeftBound * -paralax, 0) + offset, dims, 
+                    - new Vector2(Main.Gamecamera.LeftBound * -paralax, 0) + offset, dims, 
                     Color, 0f, new Vector2(0, Tex.Height * scale), scale, SpriteEffects.None, 0f);
 
         }

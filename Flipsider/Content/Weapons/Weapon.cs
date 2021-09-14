@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static Flipsider.IStoreable;
+using FlipEngine;
+using static FlipEngine.IStoreable;
 
 namespace Flipsider.Weapons
 {
