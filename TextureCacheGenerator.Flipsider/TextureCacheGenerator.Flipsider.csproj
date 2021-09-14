@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\Flipsider\Lib\MonoGame.Framework.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\TextureCacheGenerator\TextureCacheGenerator.csproj" />
   </ItemGroup>
 
 </Project>

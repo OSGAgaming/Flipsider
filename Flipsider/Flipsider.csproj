@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
@@ -35,7 +35,11 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="Nopipeline.Task" Version="2.1.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlipEngine\FlipEngine.csproj" />
+    <ProjectReference Include="..\TextureCacheGenerator.Flipsider\TextureCacheGenerator.Flipsider.csproj" />
+  </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cmd /K &quot;$(SolutionDir)\TextureCacheGenerator\bin\Debug\netcoreapp3.1\TextureCacheGenerator.exe&quot;" />
+    <Exec Command="cmd /K &quot;$(SolutionDir)\TextureCacheGenerator.Flipsider\bin\Debug\netcoreapp3.1\TextureCacheGenerator.Flipsider.exe&quot;" />
   </Target>
 </Project>
