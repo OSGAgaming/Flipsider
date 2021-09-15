@@ -7,7 +7,6 @@ namespace TextureCacheGenerator.Generator.Components
     [Flags]
     public enum Token
     {
-        None = 0,
         Public = 1,
         Protected = 2,
         Private = 4,
@@ -34,10 +33,7 @@ namespace TextureCacheGenerator.Generator.Components
                 if (Tokens.HasFlag(token))
                     builder.Append($"{value} "); // space at the end!
             }
-
-            if (Tokens.HasFlag(Token.None))
-                return "";
-
+            
             Add(Token.Public, "public");
             Add(Token.Protected, "protected");
             Add(Token.Private, "private");

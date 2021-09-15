@@ -12,6 +12,6 @@
             ClassName = className;
         }
 
-        public override string SerializeComponent() => $"{SerializeTokens()}{ClassName} {{";
+        public override string SerializeComponent() => $"{SerializeTokens()}class {ClassName} {{";
     }
 }

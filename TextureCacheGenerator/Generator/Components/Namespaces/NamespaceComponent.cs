@@ -15,6 +15,6 @@
             Namespace = ns;
         }
 
-        public string SerializeComponent() => $"namespace {Namespace};";
+        public string SerializeComponent() => $"namespace {Namespace} {{";
     }
 }

@@ -37,6 +37,7 @@ namespace TextureCacheGenerator.Flipsider
 
         public IEnumerable<ICodeComponent> GetComponents()
         {
+            yield return new RawTextComponent("#nullable disable");
             yield return new RawTextComponent("// Auto-generated code.");
             yield return new RawTextComponent("// Generated using TextureCacheGenerator.");
 
@@ -45,32 +46,30 @@ namespace TextureCacheGenerator.Flipsider
 
             yield return new NamespaceComponent("Flipsider");
             {
-                yield return new BracketComponent(BracketType.CurlyBrace, BracketDirection.Opening);
 
+                yield return new ClassComponent("Textures", Token.Public | Token.Static);
                 {
-                    yield return new ClassComponent("Textures", Token.Public | Token.Static);
 
                     foreach (string newAsset in CacheList.Select(cachedAsset =>
                         cachedAsset.Replace(Path.DirectorySeparatorChar, '_')))
                         yield return new FieldComponent($"_{newAsset}", "Texture2D", Token.Public | Token.Static);
 
-                    yield return new MethodComponent("LoadTextures", new (string, string)[] { }, GetMethodContents(),
-                        Token.Public | Token.Static);
+                    yield return new MethodComponent("LoadTextures", "void", new (string, string)[] { },
+                        GetMethodContents(), Token.Public | Token.Static);
 
-                    yield return new BracketComponent(BracketType.CurlyBrace, BracketDirection.Closing);
                 }
-
                 yield return new BracketComponent(BracketType.CurlyBrace, BracketDirection.Closing);
+
             }
+            yield return new BracketComponent(BracketType.CurlyBrace, BracketDirection.Closing);
         }
 
         public string GetMethodContents()
         {
             StringBuilder builder = new StringBuilder();
 
-            foreach (string newAsset in CacheList.Select(cachedAsset =>
-                cachedAsset.Replace(Path.DirectorySeparatorChar, '_')))
-                builder.AppendLine($"_{newAsset} = AutoloadTextures.Assets[@\"{newAsset}\"];");
+            foreach (string asset in CacheList)
+                builder.AppendLine($"_{asset.Replace(Path.DirectorySeparatorChar, '_')} = AutoloadTextures.Assets[@\"{asset}\"];");
 
             return builder.ToString();
         }

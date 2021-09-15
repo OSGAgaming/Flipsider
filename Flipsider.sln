@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextureCacheGenerator", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextureCacheGenerator.Flipsider", "TextureCacheGenerator.Flipsider\TextureCacheGenerator.Flipsider.csproj", "{0BD13A89-E13D-4763-8712-19780B7AF2EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlipEngine", "FlipEngine\FlipEngine.csproj", "{FACFB012-8315-485C-9964-696916B9F3F8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +32,6 @@ Global
 		{0BD13A89-E13D-4763-8712-19780B7AF2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BD13A89-E13D-4763-8712-19780B7AF2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BD13A89-E13D-4763-8712-19780B7AF2EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FACFB012-8315-485C-9964-696916B9F3F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FACFB012-8315-485C-9964-696916B9F3F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FACFB012-8315-485C-9964-696916B9F3F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FACFB012-8315-485C-9964-696916B9F3F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
