@@ -14,27 +14,6 @@ namespace Flipsider.Scenes
         {
             Main.Renderer.RenderPrimitiveMode = true;
 
-            if (CutsceneManager.Instance != null)
-            {
-                if (!CutsceneManager.Instance.IsPlayingCutscene)
-                {
-                    Main.Gamecamera.Offset -= Main.Gamecamera.Offset / 16f;
-                }
-            }
-
-            foreach (IUpdate updateable in FlipE.AlwaysUpdate.ToArray())
-            {
-                if (updateable != null)
-                    updateable.Update();
-            }
-
-            foreach (IUpdate updateable in FlipE.Updateables.ToArray())
-            {
-                if (updateable != null)
-                    updateable.Update();
-            }
-
-            Main.World.GlobalParticles.Update();
             CutsceneManager.Instance?.Update();
 
             Scene? scene = SceneManager.Instance.Scene;

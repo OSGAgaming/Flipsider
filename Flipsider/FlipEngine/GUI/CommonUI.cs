@@ -184,6 +184,35 @@ namespace FlipEngine
             PostUpdate();
         }
     }
+    internal class ButtonScroll : Button
+    {
+        public Rectangle RelativeDimensions;
+
+        public ScrollPanel? ScrollParent { get; set; }
+
+        protected override void OnUpdate()
+        {
+            if (ScrollParent != null)
+            {
+                Point p = ScrollParent.dimensions.Location;
+                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)ScrollParent.ScrollValue);
+
+                dimensions = new Rectangle(Position, RelativeDimensions.Size);
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (Texture != null)
+            {
+                if (source == default) source = Texture.Bounds;
+
+                spriteBatch.Draw(Texture, RelativeDimensions, source, Color.White);
+            }
+
+            if (OptionalText != null) Utils.DrawText(OptionalText, Color.White, RelativeDimensions.Center.ToVector2());
+        }
+    }
 
     internal class TextBoxScalableScroll : Text
     {
@@ -251,7 +280,7 @@ namespace FlipEngine
     {
         public Rectangle RelativeDimensions;
 
-        public ScrollPanel? Parent => EditorModeGUI.BottomPreview;
+        public ScrollPanel? ScrollParent { get; set; } = EditorModeGUI.BottomPreview;
 
         public Action<float>? OnEnterEvent;
 
@@ -283,10 +312,10 @@ namespace FlipEngine
             }
             PostUpdate();
 
-            if (Parent != null)
+            if (ScrollParent != null)
             {
-                Point p = Parent.dimensions.Location;
-                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)Parent.ScrollValue);
+                Point p = ScrollParent.dimensions.Location;
+                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)ScrollParent.ScrollValue);
 
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);
             }

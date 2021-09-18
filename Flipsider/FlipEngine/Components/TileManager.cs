@@ -63,11 +63,11 @@ namespace FlipEngine
             Point p = new Point((int)pos.X / 32, (int)pos.Y / 32);
             return GetChunk(TileCoordsToChunkCoords(p)) ?? LoadChunk(TileCoordsToChunkCoords(p));
         }
-        public Point ToChunkCoords(Point pos)
+        public static Point ToChunkCoords(Point pos)
         {
             return new Point(pos.X / (Chunk.width * 32), pos.Y / (Chunk.height * 32));
         }
-        public Point TileCoordsToChunkCoords(Point pos)
+        public static Point TileCoordsToChunkCoords(Point pos)
         {
             return new Point(pos.X / Chunk.width, pos.Y / Chunk.height);
         }

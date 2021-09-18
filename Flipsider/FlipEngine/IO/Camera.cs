@@ -57,7 +57,6 @@ namespace FlipEngine
 
             Scale += (targetScale - Scale) / Smoothing;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D)) Logger.NewText(Position);
             UpdateTransform();
         }
 

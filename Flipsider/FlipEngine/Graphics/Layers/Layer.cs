@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace FlipEngine
 {
     public class Layer : IComponent, ISerializable<Layer>
     {
-        public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
+        public HashSet<ILayeredComponent> Drawables = new HashSet<ILayeredComponent>();
         public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
 
         public int LayerDepth;

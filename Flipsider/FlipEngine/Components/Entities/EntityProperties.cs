@@ -13,8 +13,8 @@ namespace FlipEngine
     {
         public Rectangle CollisionFrame => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
         public Rectangle PreCollisionFrame => new Rectangle((int)OldPosition.X, (int)OldPosition.Y, Width, Height);
-        public Point ChunkPosition => FlipGame.World.tileManager.ToChunkCoords(Position.ToPoint());
-        public Point OldChunkPosition => FlipGame.World.tileManager.ToChunkCoords(OldPosition.ToPoint());
+        public Point ChunkPosition => TileManager.ToChunkCoords(Position.ToPoint());
+        public Point OldChunkPosition => TileManager.ToChunkCoords(OldPosition.ToPoint());
         public Chunk Chunk => FlipGame.World.tileManager.chunks[ChunkPosition.X, ChunkPosition.Y];
         public Chunk OldChunk => FlipGame.World.tileManager.chunks[OldChunkPosition.X, OldChunkPosition.Y];
         public bool WithinChunk => ChunkPosition.X >= 0 && ChunkPosition.Y >= 0;

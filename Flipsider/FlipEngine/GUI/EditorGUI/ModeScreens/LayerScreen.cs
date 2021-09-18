@@ -95,7 +95,6 @@ namespace FlipEngine
                 Add?.Draw(sb);
 
                 Utils.DrawBoxFill(new Rectangle(0, 0, FlipGame.Renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
-                Utils.DrawTextToLeft("Player Layer", Color.White, new Vector2(320, 7));
 
                 Utils.DrawTextToLeft("Plx", Color.White, new Vector2(77, 0), 0, 0.4f);
                 Utils.DrawTextToLeft("Sat", Color.White, new Vector2(190, 0), 0, 0.4f);

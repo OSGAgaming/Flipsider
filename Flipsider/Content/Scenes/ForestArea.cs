@@ -30,13 +30,6 @@ namespace Flipsider.Scenes
             {
                 Test -= 2.6f;
             }
-            if (CutsceneManager.Instance != null)
-            {
-                if (!CutsceneManager.Instance.IsPlayingCutscene)
-                {
-                    Main.Gamecamera.Offset -= Main.Gamecamera.Offset / 16f;
-                }
-            }
 
             Main.lighting.Maps.DrawToMap("SunMap", (sb) =>
             {

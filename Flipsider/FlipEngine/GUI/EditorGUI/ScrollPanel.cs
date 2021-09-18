@@ -28,7 +28,7 @@ namespace FlipEngine
         public int PreviewHeight;
         private float ScrollVelocity;
 
-        private float ScrollSpeed = 3;
+        private float ScrollSpeed = 1;
         private int BarWidth = 20;
         private int Padding = 10;
         public ScrollPanel()
@@ -81,7 +81,7 @@ namespace FlipEngine
             {
                 BarAlpha += (1 - BarAlpha) / 16f;
 
-                ScrollVelocity -= GameInput.Instance.DeltaScroll * ScrollSpeed;
+                ScrollVelocity -= GameInput.Instance.DeltaScroll * ScrollSpeed * 0.01f;
 
                 ScrollVelocity *= 0.8f;
                 ScrollValue += ScrollVelocity;

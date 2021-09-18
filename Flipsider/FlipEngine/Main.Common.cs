@@ -45,6 +45,23 @@ namespace FlipEngine
         public static Vector2 MouseTile => (MouseToDestination().ToVector2() / TileManager.tileRes).Snap(1);
         public static float ScreenScale => Renderer.MainCamera.Scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : Renderer.PreferredSize;
+        public static Chunk[] GetActiveChunks()
+        {
+            Point TL = TileManager.ToChunkCoords(Camera.Position.ToPoint());
+            Point BR = TileManager.ToChunkCoords((Camera.Position + ActualScreenSize / ScreenScale).ToPoint());
+
+            List<Chunk> ChunkBuffer = new List<Chunk>();
+            for(int i = TL.X; i <= BR.X; i++)
+            {
+                for (int j = TL.Y; j <= BR.Y; j++)
+                {
+                    ChunkBuffer.Add(tileManager.GetChunk(new Point(i,j)));
+                }
+            }
+
+            return ChunkBuffer.ToArray();
+        }
+
 
         public static Vector2 AScreenSize;
         public static Vector2 ActualScreenSize => AScreenSize;

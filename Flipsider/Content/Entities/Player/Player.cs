@@ -221,6 +221,8 @@ namespace Flipsider
             spriteBatch.Draw(Texture, Center - new Vector2(0, 18), frame, Color.Lerp(Color.White, Color.Red, IFrameSine) * (1 - IFrameSine) * 0.01f,
                 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
+            DrawEntityModifier("CorePart", spriteBatch);
+
             //Utils.DrawLine(new Vector2(Center.X, Position.Y), new Vector2(Center.X, Position.Y + Height), Color.Blue);
             //Main.lighting.Maps.DrawToMap("Bloom", (SpriteBatch sb) => { sb.Draw(texture, Center - new Vector2(0, 18), frame, Color.White, 0f, frame.Size.ToVector2() / 2, 2f, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f); });
         }

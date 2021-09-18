@@ -75,15 +75,18 @@ namespace FlipEngine
 
         public override void CustomUpdate()
         {
-            if (GameInput.Instance.IsClicking)
+            if (Utils.MouseInBounds)
             {
-                Logger.NewText(FlipGame.MouseTile);
-                FlipGame.tileManager.AddTile(FlipGame.World, new Tile(currentType, currentFrame, FlipGame.MouseTile));
-            }
+                if (GameInput.Instance.IsClicking)
+                {
+                    Logger.NewText(FlipGame.MouseTile);
+                    FlipGame.tileManager.AddTile(FlipGame.World, new Tile(currentType, currentFrame, FlipGame.MouseTile));
+                }
 
-            if (GameInput.Instance.IsRightClicking)
-            {
-                FlipGame.World.tileManager.RemoveTile(FlipGame.World, FlipGame.MouseTile.ToPoint());
+                if (GameInput.Instance.IsRightClicking)
+                {
+                    FlipGame.World.tileManager.RemoveTile(FlipGame.World, FlipGame.MouseTile.ToPoint());
+                }
             }
         }
         protected override void OnLoad()

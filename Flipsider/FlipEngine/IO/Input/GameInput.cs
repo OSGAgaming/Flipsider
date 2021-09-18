@@ -39,12 +39,13 @@ namespace FlipEngine
         public int DeltaScrollHorizontal => CurrentMouseState.HorizontalScrollWheelValue - PreviousMouseState.HorizontalScrollWheelValue;
 
         public Vector2 MousePosition => new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
+        public Vector2 LastPosition => new Vector2(PreviousMouseState.X, PreviousMouseState.Y);
+        public Vector2 DeltaMousePosition => MousePosition - LastPosition;
 
         public bool UsingController => CurrentControllerState.IsConnected;
 
         public GameInput()
         {
-
             _controls = new Dictionary<string, InputBinding>();
         }
 

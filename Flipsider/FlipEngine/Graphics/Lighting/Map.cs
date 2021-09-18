@@ -31,7 +31,6 @@ namespace FlipEngine
             {
                 for (int a = 0; a < MapPasses.Count; a++)
                 {
-                    Logger.NewText(a);
                     FlipGame.graphics?.GraphicsDevice.SetRenderTarget(Buffers[a]);
                     FlipGame.graphics?.GraphicsDevice.Clear(Color.Transparent);
 

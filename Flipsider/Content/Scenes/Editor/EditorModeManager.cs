@@ -1,7 +1,5 @@
 ﻿using Flipsider.Content.IO.Graphics;
 using FlipEngine;
-
-using FlipEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

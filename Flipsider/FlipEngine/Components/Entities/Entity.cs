@@ -1,6 +1,4 @@
 ﻿
-
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,8 +10,13 @@ namespace FlipEngine
 {
     public abstract partial class Entity : IComponent, ILayeredComponentActive, ISerializable<Entity>
     {
-        public bool InFrame => Utils.CameraBounds.Inf(Width, Height).Contains(ParallaxPosition);
-        public int Layer { get; set; }
+        private int _Layer;
+        [Export]
+        public int Layer 
+        { 
+            get => _Layer; 
+            set => _Layer = Math.Clamp(value,0,FlipGame.layerHandler.GetLayerCount()); 
+        }
         public bool Active { get; set; }
         public Texture2D Texture { get; set; } = FlipTextureCache.magicPixel;
 
@@ -21,7 +24,10 @@ namespace FlipEngine
         public Vector2 OldPosition;
         public int Height;
         public int Width;
+
         public Vector2 Size => new Vector2(Width, Height);
+        public bool InFrame => Utils.CameraBounds.Inf(Width, Height).Contains(ParallaxPosition);
+        public Layer CurrentLayer => FlipGame.layerHandler.Layers[Layer];
 
         protected virtual void PreDraw(SpriteBatch spriteBatch) { }
         protected virtual void OnDraw(SpriteBatch spriteBatch) { }
@@ -31,7 +37,13 @@ namespace FlipEngine
         protected virtual void PostUpdate() { }
         protected virtual void OnLoad() { }
         protected virtual void PostConstructor() { }
-        public virtual void Dispose() { }
+        public virtual void Dispose() 
+        {
+            FlipGame.World.layerHandler.Layers[Layer].Drawables.Remove(this);
+            UpdateModules.Clear();
+            Chunk.Entities.Remove(this);
+            Active = false;
+        }
         public virtual void Serialize(Stream stream) { }
         protected virtual void OnChunkChange() { }
         public virtual void OnUpdateInEditor() { }
@@ -71,7 +83,11 @@ namespace FlipEngine
             if(UpdateModules.ContainsKey(name))
             UpdateModules[name].Update(this);
         }
-
+        protected void DrawEntityModifier(string name, SpriteBatch sb)
+        {
+            if (UpdateModules.ContainsKey(name) && UpdateModules[name] is IDrawableEntityModifier)
+                (UpdateModules[name] as IDrawableEntityModifier)?.Draw(this, sb);
+        }
         public void TransferChunk(Chunk chunk1, Chunk chunk2)
         {
             if (!chunk2.Entities.Contains(this))
@@ -96,6 +112,15 @@ namespace FlipEngine
             if(!Chunk.Entities.Contains(this))
             {
                 Chunk.Entities.Add(this);
+            }
+
+            if(!CurrentLayer.Drawables.Contains(this))
+            {
+                foreach (Layer layer in FlipGame.layerHandler.Layers)
+                {
+                    if (layer.Drawables.Contains(this)) layer.Drawables.Remove(this);
+                }
+                CurrentLayer.Drawables.Add(this);
             }
         }
         public void AfterLoad()

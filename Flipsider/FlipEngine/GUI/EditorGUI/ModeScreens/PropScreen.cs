@@ -13,13 +13,7 @@ namespace FlipEngine
     internal class PropScreen : ModeScreen
     {
         private PropPreviewPanel[]? propPanel;
-        private bool mousePressedRight = false;
-        private bool mousePressedMiddle = false;
-        Prop? chosenProp;
-        Vector2 cachedCenter;
-        Vector2 mouseCenter;
         public static string? CurrentProp;
-        public static bool CanPlace;
         public override Mode Mode => Mode.Prop;
 
         public override int PreviewHeight
@@ -39,7 +33,9 @@ namespace FlipEngine
             if (CurrentProp != null)
             {
                 Rectangle altFrame = PropManager.PropTypes[CurrentProp].Bounds;
-                FlipGame.spriteBatch.Draw(PropManager.PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(Time.SineTime(6)), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                FlipGame.spriteBatch.Draw(PropManager.PropTypes[CurrentProp], 
+                    tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(Time.SineTime(6)), 
+                    0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public override void DrawToSelector(SpriteBatch sb)
@@ -53,58 +49,16 @@ namespace FlipEngine
                 }
             }
         }
-
         public override void CustomUpdate()
         {
             Vector2 mousePos = FlipGame.MouseToDestination().ToVector2().Snap(2);
 
-            if (GameInput.Instance.JustClickingLeft && CanPlace)
+            if (GameInput.Instance.JustClickingLeft && Utils.MouseInBounds)
             {
                 FlipGame.World.propManager.AddProp(CurrentProp ?? "", mousePos);
             }
-
-            if (Mouse.GetState().RightButton != ButtonState.Pressed)
-            {
-                chosenProp = null;
-
-                var Props = FlipGame.World.propManager.props;
-                for (int i = 0; i < Props.Count; i++)
-                {
-                    if (Props[i].CollisionFrame.Contains(FlipGame.MouseScreen))
-                    {
-                        chosenProp = Props[i];
-                    }
-                }
-
-            }
-
-            if (chosenProp != null)
-            {
-                Point size = PropManager.PropTypes[chosenProp.prop].Bounds.Size;
-                Rectangle rect = new Rectangle(chosenProp.ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
-                if (rect.Contains(FlipGame.MouseScreen))
-                {
-                    if (!mousePressedMiddle && Mouse.GetState().MiddleButton == ButtonState.Pressed)
-                    {
-                        chosenProp.Dispose();
-                    }
-                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                    {
-                        if (!mousePressedRight)
-                        {
-                            cachedCenter = chosenProp.Center;
-                            mouseCenter = FlipGame.MouseScreen.ToVector2();
-                        }
-                        chosenProp.Center = cachedCenter + (FlipGame.MouseScreen.ToVector2() - mouseCenter);
-                    }
-                }
-
-            }
-            mousePressedRight = Mouse.GetState().RightButton == ButtonState.Pressed;
-            mousePressedMiddle = Mouse.GetState().MiddleButton == ButtonState.Pressed;
-
-            CanPlace = true;
         }
+
         protected override void OnLoad()
         {
             propPanel = new PropPreviewPanel[PropManager.PropTypes.Count];
@@ -117,8 +71,6 @@ namespace FlipEngine
                 }
             }
         }
-
-        internal override void OnDrawToScreenDirect() { }
     }
 
     internal class PropPreviewPanel : PreviewElement
@@ -141,15 +93,6 @@ namespace FlipEngine
         protected override void OnLeftClick()
         {
             PropScreen.CurrentProp = PropManager.PropTypes.Keys.ToArray()[Type];
-        }
-
-        protected override void OnHover()
-        {
-            PropScreen.CanPlace = false;
-        }
-        protected override void CustomUpdate()
-        {
-
         }
     }
 }

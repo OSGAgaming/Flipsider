@@ -34,11 +34,6 @@ namespace FlipEngine
                         tileManager.chunks[i, j].Entities[k].Dispose();
                 }
             }
-            int propLength = propManager.props.Count;
-            for (int i = 0; i < propLength; i++)
-            {
-                propManager.props[i].Dispose();
-            }
         }
         public bool IsTileActive(int i, int j)
         {

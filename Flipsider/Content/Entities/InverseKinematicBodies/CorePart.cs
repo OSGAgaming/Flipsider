@@ -15,7 +15,7 @@ namespace Flipsider
         Walking,
         Hoist
     }
-    public class CorePart : IEntityModifier, ILayeredComponent
+    public class CorePart : IDrawableEntityModifier
     {
         public AnimationCycle Cycle = AnimationCycle.Walking;
         public Player CoreEntity { get; set; }
@@ -38,8 +38,6 @@ namespace Flipsider
 
             AppendBodyPart(new RightArm());
             AppendBodyPart(new LeftArm());
-
-            Main.AppendToLayer(this);
         }
 
         public Dictionary<string, BodyPart> Parts = new Dictionary<string, BodyPart>();
@@ -92,7 +90,7 @@ namespace Flipsider
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(in Entity entity, SpriteBatch spriteBatch)
         {
             foreach (KeyValuePair<string, BodyPart> Parts in Parts)
             {

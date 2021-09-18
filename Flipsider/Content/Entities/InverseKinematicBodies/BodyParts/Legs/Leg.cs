@@ -16,7 +16,7 @@ namespace Flipsider
         private int StrideLength => 10;
         private int XTolerance => 10;
         private int DistanceUntilFixation => 4;
-        private float LegSpeed => 0.035f;
+        private float LegSpeed => 0.034f;
         private float ProgressionUntilNextStep => 0.8f;
 
         private float VelocityStrideEffect => 50;
@@ -25,6 +25,7 @@ namespace Flipsider
         private float VelocityEffectClamp => 3;
 
         private float IdleStanceWidth => 10;
+        private bool LegOnGround => Utils.ReturnIntersectionTile(Main.World, LegPosition + new Vector2(0, -4), LegPosition + new Vector2(0, 3)) != Vector2.Zero;
 
         private bool IsMovingLeg;
         private bool CanMoveOtherLeg = true;
@@ -113,7 +114,7 @@ namespace Flipsider
                 Utils.DrawBoxFill(JointPosition - new Vector2(2), 4, 4, Color.Yellow);
 
                 float Y = (LegPosition.Y + OtherPart.LegPosition.Y) * 0.5f - LegLength * 2.5f;
-                Vector2 YOff = new Vector2(0, Y - Parent.Center.Y + KneeSupressionVar * 3);
+                Vector2 YOff = new Vector2(0, (Y - Parent.Center.Y) * 2 + KneeSupressionVar * 3);
                 Vector2 PC = Parent.Center + YOff * 0.5f;
                 float UpperRotation = Parent.CoreEntity.velocity.X / (10f * VarWalkSpeed) + VelXStepAdjustment / 360f + KneeSupressionVar * 
                     (Parent.CoreEntity.velocity.X + Sign) * 0.02f;
@@ -179,7 +180,7 @@ namespace Flipsider
                 LegPosition.X += Parent.CoreEntity.velocity.X;
 
                 if (LegProgression > ProgressionUntilNextStep -
-                    AbsVel * 0.085f - (VarWalkSpeed - 1) * 0.1f
+                    AbsVel * 0.085f - (VarWalkSpeed - 1) * 0.35f
                     - ClampedVXSA * 0.05f && !CanMoveOtherLeg)
                 {
                     CanMoveOtherLeg = true;
@@ -193,8 +194,12 @@ namespace Flipsider
             {
                 bool LegDisplaced = Math.Abs(LegPosition.X - (Parent.Center.X + StrideLength * Sign * 0.5f)) > (XTolerance - AbsVel * 5);
                 bool LegsTogether = Math.Abs(OtherPart.LegPosition.X - LegPosition.X) < XTolerance * 0.7f;
+                bool LegFarther = 
+                    Sign == 1 ? 
+                    LegPosition.X < OtherPart.LegPosition.X : 
+                    LegPosition.X > OtherPart.LegPosition.X;
 
-                if ((LegDisplaced || LegsTogether) && OtherPart.CanMoveOtherLeg && !IsMovingLeg)
+                if (((LegDisplaced && LegFarther) || LegsTogether) && OtherPart.CanMoveOtherLeg && !IsMovingLeg)
                 {
                     LegProgression = 0;
                     IsMovingLeg = true;
@@ -253,7 +258,6 @@ namespace Flipsider
                 JointPosition = CorrectLegStick(LegPosition, JointPosition + 
                     new Vector2(Vel * 2f + 3 * Sign, -AbsVel + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
 
-                bool LegOnGround = Utils.ReturnIntersectionTile(Main.World, LegPosition + new Vector2(0,-4), LegPosition + new Vector2(0, 3)) != Vector2.Zero;
 
                 Vector2 StridePoint1 = Vector2.Zero;
                 Vector2 StridePoint2 = Vector2.Zero;
@@ -310,7 +314,7 @@ namespace Flipsider
 
                 DetectedSurface = Utils.ReturnIntersectionTile(Main.World, StridePoint1, StridePoint2);
 
-                if (DetectedSurface != Vector2.Zero && Parent.CoreEntity.onGround && LegOnGround)
+                if (DetectedSurface != Vector2.Zero && Parent.CoreEntity.onGround && (LegOnGround || OtherPart.LegOnGround))
                 {
                     Step();
                 }
@@ -323,12 +327,12 @@ namespace Flipsider
 
                 if (!LegOnGround && !IsMovingLeg)
                 {
-                    LegPosition.Y += 2f;
+                    LegPosition.Y += 3f;
                 }
 
                 if (Parent.CoreEntity.onGround)
                 {
-                    VarWalkSpeed += (1 - VarWalkSpeed) / 16f;
+                    VarWalkSpeed += (1 - VarWalkSpeed) / 11f;
                 }
 
                 if (IsMovingLeg)
