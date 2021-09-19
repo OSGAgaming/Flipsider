@@ -2060,3 +2060,27 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Weapons/Crowbar_Icon.png
+
+#begin Worlds/CurrentWorld.flip
+/copy:Worlds/CurrentWorld.flip
+
+#begin Cutscenes/argaerg.fctsn
+/copy:Cutscenes/argaerg.fctsn
+
+#begin Cutscenes/Eggsmehlssucks.fctsn
+/copy:Cutscenes/Eggsmehlssucks.fctsn
+
+#begin Cutscenes/Eggsmehlssuckss.fctsn
+/copy:Cutscenes/Eggsmehlssuckss.fctsn
+
+#begin Cutscenes/MyCutscene.fctsn
+/copy:Cutscenes/MyCutscene.fctsn
+
+#begin Cutscenes/Trnsintstupid.fctsn
+/copy:Cutscenes/Trnsintstupid.fctsn
+
+#begin Cutscenes/YourBallsItch.fctsn
+/copy:Cutscenes/YourBallsItch.fctsn
+
+#begin Cutscenes/ZekromThinksGarchompIsPog.fctsn
+/copy:Cutscenes/ZekromThinksGarchompIsPog.fctsn

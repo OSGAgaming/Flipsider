@@ -15,16 +15,14 @@ namespace FlipEngine
         public static void SaveCurrentWorldAs(string Name)
         {
             //SAME NAME WORLDS WILL OVERRIDE
-            Stream stream = File.OpenWrite(WorldPath + Name + ".flip");
+            Stream stream = File.OpenWrite(LocalWorldPath + Name + ".flip");
             FlipGame.World.levelInfo.Serialize(stream);
         }
-        public static void SaveCurrentWorldAsWithExtension(string Name)
-        {
-          //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
-        }
+        public static string WorldPath => FlipGame.MainPath + $@"Content\Worlds\";
+        public static string CutscenePath => FlipGame.MainPath + $@"Content\Cutscenes\";
 
-        public static string WorldPath => FlipGame.MainPath + $@"Worlds\";
-        public static string CutscenePath => FlipGame.MainPath + $@"Cutscenes\";
+        public static string LocalWorldPath => LocalDirectory + $@"Content\Worlds\";
+        public static string LocalCutscenePath => LocalDirectory + $@"Content\Cutscenes\";
 
         public static Vector2 SafeBoundX => new Vector2(FlipGame.Camera.TransformPosition.X, FlipGame.Camera.TransformPosition.X + FlipGame.ActualScreenSize.X / FlipGame.ScreenScale);
         public static Vector2 SafeBoundY => new Vector2(FlipGame.Camera.TransformPosition.Y, FlipGame.Camera.TransformPosition.Y + FlipGame.ActualScreenSize.Y / FlipGame.ScreenScale);

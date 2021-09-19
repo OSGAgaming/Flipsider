@@ -27,7 +27,7 @@ namespace Flipsider
           //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
         }
 
-        public static string WorldPath => Main.MainPath + $@"Worlds\";
+        public static string WorldPath => Main.MainPath + $@"Content\Worlds\";
         public static string CutscenePath => Main.MainPath + $@"Cutscenes\";
 
         public static InputBinding LeftClick => GameInput.Instance["EditorPlaceTile"];

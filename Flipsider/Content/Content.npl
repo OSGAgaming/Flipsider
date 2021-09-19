@@ -25,6 +25,16 @@
 			"path": "Textures/*.spritefont",
 			"recursive": "False",
 			"action": "copy"
+		},
+		"Worlds": {
+			"path": "Worlds/*.flip",
+			"recursive": "True",
+			"action": "copy"
+		},
+		"Cutscenes": {
+			"path": "Cutscenes/*.fctsn",
+			"recursive": "True",
+			"action": "copy"
 		}
 	}
 }

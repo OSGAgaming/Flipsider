@@ -199,7 +199,7 @@ namespace FlipEngine
 
             if (state.IsKeyDown(Keys.LeftControl) && state.IsKeyDown(Keys.S) && CoolDown == 0)
             {
-                Stream stream = File.OpenWrite(Utils.CutscenePath + NameOfCutscene + ".fctsn");
+                Stream stream = File.OpenWrite(Utils.LocalDirectory + NameOfCutscene + ".fctsn");
                 ToCutscene().Serialize(stream);
                 OnSave?.Invoke();
 
