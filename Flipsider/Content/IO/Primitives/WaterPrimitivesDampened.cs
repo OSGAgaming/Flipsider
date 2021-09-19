@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
+using FlipEngine;
 
-namespace FlipEngine
+namespace Flipsider
 {
     internal class WaterPrimitivesDampened : Primitive
     {
@@ -15,9 +16,9 @@ namespace FlipEngine
         }
         public override void SetDefaults()
         {
-            _alphaValue = 0.7f;
-            _width = 1;
-            _cap = 1000;
+            Alpha = 0.7f;
+            Width = 1;
+            PrimitiveCount = 1000;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
@@ -45,23 +46,22 @@ namespace FlipEngine
         }
         public override void SetShaders()
         {
-            PrepareShader(EffectCache.PrimtiveShader ?? new BasicEffect(FlipGame.graphics.GraphicsDevice), "WaterDamp", _counter / 40f);
+            PrepareShader(EffectCache.PrimtiveShader ?? new BasicEffect(FlipGame.graphics.GraphicsDevice), "WaterDamp", TimeAlive / 40f);
         }
         public override void OnUpdate()
         {
             _points = water.PosDampened.ToList();
             Points = water.Pos;
-            _counter++;
-            _noOfPoints = _points.Count() * 6;
-            if (_cap < _noOfPoints / 6)
+            VertexCount = _points.Count() * 6;
+            if (PrimitiveCount < VertexCount / 6)
             {
                 _points.RemoveAt(0);
             }
         }
         public override void OnDestroy()
         {
-            _width *= 0.9f;
-            if (_width < 0.05f)
+            Width *= 0.9f;
+            if (Width < 0.05f)
             {
                 Dispose();
             }

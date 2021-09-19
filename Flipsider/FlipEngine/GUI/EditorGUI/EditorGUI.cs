@@ -62,7 +62,6 @@ namespace FlipEngine
         protected override void OnLoad()
         {
             AddMode(Mode.Tile);
-            AddMode(Mode.Water);
             AddMode(Mode.Prop);
             AddMode(Mode.NPC);
             AddMode(Mode.Pencil);
@@ -92,6 +91,7 @@ namespace FlipEngine
         {
             if (ChosenEntity != null) Utils.DrawRectangle(ChosenEntity.CollisionFrame, Color.White, 3);
         }
+        public bool IsDraggingEntity;
         private void ManageEntities()
         {
             Vector2 mousePos = FlipGame.MouseToDestination().ToVector2().Snap(2);
@@ -124,10 +124,23 @@ namespace FlipEngine
                     }
                     if (Mouse.GetState().RightButton == ButtonState.Pressed)
                     {
-                        ChosenEntity.Position += GameInput.Instance.DeltaMousePosition * 2;
+                        IsDraggingEntity = true;
+                    }
+                    else
+                    {
+                        IsDraggingEntity = false;
                     }
                 }
+
+                if (IsDraggingEntity)
+                {
+                    ChosenEntity.Position +=
+                                FlipGame.MouseToDestination().ToVector2() -
+                                FlipGame.PreviousMouseToDestination().ToVector2();
+                }
             }
+
+            
         }
 
         protected override void OnUpdate()

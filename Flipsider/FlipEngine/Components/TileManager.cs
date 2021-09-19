@@ -49,7 +49,8 @@ namespace FlipEngine
         }
         public Chunk GetChunk(Point pos)
         {
-            if (pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1))
+            if (pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1)
+                && pos.X >= 0 && pos.Y >= 0)
                 return chunks?[pos.X, pos.Y] ?? LoadChunk(pos);
 
             return LoadChunk(pos);

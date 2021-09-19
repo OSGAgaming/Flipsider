@@ -14,21 +14,7 @@ sampler noiseSampler = sampler_state
 {
 	Texture = (noiseTexture);
 };
-texture spotTexture;
-sampler spotSampler = sampler_state
-{
-	Texture = (spotTexture);
-};
-texture polkaTexture;
-sampler polkaSampler = sampler_state
-{
-	Texture = (polkaTexture);
-};
-texture Voronoi;
-sampler VoronoiSampler = sampler_state
-{
-	Texture = (Voronoi);
-};
+
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;

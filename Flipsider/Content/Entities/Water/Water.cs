@@ -2,28 +2,20 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
-
+using FlipEngine;
 #nullable disable
 // TODO fix this..
-namespace FlipEngine
+namespace Flipsider
 {
-    [Serializable]
     public class Water : Entity
     {
-        [NonSerialized]
         protected Primitive PrimitiveInstance;
-        [NonSerialized]
         protected Primitive PrimitiveInstanceDamp;
         public int accuracy;
-        [NonSerialized]
         public Vector2[] Pos;
-        [NonSerialized]
         public Vector2[] PosDampened;
-        [NonSerialized]
         private Vector2[] accel;
-        [NonSerialized]
         private Vector2[] vel;
-        [NonSerialized]
         private Vector2[] targetHeight;
         public RectangleF _frame;
         public Rectangle frame => _frame.ToR();
@@ -38,7 +30,7 @@ namespace FlipEngine
         public void SetFrame(RectangleF vertices) => _frame = vertices;
         public override void Dispose()
         {
-            Utils.layerHandler.Layers[Layer].PrimitiveDrawables.Remove(this);
+            FlipGame.layerHandler.Layers[Layer].PrimitiveDrawables.Remove(this);
             PrimitiveInstance.Dispose();
             PrimitiveInstanceDamp.Dispose();
         }
@@ -55,7 +47,6 @@ namespace FlipEngine
             Rectangle Frame = binaryReader.ReadRect();
             int Layer = binaryReader.ReadInt32();
             Water water = new Water(new RectangleF(Frame.Location.ToVector2(),Frame.Size.ToVector2()), Layer);
-            FlipGame.WaterBodies.Add(water);
             return water;
         }
         public Water(RectangleF _frame) : base()

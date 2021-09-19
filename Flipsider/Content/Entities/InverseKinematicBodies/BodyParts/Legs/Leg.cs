@@ -47,7 +47,7 @@ namespace Flipsider
 
         Vector2 LastLegTarget;
         Vector2 LastVelocity;
-        Vector2 JointPosition;
+        public Vector2 JointPosition;
         public Vector2 LegPosition;
 
         private float XAccelInterp;

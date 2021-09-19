@@ -16,7 +16,6 @@ namespace FlipEngine
         public int MaxTilesY { get; private set; }
 
         public TileManager tileManager { get; set; }
-        public Manager<Water> WaterBodies { get; set; }
         public PropManager propManager { get; set; }
         public Skybox Skybox { get; set; }
 
@@ -80,7 +79,6 @@ namespace FlipEngine
             MaxTilesY = Height;
 
             tileManager = new TileManager(Width, Height);
-            WaterBodies = new Manager<Water>();
             propManager = new PropManager();
 
             Skybox = new Skybox();

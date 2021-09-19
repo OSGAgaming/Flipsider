@@ -36,7 +36,6 @@ namespace FlipEngine
         public static SpriteBatch spriteBatch => FlipGame.Renderer.SpriteBatch;
         public static GraphicsDeviceManager? graphics => FlipGame.Renderer.Graphics;
         public static Lighting? lighting => FlipGame.Renderer.Lighting;
-        public static List<Water> WaterBodies => FlipGame.World.WaterBodies.Components;
         public static Vector2 MouseTile => new Vector2(MouseScreen.X / TileManager.tileRes, MouseScreen.Y / TileManager.tileRes);
         public static Vector2 ScreenSize => FlipGame.graphics.GraphicsDevice == null ? Vector2.One : FlipGame.Renderer.PreferredSize;
         public static Vector2 ActualScreenSize => FlipGame.AScreenSize;

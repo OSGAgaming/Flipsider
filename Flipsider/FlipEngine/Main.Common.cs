@@ -41,7 +41,6 @@ namespace FlipEngine
         public static GraphicsDeviceManager graphics => Renderer.Graphics;
         public static CameraTransform Camera => Renderer.MainCamera;
         public static Lighting lighting => Renderer.Lighting;
-        public static List<Water> WaterBodies => World.WaterBodies.Components;
         public static Vector2 MouseTile => (MouseToDestination().ToVector2() / TileManager.tileRes).Snap(1);
         public static float ScreenScale => Renderer.MainCamera.Scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : Renderer.PreferredSize;
@@ -55,7 +54,10 @@ namespace FlipEngine
             {
                 for (int j = TL.Y; j <= BR.Y; j++)
                 {
-                    ChunkBuffer.Add(tileManager.GetChunk(new Point(i,j)));
+                    if(i >= 0 && j >= 0 && 
+                       i < tileManager.chunks.GetLength(0) && 
+                       j < tileManager.chunks.GetLength(1)) 
+                        ChunkBuffer.Add(tileManager.GetChunk(new Point(i,j)));
                 }
             }
 
@@ -68,9 +70,15 @@ namespace FlipEngine
         public static Point MouseScreen => Mouse.GetState().Position.ToScreen();
         public static Point MouseToDestination()
         {
-            Point p = Mouse.GetState().Position;
             Vector2 R = ActualScreenSize / Renderer.Destination.Size.ToVector2();
-            Vector2 v = (p.ToVector2() - Renderer.Destination.Location.ToVector2() ) * R / Camera.Scale + Camera.TransformPosition;
+            Vector2 v = (Mouse.GetState().Position.ToVector2() - Renderer.Destination.Location.ToVector2() ) * R / Camera.Scale + Camera.TransformPosition;
+            return v.ToPoint();
+        }
+
+        public static Point PreviousMouseToDestination()
+        {
+            Vector2 R = ActualScreenSize / Renderer.Destination.Size.ToVector2();
+            Vector2 v = (GameInput.Instance.PreviousMouseState.Position.ToVector2() - Renderer.Destination.Location.ToVector2()) * R / Camera.Scale + Camera.TransformPosition;
             return v.ToPoint();
         }
 

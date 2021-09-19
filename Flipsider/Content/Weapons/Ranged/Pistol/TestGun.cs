@@ -15,7 +15,7 @@ namespace Flipsider.Weapons.Ranged.Pistol
 
         protected override void OnActivate()
         {
-            Main.Gamecamera.ScreenShake += 4;
+            //Main.Gamecamera.ScreenShake += 4;
         }
 
         public override void DrawInventory(SpriteBatch spriteBatch, Rectangle source)
