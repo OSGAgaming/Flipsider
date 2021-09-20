@@ -36,73 +36,61 @@
 #begin Effect/Bloom.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/Bloom.fx
 
 #begin Effect/BloomEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/BloomEffect.fx
 
 #begin Effect/FGWaterMap.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/FGWaterMap.fx
 
 #begin Effect/FrontFaceBuildingEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/FrontFaceBuildingEffect.fx
 
 #begin Effect/GodrayEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/GodrayEffect.fx
 
 #begin Effect/LayerColorModification.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/LayerColorModification.fx
 
 #begin Effect/LeavesEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/LeavesEffect.fx
 
 #begin Effect/Lighting.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/Lighting.fx
 
 #begin Effect/LightingMap.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/LightingMap.fx
 
 #begin Effect/Pixelation.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/Pixelation.fx
 
 #begin Effect/PrimtiveShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/PrimtiveShader.fx
 
 #begin Effect/SunMapEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/processorParam:DebugMode=Auto
 /build:Effect/SunMapEffect.fx
 
 #begin FlipFont.spritefont
@@ -2084,3 +2072,8 @@
 
 #begin Cutscenes/ZekromThinksGarchompIsPog.fctsn
 /copy:Cutscenes/ZekromThinksGarchompIsPog.fctsn
+
+#begin Effect/PrimitiveTextureMap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/PrimitiveTextureMap.fx

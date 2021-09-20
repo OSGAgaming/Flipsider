@@ -42,6 +42,9 @@ namespace Flipsider
             AppendBodyPart(new RightArm());
             AppendBodyPart(new LeftArm());
 
+            Get<LeftLeg>().LegPosition = entity.Center;
+            Get<RightLeg>().LegPosition = entity.Center;
+
             LeftLegPrims = new PlayerPrimitives(Get<LeftLeg>());
             RightLegPrims = new PlayerPrimitives(Get<RightLeg>());
 

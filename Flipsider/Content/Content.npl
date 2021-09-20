@@ -21,6 +21,13 @@
 				"TextureFormat": "Color"
 			}
 		},
+		"effects": {
+			"path": "Effect/*.fx",
+			"recursive": "True",
+			"action": "build",
+			"importer": "EffectImporter",
+			"processor": "EffectProcessor"
+		},
 		"Font": {
 			"path": "Textures/*.spritefont",
 			"recursive": "False",

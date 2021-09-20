@@ -19,7 +19,7 @@ namespace FlipEngine
             public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions, string ESP, float progressParam)
             {
 
-                effect.Parameters["progress"].SetValue(progressParam);
+                effect.Parameters["progress"]?.SetValue(progressParam);
                 effect.CurrentTechnique.Passes[ESP].Apply();
                 effect.CurrentTechnique.Passes[ShaderPass].Apply();
             }
@@ -42,7 +42,7 @@ namespace FlipEngine
         {
             return new Vector2(-vector.Y, vector.X);
         }
-        public void PrepareShader(Effect effects, string PassName, float progress = 0)
+        public void PrepareShader(Effect effects, string PassName = "Pass", float progress = 0)
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
@@ -56,7 +56,7 @@ namespace FlipEngine
 
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
-            effects.Parameters["noiseTexture"].SetValue(FlipTextureCache.Noise);
+            effects.Parameters["noiseTexture"]?.SetValue(FlipTextureCache.Noise);
             _trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
         protected void PrepareBasicShader()

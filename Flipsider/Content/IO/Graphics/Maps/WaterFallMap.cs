@@ -15,7 +15,6 @@ namespace Flipsider
 
         internal override void OnApplyShader() 
         {
-
             MapEffect?.CurrentTechnique.Passes[0].Apply();
         }
 

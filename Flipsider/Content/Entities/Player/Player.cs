@@ -33,11 +33,12 @@ namespace Flipsider
         public int inventorySize => 20;
         public Player(Vector2 position, bool Active = true) : base()
         {
+            this.Position = position;
+
             AddModule("Movement", new PlayerMovement(this));
             AddModule("CorePart", new CorePart(this));
 
             inventory = new IStoreable[20];
-            this.Position = position;
             Width = 30;
             Height = 60;
             framewidth = 48;

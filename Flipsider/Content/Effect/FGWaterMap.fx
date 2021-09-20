@@ -96,7 +96,7 @@ float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
   }
   color += waterMap.a*pow(sin(RTW.y * 3 - Time * 0.1f + GetHeight(float2(RTW.x - Time / 240, 0))*0.3f),2)*0.2f;
   
-  //float4 left = tex2D(waterSampler, coords	 + WaterSampleCoords + float2(-1/100,0));
+  //float4 left = tex2D(waterSampler, coords + WaterSampleCoords + float2(-1/100,0));
   //color += (1 - left.a) * waterMap.a;
   return color;
 }

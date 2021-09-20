@@ -258,8 +258,8 @@ namespace FlipEngine
             EditorModeGUI.Active = !EditorModeGUI.Active;
             EditorModeGUI.mode = Mode.None;
 
-            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 1.2f;
-            else FlipGame.Camera.targetScale = 1.2f;
+            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 2f;
+            else FlipGame.Camera.targetScale = 2f;
         }
     }
 

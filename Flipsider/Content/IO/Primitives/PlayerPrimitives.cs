@@ -18,7 +18,7 @@ namespace Flipsider
             Alpha = 0.7f;
             Width = 100;
             PrimitiveCount = 100;
-            Effect = EffectCache.PrimtiveShader;
+            Effect = EffectCache.PrimtiveTexture;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
@@ -52,7 +52,8 @@ namespace Flipsider
         }
         public override void SetShaders()
         {
-            PrepareShader(Effect, "WaterMain", TimeAlive / 40f);
+            Effect.Parameters["textureMap"].SetValue(Textures._Noise_Spot);
+            PrepareShader(Effect);
         }
         public override void OnUpdate()
         {

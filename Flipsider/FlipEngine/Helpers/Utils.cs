@@ -21,7 +21,7 @@ namespace FlipEngine
         public static string WorldPath => FlipGame.MainPath + $@"Content\Worlds\";
         public static string CutscenePath => FlipGame.MainPath + $@"Content\Cutscenes\";
 
-        public static string LocalWorldPath => LocalDirectory + $@"Content\Worlds\";
+        public static string LocalWorldPath => LocalDirectory + $@"\Content\Worlds\";
         public static string LocalCutscenePath => LocalDirectory + $@"Content\Cutscenes\";
 
         public static Vector2 SafeBoundX => new Vector2(FlipGame.Camera.TransformPosition.X, FlipGame.Camera.TransformPosition.X + FlipGame.ActualScreenSize.X / FlipGame.ScreenScale);
