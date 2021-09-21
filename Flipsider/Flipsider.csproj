@@ -12,6 +12,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\bin\**" />
+    <Compile Remove="Content\obj\**" />
+    <EmbeddedResource Remove="Content\bin\**" />
+    <EmbeddedResource Remove="Content\obj\**" />
+    <None Remove="Content\bin\**" />
+    <None Remove="Content\obj\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -38,4 +46,16 @@
   <Target Name="PreBuild" AfterTargets="PreBuildEvent">
     <Exec Command="cmd /K &quot;$(SolutionDir)\TextureCacheGenerator.Flipsider\bin\Debug\netcoreapp3.1\TextureCacheGenerator.Flipsider.exe&quot;" />
   </Target>
+  <ItemGroup>
+    <NPLContentReferences Remove="Content\bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <MGCBContentReferences Remove="Content\bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <NPLContentReferences Remove="Content\obj\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <MGCBContentReferences Remove="Content\obj\**" />
+  </ItemGroup>
 </Project>

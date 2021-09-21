@@ -2125,3 +2125,33 @@
 
 #begin Worlds/CurrentWorld.flip
 /copy:Worlds/CurrentWorld.flip
+
+#begin Effect/AlphaFadeOff.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/AlphaFadeOff.fx
+
+#begin Effect/WaterMain.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/WaterMain.fx
+
+#begin Effect/WaterDamp.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/WaterDamp.fx
+
+#begin Effect/DirLight.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/DirLight.fx
+
+#begin Effect/SideFallOff.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/SideFallOff.fx
+
+#begin Effect/AquaLightPass.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/AquaLightPass.fx

@@ -61,7 +61,7 @@ technique BasicColorDrawing
 	{
 		VertexShader = compile vs_3_0 MainVS();
 	}
-	pass Pass
+	pass ThePass
 	{
 		PixelShader = compile ps_3_0 Method();
 	}
