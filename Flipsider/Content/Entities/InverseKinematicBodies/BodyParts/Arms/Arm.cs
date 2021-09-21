@@ -24,9 +24,14 @@ namespace Flipsider
         int Delay;
         public Vector2 Joint;
         public Vector2 Ledge;
-        private int UpFromCenter = 20;
-        private int ShoulderSpan = 8;
+        private int UpFromCenter => 12;
+        private int ShoulderSpan => 9;
         float JointHeight;
+
+        private float Lerp;
+        private Vector2 OffsetLerp;
+        public Vector2 Hoist;
+
         public Vector2 Target
         {
             get
@@ -34,12 +39,12 @@ namespace Flipsider
                 if (Parent != null)
                 {
                     if (ID == "R_Arm")
-                        return Parent.Center + new Vector2(2f * Side * StaticSide * JointHori - JointHori * 6 + ShoulderSpan, 
-                            10 - Math.Abs(JointHori) * 2 + Side * StaticSide * 2f * Math.Abs(JointHori));
+                        return Parent.Center + new Vector2(3f * Side * StaticSide * (JointHori + 1) - JointHori * 6 + ShoulderSpan, 
+                            10 - Math.Abs(JointHori) * 8 + Side * StaticSide * 3f * Math.Abs(JointHori));
                     else
                     {
-                        return Parent.Center + new Vector2(2f * Side * StaticSide * JointHori - JointHori * 6 - ShoulderSpan, 
-                            10 - Math.Abs(JointHori) * 2 + Side * StaticSide * 2f * Math.Abs(JointHori));
+                        return Parent.Center + new Vector2(3f * Side * StaticSide * (JointHori + 1) - JointHori * 6 - ShoulderSpan, 
+                            10 - Math.Abs(JointHori) * 8 + Side * StaticSide * 3f * Math.Abs(JointHori));
                     }
                 }
                 else
@@ -68,21 +73,25 @@ namespace Flipsider
                 Side *= -1;
 
             Delay = 3;
+            Lerp = 0;
         }
 
         public override void Draw(SpriteBatch spritebatch)
         {
             if (Parent != null && OtherPart != null)
             {
-                /*if (ID == "R_Arm")
-                    Utils.DrawLine(Joint, Parent.Center + new Vector2(ShoulderSpan, -UpFromCenter), Color.Purple);
+                int Sign = Math.Sign(Parent.CoreEntity.velocity.X);
+
+                Vector2 Up = new Vector2(0, -UpFromCenter).RotatedBy(Parent.UpperBodyRotation);
+                if (ID == "R_Arm")
+                    Hoist =  Parent.Center + Up + new Vector2(ShoulderSpan + Sign * 2, 0);
                 else
-                    Utils.DrawLine(Joint, Parent.Center + new Vector2(-ShoulderSpan, -UpFromCenter), Color.Purple);
+                    Hoist = Parent.Center + Up + new Vector2(-ShoulderSpan + Sign * 2, 0);
 
-                Utils.DrawLine(Joint, Center, Color.Purple);
+                Utils.DrawLine(Joint, Center, Color.Magenta, 3);
+                Utils.DrawLine(Hoist, Joint, Color.Purple, 2);
                 Utils.DrawBoxFill(Joint - new Vector2(2), 4, 4, Color.Purple);
-                Utils.DrawBoxFill(Center - new Vector2(2), 4, 4, Color.Purple);*/
-
+                Utils.DrawBoxFill(Center - new Vector2(2), 4, 4, Color.Purple);
             }
         }
 
@@ -92,21 +101,24 @@ namespace Flipsider
             {
                 if (Delay > 0) Delay--;
 
-                Center += (Target - Center) / 11f;
                 JointHeight += (((Side * StaticSide + 1) / 2) * 5 - JointHeight) / 8f;
 
-                Vector2 TargJoint = Joint + new Vector2(JointHori, Math.Abs(JointHori) - JointHeight * 0.1f * Math.Abs(JointHori));
+                Vector2 TargJoint = Joint + new Vector2(-JointHori * 6, Math.Abs(JointHori) - JointHeight * 0.1f * Math.Abs(JointHori));
 
-                if (ID == "R_Arm")
-                    Joint = CorrectArm(Parent.Center + new Vector2(ShoulderSpan, -UpFromCenter), TargJoint)[1];
-                else
-                    Joint = CorrectArm(Parent.Center + new Vector2(-ShoulderSpan, -UpFromCenter), TargJoint)[1];
-
+                for (int i = 0; i < 5; i++)
+                {
+                    if (ID == "R_Arm")
+                        Joint = CorrectArm(Parent.Center + new Vector2(ShoulderSpan, -UpFromCenter), TargJoint)[1];
+                    else
+                        Joint = CorrectArm(Parent.Center + new Vector2(-ShoulderSpan, -UpFromCenter), TargJoint)[1];
+                }
                 TargJoint = Joint + new Vector2(JointHori, Math.Abs(JointHori) - JointHeight * 0.5f * Math.Abs(JointHori));
+                for (int i = 0; i < 5; i++)
+                {
+                    Joint = CorrectArm(Center, TargJoint)[1];
+                }
 
-                Joint = CorrectArm(Center, TargJoint)[1];
-
-                JointHori += (Parent.CoreEntity.velocity.X * -4 - JointHori) / 16f;
+                JointHori += (Parent.CoreEntity.velocity.X * -0.5f - JointHori) / 16f;
 
                 if (Vector2.DistanceSquared(Target, Center) < 60 * 60)
                 {
@@ -116,6 +128,10 @@ namespace Flipsider
                 {
                     Moving = true;
                 }
+
+                Lerp += (1 - Lerp) / 32f;
+                Center = Parent.Center + OffsetLerp;
+                OffsetLerp = Vector2.Lerp(OffsetLerp, Target - Parent.Center, MathHelper.SmoothStep(0,1,Lerp));
             }
         }
     }

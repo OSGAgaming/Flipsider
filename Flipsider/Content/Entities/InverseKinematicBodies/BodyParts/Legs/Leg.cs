@@ -16,7 +16,7 @@ namespace Flipsider
         private int StrideLength => 10;
         private int XTolerance => 10;
         private int DistanceUntilFixation => 4;
-        private float LegSpeed => 0.034f;
+        private float LegSpeed => 0.033f;
         private float ProgressionUntilNextStep => 0.8f;
 
         private float VelocityStrideEffect => 50;
@@ -50,7 +50,31 @@ namespace Flipsider
         public Vector2 JointPosition;
         public Vector2 LegPosition;
 
-        private float XAccelInterp;
+        public float XAccelInterp;
+        public Vector2 YOff
+        {
+            get
+            {
+                if (OtherPart != null && Parent != null)
+                {
+                    float Y = (LegPosition.Y + OtherPart.LegPosition.Y) * 0.5f - LegLength * 2.5f;
+                    return new Vector2(0, (Y - Parent.Center.Y) * 2 + KneeSupressionVar * 3);
+                }
+                else return Vector2.Zero;
+            }
+        }
+
+        public Vector2 LYOff
+        {
+            get
+            {
+                if (OtherPart != null && Parent != null)
+                {
+                    return new Vector2(0, Math.Abs(LegPosition.Y - OtherPart.LegPosition.Y));
+                }
+                else return Vector2.Zero;
+            }
+        }
 
         float Vel
         {
@@ -64,7 +88,7 @@ namespace Flipsider
         }
 
         float AbsVel => Math.Abs(Vel);
-        int Sign => Math.Sign(Vel);
+        public int Sign => Math.Sign(Vel);
 
         Leg? OtherPart => Parent?.Get(OtherLeg) as Leg;
 
@@ -108,38 +132,26 @@ namespace Flipsider
         {
             if (Parent != null && OtherPart != null)
             {
-                Utils.DrawLine(spritebatch, JointPosition, LegPosition, Color.Yellow);
+                Utils.DrawLine(spritebatch, JointPosition, LegPosition, Color.Yellow, 2);
 
                 Utils.DrawBoxFill(LegPosition - new Vector2(2), 4, 4, IsMovingLeg ? Color.Red : Color.Green);
                 Utils.DrawBoxFill(JointPosition - new Vector2(2), 4, 4, Color.Yellow);
 
-                float Y = (LegPosition.Y + OtherPart.LegPosition.Y) * 0.5f - LegLength * 2.5f;
-                Vector2 YOff = new Vector2(0, (Y - Parent.Center.Y) * 2 + KneeSupressionVar * 3);
                 Vector2 PC = Parent.Center + YOff * 0.5f;
-                float UpperRotation = Parent.CoreEntity.velocity.X / (10f * VarWalkSpeed) + VelXStepAdjustment / 360f + KneeSupressionVar * 
+                float UpperRotation = Parent.CoreEntity.velocity.X / (10f * VarWalkSpeed) + VelXStepAdjustment / 360f + KneeSupressionVar *
                     (Parent.CoreEntity.velocity.X + Sign) * 0.02f;
 
                 Vector2 Rot = new Vector2(0, Parent.CoreEntity.Height / 2).RotatedBy(UpperRotation);
-                if (ID == "R_Leg") Utils.DrawLine(spritebatch, PC, PC - Rot, Color.Yellow);
-                Utils.DrawLine(spritebatch, PC, JointPosition, Color.Yellow);
+                if (ID == "R_Leg") Utils.DrawLine(spritebatch, PC, PC - Rot, Color.Yellow, 2);
+                Utils.DrawLine(spritebatch, PC, JointPosition, Color.Yellow, 2);
 
                 Vector2 Mid = (LastLegTarget + LegTarget) / 2f;
 
-                Texture2D tex = Textures._BodyParts_bitch_body;
                 float XAccel = Parent.CoreEntity.velocity.X - Parent.CoreEntity.oldVelocity.X;
 
                 XAccelInterp += ((XAccel * 3) - XAccelInterp) / 64f;
 
-
-
-                Texture2D head = Textures._BodyParts_bitch_head;
-
-                //spritebatch.Draw(head, Parent.Center - YOff - new Vector2(0, 27), head.Bounds, Color.White, Parent.CoreEntity.velocity.X / 10f, head.TextureCenter(), 2f,
-                //    Parent.CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-                //spritebatch.Draw(tex, Parent.Center - YOff * 0.6f - new Vector2(0, 12), tex.Bounds, Color.White, Parent.CoreEntity.velocity.X / 20f + XAccelInterp, tex.TextureCenter(), 2f,
-                //    Parent.CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-                
-                Texture2D upperLegs = Textures._BodyParts_bitch_upper_left_leg;
+                /*Texture2D upperLegs = Textures._BodyParts_bitch_upper_left_leg;
                 if (ID == "R_Leg") upperLegs = Textures._BodyParts_bitch_upper_right_leg;
 
                 spritebatch.Draw(upperLegs, (PC + JointPosition) / 2f, upperLegs.Bounds, Color.White, (PC - JointPosition).ToRotation() - 1.57f, upperLegs.TextureCenter(), 2f,
@@ -150,9 +162,7 @@ namespace Flipsider
 
                 spritebatch.Draw(lowerLegs, (LegPosition + JointPosition) / 2f, lowerLegs.Bounds, Color.White, (LegPosition - JointPosition).ToRotation() - 1.57f, lowerLegs.TextureCenter(), 2f,
                     Parent.CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-
-                
-
+                */
                 for (float i = 0; i < 1; i += 0.1f)
                 {
                     Vector2 line = Utils.TraverseBezier(LastLegTarget, Mid + new Vector2(0, -10 - AbsVel * VelocityKneeEffect), new Vector2(LegTarget.X + VelXStepAdjustment, LegTarget.Y), i);
@@ -168,7 +178,7 @@ namespace Flipsider
                 if (LegProgression < 1) LegProgression += LegSpeed * (1 + AbsVel * VelocityStepSpeedEffect) + (VarWalkSpeed - 1) * 0.01f;
 
                 Vector2 Mid = (LastLegTarget + LegTarget) / 2f;
-                VelXStepAdjustment += ((Vel - LastVelocity.X) * 34 - VelXStepAdjustment) / 6f;
+                VelXStepAdjustment += ((Vel - LastVelocity.X) * 40 - VelXStepAdjustment) / 6f;
 
                 float ClampedVXSA = Math.Clamp(Vel - LastVelocity.X, -1, 0);
 
@@ -194,10 +204,16 @@ namespace Flipsider
             {
                 bool LegDisplaced = Math.Abs(LegPosition.X - (Parent.Center.X + StrideLength * Sign * 0.5f)) > (XTolerance - AbsVel * 5);
                 bool LegsTogether = Math.Abs(OtherPart.LegPosition.X - LegPosition.X) < XTolerance * 0.7f;
-                bool LegFarther = 
-                    Sign == 1 ? 
-                    LegPosition.X < OtherPart.LegPosition.X : 
+                bool LegFarther =
+                    Sign == 1 ?
+                    LegPosition.X < OtherPart.LegPosition.X :
                     LegPosition.X > OtherPart.LegPosition.X;
+
+                if (Parent.Cycle == AnimationCycle.Idle)
+                {
+                    LegDisplaced = Math.Abs(LegPosition.X - DetectedSurface.X) > XTolerance * 0.5f;
+                    LegFarther = true;
+                }
 
                 if (((LegDisplaced && LegFarther) || LegsTogether) && OtherPart.CanMoveOtherLeg && !IsMovingLeg)
                 {
@@ -252,11 +268,11 @@ namespace Flipsider
                 }
                 float ClampedAbsVel = Math.Clamp(AbsVel, 0, 0.5f);
 
-                JointPosition = CorrectLegStick(Parent.Center, JointPosition + 
-                    new Vector2(Vel * 2f + 3 * Sign, -AbsVel + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
+                JointPosition = CorrectLegStick(Parent.Center, JointPosition +
+                    new Vector2(Vel * 2f + Sign * AbsVel, -AbsVel + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
 
-                JointPosition = CorrectLegStick(LegPosition, JointPosition + 
-                    new Vector2(Vel * 2f + 3 * Sign, -AbsVel + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
+                JointPosition = CorrectLegStick(LegPosition, JointPosition +
+                    new Vector2(Vel * 2f + Sign * AbsVel, -AbsVel + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
 
 
                 Vector2 StridePoint1 = Vector2.Zero;
@@ -266,7 +282,6 @@ namespace Flipsider
                 float ClampedVel = Math.Clamp(Vel, -VelocityEffectClamp, VelocityEffectClamp);
                 float StrideLengthVel = StrideLength * Sign + Vel * VelocityStrideEffect;
                 float ClampedStrideLengthVel = ((StrideLength) * Sign + ClampedVel * VelocityStrideEffect) / (1 + ((VarWalkSpeed - 1) * 0.2f));
-
 
                 float Dist = Math.Abs(LegPosition.X - Parent.Center.X);
 
@@ -297,13 +312,13 @@ namespace Flipsider
 
                     if (ID == "R_Leg")
                     {
-                        StridePoint1 = new Vector2(Parent.Center.X + IdleStanceWidth, Parent.Center.Y - 5);
-                        StridePoint2 = new Vector2(Parent.Center.X + IdleStanceWidth, Parent.Center.Y + LegLength * 6);
+                        StridePoint1 = new Vector2(Parent.Center.X, Parent.Center.Y - 5);
+                        StridePoint2 = new Vector2(Parent.Center.X, Parent.Center.Y + LegLength * 6);
                     }
                     else if (ID == "L_Leg")
                     {
-                        StridePoint1 = new Vector2(Parent.Center.X - IdleStanceWidth, Parent.Center.Y - 5);
-                        StridePoint2 = new Vector2(Parent.Center.X - IdleStanceWidth, Parent.Center.Y + LegLength * 6);
+                        StridePoint1 = new Vector2(Parent.Center.X + IdleStanceWidth * 1.8f, Parent.Center.Y - 5);
+                        StridePoint2 = new Vector2(Parent.Center.X + IdleStanceWidth * 1.8f, Parent.Center.Y + LegLength * 6);
                     }
                 }
                 else

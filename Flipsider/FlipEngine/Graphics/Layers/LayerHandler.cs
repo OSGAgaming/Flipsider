@@ -140,7 +140,7 @@ namespace FlipEngine
                 Layers[Method.Layer].Drawables.Add(Method);
             }
         }
-        public void AppendPrimitiveToLayer(ILayeredComponent Method)
+        public void AppendPrimitiveToLayer(IPrimitiveLayeredComponent Method)
         =>
         Layers[Method.Layer].PrimitiveDrawables.Add(Method);
         public void AddLayer()

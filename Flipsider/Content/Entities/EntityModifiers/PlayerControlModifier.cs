@@ -95,6 +95,18 @@ namespace Flipsider.Engine.Maths
                     player.velocity.X -= acceleration * 0.5f;
                     varfriction = 0.99f;
                 }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.C))
+                {
+                    player.velocity.X += acceleration * 0.2f;
+                    varfriction = 0.99f;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Z))
+                {
+                    player.velocity.X -= acceleration * 0.2f;
+                    varfriction = 0.99f;
+                }
             }
         }
         

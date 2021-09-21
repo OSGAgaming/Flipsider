@@ -34,7 +34,7 @@ namespace FlipEngine
         }
         public static void AppendToLayer(ILayeredComponent ilc) => World.layerHandler.AppendMethodToLayer(ilc);
         public static void AutoAppendToLayer(ILayeredComponent ilc) => World.layerHandler.AutoAppendMethodToLayer(ref ilc);
-        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => World.layerHandler.AppendPrimitiveToLayer(ilc);
+        public static void AppendPrimitiveToLayer(IPrimitiveLayeredComponent ilc) => World.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => World.layerHandler;
         public static TileManager tileManager => World.tileManager;
         public static SpriteBatch spriteBatch => Renderer.SpriteBatch;

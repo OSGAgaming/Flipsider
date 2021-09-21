@@ -7,7 +7,7 @@ using FlipEngine;
 // TODO fix this..
 namespace Flipsider
 {
-    public class Water : Entity
+    public class Water : Entity, IPrimitiveLayeredComponent
     {
         protected Primitive PrimitiveInstance;
         protected Primitive PrimitiveInstanceDamp;
@@ -139,8 +139,7 @@ namespace Flipsider
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            PrimitiveInstanceDamp.Draw(spriteBatch);
-            PrimitiveInstance.Draw(spriteBatch);
+           
         }
         public void Splash(int index, float speed) => vel[index].Y = speed;
         public void SplashPerc(float perc, Vector2 speed) => vel[(int)(MathHelper.Clamp(perc, 0, 1) * accuracy)] += speed;
@@ -174,6 +173,14 @@ namespace Flipsider
             {
                 Pos[i].X = i * (frame.Width / (float)accuracy) + frame.X;
             }
+        }
+
+        public void DrawPrimtiivesBefore(SpriteBatch sb) { }
+
+        public void DrawPrimtiivesAfter(SpriteBatch sb)
+        {
+            PrimitiveInstanceDamp.Draw(sb);
+            PrimitiveInstance.Draw(sb);
         }
     }
 }

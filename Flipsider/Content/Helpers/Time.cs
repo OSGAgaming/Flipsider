@@ -7,7 +7,7 @@ namespace Flipsider
     public static class Time
     {
         public static double DeltaTime(this GameTime gt) => gt.ElapsedGameTime.TotalSeconds;
-        public static float SineTime(float period) => (float)Math.Sin(FlipE.gameTime.TotalGameTime.TotalSeconds * period);
+        public static float SineTime(float period, float displacement = 0) => (float)Math.Sin(FlipE.gameTime.TotalGameTime.TotalSeconds * period + displacement);
         public static float DeltaT => (float)FlipE.gameTime.DeltaTime();
 
         public static float DeltaVar(float mult) => (float)FlipE.gameTime.DeltaTime() * mult;

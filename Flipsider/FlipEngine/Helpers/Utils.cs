@@ -28,7 +28,7 @@ namespace FlipEngine
         public static Vector2 SafeBoundY => new Vector2(FlipGame.Camera.TransformPosition.Y, FlipGame.Camera.TransformPosition.Y + FlipGame.ActualScreenSize.Y / FlipGame.ScreenScale);
         public static Rectangle CameraBounds => new Rectangle(FlipGame.Camera.TransformPosition.ToPoint(), (FlipGame.ActualScreenSize / FlipGame.ScreenScale).ToPoint());
         public static void AppendToLayer(ILayeredComponent ilc) => FlipGame.World.layerHandler.AppendMethodToLayer(ilc);
-        public static void AppendPrimitiveToLayer(ILayeredComponent ilc) => FlipGame.World.layerHandler.AppendPrimitiveToLayer(ilc);
+        public static void AppendPrimitiveToLayer(IPrimitiveLayeredComponent ilc) => FlipGame.World.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => FlipGame.World.layerHandler;
         public static TileManager tileManager => FlipGame.World.tileManager;
         public static SpriteBatch spriteBatch => FlipGame.Renderer.SpriteBatch;

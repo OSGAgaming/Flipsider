@@ -122,9 +122,10 @@ namespace FlipEngine
                     RenderPreEffect(SpriteBatch);
                 }
 
+                //For custom Targeting
                 TargetCalls?.Invoke();
                 TargetCalls = null;
-
+                
                 //Doesnt have to be UI. Can be anything Misc that doesnt use the Main Transform
                 Graphics?.GraphicsDevice.SetRenderTarget(UITarget);
                 Graphics?.GraphicsDevice.Clear(Color.Transparent);
@@ -184,7 +185,7 @@ namespace FlipEngine
 
         public virtual void RenderPreEffect(SpriteBatch sb) 
         {
-            sb.Begin(SpriteSortMode.Immediate, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
+            sb.Begin(SpriteSortMode.FrontToBack, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
 
             SceneManager.Instance.Draw(SpriteBatch);
 
