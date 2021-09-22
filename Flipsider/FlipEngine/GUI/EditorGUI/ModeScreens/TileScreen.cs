@@ -16,7 +16,7 @@ namespace FlipEngine
         public override Mode Mode => Mode.Tile;
 
         private TilePreviewPanel[]? tilePanel;
-
+        ButtonScroll? AutoFrameButton;
         public override int PreviewHeight
         {
             get
@@ -71,6 +71,9 @@ namespace FlipEngine
                     tilePanel[i].Update();
                 }
             }
+
+            AutoFrameButton?.Draw(sb);
+            AutoFrameButton?.Update();
         }
 
         public override void CustomUpdate()
@@ -92,6 +95,17 @@ namespace FlipEngine
         protected override void OnLoad()
         {
             tilePanel = new TilePreviewPanel[TileManager.tileTypes.Count];
+            AutoFrameButton = new ButtonScroll();
+
+            AutoFrameButton.Texture = FlipTextureCache.TileGUIPanels;
+            AutoFrameButton.OptionalText = "        Auto Frame Toggle";
+            AutoFrameButton.RelativeDimensions = new Rectangle(0,0,10,10);
+            AutoFrameButton.OnClick = () =>
+            {
+                AutoFrame = !AutoFrame;
+                Logger.NewText("AutoFrame set to " + AutoFrame);
+            };
+            AutoFrameButton.ScrollParent = EditorModeGUI.ModePreview;
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)
@@ -128,6 +142,15 @@ namespace FlipEngine
                     spriteBatch.Draw(TileManager.tileDict[Type], RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp));
                     Utils.DrawRectangle(RelativeDimensions, Color.Lerp(Color.Gray, Color.White, ColorLerp), 1);
                 }
+
+                Rectangle chooseArea = new Rectangle(dimensions.X, dimensions.Y, AtlasDimensions.X, AtlasDimensions.Y);
+
+                if (chooseArea.Contains(Mouse.GetState().Position))
+                {
+                    int DimTileRes = TileManager.tileRes / 2;
+                    Vector2 tilePoint = (Mouse.GetState().Position.ToVector2() - new Vector2(dimensions.X, dimensions.Y)).Snap(DimTileRes) + new Vector2(RelativeDimensions.X, RelativeDimensions.Y);
+                    Utils.DrawRectangle(new Rectangle(tilePoint.ToPoint(), new Point(DimTileRes, DimTileRes)), Color.Yellow, 2);
+                }
             }
         }
 
@@ -140,7 +163,7 @@ namespace FlipEngine
             int DimTileRes = TileManager.tileRes / 2;
             if (chooseArea.Contains(Mouse.GetState().Position))
             {
-                Vector2 tilePoint = Mouse.GetState().Position.ToVector2().Snap(DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
+                Vector2 tilePoint = (Mouse.GetState().Position.ToVector2() - new Vector2(DimTileRes / 2)).Snap(DimTileRes) + new Vector2(dimensions.X % DimTileRes, dimensions.Y % DimTileRes);
                 TileScreen.currentFrame = new Rectangle((int)(tilePoint.X - chooseArea.X) * 2, (int)(tilePoint.Y - chooseArea.Y) * 2, tileRes, tileRes);
             }
         }

@@ -92,6 +92,7 @@ namespace FlipEngine
             this.isStatic = isStatic;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
             entity.Chunk.Colliedables.collideables.Add(this);
+            FlipGame.AppendToLayer(this);
         }
         public Collideable(Entity entity, bool isStatic,Polygon polygon, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
         {
@@ -102,6 +103,7 @@ namespace FlipEngine
             CustomPolyCollide = polygon;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
             entity.Chunk.Colliedables.collideables.Add(this);
+            FlipGame.AppendToLayer(this);
         }
     }
 }

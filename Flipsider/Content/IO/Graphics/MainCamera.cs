@@ -13,8 +13,6 @@ namespace Flipsider.Content.IO.Graphics
 
         public Entity? FocalEntity { get; set; }
 
-        public float FollowSpeed => 32f;
-
         public float RotationalScreenShake => 3000f;
 
         public float MouseVision => 20f;
@@ -35,13 +33,13 @@ namespace Flipsider.Content.IO.Graphics
             {
                 Vector2 newCenter = Main.player.Center + mouseDisp + MatrixOffset;
 
-                EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(newCenter, FollowSpeed);
+                EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(newCenter, Smoothing);
                 EntityIsolatedPosition.X = Math.Max(EntityIsolatedPosition.X, LeftBound);
                 EntityIsolatedPosition.Y = Math.Min(EntityIsolatedPosition.Y, LowerBound);
             }
             else
             {
-                EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(Main.player.Center, FollowSpeed);
+                EntityIsolatedPosition = EntityIsolatedPosition.ReciprocateTo(Main.player.Center, Smoothing);
             }
 
             Position = EntityIsolatedPosition - Main.ActualScreenSize / (2 * Scale) + shake;

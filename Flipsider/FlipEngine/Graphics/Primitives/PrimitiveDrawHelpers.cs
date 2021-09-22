@@ -42,7 +42,7 @@ namespace FlipEngine
         {
             return new Vector2(-vector.Y, vector.X);
         }
-        public void PrepareShader(Effect effects, string PassName = "Pass", float progress = 0)
+        public void PrepareShader(Effect effects, string PassName = "ThePass", float progress = 0)
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;

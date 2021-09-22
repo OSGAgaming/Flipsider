@@ -65,7 +65,7 @@ namespace Flipsider
             LeftArmPrims = new ArmPrimitives(Get<LeftArm>(), Textures._BodyParts_LeftArm);
             RightArmPrims = new ArmPrimitives(Get<RightArm>(), Textures._BodyParts_RightArm);
 
-            HairPrimitives = new HairPrimtives(this, Textures._BodyParts_RightArm);
+            HairPrimitives = new HairPrimtives(this, Textures._BodyParts_Ponytail);
 
             Main.AppendPrimitiveToLayer(this);
 
@@ -107,7 +107,7 @@ namespace Flipsider
                 Layer = CoreEntity.Layer;
                 float avg = (Get<LeftLeg>().LegPosition.X + Get<RightLeg>().LegPosition.X) / 2f;
 
-                if (Math.Abs(CoreEntity.velocity.X) <= 0.1f)
+                if (Math.Abs(CoreEntity.velocity.X) <= 0.3f)
                 {
                     IdleTimer++;
                 }
@@ -119,7 +119,6 @@ namespace Flipsider
                 if(IdleTimer > 30)
                 {
                     Cycle = AnimationCycle.Idle;
-                    entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 200f);
                 }
                 else
                 {
@@ -128,7 +127,7 @@ namespace Flipsider
 
                 if (Cycle == AnimationCycle.Idle)
                 {
-                    entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 200f);
+                    //entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 40f);
                 }
                 else
                 {
@@ -141,31 +140,68 @@ namespace Flipsider
                 Parts.Value.Update();
             }
             Leg rl = Get<RightLeg>();
-            if(CoreEntity != null) UpperBodyRotation = CoreEntity.velocity.X / 15f + rl.XAccelInterp;
+            if(CoreEntity != null) UpperBodyRotation = CoreEntity.velocity.X / 12f + rl.XAccelInterp;
             Verlet.Instance.points[MainVerletPoint].point = Center - rl.LYOff * 0.2f - new Vector2(4 * rl.Sign, 27).RotatedBy(UpperBodyRotation);
 
+            if (CoreEntity != null)
+            {
+                float abs = Math.Sign(CoreEntity.velocity.X);
+
+                if (abs == 1)
+                {
+                    LeftArmPrims.TextureMap = Textures._BodyParts_RightArmR;
+                    RightArmPrims.TextureMap = Textures._BodyParts_LeftArmR;
+                }
+                else
+                {
+                    LeftArmPrims.TextureMap = Textures._BodyParts_LeftArm;
+                    RightArmPrims.TextureMap = Textures._BodyParts_RightArm;
+                }
+            }
         }
 
         public void Draw(in Entity entity, SpriteBatch spriteBatch)
         {
-            foreach (KeyValuePair<string, BodyPart> Parts in Parts)
-            {
-                Parts.Value.Draw(spriteBatch);
-            }
-
             if (!SkeletonMode)
             {
                 Leg rl = Get<RightLeg>();
+                Leg ll = Get<LeftLeg>();
 
                 Texture2D head = Textures._BodyParts_bitch_head;
                 Texture2D tex = Textures._BodyParts_bitch_body;
 
-                spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(0, 7), tex.Bounds, Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height), 2f,
+                void RenderLeg(Leg leg)
+                {
+                    Texture2D upperLegs = Textures._BodyParts_bitch_upper_left_leg;
+
+                    if (leg is RightLeg) upperLegs = Textures._BodyParts_bitch_upper_right_leg;
+
+                    if (leg.Parent != null)
+                    {
+                        Vector2 PC = leg.Parent.Center + leg.YOff * 0.5f;
+
+                        spriteBatch.Draw(upperLegs, (PC + leg.JointPosition) / 2f, upperLegs.Bounds, Color.White, (PC - leg.JointPosition).ToRotation() - 1.57f, upperLegs.TextureCenter(), 2f,
+                            leg.Parent.CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+
+                        Texture2D lowerLegs = Textures._BodyParts_bitch_lower_left_leg;
+                        if (leg is RightLeg) lowerLegs = Textures._BodyParts_bitch_lower_right_leg;
+
+                        spriteBatch.Draw(lowerLegs, (leg.LegPosition + leg.JointPosition) / 2f, lowerLegs.Bounds, Color.White, (leg.LegPosition - leg.JointPosition).ToRotation() - 1.57f, lowerLegs.TextureCenter(), 2f,
+                            leg.Parent.CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                    }
+                }
+
+                RenderLeg(rl);
+                RenderLeg(ll);
+
+                Vector2 Up = new Vector2(0, -13).RotatedBy(UpperBodyRotation);
+
+                spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign,2), tex.Bounds, Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height), 2f,
                     CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
-                spriteBatch.Draw(head, Center - rl.LYOff * 0.2f - new Vector2(-4 * rl.Sign, 11), head.Bounds, Color.White, CoreEntity.velocity.X / 7f, new Vector2(head.Width / 2f, head.Height), 2f,
+                spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0), head.Bounds, Color.White, CoreEntity.velocity.X / 12f, new Vector2(head.Width / 2f, head.Height), 2f,
                     CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-
+              
                 for (int i = MainVerletPoint; i < MainVerletPoint + HairPoints; i++)
                 {
                     //Utils.DrawLine(Verlet.Instance.points[i].point, Verlet.Instance.points[i - 1].point, Color.Aqua, 2);
@@ -186,12 +222,13 @@ namespace Flipsider
         {
             if (!SkeletonMode)
             {
-                LeftLegPrims.Draw(sb);
-                RightLegPrims.Draw(sb);
-                HairPrimitives.Draw(sb);
-
                 if (CoreEntity.velocity.X < 0) LeftArmPrims.Draw(sb);
                 else RightArmPrims.Draw(sb);
+
+                HairPrimitives.Draw(sb);
+
+                LeftLegPrims.Draw(sb);
+                RightLegPrims.Draw(sb);
             }
         }
 

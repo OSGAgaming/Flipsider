@@ -71,8 +71,8 @@ namespace FlipEngine
         {
             for (int i = 0; i < points.Length; i++)
             {
-                Utils.DrawLine(varpoints[i], varpoints[(i + 1) % numberOfPoints],Color.Green,1);
-                Utils.DrawLine(varpoints[i], Center, Color.Green, 1);
+                Utils.DrawLine(varpoints[i], varpoints[(i + 1) % numberOfPoints],Color.Green,2);
+                Utils.DrawLine(varpoints[i], Center, Color.Green, 2);
             }
         }
         public static Polygon operator +(Polygon x, Polygon y)

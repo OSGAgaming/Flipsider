@@ -19,8 +19,8 @@ namespace FlipEngine
             Instance = new Verlet();
         }
 
-        private float _gravity => 0.07f;
-        private float _AR => 0.9f;
+        private float _gravity => 0.08f;
+        private float _AR => 0.85f;
         private readonly float bounce = 0.9f;
         public List<Stick> stickPoints = new List<Stick>();
         public List<Point> points = new List<Point>();

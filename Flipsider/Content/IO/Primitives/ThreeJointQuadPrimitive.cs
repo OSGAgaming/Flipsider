@@ -8,7 +8,11 @@ namespace Flipsider
 {
     public class ThreeJointQuadPrimitive : Primitive
     {
-        Texture2D? TextureMap;
+        public Texture2D? TextureMap;
+        protected int SecondWidth = 6;
+        protected float JointUV = 0.6f;
+        protected float JointUVSpread = 0.1f;
+
         public ThreeJointQuadPrimitive(Texture2D tex) { TextureMap = tex; }
         public override void SetDefaults()
         {
@@ -22,27 +26,31 @@ namespace Flipsider
         {
             Vector2 CenterToJointDist = Vector2.Normalize(Joint - Anchor) * Width;
 
+            Vector2 triad1 = new Vector2(JointUV, 1);
+            Vector2 triad2 = new Vector2(JointUV - JointUVSpread, 0);
+            Vector2 triad3 = new Vector2(JointUV + JointUVSpread, 0);
+
             AddVertex(Anchor - Clockwise90(CenterToJointDist), Color.White, new Vector2(0, 0));
-            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, new Vector2(0.5f, 1));
+            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, triad1);
             AddVertex(Anchor + Clockwise90(CenterToJointDist), Color.White, new Vector2(0, 1));
 
             AddVertex(Anchor - Clockwise90(CenterToJointDist), Color.White, new Vector2(0, 0));
-            AddVertex(Joint - Clockwise90(CenterToJointDist), Color.White, new Vector2(0.4f, 0));
-            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, new Vector2(0.5f, 1));
+            AddVertex(Joint - Clockwise90(CenterToJointDist), Color.White, triad2);
+            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, triad1);
 
-            Vector2 LegtoJointDist = Vector2.Normalize(End - Joint) * Width;
+            Vector2 LegtoJointDist = Vector2.Normalize(End - Joint) * SecondWidth;
 
-            AddVertex(Joint - Clockwise90(LegtoJointDist), Color.White, new Vector2(0.6f, 0));
+            AddVertex(Joint - Clockwise90(LegtoJointDist), Color.White, triad3);
             AddVertex(End + Clockwise90(LegtoJointDist), Color.White, new Vector2(1, 1));
-            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, new Vector2(0.5f, 1));
+            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, triad1);
 
-            AddVertex(Joint - Clockwise90(LegtoJointDist), Color.White, new Vector2(0.4f, 0));
+            AddVertex(Joint - Clockwise90(LegtoJointDist), Color.White, triad3);
             AddVertex(End - Clockwise90(LegtoJointDist), Color.White, new Vector2(1, 0));
             AddVertex(End + Clockwise90(LegtoJointDist), Color.White, new Vector2(1, 1));
 
-            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, new Vector2(0.5f, 1));
-            AddVertex(Joint - Clockwise90(CenterToJointDist), Color.White, new Vector2(0.4f, 0));
-            AddVertex(Joint - Clockwise90(LegtoJointDist), Color.White, new Vector2(0.6f, 0));
+            AddVertex(Joint + Clockwise90(CenterToJointDist), Color.White, triad1);
+            AddVertex(Joint - Clockwise90(CenterToJointDist), Color.White, triad2);
+            AddVertex(Joint - Clockwise90(LegtoJointDist), Color.White, triad3);
         }
 
         protected virtual void AddPoints() { }
