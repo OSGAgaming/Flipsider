@@ -44,7 +44,7 @@ namespace FlipEngine
                 LivingEntity.onGround = false;
                 LivingEntity.isColliding = false;
 
-                foreach (Chunk chunk in FlipGame.World.tileManager.chunks)
+                foreach (Chunk chunk in FlipGame.GetActiveChunks())
                 {
                     if(chunk.Active)
                     {
@@ -81,7 +81,7 @@ namespace FlipEngine
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            collisionBox.Draw();
+            //collisionBox.Draw();
         }
         public int Layer { get; set; }
         public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)

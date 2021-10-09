@@ -17,11 +17,11 @@ namespace Flipsider
 
         protected override void AddPoints()
         {
-            Width = 5;
-            SecondWidth = 6;
+            Width = 6;
+            SecondWidth = 7;
 
-            JointUV = 0.6f;
-            JointUVSpread = 0.1f;
+            JointUV = 0.55f;
+            JointUVSpread = 0.15f;
 
             if (leg != null && leg.Parent != null)
             {
@@ -46,11 +46,11 @@ namespace Flipsider
 
         protected override void AddPoints()
         {
-            Width = 4;
+            Width = 5;
             SecondWidth = 6;
 
-            JointUV = 0.3f;
-            JointUVSpread = 0.1f;
+            JointUV = 0.4f;
+            JointUVSpread = 0.2f;
 
             if (arm != null && arm.Parent != null)
             {
@@ -58,7 +58,6 @@ namespace Flipsider
                 _points.Add(arm.Joint);
                 _points.Add(arm.Center);
             }
-
         }
     }
 }

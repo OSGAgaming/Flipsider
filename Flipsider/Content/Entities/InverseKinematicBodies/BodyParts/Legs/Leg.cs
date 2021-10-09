@@ -14,24 +14,27 @@ namespace Flipsider
         public abstract string OtherLeg { get; }
 
         private int LegLength => 10;
-        private int StrideLength => 9;
+        private int StrideLength => 6;
         private int XTolerance => 10;
-        private int DistanceUntilFixation => 4;
-        private float LegSpeed => 0.032f;
-        private float ProgressionUntilNextStep => 0.81f;
+        private int DistanceUntilFixation => 2;
+        private float LegSpeed => 0.033f;
+        private float ProgressionUntilNextStep => 0.8f;
 
-        private float VelocityStrideEffect => 50;
-        private float VelocityStepSpeedEffect => 0.008f;
-        private float VelocityKneeEffect => 9;
-        private float VelocityEffectClamp => 3;
+        private float VelocityStrideEffect => 45;
+        private float VelocityStepSpeedEffect => 0.006f;
+        private float VelocityKneeEffect => 12;
+        private float VelocityEffectClamp => 4;
 
         private float IdleStanceWidth => 10;
         private bool LegOnGround => Utils.ReturnIntersectionTile(Main.World, LegPosition + new Vector2(0, -4), LegPosition + new Vector2(0, 3)) != Vector2.Zero;
 
         private bool IsMovingLeg;
+        private bool BegginingOfLedge;
         private bool CanMoveOtherLeg = true;
         public bool JustMovedLeg;
         public bool LegInFront;
+        public bool SteppingOnLedge;
+        public bool LedgeSupportListener;
 
         private float VelXStepAdjustment;
         public float LegProgression;
@@ -39,6 +42,7 @@ namespace Flipsider
         private float KneeSupressionVar;
         private float VarWalkSpeed = 1;
         private float TimeInAir = 0;
+        private float LedgeProgStutter = 0;
 
         public Vector2 DetectedSurface;
 
@@ -54,6 +58,13 @@ namespace Flipsider
         public float XAccelInterp;
         Vector2 StridePoint1;
         Vector2 StridePoint2;
+
+        public Vector2 SecondPotentialLedgePoint;
+        public Vector2 PotentialLedgePoint;
+        public Vector2 CachedLedgePoint;
+        float ClampedVel => Math.Clamp(Vel, -VelocityEffectClamp, VelocityEffectClamp);
+        float ClampedStrideLengthVel => (StrideLength * Sign + ClampedVel * VelocityStrideEffect) / (1 + ((VarWalkSpeed - 1) * 0.2f));
+
         public Vector2 YOff
         {
             get
@@ -154,7 +165,7 @@ namespace Flipsider
                 float XAccel = Parent.CoreEntity.velocity.X - Parent.CoreEntity.oldVelocity.X;
 
                 XAccelInterp += ((XAccel * 3) - XAccelInterp) / 64f;
-                
+
                 for (float i = 0; i < 1; i += 0.1f)
                 {
                     Vector2 line = Utils.TraverseBezier(LastLegTarget, Mid + new Vector2(0, -10 - AbsVel * VelocityKneeEffect), new Vector2(LegTarget.X + VelXStepAdjustment, LegTarget.Y), i);
@@ -169,23 +180,58 @@ namespace Flipsider
         {
             if (Parent != null && OtherPart != null)
             {
-                if (LegProgression < 1) LegProgression += LegSpeed * (1 + AbsVel * VelocityStepSpeedEffect) + (VarWalkSpeed - 1) * 0.01f;
+                float LedgeUp = 0;
+                if (LegProgression < 1)
+                {
+                    if (!LedgeSupportListener)
+                    {
+                        LegProgression += LegSpeed * (1 + AbsVel * VelocityStepSpeedEffect) + (VarWalkSpeed - 1) * 0.01f + LedgeProgStutter;
+                        BegginingOfLedge = false;
+                    }
+                    else
+                    {
+                        int Sign = Math.Sign(LegTarget.X - OtherPart.LegTarget.X);
+                        LegProgression += (((Parent.Center.X - CachedLedgePoint.X) * Sign) / (Parent.CoreEntity.Width * 0.5f + AbsVel) - LegProgression) / 16f;
+                        LedgeUp = 10;
+                        Logger.NewText(LegProgression);
+
+                        if (LegProgression <= 0)
+                        {
+                            BegginingOfLedge = true;
+                            CanMoveOtherLeg = true;
+                            CachedLedgePoint.X = Parent.Center.X;
+                        }
+                        else
+                        {
+                            BegginingOfLedge = false;
+                        }
+                    }
+                }
 
                 Vector2 Mid = (LastLegTarget + LegTarget) / 2f;
                 VelXStepAdjustment += ((Vel - LastVelocity.X) * 40 - VelXStepAdjustment) / 6f;
 
+                if ((OtherPart.SteppingOnLedge && LedgeSupportListener) || SteppingOnLedge) VelXStepAdjustment = 0f;
+
                 float ClampedVXSA = Math.Clamp(Vel - LastVelocity.X, -1, 0);
+                float X = LegTarget.X + VelXStepAdjustment;
+
+                Vector2 NewStride1 = new Vector2(X, Parent.Center.Y - 100);
+                Vector2 NewStride2 = new Vector2(X, Parent.Center.Y + 100);
+
+                float NewY = Utils.ReturnIntersectionTile(Main.World, NewStride1, NewStride2).Y;
+
+                if (NewY != 0 && !OtherPart.SteppingOnLedge) LegTarget.Y += (NewY - LegTarget.Y) / 16f;
 
                 Vector2 DesiredPosition = Utils.TraverseBezier(LastLegTarget, Mid +
-                    new Vector2(0, -10 - AbsVel * VelocityKneeEffect),
-                    new Vector2(LegTarget.X + VelXStepAdjustment, LegTarget.Y), MathHelper.SmoothStep(0, 1, LegProgression));
+                    new Vector2(0, -13 - AbsVel * VelocityKneeEffect + Parent.CoreEntity.DeltaPos.Y * 5 - LedgeUp),
+                    new Vector2(X, LegTarget.Y), MathHelper.SmoothStep(0, 1, LegProgression));
 
                 LegPosition = DesiredPosition;
-                LegPosition.X += Parent.CoreEntity.velocity.X;
 
                 if (LegProgression > ProgressionUntilNextStep -
                     AbsVel * 0.085f - (VarWalkSpeed - 1) * 0.35f
-                    - ClampedVXSA * 0.05f && !CanMoveOtherLeg)
+                    - ClampedVXSA * 0.05f + Math.Clamp(Parent.CoreEntity.DeltaPos.Y * 0.08f, -0.02f, 0.00f) && !CanMoveOtherLeg)
                 {
                     CanMoveOtherLeg = true;
                 }
@@ -206,20 +252,73 @@ namespace Flipsider
                 if (Parent.Cycle == AnimationCycle.Idle)
                 {
                     LegDisplaced = Math.Abs(LegPosition.X - DetectedSurface.X) > XTolerance * 0.5f;
-                    LegFarther = true;
                 }
 
-                if (((LegDisplaced && LegFarther) || LegsTogether) && OtherPart.CanMoveOtherLeg && !IsMovingLeg)
+                if ((LegDisplaced || LegsTogether) && LegFarther)
                 {
-                    LegProgression = 0;
-                    IsMovingLeg = true;
-                    CanMoveOtherLeg = false;
-                    LegTarget = DetectedSurface;
-                    LastLegTarget = LegPosition;
-                    LastVelocity = Parent.CoreEntity.velocity;
+                    float EdgeCheckDelta = 0;
+                    float Iteration = 0;
+                    int MaxCheck = (int)Math.Abs(StridePoint1.X - LegPosition.X) + (int)(AbsVel * 8 + 1);
 
-                    Parent.Get<LeftArm>().Switch();
-                    Parent.Get<RightArm>().Switch();
+                    PotentialLedgePoint = Vector2.Zero;
+                    SecondPotentialLedgePoint = Vector2.Zero;
+                    CachedLedgePoint = Vector2.Zero;
+                    LedgeProgStutter = 0;
+                    SteppingOnLedge = false;
+                    LedgeSupportListener = false;
+
+                    if (!SteppingOnLedge && !OtherPart.SteppingOnLedge)
+                    {
+                        while (EdgeCheckDelta <= 25 && Math.Abs(Iteration) < MaxCheck)
+                        {
+                            float CurrentY = Utils.ReturnIntersectionTile(Main.World, new Vector2(LegPosition.X, Parent.Center.Y) + new Vector2(Iteration - Vel, 0),
+                                new Vector2(LegPosition.X, Parent.Center.Y) + new Vector2(Iteration - Vel, 100)).Y;
+                            float NextCurrentY = Utils.ReturnIntersectionTile(Main.World, new Vector2(LegPosition.X, Parent.Center.Y) + new Vector2(Iteration + Sign * 2 - Vel, 0),
+                                new Vector2(LegPosition.X, Parent.Center.Y) + new Vector2(Iteration + Sign * 2 - Vel, 100)).Y;
+
+                            EdgeCheckDelta = NextCurrentY - CurrentY;
+                            if ((EdgeCheckDelta >= 25 || (NextCurrentY == 0 && CurrentY != 0)) && !OtherPart.SteppingOnLedge &&
+                                Math.Abs(Iteration - Vel) < Math.Abs(LegPosition.X - StridePoint1.X))
+                            {
+                                PotentialLedgePoint = new Vector2(LegPosition.X + Iteration - Vel, CurrentY);
+                                SecondPotentialLedgePoint = new Vector2(LegPosition.X + Iteration + Sign * 20 - Vel, CurrentY + 10);
+                                OtherPart.DetectedSurface = SecondPotentialLedgePoint;
+
+                                SteppingOnLedge = true;
+
+                                LedgeProgStutter = (1 - Math.Abs(Iteration - Vel) / Math.Abs(LegPosition.X - StridePoint1.X)) * 0.02f;
+                            }
+
+                            if (Sign != 0) Iteration += Sign * 2;
+                            else Iteration += 2;
+                        }
+                    }
+
+                    if (SteppingOnLedge)
+                    {
+                        DetectedSurface = PotentialLedgePoint;
+                    }
+
+                    if (OtherPart.SteppingOnLedge)
+                    {
+                        DetectedSurface = OtherPart.SecondPotentialLedgePoint;
+                        CachedLedgePoint.X = Parent.Center.X;
+                    }
+
+                    if (DetectedSurface != Vector2.Zero || SteppingOnLedge)
+                    {
+                        LegProgression = 0;
+                        IsMovingLeg = true;
+                        CanMoveOtherLeg = false;
+                        LegTarget = DetectedSurface;
+                        LastLegTarget = LegPosition;
+                        LastVelocity = Parent.CoreEntity.velocity;
+
+                        if (OtherPart.SteppingOnLedge) LedgeSupportListener = true;
+
+                        Parent.Get<LeftArm>().Switch();
+                        Parent.Get<RightArm>().Switch();
+                    }
                 }
             }
         }
@@ -229,7 +328,6 @@ namespace Flipsider
             KneeSupressionVar *= 0.6f;
             int TempAirStance = 25;
             TimeInAir += 0.95f;
-
 
             if (Parent != null)
             {
@@ -262,20 +360,19 @@ namespace Flipsider
                 }
                 float ClampedAbsVel = Math.Clamp(AbsVel, 0, 0.5f);
 
-                JointPosition = CorrectLegStick(Parent.Center, JointPosition +
-                    new Vector2(Vel * 2f + Sign * AbsVel, -AbsVel * 1.5f + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
+                for (int i = 0; i < 5; i++)
+                {
+                    JointPosition = CorrectLegStick(Parent.Center, JointPosition +
+                        new Vector2(Vel * 2f + Sign * AbsVel, -AbsVel * 1.5f + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel - LegProgression * AbsVel), LegLength)[1];
 
-                JointPosition = CorrectLegStick(LegPosition, JointPosition +
-                    new Vector2(Vel * 2f + Sign * AbsVel, -AbsVel * 1.5f + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel), LegLength)[1];
-
+                    JointPosition = CorrectLegStick(LegPosition, JointPosition +
+                        new Vector2(Vel * 2f + Sign * AbsVel, -AbsVel * 1.5f + KneeSupressionVar + TimeInAir * 0.2f * ClampedAbsVel - LegProgression * AbsVel), LegLength)[1];
+                }
 
                 StridePoint1 = Vector2.Zero;
                 StridePoint2 = Vector2.Zero;
 
                 float avg = (Parent.Center.X + OtherPart.LegPosition.X) / 2f;
-                float ClampedVel = Math.Clamp(Vel, -VelocityEffectClamp, VelocityEffectClamp);
-                float StrideLengthVel = StrideLength * Sign + Vel * VelocityStrideEffect;
-                float ClampedStrideLengthVel = ((StrideLength) * Sign + ClampedVel * VelocityStrideEffect) / (1 + ((VarWalkSpeed - 1) * 0.2f));
 
                 float Dist = Math.Abs(LegPosition.X - Parent.Center.X);
 
@@ -333,15 +430,14 @@ namespace Flipsider
                 }
                 else
                 {
-                    StridePoint1 = new Vector2(avg + ClampedStrideLengthVel, Parent.Center.Y - 40);
-                    StridePoint2 = new Vector2(avg + ClampedStrideLengthVel, Parent.Center.Y + LegLength * 6);
+                    StridePoint1 = new Vector2(avg + ClampedStrideLengthVel - Parent.CoreEntity.DeltaPos.Y * Sign * 9, Parent.Center.Y - AbsVel * 30 - 30);
+                    StridePoint2 = new Vector2(avg + ClampedStrideLengthVel - Parent.CoreEntity.DeltaPos.Y * Sign * 9, Parent.Center.Y + 30 + AbsVel * 20);
                 }
 
-                Logger.NewText(DetectedSurface);
+                if (!OtherPart.SteppingOnLedge) DetectedSurface = Utils.ReturnIntersectionTile(Main.World, StridePoint1, StridePoint2);
 
-                DetectedSurface = Utils.ReturnIntersectionTile(Main.World, StridePoint1, StridePoint2);
 
-                if (DetectedSurface != Vector2.Zero && Parent.CoreEntity.onGround && (LegOnGround || OtherPart.LegOnGround))
+                if ((Parent.CoreEntity.onGround && (LegOnGround || OtherPart.LegOnGround)) && (!IsMovingLeg || (BegginingOfLedge && !OtherPart.SteppingOnLedge))  && OtherPart.CanMoveOtherLeg && !(OtherPart.LedgeSupportListener && OtherPart.LegProgression > 0 && OtherPart.LegProgression < 1))
                 {
                     Step();
                 }
@@ -350,6 +446,7 @@ namespace Flipsider
                 {
                     IsMovingLeg = false;
                     CanMoveOtherLeg = true;
+                    SteppingOnLedge = false;
                 }
 
                 if (!LegOnGround && !IsMovingLeg)
@@ -366,12 +463,20 @@ namespace Flipsider
                 {
                     StepBehaviour();
                 }
+                else
+                {
+                    VelXStepAdjustment = 0;
+                    BegginingOfLedge = false;
+                    LedgeSupportListener = false;
+                }
 
                 if (Vector2.DistanceSquared(LegPosition, LegTarget + new Vector2(VelXStepAdjustment, 0)) < DistanceUntilFixation * DistanceUntilFixation && IsMovingLeg)
                 {
                     IsMovingLeg = false;
                     CanMoveOtherLeg = true;
                     JustMovedLeg = true;
+                    LegProgression = 0;
+                    LedgeSupportListener = false;
                 }
             }
         }

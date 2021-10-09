@@ -201,19 +201,22 @@ namespace Flipsider
             Point TilePos2 = p2.ToPoint().ToTile();
             Vector2 chosen = Vector2.Zero;
 
-            foreach (Collideable col in Main.player.Chunk.Colliedables.collideables)
+            foreach (Chunk chunk in FlipGame.GetActiveChunks())
             {
-                if (col.isStatic)
+                foreach (Collideable col in chunk.Colliedables.collideables)
                 {
-                    Polygon poly = col.collisionBox;
-
-                    for (int i = 0; i < poly.numberOfPoints; i++)
+                    if (col.isStatic)
                     {
-                        if (LineIntersectsLine(p1.ToPoint(), p2.ToPoint(), poly.varpoints[i].ToPoint(), poly.varpoints[(i + 1) % poly.numberOfPoints].ToPoint()))
+                        Polygon poly = col.collisionBox;
+
+                        for (int i = 0; i < poly.numberOfPoints; i++)
                         {
-                            Vector2 inter = ReturnIntersectionLine(p1, p2, poly.varpoints[i], poly.varpoints[(i + 1) % poly.numberOfPoints]);
-                            if (Vector2.Distance(inter, p1) < Vector2.Distance(chosen, p1))
-                                chosen = inter;
+                            if (LineIntersectsLine(p1.ToPoint(), p2.ToPoint(), poly.varpoints[i].ToPoint(), poly.varpoints[(i + 1) % poly.numberOfPoints].ToPoint()))
+                            {
+                                Vector2 inter = ReturnIntersectionLine(p1, p2, poly.varpoints[i], poly.varpoints[(i + 1) % poly.numberOfPoints]);
+                                if (Vector2.Distance(inter, p1) < Vector2.Distance(chosen, p1))
+                                    chosen = inter;
+                            }
                         }
                     }
                 }

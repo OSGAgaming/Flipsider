@@ -1,3 +1,4 @@
+using FlipEngine;
 using Flipsider.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +13,7 @@ namespace Flipsider
         public Arm? OtherPart => Parent?.Get(OtherArm) as Arm;
         public abstract string OtherArm { get; }
         public virtual int StaticSide { get; }
-        public int ArmSpan = 8;
+        public int ArmSpan = 10;
         public int Side = 1;
         public bool Moving;
 
@@ -25,12 +26,26 @@ namespace Flipsider
         public Vector2 Joint;
         public Vector2 Ledge;
         private int UpFromCenter => 16;
-        private int ShoulderSpan => 7;
+        private int ShoulderSpan => 10;
         float JointHeight;
 
-        private float Lerp;
+        public float Lerp;
         private Vector2 OffsetLerp;
         public Vector2 Hoist;
+
+        float ArmHoistXAmp => 10;
+        float X1 => MathHelper.SmoothStep(ArmHoistXAmp * (1 - (Side + 1) / 2), ArmHoistXAmp * (Side + 1) / 2, Lerp * 3) * AbsVelFunction;
+        float AbsVelFunction => Math.Abs(JointHori);
+        int AbsSide => Side * StaticSide;
+        int Sign {
+            get
+            {
+                if (Parent != null)
+                    return Math.Sign(Parent.CoreEntity.velocity.X);
+                else
+                    return 0;
+            }
+        }
 
         public Vector2 Target
         {
@@ -38,14 +53,15 @@ namespace Flipsider
             {
                 if (Parent != null)
                 {
-                    if (ID == "R_Arm")
-                        return Parent.Center + new Vector2(3f * Side * StaticSide * (Math.Abs(JointHori) + 1) - JointHori * 6 + ShoulderSpan, 
-                            10 - Math.Abs(JointHori) * 8 + Side * StaticSide * 3f * JointHori);
-                    else
-                    {
-                        return Parent.Center + new Vector2(3f * Side * StaticSide * (Math.Abs(JointHori) + 1) - JointHori * 6 - ShoulderSpan, 
-                            10 - Math.Abs(JointHori) * 8 + Side * StaticSide * 3f * JointHori);
-                    }
+                    float ArmSwing = 8f;
+                    float UpFactor = 4;
+
+                    Vector2 Offset;
+                    Offset = 
+                        new Vector2(AbsSide * AbsVelFunction * (-ArmSwing) - JointHori * 4 * (-Sign * StaticSide),
+                        20 - AbsVelFunction * 6 + -AbsSide * UpFactor * JointHori);
+
+                    return Hoist + Offset;
                 }
                 else
                     return Vector2.Zero;
@@ -93,27 +109,23 @@ namespace Flipsider
             {
                 if (Delay > 0) Delay--;
 
-
-                int Sign = Math.Sign(Parent.CoreEntity.velocity.X);
-
                 Vector2 Up = new Vector2(0, -UpFromCenter).RotatedBy(Parent.UpperBodyRotation);
-                if (ID == "R_Arm")
-                    Hoist = Parent.Center + Up + new Vector2(ShoulderSpan - Sign * 5, 0);
-                else
-                    Hoist = Parent.Center + Up + new Vector2(-ShoulderSpan - Sign * 5, 0);
 
-                JointHeight += (((Side * StaticSide + 1) / 2) * 5 - JointHeight) / 8f;
+                Hoist = Parent.Center + Up + new Vector2(ShoulderSpan * StaticSide - Sign - X1 * 0.6f * StaticSide, -AbsVelFunction * 1.2f);
 
-                Vector2 TargJoint = Joint + new Vector2(-JointHori, Math.Abs(JointHori) - JointHeight * 0.1f * Math.Abs(JointHori));
+                Vector2 VecAddJoint = new Vector2(-JointHori * X1 * 0.05f - JointHori, AbsVelFunction * (-1 + X1 * 0.3f));
+                if(-Sign * StaticSide == -1)
+                {
+                    VecAddJoint = new Vector2(-JointHori * X1 * 0.05f - JointHori, AbsVelFunction * (3 - X1 * 0.4f));
+                }
+                Vector2 TargJoint = Joint + VecAddJoint;
 
                 for (int i = 0; i < 5; i++)
                 {
-                    if (ID == "R_Arm")
-                        Joint = CorrectArm(Parent.Center + new Vector2(ShoulderSpan, -UpFromCenter), TargJoint)[1];
-                    else
-                        Joint = CorrectArm(Parent.Center + new Vector2(-ShoulderSpan, -UpFromCenter), TargJoint)[1];
+                    Joint = CorrectArm(Hoist, TargJoint)[1];
                 }
-                TargJoint = Joint + new Vector2(JointHori, Math.Abs(JointHori) - JointHeight * 0.5f * Math.Abs(JointHori));
+
+                TargJoint = Joint + VecAddJoint;
                 for (int i = 0; i < 5; i++)
                 {
                     Joint = CorrectArm(Center, TargJoint)[1];
@@ -132,7 +144,7 @@ namespace Flipsider
 
                 Lerp += (1 - Lerp) / 32f;
                 Center = Parent.Center + OffsetLerp;
-                OffsetLerp = Vector2.Lerp(OffsetLerp, Target - Parent.Center, MathHelper.SmoothStep(0,1,Lerp));
+                OffsetLerp = Vector2.Lerp(OffsetLerp, Target - Parent.Center, MathHelper.SmoothStep(0, 1, Lerp * (1f + (AbsVelFunction * 0.1f))));
             }
         }
     }

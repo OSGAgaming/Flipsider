@@ -68,6 +68,7 @@ namespace FlipEngine
         public static void Update(GameTime gameTime)
         {
             FlipE.gameTime = gameTime;
+            Time.GameUpdateCount++;
 
             foreach (IUpdateGT gt in GameTimeUpdateables.ToArray()) gt.Update(gameTime);
             foreach (IUpdate gt in Updateables.ToArray()) gt.Update();

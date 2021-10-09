@@ -36,7 +36,11 @@ namespace Flipsider
         public float UpperBodyRotation;
         public int IdleTimer;
 
-        public bool SkeletonMode => true;
+        public bool SkeletonMode => false;
+
+        private int NumberOfFrames => 8;
+        private int CurrentFrame;
+
         public Vector2 Center
         {
             get
@@ -107,7 +111,7 @@ namespace Flipsider
                 Layer = CoreEntity.Layer;
                 float avg = (Get<LeftLeg>().LegPosition.X + Get<RightLeg>().LegPosition.X) / 2f;
 
-                if (Math.Abs(CoreEntity.velocity.X) <= 0.3f)
+                if (Math.Abs(CoreEntity.velocity.X) <= 0.1f)
                 {
                     IdleTimer++;
                 }
@@ -116,13 +120,33 @@ namespace Flipsider
                     IdleTimer = 0;
                 }
 
-                if(IdleTimer > 30)
+                if(Math.Abs(CoreEntity.velocity.X) >= 0.5f)
+                {
+                    int Disp = 3;
+                    float CorrectLerp = Math.Clamp(Get<RightArm>().Lerp * (1.8f + Math.Abs(CoreEntity.velocity.X * 0.25f)),0,1);
+                    int ClampedVel = (int)Math.Clamp(Math.Abs(CoreEntity.velocity.X * 0.5f), 0, 1);
+                    if (Get<RightArm>().Side == 1)
+                    {
+                        int frame = (int)Math.Round(Math.Clamp(CorrectLerp * NumberOfFrames * 0.35f, 0, 3) + Disp) % NumberOfFrames;
+                        CurrentFrame = frame;
+                    }
+                    else
+                    {
+                        int frame = (int)Math.Round(Math.Clamp(CorrectLerp * NumberOfFrames * 0.35f + NumberOfFrames / 2, 4, 7) + Disp) % NumberOfFrames;
+                        CurrentFrame = frame;
+                    }
+
+                    CurrentFrame = Math.Clamp(CurrentFrame, 1 - ClampedVel, 3 + ClampedVel * 4);
+                }
+                if(IdleTimer > 3)
                 {
                     Cycle = AnimationCycle.Idle;
+                    CurrentFrame = 1;
                 }
                 else
                 {
                     Cycle = AnimationCycle.Walking;
+
                 }
 
                 if (Cycle == AnimationCycle.Idle)
@@ -151,11 +175,17 @@ namespace Flipsider
                 {
                     LeftArmPrims.TextureMap = Textures._BodyParts_RightArmR;
                     RightArmPrims.TextureMap = Textures._BodyParts_LeftArmR;
+
+                    LeftLegPrims.TextureMap = Textures._BodyParts_LeftLegR;
+                    RightLegPrims.TextureMap = Textures._BodyParts_RightLegR;
                 }
                 else
                 {
                     LeftArmPrims.TextureMap = Textures._BodyParts_LeftArm;
                     RightArmPrims.TextureMap = Textures._BodyParts_RightArm;
+
+                    LeftLegPrims.TextureMap = Textures._BodyParts_LeftLeg;
+                    RightLegPrims.TextureMap = Textures._BodyParts_RightLeg;
                 }
             }
         }
@@ -167,8 +197,8 @@ namespace Flipsider
                 Leg rl = Get<RightLeg>();
                 Leg ll = Get<LeftLeg>();
 
-                Texture2D head = Textures._BodyParts_bitch_head;
-                Texture2D tex = Textures._BodyParts_bitch_body;
+                Texture2D head = Textures._BodyParts_HeadAnim;
+                Texture2D tex = Textures._BodyParts_BodyAnim;
 
                 void RenderLeg(Leg leg)
                 {
@@ -191,16 +221,20 @@ namespace Flipsider
                     }
                 }
 
-                RenderLeg(rl);
-                RenderLeg(ll);
+                //RenderLeg(rl);
+                //RenderLeg(ll);
 
                 Vector2 Up = new Vector2(0, -13).RotatedBy(UpperBodyRotation);
 
-                spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign,2), tex.Bounds, Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height), 2f,
-                    CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+               spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign, 7), 
+                    new Rectangle(0,CurrentFrame * (tex.Height / NumberOfFrames), tex.Width, tex.Height / NumberOfFrames), 
+                   Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height / NumberOfFrames), 2f,
+                    CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
-                spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0), head.Bounds, Color.White, CoreEntity.velocity.X / 12f, new Vector2(head.Width / 2f, head.Height), 2f,
-                    CoreEntity.velocity.X > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0), 
+                    new Rectangle(0, CurrentFrame * (head.Height / NumberOfFrames), head.Width, head.Height / NumberOfFrames), 
+                    Color.White, CoreEntity.velocity.X / 12f, new Vector2(head.Width / 2f, head.Height / NumberOfFrames), 2f,
+                    CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
               
                 for (int i = MainVerletPoint; i < MainVerletPoint + HairPoints; i++)
                 {
