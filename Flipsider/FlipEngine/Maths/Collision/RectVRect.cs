@@ -11,139 +11,102 @@ namespace FlipEngine
     {
         public void RectVRect(Collideable collideable1, Collideable collideable2)
         {
-            if ((collideable2.isStatic && collideable2.BindableEntity.Active) || !collideable2.HasBindableEntity)
+            if (collideable1.BindableEntity != null)
             {
-                CollisionInfo CI =
-                    Collision.AABBResolvePoly(
-                    collideable1.collisionBox,
-                    collideable1.lastCollisionBox,
-                    collideable2.collisionBox);
-
-                collideable1.collisionInfo.AABB = CI.AABB;
-                collideable1.BindableEntity.Position += CI.d;
-                if (collideable1.BindableEntity is LivingEntity)
+                if ((collideable2.isStatic) || collideable2.BindableEntity == null)
                 {
-                    var LivingEntity = (LivingEntity)collideable1.BindableEntity;
-                    if (CI.AABB != Bound.None)
+
+                    CollisionInfo CI =
+                        Collision.AABBResolvePolyOut(
+                        collideable1.Polygon,
+                        collideable1.lastCollisionBox,
+                        collideable2.Polygon);
+
+                    collideable1.collisionInfo.AABB = CI.AABB;
+                    collideable1.BindableEntity.Position += CI.d;
+                    if (collideable1.BindableEntity is LivingEntity)
                     {
-                        switch (collideable1.collisionInfo.AABB)
+                        var LivingEntity = (LivingEntity)collideable1.BindableEntity;
+                        if (CI.AABB != Bound.None)
                         {
-                            case (Bound.Top):
-                                {
-                                    LivingEntity.onGround = true;
-                                    LivingEntity.velocity.Y = 0;
-                                    break;
-                                }
-                            case (Bound.Bottom):
-                                {
-                                    LivingEntity.velocity.Y = 0;
-                                    break;
-                                }
-                            case (Bound.Left):
-                                {
-                                    LivingEntity.velocity.X = 0;
-                                    break;
-                                }
-                            case (Bound.Right):
-                                {
-                                    LivingEntity.velocity.X = 0;
-                                    break;
-                                }
+                            switch (collideable1.collisionInfo.AABB)
+                            {
+                                case (Bound.Top):
+                                    {
+                                        LivingEntity.onGround = true;
+                                        LivingEntity.velocity.Y = 0;
+                                        break;
+                                    }
+                                case (Bound.Bottom):
+                                    {
+                                        LivingEntity.velocity.Y = 0;
+                                        break;
+                                    }
+                                case (Bound.Left):
+                                    {
+                                        LivingEntity.velocity.X = 0;
+                                        break;
+                                    }
+                                case (Bound.Right):
+                                    {
+                                        LivingEntity.velocity.X = 0;
+                                        break;
+                                    }
+                            }
+                            LivingEntity.isColliding = true;
                         }
-                        LivingEntity.isColliding = true;
                     }
                 }
             }
         }
-        public void RectVTri(Collideable collideable1, Collideable collideable2)
-        {
-            if ((collideable2.isStatic && collideable2.BindableEntity.Active) || !collideable2.HasBindableEntity)
-            {
-                CollisionInfo CI =
-                    Collision.SAT(
-                    collideable1.collisionBox,
-                    collideable2.collisionBox);
 
-                collideable1.collisionInfo.AABB = CI.AABB;
-                collideable1.BindableEntity.Position -= CI.d;
-                if (collideable1.BindableEntity is LivingEntity)
-                {
-                    var LivingEntity = (LivingEntity)collideable1.BindableEntity;
-                    if (CI.AABB != Bound.None)
-                    {
-                        switch (collideable1.collisionInfo.AABB)
-                        {
-                            case (Bound.Top):
-                                {
-                                    LivingEntity.onGround = true;
-                                    break;
-                                }
-                            case (Bound.Bottom):
-                                {
-                                   LivingEntity.velocity.Y = 0;
-                                    break;
-                                }
-                            case (Bound.Left):
-                                {
-                                    LivingEntity.velocity.X = 0;
-                                    break;
-                                }
-                            case (Bound.Right):
-                                {
-                                    LivingEntity.velocity.X = 0;
-                                    break;
-                                }
-                        }
-                        LivingEntity.isColliding = true;
-                    }
-                }
-            }
-        }
         public void RectVPoly(Collideable collideable1, Collideable collideable2)
         {
-            if ((collideable2.isStatic && collideable2.BindableEntity.Active) || !collideable2.HasBindableEntity)
+            if (collideable1.BindableEntity != null)
             {
-                if (collideable1.BindableEntity is LivingEntity)
+                if ((collideable2.isStatic) || collideable2.BindableEntity == null)
                 {
-                    var LivingEntity = (LivingEntity)collideable1.BindableEntity;
-
-                CollisionInfo CI =
-                    Collision.Raycast(
-                    collideable1.collisionBox,
-                    collideable2.collisionBox,100, collideable1.BindableEntity.Height / 2);
-
-                collideable1.collisionInfo.AABB = CI.AABB;
-
-                
-                    if (CI.AABB != Bound.None)
+                    if (collideable1.BindableEntity is LivingEntity)
                     {
-                        switch (collideable1.collisionInfo.AABB)
+                        var LivingEntity = (LivingEntity)collideable1.BindableEntity;
+
+                        CollisionInfo CI =
+                            Collision.Raycast(
+                            collideable1.Polygon,
+                            collideable2.Polygon, 100, collideable1.BindableEntity.Height / 2);
+
+                        collideable1.collisionInfo.AABB = CI.AABB;
+
+                        if (CI.AABB != Bound.None)
                         {
-                            case (Bound.Top):
-                                {
-                                    LivingEntity.onGround = true;
-                                    LivingEntity.onSlope = true;
-                                    LivingEntity.velocity.Y = 0;
-                                    break;
-                                }
-                            case (Bound.Bottom):
-                                {
-                                    LivingEntity.velocity.Y = 0;
-                                    break;
-                                }
-                            case (Bound.Left):
-                                {
-                                    LivingEntity.velocity.X = 0;
-                                    break;
-                                }
-                            case (Bound.Right):
-                                {
-                                    LivingEntity.velocity.X = 0;
-                                    break;
-                                }
+                            switch (collideable1.collisionInfo.AABB)
+                            {
+                                case (Bound.Top):
+                                    {
+                                        LivingEntity.onGround = true;
+                                        //LivingEntity.onSlope = true;
+                                        LivingEntity.velocity.Y = 0;
+                                        break;
+                                    }
+                                case (Bound.Bottom):
+                                    {
+                                        LivingEntity.velocity.Y = 0;
+                                        break;
+                                    }
+                                case (Bound.Left):
+                                    {
+                                        LivingEntity.velocity.X = 0;
+                                        break;
+                                    }
+                                case (Bound.Right):
+                                    {
+                                        LivingEntity.velocity.X = 0;
+                                        break;
+                                    }
+                            }
+                            collideable1.BindableEntity.Position += CI.d;
+                            LivingEntity.isColliding = true;
                         }
-                        collideable1.BindableEntity.Position += CI.d;
-                        LivingEntity.isColliding = true;
                     }
                 }
             }

@@ -20,7 +20,7 @@ namespace Flipsider
         public override void PostLoad(FlipEngine.Prop prop)
         {
             Chunk chunk = Main.tileManager.GetChunkToWorldCoords(prop.Position);
-            chunk.Colliedables.AddCustomHitBox(Main.player, true, false, new RectangleF(prop.Position, prop.Size));
+            chunk.Colliedables.AddCustomHitBox(this, true, new RectangleF(prop.Position, prop.Size).ToPolygon());
         }
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {

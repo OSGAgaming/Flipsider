@@ -36,7 +36,7 @@ namespace FlipEngine
             if (!dimensions.Contains(state.Position)) NotOnHover();
             if (GameInput.Instance.JustClickingLeft && dimensions.Contains(state.Position)) OnLeftClick();        
             if (GameInput.Instance.JustClickingLeft && !dimensions.Contains(state.Position)) OnLeftClickAway();
-            if (state.RightButton == ButtonState.Pressed && dimensions.Contains(state.Position)) OnRightClick();
+            if (GameInput.Instance.JustClickingRight && dimensions.Contains(state.Position)) OnRightClick();
 
             if (state.LeftButton == ButtonState.Pressed && dimensions.Contains(state.Position)) IsBeingClicked = true;
             else IsBeingClicked = false;

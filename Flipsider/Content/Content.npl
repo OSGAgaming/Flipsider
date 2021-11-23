@@ -42,6 +42,11 @@
 			"path": "Cutscenes/*.fctsn",
 			"recursive": "True",
 			"action": "copy"
+		},
+		"Cutscenes": {
+			"path": "CollisionSets/*.abst",
+			"recursive": "True",
+			"action": "copy"
 		}
 	}
 }

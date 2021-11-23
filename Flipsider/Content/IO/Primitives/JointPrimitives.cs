@@ -46,8 +46,8 @@ namespace Flipsider
 
         protected override void AddPoints()
         {
-            Width = 5;
-            SecondWidth = 6;
+            Width = 4;
+            SecondWidth = 5;
 
             JointUV = 0.4f;
             JointUVSpread = 0.2f;

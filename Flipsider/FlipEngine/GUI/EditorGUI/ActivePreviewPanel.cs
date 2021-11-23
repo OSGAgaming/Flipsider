@@ -163,7 +163,7 @@ namespace FlipEngine
             {
                 foreach (Entity entity in chunk.Entities)
                 {
-                    if (entity.CollisionFrame.Contains(FlipGame.MouseToDestination()) && GameInput.Instance.JustClickingLeft)
+                    if (entity.CollisionFrame.Contains(FlipGame.MouseToDestination()) && GameInput.Instance.JustClickingLeft && Utils.MouseInBounds)
                     {
                         if (entity != EntityPreview)
                         {

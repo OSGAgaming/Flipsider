@@ -111,6 +111,8 @@ namespace Flipsider
 
             PropManager.AddPropType("WideRoof1", Textures._Props_City_WideRoof1);
             PropManager.AddPropType("RoofBuilding1", Textures._Props_City_RoofBuilding1);
+
+            PropManager.AddPropType("Room", Textures._Props_City_Apartment_MainRoom);
         }
     }
 }

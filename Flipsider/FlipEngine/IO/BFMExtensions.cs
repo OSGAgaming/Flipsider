@@ -23,6 +23,11 @@ namespace FlipEngine
             binaryWriter.Write(rect.Location);
             binaryWriter.Write(rect.Size);
         }
+        public static void Write(this BinaryWriter binaryWriter, RectangleF rect)
+        {
+            binaryWriter.Write(rect.TL);
+            binaryWriter.Write(rect.Size);
+        }
         public static void Write(this BinaryWriter binaryWriter, Color color)
         {
             binaryWriter.Write(color.R);
@@ -57,6 +62,10 @@ namespace FlipEngine
         public static Rectangle ReadRect(this BinaryReader binaryReader)
         {
             return new Rectangle(binaryReader.ReadPoint(), binaryReader.ReadPoint());
+        }
+        public static RectangleF ReadRectF(this BinaryReader binaryReader)
+        {
+            return new RectangleF(binaryReader.ReadVector2(), binaryReader.ReadVector2());
         }
         public static Color ReadColor(this BinaryReader binaryReader)
         {

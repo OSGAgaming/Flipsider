@@ -15,7 +15,7 @@ namespace FlipEngine
         /// <summary>
         /// Make sure this is in line with your preffered aspect ratio
         /// </summary>
-        protected virtual Point MaxResolution { get; set; } = new Point(2560, 1440);
+        public virtual Point MaxResolution { get; set; } = new Point(2560, 1440);
         public Rectangle Destination { get; set; } = new Rectangle(0,0, (int)FlipGame.ActualScreenSize.X, (int)FlipGame.ActualScreenSize.Y);
 
         internal Lighting? Lighting { get; set; }
@@ -36,6 +36,8 @@ namespace FlipEngine
         public bool RenderUITarget { get; set; } = true;
         public bool RenderPrimitiveMode { get; set; }
         public float PixelationUpscale => 2f;
+        public float PixelationFactor => (PixelationUpscale * ScreenScale);
+
         public int TargetQueueIndex;
 
         public float ScreenScale
@@ -137,7 +139,6 @@ namespace FlipEngine
                 if (RenderTarget != null && Lighting != null && UITarget != null)
                 {
                     RenderTarget2D r = Lighting.Maps.OrderedShaderPass(SpriteBatch, RenderTarget);
-
                     Graphics?.GraphicsDevice.SetRenderTarget(PostProcessedTarget);
                     Graphics?.GraphicsDevice.Clear(Color.Transparent);
 
@@ -152,8 +153,9 @@ namespace FlipEngine
                 SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
                 SpriteBatch.Draw(PostProcessedTarget, 
-                    new Rectangle(new Point(0,0), (FlipGame.ActualScreenSize / (PixelationUpscale * ScreenScale)).ToPoint()), 
-                    new Rectangle(0, 0, (int)FlipGame.ActualScreenSize.X, (int)FlipGame.ActualScreenSize.Y), Color.White);
+                    new Rectangle(new Point(0,0), (MaxResolution.ToVector2()).ToPoint()), 
+                    new Rectangle(0, 0, (int)MaxResolution.X, (int)MaxResolution.Y), 
+                    Color.White);
 
                 SpriteBatch.End();
 
@@ -161,9 +163,8 @@ namespace FlipEngine
 
                 SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
-                SpriteBatch.Draw(PixelationTarget, 
-                    new Rectangle(Destination.Location, (Destination.Size.ToVector2() * ScreenScale).ToPoint()), 
-                    new Rectangle(0, 0, (int)(FlipGame.ActualScreenSize.X / PixelationUpscale), (int)(FlipGame.ActualScreenSize.Y / PixelationUpscale)), Color.White);
+                SpriteBatch.Draw(PostProcessedTarget, new Rectangle(Destination.Location, new Point(Destination.Width, Destination.Height)), 
+                    new Rectangle(0, 0, (int)(FlipGame.ActualScreenSize.X), (int)(FlipGame.ActualScreenSize.Y)), Color.White);
 
                 SpriteBatch.Draw(UITarget, Destination, new Rectangle(0, 0, (int)FlipGame.ActualScreenSize.X, (int)FlipGame.ActualScreenSize.Y), Color.White);
 
@@ -178,8 +179,8 @@ namespace FlipEngine
         {
             if (Graphics != null)
             {
-                Rectangle frame = new Rectangle(0, 0, MaxResolution.X, MaxResolution.Y);
-                SpriteBatch.Draw(RT, FlipGame.Camera.TransformPosition, frame, Color.White, 0f, Vector2.Zero, 1 / ScreenScale, SpriteEffects.None, 0f);
+                Rectangle frame = new Rectangle(0, 0, (int)(MaxResolution.X), (int)(MaxResolution.Y));
+                SpriteBatch.Draw(RT, Vector2.Zero, frame, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
             }
         }
 

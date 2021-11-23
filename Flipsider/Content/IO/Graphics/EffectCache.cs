@@ -20,6 +20,7 @@ namespace Flipsider
         public static Effect FrontFaceBuildingEffect;
         public static Effect LayerColorModification;
         public static Effect PrimtiveTexture;
+        public static Effect CutawayEffect;
 
         public static void LoadEffects(ContentManager content)
         {
@@ -34,7 +35,7 @@ namespace Flipsider
             FrontFaceBuildingEffect = content.Load<Effect>(@"Effect/FrontFaceBuildingEffect");
             LayerColorModification = content.Load<Effect>(@"Effect/LayerColorModification");
             PrimtiveTexture = content.Load<Effect>(@"Effect/PrimitiveTextureMap");
-
+            CutawayEffect = content.Load<Effect>(@"Effect/Cutaway");
         }
     }
 }

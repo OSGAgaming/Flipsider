@@ -207,7 +207,7 @@ namespace Flipsider
                 {
                     if (col.isStatic)
                     {
-                        Polygon poly = col.collisionBox;
+                        Polygon poly = col.Polygon;
 
                         for (int i = 0; i < poly.numberOfPoints; i++)
                         {

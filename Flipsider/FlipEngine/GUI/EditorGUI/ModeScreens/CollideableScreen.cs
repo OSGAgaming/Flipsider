@@ -27,15 +27,7 @@ namespace FlipEngine
 
             foreach (Collideable col in PlayerChunk.Colliedables.collideables.ToArray())
             {
-                Utils.DrawRectangle(col.CustomHitBox, Color.Red * Time.SineTime(2f), 3);
-                if (col.CustomHitBox.ToR().Contains(FlipGame.MouseToDestination()))
-                {
-                    Utils.DrawRectangle(col.CustomHitBox.ToR().Inf(2,2), Color.White, 3);
-                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                    {
-                        col.Dispose();
-                    }
-                }
+                col.Polygon.Draw(Color.Red * Time.SineTime(5));
             }
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -55,7 +47,7 @@ namespace FlipEngine
             if (Mouse.GetState().LeftButton != ButtonState.Pressed && mouseStateBuffer && !flag)
             {
                 flag = true;
-                FlipGame.Camera.ActiveChunk.Colliedables.AddCustomHitBox(Main.player, true, false, new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)));
+                FlipGame.Camera.ActiveChunk.Colliedables.AddCustomHitBox(null, true, new RectangleF(pos1, new Vector2((MouseSnap.X - pos1.X) + 4, (MouseSnap.Y - pos1.Y) + 4)).ToR().ToPolygon());
             }
             mouseStateBuffer = Mouse.GetState().LeftButton == ButtonState.Pressed;
             if (mouseStateBuffer && flag)

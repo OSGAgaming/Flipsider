@@ -179,6 +179,7 @@ public static Texture2D _Props_City_RoofBuilding1BoxFront;
 public static Texture2D _Props_City_RoofBuilding1Front;
 public static Texture2D _Props_City_WideRoof1;
 public static Texture2D _Props_City_WideRoof1Front;
+public static Texture2D _Props_City_Apartment_MainRoom;
 public static Texture2D _Weapons_Crowbar;
 public static Texture2D _Weapons_Crowbar_Icon;
 public static void LoadTextures() {
@@ -352,6 +353,7 @@ _Props_City_RoofBuilding1BoxFront = AutoloadTextures.Assets[@"Props\City\RoofBui
 _Props_City_RoofBuilding1Front = AutoloadTextures.Assets[@"Props\City\RoofBuilding1Front"];
 _Props_City_WideRoof1 = AutoloadTextures.Assets[@"Props\City\WideRoof1"];
 _Props_City_WideRoof1Front = AutoloadTextures.Assets[@"Props\City\WideRoof1Front"];
+_Props_City_Apartment_MainRoom = AutoloadTextures.Assets[@"Props\City\Apartment\MainRoom"];
 _Weapons_Crowbar = AutoloadTextures.Assets[@"Weapons\Crowbar"];
 _Weapons_Crowbar_Icon = AutoloadTextures.Assets[@"Weapons\Crowbar_Icon"];
 

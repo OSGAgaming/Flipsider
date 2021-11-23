@@ -59,7 +59,7 @@ namespace FlipEngine
         }
         protected override void PostConstructor()
         {
-            AddModule("Collision", new Collideable(this, false));
+            AddModule("Collision", new Collideable(this, false, CollisionFrame.ToPolygon()));
             AddModule("RigidBody", new RigidBody(this, 1f));
             AddModule("Hitbox", new HitBox(this));
         }

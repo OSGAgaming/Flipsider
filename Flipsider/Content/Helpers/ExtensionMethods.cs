@@ -47,6 +47,9 @@ namespace Flipsider
                 input[i] = value;
             }
         }
+        public static int Snap(float f, int snap) => (int)(f / snap) * snap;
+        public static int Snap(int i, int snap) => (int)(i / snap) * snap;
+
         public static Vector2 ReciprocateTo(this Vector2 v, Vector2 target, float ease = 16f)
         {
             return v + (target - v) / ease;
@@ -56,6 +59,9 @@ namespace Flipsider
             return v + new Vector2((int)((target - v) / ease).X, (int)((target - v) / ease).Y);
         }
         public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap) * snap, (int)(v.Y / snap) * snap);
+        //TODO: Make a snap for float
+        public static Rectangle Snap(this Rectangle v, int snap) => 
+            new Rectangle(Snap(v.X, snap), Snap(v.Y, snap), Snap(v.Width, snap), Snap(v.Height, snap));
         public static Vector2 ToScreen(this Vector2 v) => (v / Main.Gamecamera.Scale + Main.Gamecamera.Position);
 
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - Main.Gamecamera.Position) * Main.Gamecamera.Scale);

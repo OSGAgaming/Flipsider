@@ -29,9 +29,6 @@ namespace Flipsider
             }
             return false;
         }
-        public FlipsiderWorld(int Width, int Height) : base(Width, Height)
-        {
-
-        }
+        public FlipsiderWorld(int Width, int Height) : base(Width, Height) { }
     }
 }

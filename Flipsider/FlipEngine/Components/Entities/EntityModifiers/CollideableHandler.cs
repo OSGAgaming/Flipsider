@@ -17,9 +17,9 @@ namespace FlipEngine
                 }
             }
         }
-        public void AddCustomHitBox(Entity entity, bool isStatic, bool HasBindableEntity, RectangleF frame)
+        public void AddCustomHitBox(Entity? entity, bool isStatic, Polygon poly)
         {
-            new Collideable(entity, isStatic, HasBindableEntity, frame);
+            new Collideable(entity, isStatic, poly);
         }
         public void Update()
         {

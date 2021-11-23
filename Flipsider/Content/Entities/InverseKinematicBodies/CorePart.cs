@@ -106,12 +106,23 @@ namespace Flipsider
 
         public void Update(in Entity entity)
         {
+            Layer CurrentLayer = FlipGame.layerHandler.GetLayer(Layer);
+
+            if (!CurrentLayer.PrimitiveDrawables.Contains(this))
+            {
+                foreach (Layer layer in FlipGame.layerHandler.Layers)
+                {
+                    if (layer.PrimitiveDrawables.Contains(this)) layer.PrimitiveDrawables.Remove(this);
+                }
+                CurrentLayer.PrimitiveDrawables.Add(this);
+            }
+
             if (CoreEntity != null)
             {
                 Layer = CoreEntity.Layer;
                 float avg = (Get<LeftLeg>().LegPosition.X + Get<RightLeg>().LegPosition.X) / 2f;
 
-                if (Math.Abs(CoreEntity.velocity.X) <= 0.1f)
+                if (Math.Abs(CoreEntity.velocity.X) <= 0.3f)
                 {
                     IdleTimer++;
                 }
@@ -120,7 +131,7 @@ namespace Flipsider
                     IdleTimer = 0;
                 }
 
-                if(Math.Abs(CoreEntity.velocity.X) >= 0.5f)
+                if(Math.Abs(CoreEntity.velocity.X) >= 0.8f)
                 {
                     int Disp = 3;
                     float CorrectLerp = Math.Clamp(Get<RightArm>().Lerp * (1.8f + Math.Abs(CoreEntity.velocity.X * 0.25f)),0,1);
@@ -151,7 +162,7 @@ namespace Flipsider
 
                 if (Cycle == AnimationCycle.Idle)
                 {
-                    //entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 40f);
+                    entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 20f);
                 }
                 else
                 {
@@ -199,6 +210,16 @@ namespace Flipsider
 
                 Texture2D head = Textures._BodyParts_HeadAnim;
                 Texture2D tex = Textures._BodyParts_BodyAnim;
+                int RealFrames = NumberOfFrames;
+                int RealCurrentFrame = CurrentFrame;
+                Vector2 off = Vector2.Zero;
+                if (Math.Abs(CoreEntity.velocity.X) <= 0.8f)
+                {
+                    tex = Textures._BodyParts_bitch_body;
+                    RealFrames = 1;
+                    RealCurrentFrame = 0;
+                    off = new Vector2(rl.Sign * 2.5f, -1);
+                }
 
                 void RenderLeg(Leg leg)
                 {
@@ -226,9 +247,9 @@ namespace Flipsider
 
                 Vector2 Up = new Vector2(0, -13).RotatedBy(UpperBodyRotation);
 
-               spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign, 7), 
-                    new Rectangle(0,CurrentFrame * (tex.Height / NumberOfFrames), tex.Width, tex.Height / NumberOfFrames), 
-                   Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height / NumberOfFrames), 2f,
+               spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign, 7) + off, 
+                    new Rectangle(0, RealCurrentFrame * (tex.Height / RealFrames), tex.Width, tex.Height / RealFrames), 
+                   Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height / RealFrames), 2f,
                     CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
                 spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0), 

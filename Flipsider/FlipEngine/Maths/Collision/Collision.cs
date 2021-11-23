@@ -67,12 +67,12 @@ namespace FlipEngine
                 return Rectangle.Empty;
             }
         }
-        public void Draw()
+        public void Draw(Color color = default)
         {
             for (int i = 0; i < points.Length; i++)
             {
                 Utils.DrawLine(varpoints[i], varpoints[(i + 1) % numberOfPoints],Color.Green,2);
-                Utils.DrawLine(varpoints[i], Center, Color.Green, 2);
+                Utils.DrawLine(varpoints[i], Center, color, 2);
             }
         }
         public static Polygon operator +(Polygon x, Polygon y)
@@ -98,10 +98,137 @@ namespace FlipEngine
     }
     public static class Collision
     {
+        // Given three collinear points p, q, r,
+        // the function checks if point q lies
+        // on line segment 'pr'
+        static bool onSegment(Vector2 p, Vector2 q, Vector2 r)
+        {
+            if (q.X <= Math.Max(p.X, r.X) &&
+                q.X >= Math.Min(p.X, r.X) &&
+                q.Y <= Math.Max(p.Y, r.Y) &&
+                q.Y >= Math.Min(p.Y, r.Y))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        // To find orientation of ordered triplet (p, q, r).
+        // The function returns following values
+        // 0 --> p, q and r are collinear
+        // 1 --> Clockwise
+        // 2 --> Counterclockwise
+        static int orientation(Vector2 p, Vector2 q, Vector2 r)
+        {
+            float val = (q.Y - p.Y) * (r.X - q.X) -
+                    (q.X - p.X) * (r.Y - q.Y);
+
+            if (val == 0)
+            {
+                return 0; // collinear
+            }
+            return (val > 0) ? 1 : 2; // clock or counterclock wise
+        }
+
+        // The function that returns true if
+        // line segment 'p1q1' and 'p2q2' intersect.
+        static bool doIntersect(Vector2 p1, Vector2 q1,
+                                Vector2 p2, Vector2 q2)
+        {
+            // Find the four orientations needed for
+            // general and special cases
+            int o1 = orientation(p1, q1, p2);
+            int o2 = orientation(p1, q1, q2);
+            int o3 = orientation(p2, q2, p1);
+            int o4 = orientation(p2, q2, q1);
+
+            // General case
+            if (o1 != o2 && o3 != o4)
+            {
+                return true;
+            }
+
+            // Special Cases
+            // p1, q1 and p2 are collinear and
+            // p2 lies on segment p1q1
+            if (o1 == 0 && onSegment(p1, p2, q1))
+            {
+                return true;
+            }
+
+            // p1, q1 and p2 are collinear and
+            // q2 lies on segment p1q1
+            if (o2 == 0 && onSegment(p1, q2, q1))
+            {
+                return true;
+            }
+
+            // p2, q2 and p1 are collinear and
+            // p1 lies on segment p2q2
+            if (o3 == 0 && onSegment(p2, p1, q2))
+            {
+                return true;
+            }
+
+            // p2, q2 and q1 are collinear and
+            // q1 lies on segment p2q2
+            if (o4 == 0 && onSegment(p2, q1, q2))
+            {
+                return true;
+            }
+
+            // Doesn't fall in any of the above cases
+            return false;
+        }
+
+        // Returns true if the point p lies
+        // inside the polygon[] with n vertices
+        public static bool Contains(this Polygon polygon, Vector2 p)
+        {
+            // There must be at least 3 vertices in polygon[]
+            if (polygon.numberOfPoints < 3)
+            {
+                return false;
+            }
+
+            // Create a point for line segment from p to infinite
+            Vector2 extreme = new Vector2(int.MaxValue, p.Y);
+
+            // Count intersections of the above line
+            // with sides of polygon
+            int count = 0, i = 0;
+            do
+            {
+                int next = (i + 1) % polygon.numberOfPoints;
+
+                // Check if the line segment from 'p' to
+                // 'extreme' intersects with the line
+                // segment from 'polygon[i]' to 'polygon[next]'
+                if (doIntersect(polygon.varpoints[i],
+                                polygon.varpoints[next], p, extreme))
+                {
+                    // If the point 'p' is collinear with line
+                    // segment 'i-next', then check if it lies
+                    // on segment. If it lies, return true, otherwise false
+                    if (orientation(polygon.varpoints[i], p, polygon.varpoints[next]) == 0)
+                    {
+                        return onSegment(polygon.varpoints[i], p,
+                                        polygon.varpoints[next]);
+                    }
+                    count++;
+                }
+                i = next;
+            } while (i != 0);
+
+            // Return true if count is odd, false otherwise
+            return (count % 2 == 1); // Same as (count%2 == 1)
+        }
+
         public static Rectangle ToR(this RectangleF x)
         {
             return new Rectangle((int)x.x, (int)x.y, (int)x.w, (int)x.h);
         }
+
         public static Polygon Add(this Polygon x, Vector2[] y)
         {
             Vector2[] points = new Vector2[x.numberOfPoints];
@@ -119,6 +246,23 @@ namespace FlipEngine
               new Vector2(r.Width / 2, r.Height / 2),
               new Vector2(-r.Width / 2, r.Height / 2)};
             return new Polygon(points, r.Center.ToVector2());
+        }
+        public static Polygon ToPolygon(this RectangleF r)
+        {
+            Vector2[] points = {new Vector2(-r.w / 2, -r.h / 2),
+              new Vector2(r.w / 2, -r.h / 2),
+              new Vector2(r.w / 2, r.h / 2),
+              new Vector2(-r.w / 2, r.h / 2)};
+            return new Polygon(points, r.Center);
+        }
+
+        public static Polygon ToPolygon(this Rectangle r, Vector2 c)
+        {
+            Vector2[] points = {new Vector2(-r.Width / 2, -r.Height / 2),
+              new Vector2(r.Width / 2, -r.Height / 2),
+              new Vector2(r.Width / 2, r.Height / 2),
+              new Vector2(-r.Width / 2, r.Height / 2)};
+            return new Polygon(points, c);
         }
         public static CollisionInfo Raycast(Polygon shape1, Polygon shape2, int LengthOfRaycast, int Disp)
         {
@@ -207,7 +351,48 @@ namespace FlipEngine
         {
             return A.Intersects(B);
         }
-        public static CollisionInfo AABBResolvePoly(Polygon _A, Polygon _ALast, Polygon _B)
+        public static CollisionInfo AABBResolvePolyOut(Polygon _A, Polygon _ALast, Polygon _B)
+        {
+            Vector2 d = Vector2.Zero;
+            Bound bound = Bound.None;
+            Rectangle A = _A.Rectangle;
+            Rectangle ALast = _ALast.Rectangle;
+            Rectangle B = _B.Rectangle;
+            if (!A.Intersects(new Rectangle(B.X, B.Y - 1, B.Width, B.Height + 2)))
+                return CollisionInfo.Default;
+            else
+            {
+                if (ALast.Bottom > B.Top && ALast.Top < B.Bottom)
+                {
+                    if (ALast.Left > B.Center.X)
+                    {
+                        bound = Bound.Left;
+                        d = new Vector2(B.Right - A.Left, 0);
+                    }
+                    if (ALast.Right < B.Center.X)
+                    {
+                        bound = Bound.Right;
+                        d = new Vector2(B.Left - A.Right, 0);
+                    }
+                }
+                if (ALast.Left < B.Right && ALast.Right > B.Left)
+                {
+                    if (ALast.Top > B.Center.Y)
+                    {
+                        bound = Bound.Bottom;
+                        d = new Vector2(0, B.Bottom - A.Top);
+                    }
+                    if (ALast.Bottom < B.Center.Y)
+                    {
+                        bound = Bound.Top;
+                        d = new Vector2(0, B.Top - A.Bottom);
+                    }
+                }
+            }
+            return new CollisionInfo(d, bound);
+        }
+
+        public static CollisionInfo AABBResolvePolyIn(Polygon _A, Polygon _ALast, Polygon _B)
         {
             Vector2 d = Vector2.Zero;
             Bound bound = Bound.None;

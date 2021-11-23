@@ -13,7 +13,9 @@ namespace Flipsider
         public Arm? OtherPart => Parent?.Get(OtherArm) as Arm;
         public abstract string OtherArm { get; }
         public virtual int StaticSide { get; }
-        public int ArmSpan = 10;
+        public int ArmSpan => 14;
+        public int ArmLength => 25;
+
         public int Side = 1;
         public bool Moving;
 
@@ -27,7 +29,6 @@ namespace Flipsider
         public Vector2 Ledge;
         private int UpFromCenter => 16;
         private int ShoulderSpan => 10;
-        float JointHeight;
 
         public float Lerp;
         private Vector2 OffsetLerp;
@@ -59,7 +60,7 @@ namespace Flipsider
                     Vector2 Offset;
                     Offset = 
                         new Vector2(AbsSide * AbsVelFunction * (-ArmSwing) - JointHori * 4 * (-Sign * StaticSide),
-                        20 - AbsVelFunction * 6 + -AbsSide * UpFactor * JointHori);
+                        ArmLength - AbsVelFunction * 6 + -AbsSide * UpFactor * JointHori);
 
                     return Hoist + Offset;
                 }

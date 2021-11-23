@@ -75,16 +75,11 @@ namespace FlipEngine
     }
     public class LayerHandler
     {
-        public LayerHandler()
-        {
-            AddLayer();
-            Target = new RenderTarget2D(FlipGame.graphics.GraphicsDevice, 2560, 1440);
-        }
+        public LayerHandler() { AddLayer(); }
 
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
         public static int[] LayerCache = { -1, -1 };
-        public RenderTarget2D Target;
         internal LayerManagerInfo Info
         {
             get
@@ -106,8 +101,6 @@ namespace FlipEngine
         public void DrawLayers(SpriteBatch spriteBatch)
         {
             InfoCache = Info;
-            FlipGame.graphics.GraphicsDevice.SetRenderTarget(Target);
-            FlipGame.graphics.GraphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.End();
 
@@ -121,9 +114,6 @@ namespace FlipEngine
                     }
                 }
             }
-
-            FlipGame.graphics.GraphicsDevice.SetRenderTarget(FlipGame.Renderer.RenderTarget);
-            FlipGame.graphics.GraphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
 

@@ -20,7 +20,7 @@ namespace FlipEngine
         }
         public static string WorldPath => FlipGame.MainPath + $@"Content\Worlds\";
         public static string CutscenePath => FlipGame.MainPath + $@"Content\Cutscenes\";
-
+        public static string CollisionSetPath => LocalDirectory + $@"\Content\CollisionSets\";
         public static string LocalWorldPath => LocalDirectory + $@"\Content\Worlds\";
         public static string LocalCutscenePath => LocalDirectory + $@"Content\Cutscenes\";
 
@@ -41,5 +41,6 @@ namespace FlipEngine
         public static Vector2 AbsD => FlipGame.ActualScreenSize - FlipGame.ScreenSize;
         public static Vector2 ScreenCenterUI => new Vector2(ActualScreenSize.X / 2, ActualScreenSize.Y / 2);
         public static bool MouseInBounds => FlipGame.Renderer.Destination.Contains(Mouse.GetState().Position);
+
     }
 }

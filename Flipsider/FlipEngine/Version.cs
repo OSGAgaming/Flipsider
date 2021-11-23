@@ -9,7 +9,7 @@ namespace FlipEngine
 {
     public class FormatVersion
     {
-        internal static readonly byte CurrentVersion = 2;
+        internal static readonly byte CurrentVersion = 3;
 
         internal static byte Version;
 

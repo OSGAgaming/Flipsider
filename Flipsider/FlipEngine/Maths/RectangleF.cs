@@ -40,6 +40,9 @@ namespace FlipEngine
             set => (x, y) = value - Size / 2;
         }
 
+        public static implicit operator Rectangle(RectangleF d) => new Rectangle(d.TL.ToPoint(), d.Size.ToPoint());
+        public static implicit operator RectangleF(Rectangle d) => new RectangleF(d.Location.ToVector2(), d.Size.ToVector2());
+
         /// <summary>
         /// Represents a rectangle that spans infinitely in all directions.
         /// </summary>

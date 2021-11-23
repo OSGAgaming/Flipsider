@@ -72,7 +72,14 @@ namespace Flipsider
             BinaryReader binaryWriter = new BinaryReader(stream);
             float X = binaryWriter.ReadSingle();
             float Y = binaryWriter.ReadSingle();
+            
             Player player = new Player(new Vector2(X, Y));
+
+            if (FormatVersion.Version > 2)
+            {
+                player.Layer = binaryWriter.ReadInt32();
+            }
+
             return Main.FlipWorld.ReplacePlayer(player);
         }
         public override void Serialize(Stream stream)
@@ -80,6 +87,11 @@ namespace Flipsider
             BinaryWriter binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(Position.X);
             binaryWriter.Write(Position.Y);
+
+            if(FormatVersion.Version > 2)
+            {
+                binaryWriter.Write(Layer);
+            }
         }
         public void AddToInventory(IStoreable item, int slot)
         {
