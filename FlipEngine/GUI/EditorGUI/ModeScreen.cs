@@ -15,6 +15,7 @@ namespace FlipEngine
         public virtual Mode Mode { get; }
 
         public virtual int PreviewHeight { get; }
+        public virtual int PreviewWidth { get; }
 
         public virtual void DrawToSelector(SpriteBatch sb) { }
 
@@ -57,7 +58,7 @@ namespace FlipEngine
             if (PreviewPanel != null)
             {
                 Point p = PreviewPanel.dimensions.Location;
-                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)PreviewPanel.ScrollValue);
+                Point Position = new Point(p.X + RelativeDimensions.X - (int)PreviewPanel.ScrollValueX, p.Y + RelativeDimensions.Y - (int)PreviewPanel.ScrollValueY);
 
                 ChangeDimensions();
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);

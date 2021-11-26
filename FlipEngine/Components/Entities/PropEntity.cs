@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public abstract class PropEntity
+    public abstract class PropEntity : Entity
     {
         public static Dictionary<string, PropEntity> keyValuePairs = new Dictionary<string, PropEntity>();
         protected Texture2D Texture => PropTypes[Prop];

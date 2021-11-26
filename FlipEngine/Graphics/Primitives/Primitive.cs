@@ -6,30 +6,29 @@ namespace FlipEngine
 {
     public partial class Primitive : IComponent
     {
-        protected float _width;
-        protected float _alphaValue;
-        protected int _cap;
-        protected ITrailShader _trailShader;
-        protected int _counter;
-        protected int _noOfPoints;
+        protected Effect Effect { get; set; }
+        protected int IndexPointer { get; set; }
+        protected VertexPositionColorTexture[] vertices { get; set; }
+        protected float Width { get; set; }
+        protected int TimeAlive { get; set; }
+        protected float Alpha { get; set; }
+
+        protected int PrimitiveCount { get; set; }
+        protected int VertexCount { get; set; }
+
+        protected ITrailShader _trailShader { get; private set; } = new DefaultShader();
+
         protected List<Vector2> _points = new List<Vector2>();
-        protected bool _destroyed = false;
-        protected GraphicsDevice _device;
-        protected Effect _effect;
-        protected BasicEffect _basicEffect;
-        protected VertexPositionColorTexture[] vertices;
-        protected int currentIndex;
+
+        protected GraphicsDevice _device => FlipGame.graphics.GraphicsDevice;
+        protected BasicEffect _basicEffect => EffectCache.BasicEffect;
+
         public Primitive()
         {
-            _effect = EffectCache.PrimtiveShader ?? new BasicEffect(_device);
-            _trailShader = new DefaultShader();
-            _device = FlipGame.graphics.GraphicsDevice;
-            _basicEffect = new BasicEffect(_device)
-            {
-                VertexColorEnabled = true
-            };
+            Effect = EffectCache.PrimtiveShader ?? new BasicEffect(_device);
+            vertices = new VertexPositionColorTexture[PrimitiveCount];
             SetDefaults();
-            vertices = new VertexPositionColorTexture[_cap];
+            FlipE.Updateables.Add(this);
         }
 
 
@@ -39,16 +38,17 @@ namespace FlipEngine
         }
         public void Update()
         {
+            TimeAlive++;
             OnUpdate();
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            vertices = new VertexPositionColorTexture[_noOfPoints];
-            currentIndex = 0;
+            vertices = new VertexPositionColorTexture[VertexCount];
+            IndexPointer = 0;
             PrimStructure(spriteBatch);
             SetShaders();
-            if (_noOfPoints >= 1)
-                _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
+            if (VertexCount >= 1)
+                _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, VertexCount / 3);
         }
         public virtual void PrimStructure(SpriteBatch spriteBatch) { }
         public virtual void SetShaders() { }

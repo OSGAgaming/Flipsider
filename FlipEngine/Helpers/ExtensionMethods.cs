@@ -54,7 +54,13 @@ namespace FlipEngine
         {
             return v + new Vector2((int)((target - v) / ease).X, (int)((target - v) / ease).Y);
         }
+        public static int Snap(float f, int snap) => (int)(f / snap) * snap;
+        public static int Snap(int i, int snap) => (int)(i / (float)snap) * snap;
         public static Vector2 Snap(this Vector2 v, int snap) => new Vector2((int)(v.X / snap) * snap, (int)(v.Y / snap) * snap);
+        //TODO: Make a snap for float
+        public static Rectangle Snap(this Rectangle v, int snap) =>
+            new Rectangle(Snap(v.X, snap), Snap(v.Y, snap), Snap(v.Width, snap), Snap(v.Height, snap));
+
         public static Vector2 ToScreen(this Vector2 v) => (v / FlipGame.Camera.Scale + FlipGame.Camera.TransformPosition);
 
         public static Vector2 ToScreenInv(this Vector2 v) => ((v - FlipGame.Camera.TransformPosition) * FlipGame.Camera.Scale);
@@ -85,6 +91,14 @@ namespace FlipEngine
         {
             return (v.ToVector2() / TileManager.tileRes).ToPoint();
         }
+        public static Point Dot(this Point p1, Point p2)
+        {
+            return new Point(p1.X * p2.X, p1.Y * p2.Y);
+        }
+        public static Point Dot(this Point p1, Vector2 p2)
+        {
+            return new Point((int)(p1.X * p2.X), (int)(p1.Y * p2.Y));
+        }
         public static Point Add(this Point p1, Point p2)
         {
             return new Point(p1.X + p2.X, p1.Y + p2.Y);
@@ -106,15 +120,19 @@ namespace FlipEngine
         {
             return new Rectangle(r.Location.Add(p), r.Size);
         }
+        public static Rectangle MinusPos(this Rectangle r, Point p)
+        {
+            return new Rectangle(r.Location.Sub(p), r.Size);
+        }
         public static Rectangle AddPos(this Rectangle r, Vector2 p)
         {
             return new Rectangle(r.Location.Add(p), r.Size);
         }
-        public static Rectangle Inf(this Rectangle R,int h, int v)
+        public static Rectangle Inf(this Rectangle R, int h, int v)
         {
             return new Rectangle(
-                new Point(R.X - h, R.Y - v), 
-                new Point(R.Width + h*2, R.Height + v*2));
+                new Point(R.X - h, R.Y - v),
+                new Point(R.Width + h * 2, R.Height + v * 2));
         }
         public static float Slope(this Vector2 v)
         {

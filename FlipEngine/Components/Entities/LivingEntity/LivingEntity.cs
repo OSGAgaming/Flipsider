@@ -27,7 +27,6 @@ namespace FlipEngine
             private set;
         }
         public bool onSlope;
-        public bool Collides;
         public bool onGround;
         public int spriteDirection;
 
@@ -59,7 +58,7 @@ namespace FlipEngine
         }
         protected override void PostConstructor()
         {
-            AddModule("Collision", new Collideable(this, false));
+            AddModule("Collision", new Collideable(this, false, CollisionFrame.ToPolygon()));
             AddModule("RigidBody", new RigidBody(this, 1f));
             AddModule("Hitbox", new HitBox(this));
         }
@@ -89,26 +88,21 @@ namespace FlipEngine
             {
                 AI();
                 ApplyForces();
-                if (!noGravity)
-                    UpdateEntityModifier("RigidBody");
+
+                if (!noGravity) UpdateEntityModifier("RigidBody");
 
                 UpdatePosition();
 
-                if (Collides && Active)
-                    UpdateEntityModifier("Collision");
-
                 UpdateEntityModifier("Hitbox");
+
+                UpdateEntityModifier("Collision");
 
                 Constraints();
                 PostAI();
+
                 UpdateTrailCache();
             }
         }
-        public bool isDraggable = true; //dragging stuff
-        public bool isDragging = false;
-        public bool mousePressed = false; //this is so you have to click on it, instead of overlapping with click
-        public Vector2 offsetFromMouseWhileDragging;
-        public bool mouseOverlap => CollisionFrame.Contains(FlipGame.MouseScreen.ToVector2());
         protected virtual void OnCollide() { }
         protected virtual void OnKill() { }
     }

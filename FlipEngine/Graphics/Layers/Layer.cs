@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace FlipEngine
 {
     public class Layer : IComponent, ISerializable<Layer>
     {
-        public List<ILayeredComponent> Drawables = new List<ILayeredComponent>();
-        public List<ILayeredComponent> PrimitiveDrawables = new List<ILayeredComponent>();
+        public HashSet<ILayeredComponent> Drawables = new HashSet<ILayeredComponent>();
+        public List<IPrimitiveLayeredComponent> PrimitiveDrawables = new List<IPrimitiveLayeredComponent>();
 
         public int LayerDepth;
         public float parallax;
@@ -32,9 +33,9 @@ namespace FlipEngine
         {
             if (visible)
             { 
-                foreach (ILayeredComponent layeredComponent in PrimitiveDrawables)
+                foreach (IPrimitiveLayeredComponent layeredComponent in PrimitiveDrawables)
                 {
-                    layeredComponent.Draw(spriteBatch);
+                    layeredComponent.DrawPrimtiivesBefore(spriteBatch);
                 }
             }
 
@@ -68,6 +69,14 @@ namespace FlipEngine
             }
 
             spriteBatch.End();
+
+            if (visible)
+            {
+                foreach (IPrimitiveLayeredComponent layeredComponent in PrimitiveDrawables)
+                {
+                    layeredComponent.DrawPrimtiivesAfter(spriteBatch);
+                }
+            }
         }
         public void Update() { }
 

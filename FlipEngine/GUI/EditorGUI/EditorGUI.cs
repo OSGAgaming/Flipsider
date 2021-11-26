@@ -29,10 +29,11 @@ namespace FlipEngine
 
     internal class EditorModeGUI : UIScreen
     {
+        private Entity? ChosenEntity { get; set; }
+
         List<EditorModeButton> Buttons = new List<EditorModeButton>();
 
         public static Dictionary<Mode, ModeScreen> ModeScreens = new Dictionary<Mode, ModeScreen>();
-
         Vector2 v => new Vector2(FlipGame.ActualScreenSize.X - IconDimensions, 0);
 
         public static Mode mode;
@@ -56,11 +57,11 @@ namespace FlipEngine
 
         public static ActiveModeSelectPreview ModePreview = new ActiveModeSelectPreview();
         public static BottomModeSelectPreview BottomPreview = new BottomModeSelectPreview();
+        public static BottomLeftModeSelectPreview BottomLeftPreview = new BottomLeftModeSelectPreview();
 
         protected override void OnLoad()
         {
             AddMode(Mode.Tile);
-            AddMode(Mode.Water);
             AddMode(Mode.Prop);
             AddMode(Mode.NPC);
             AddMode(Mode.Pencil);
@@ -82,8 +83,64 @@ namespace FlipEngine
 
             elements.Add(ModePreview);
             elements.Add(BottomPreview);
+            elements.Add(BottomLeftPreview);
 
             active = false;
+        }
+        internal override void DrawToScreen()
+        {
+            if (ChosenEntity != null) Utils.DrawRectangle(ChosenEntity.CollisionFrame, Color.White, 3);
+        }
+        public bool IsDraggingEntity;
+        private void ManageEntities()
+        {
+            Vector2 mousePos = FlipGame.MouseToDestination().ToVector2().Snap(2);
+
+            if (Mouse.GetState().RightButton != ButtonState.Pressed)
+            {
+                ChosenEntity = null;
+
+                var Chunks = FlipGame.GetActiveChunks();
+                foreach (Chunk chunk in Chunks)
+                {
+                    foreach (Entity entity in chunk.Entities)
+                    {
+                        if (entity.CollisionFrame.Contains(mousePos))
+                        {
+                            ChosenEntity = entity;
+                        }
+                    }
+                }
+            }
+
+            if (ChosenEntity != null)
+            {
+                Rectangle rect = ChosenEntity.CollisionFrame;
+                if (rect.Contains(mousePos))
+                {
+                    if (Mouse.GetState().MiddleButton == ButtonState.Pressed)
+                    {
+                        ChosenEntity.Dispose();
+                    }
+                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                    {
+                        IsDraggingEntity = true;
+                    }
+                    else
+                    {
+                        IsDraggingEntity = false;
+                    }
+                }
+
+                if (IsDraggingEntity)
+                {
+                    ChosenEntity.Position +=
+                                FlipGame.MouseToDestination().ToVector2() -
+                                FlipGame.PreviousMouseToDestination().ToVector2();
+                }
+            }
+
+            
         }
 
         protected override void OnUpdate()
@@ -130,11 +187,11 @@ namespace FlipEngine
                     Buttons[i].v.Y = Buttons[i].v.Y.ReciprocateTo(v.Y, 8f);
                     Buttons[i].v.X = v.X;
                 }
-
-                if (!CutsceneManager.Instance.IsPlayingCutscene) FlipGame.Camera.Offset -= FlipGame.Camera.Offset / 16f;
             }
 
             CanZoom = true;
+
+            ManageEntities();
         }
 
         protected override void OnUpdatePassive() => active = FlipGame.CurrentScene.Name == "Editor";
@@ -201,9 +258,8 @@ namespace FlipEngine
             EditorModeGUI.Active = !EditorModeGUI.Active;
             EditorModeGUI.mode = Mode.None;
 
-            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 0.8f;
+            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 2f;
             else FlipGame.Camera.targetScale = 2f;
-
         }
     }
 

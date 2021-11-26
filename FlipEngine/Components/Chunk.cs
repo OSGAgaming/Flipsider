@@ -46,7 +46,7 @@ namespace FlipEngine
 
         public bool CheckActivity()
         {
-            Point PlayerChunkPos = FlipGame.World.tileManager.ToChunkCoords(FlipGame.Camera.Position.ToPoint());
+            Point PlayerChunkPos = TileManager.ToChunkCoords(FlipGame.Camera.Position.ToPoint());
             return true;          
         }
         public void Serialize(Stream stream)

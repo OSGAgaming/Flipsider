@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace FlipEngine
@@ -12,96 +13,155 @@ namespace FlipEngine
         ConvexPoly,
         Line
     }
-    public partial class Collideable : IEntityModifier,ILayeredComponent
+    public partial class Collideable : IEntityModifier, ILayeredComponent
     {
-        public Polygon CustomPolyCollide = Polygon.Null;
-        public Entity BindableEntity;
-        public bool HasBindableEntity;
-        public bool OnSlope;
+        public Polygon Polygon = Polygon.Null;
+        public Entity? BindableEntity;
         public PolyType PolyType;
-        public bool Collides;
         public CollisionInfo collisionInfo;
-        public RectangleF CustomHitBox;
 
-        private Rectangle r => HasBindableEntity ? BindableEntity.CollisionFrame : CustomHitBox.ToR();
-        public Polygon collisionBox => CustomPolyCollide.Center == Vector2.Zero ? r.ToPolygon() : CustomPolyCollide;
-        public Polygon lastCollisionBox => BindableEntity.PreCollisionFrame.ToPolygon();
+        public Polygon lastCollisionBox => BindableEntity?.PreCollisionFrame.ToPolygon() ?? Polygon.Null;
 
         public bool isStatic;
-        internal void BindEntityToCollideable(Entity entity) =>
-            BindableEntity = entity;
 
+        public Vector2 Offset { get; set; }
+
+        AABBCollisionSet? CollisionSet { get; set; }
+        List<Collideable> CollideablesFromSet { get; set; }
+        public List<Collideable> GetCollideables()
+        {
+            if (CollisionSet != null && BindableEntity != null)
+            {
+                List<Collideable> col = new List<Collideable>();
+
+                foreach (RectangleF rF in CollisionSet.AABBs)
+                {
+                    Rectangle colFrame = BindableEntity.CollisionFrame;
+
+                    RectangleF processedRectangle = new RectangleF(
+                        BindableEntity.Position.X + colFrame.Width * rF.x,
+                        BindableEntity.Position.Y + colFrame.Height * rF.y,
+                        BindableEntity.Size.X * rF.width,
+                        BindableEntity.Size.Y * rF.height);
+                    col.Add(new Collideable(BindableEntity, isStatic, processedRectangle.ToPolygon()));
+                }
+
+                return col;
+            }
+            return new List<Collideable>();
+        }
         public void Update(in Entity entity)
         {
-            if (!entity.Active && HasBindableEntity)
+            if (BindableEntity != null)
             {
-                entity.Chunk.Colliedables.collideables.Remove(this);
-            }
-            if (!isStatic && entity is LivingEntity)
-            {
-                LivingEntity LivingEntity = (LivingEntity)entity;
-                LivingEntity.onSlope = false;
-                LivingEntity.onGround = false;
-                LivingEntity.isColliding = false;
+                if (!isStatic) Logger.NewText(Offset);
 
-                foreach (Chunk chunk in FlipGame.World.tileManager.chunks)
+                if (CollisionSet == null)
                 {
-                    if(chunk.Active)
+                    Polygon.Center = BindableEntity.Center + Offset;
+                }
+                else
+                {
+                    for (int i = 0; i < CollideablesFromSet.Count; i++)
                     {
-                        foreach (Collideable collideable2 in chunk.Colliedables.collideables)
+                        Entity? cEntity = CollideablesFromSet[i].BindableEntity;
+                        if (cEntity != null) CollideablesFromSet[i].Polygon.Center = cEntity.Center + CollideablesFromSet[i].Offset;
+                    }
+                }
+
+                if (!isStatic && entity is LivingEntity)
+                {
+                    LivingEntity LivingEntity = (LivingEntity)entity;
+                    LivingEntity.onSlope = false;
+                    LivingEntity.onGround = false;
+                    LivingEntity.isColliding = false;
+
+                    foreach (Chunk chunk in FlipGame.GetActiveChunks())
+                    {
+                        if (chunk.Active)
                         {
-                            if (collideable2.BindableEntity.InFrame)
+                            foreach (Collideable collideable2 in chunk.Colliedables.collideables)
                             {
-                                if (collideable2.PolyType == PolyType.ConvexPoly && PolyType == PolyType.Rectangle)
+                                if (collideable2.BindableEntity != null)
                                 {
-                                    RectVPoly(this, collideable2);
+                                    if (collideable2.BindableEntity.InFrame)
+                                    {
+                                        if (collideable2.PolyType == PolyType.ConvexPoly)
+                                        {
+                                            RectVPoly(this, collideable2);
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        foreach (Collideable collideable2 in chunk.Colliedables.collideables)
-                        {
-                            if (collideable2.BindableEntity.InFrame)
+                            foreach (Collideable collideable2 in chunk.Colliedables.collideables)
                             {
-                                if (collideable2.PolyType == PolyType.Rectangle && PolyType == PolyType.Rectangle && !LivingEntity.onSlope)
+                                if (collideable2.BindableEntity != null)
                                 {
-                                    if (collideable2.r.Intersects(new Rectangle(r.Location - new Point(50, 50), r.Size + new Point(100, 100))))
-                                        RectVRect(this, collideable2);
+                                    if (!LivingEntity.onSlope && collideable2.BindableEntity.InFrame)
+                                    {
+                                        if (collideable2.CollisionSet == null)
+                                        {
+                                            if (collideable2.PolyType == PolyType.Rectangle)
+                                            {
+                                                RectVRect(this, collideable2);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (int i = 0; i < collideable2.CollideablesFromSet.Count; i++)
+                                            {
+                                                RectVRect(collideable2.CollideablesFromSet[i], collideable2);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
             }
         }
+
         public void Dispose()
         {
-            BindableEntity.Chunk.Colliedables.collideables.Remove(this);
+            BindableEntity?.Chunk.Colliedables.collideables.Remove(this);
             FlipGame.layerHandler.Layers[Layer].Drawables.Remove(this);
+
+            if (BindableEntity != null)
+            {
+                BindableEntity.Chunk.Colliedables.collideables.Remove(this);
+
+                foreach (Collideable c in CollideablesFromSet)
+                {
+                    if (BindableEntity.Chunk.Colliedables.collideables.Contains(c))
+                        BindableEntity.Chunk.Colliedables.collideables.Remove(c);
+                }
+            }
+
+            if (CollideablesFromSet.Count > 0) CollideablesFromSet.Clear();
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            collisionBox.Draw();
+            Polygon.Draw(PolyType == PolyType.Rectangle ? Color.Green : Color.Purple);
         }
+
         public int Layer { get; set; }
-        public Collideable(Entity entity, bool isStatic, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
+
+        public Collideable(Entity? entity, bool isStatic, Polygon polygon, PolyType polyType = default, AABBCollisionSet? colSet = null)
         {
-            CustomHitBox = frame;
-            this.HasBindableEntity = HasBindableEntity;
             BindableEntity = entity;
             this.isStatic = isStatic;
+            Polygon = polygon;
             PolyType = polyType == default ? PolyType.Rectangle : polyType;
-            entity.Chunk.Colliedables.collideables.Add(this);
-        }
-        public Collideable(Entity entity, bool isStatic,Polygon polygon, bool HasBindableEntity = true, RectangleF frame = default, PolyType polyType = default)
-        {
-            CustomHitBox = frame;
-            this.HasBindableEntity = HasBindableEntity;
-            BindableEntity = entity;
-            this.isStatic = isStatic;
-            CustomPolyCollide = polygon;
-            PolyType = polyType == default ? PolyType.Rectangle : polyType;
-            entity.Chunk.Colliedables.collideables.Add(this);
+            entity?.Chunk.Colliedables.collideables.Add(this);
+
+            if (BindableEntity != null) Offset = polygon.Center - BindableEntity.Center;
+
+            CollisionSet = colSet;
+            CollideablesFromSet = GetCollideables();
+
+            FlipGame.AppendToLayer(this);
         }
     }
 }

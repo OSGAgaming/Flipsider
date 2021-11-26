@@ -28,7 +28,7 @@ namespace FlipEngine
         public override void CustomDrawToScreen()
         {
             var world = FlipGame.World;
-            var tileDict = FlipGame.tileManager.tileDict;
+            var tileDict = TileManager.tileDict;
             int tileRes = TileManager.tileRes;
 
             int modifiedRes = (int)(tileRes * FlipGame.Camera.Scale);
@@ -82,7 +82,7 @@ namespace FlipEngine
         }
         protected override void OnLoad()
         {
-            tilePanel = new TilePreviewPanel[FlipGame.tileManager.tileTypes.Count];
+            tilePanel = new TilePreviewPanel[TileManager.tileTypes.Count];
             if (tilePanel.Length != 0)
             {
                 for (int i = 0; i < tilePanel.Length; i++)

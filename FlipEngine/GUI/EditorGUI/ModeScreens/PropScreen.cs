@@ -10,104 +10,92 @@ using System.Linq;
 
 namespace FlipEngine
 {
+    public enum PropMode
+    {
+        PropSelect,
+        PropCollidable
+    }
     internal class PropScreen : ModeScreen
     {
         private PropPreviewPanel[]? propPanel;
-        private bool mousePressedRight = false;
-        private bool mousePressedMiddle = false;
-        Prop? chosenProp;
-        Vector2 cachedCenter;
-        Vector2 mouseCenter;
+        private PropCollideablePreview? propColPanel;
         public static string? CurrentProp;
-        public static bool CanPlace;
+        public static PropMode CurrentMode { get; set; }
+
         public override Mode Mode => Mode.Prop;
 
         public override int PreviewHeight
         {
             get
             {
-                if (propPanel != null)
+                if (propPanel != null && propColPanel != null)
+                {
+                    if (CurrentMode == PropMode.PropCollidable) return propColPanel.RelativeDimensions.Height;
                     return (propPanel.Length / 3) * 70 + 70;
+                }
                 else return 0;
             }
         }
+
+        public override int PreviewWidth
+        {
+            get
+            {
+                if (propColPanel != null && CurrentMode == PropMode.PropCollidable)
+                    return (propColPanel.RelativeDimensions.Width);
+                else return 0;
+            }
+        }
+
         public override void CustomDrawToScreen()
         {
             int alteredRes = FlipGame.World.TileRes / 4;
             Vector2 tilePoint2 = FlipGame.MouseToDestination().ToVector2().Snap(alteredRes);
 
-            if (CurrentProp != null)
+            if (CurrentProp != null && CurrentMode != PropMode.PropCollidable)
             {
                 Rectangle altFrame = PropManager.PropTypes[CurrentProp].Bounds;
-                FlipGame.spriteBatch.Draw(PropManager.PropTypes[CurrentProp], tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(Time.SineTime(6)), 0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
+                FlipGame.spriteBatch.Draw(PropManager.PropTypes[CurrentProp],
+                    tilePoint2 + new Vector2(alteredRes / 2), altFrame, Color.White * Math.Abs(Time.SineTime(6)),
+                    0f, altFrame.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public override void DrawToSelector(SpriteBatch sb)
         {
-            if (propPanel != null)
+            if (CurrentMode == PropMode.PropCollidable)
             {
-                for (int i = 0; i < propPanel.Length; i++)
+                propColPanel?.Draw(sb);
+                propColPanel?.Update();
+            }
+            else
+            {
+                if (propPanel != null)
                 {
-                    propPanel[i].Draw(sb);
-                    propPanel[i].Update();
+                    for (int i = 0; i < propPanel.Length; i++)
+                    {
+                        propPanel[i].Draw(sb);
+                        propPanel[i].Update();
+                    }
                 }
             }
         }
-
         public override void CustomUpdate()
         {
             Vector2 mousePos = FlipGame.MouseToDestination().ToVector2().Snap(2);
 
-            if (GameInput.Instance.JustClickingLeft && CanPlace)
+            if (GameInput.Instance.JustClickingLeft && Utils.MouseInBounds && CurrentMode != PropMode.PropCollidable)
             {
                 FlipGame.World.propManager.AddProp(CurrentProp ?? "", mousePos);
             }
-
-            if (Mouse.GetState().RightButton != ButtonState.Pressed)
-            {
-                chosenProp = null;
-
-                var Props = FlipGame.World.propManager.props;
-                for (int i = 0; i < Props.Count; i++)
-                {
-                    if (Props[i].CollisionFrame.Contains(FlipGame.MouseScreen))
-                    {
-                        chosenProp = Props[i];
-                    }
-                }
-
-            }
-
-            if (chosenProp != null)
-            {
-                Point size = PropManager.PropTypes[chosenProp.prop].Bounds.Size;
-                Rectangle rect = new Rectangle(chosenProp.ParallaxedCenter.ToPoint() - new Point(size.X / 2, size.Y / 2), size);
-                if (rect.Contains(FlipGame.MouseScreen))
-                {
-                    if (!mousePressedMiddle && Mouse.GetState().MiddleButton == ButtonState.Pressed)
-                    {
-                        chosenProp.Dispose();
-                    }
-                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                    {
-                        if (!mousePressedRight)
-                        {
-                            cachedCenter = chosenProp.Center;
-                            mouseCenter = FlipGame.MouseScreen.ToVector2();
-                        }
-                        chosenProp.Center = cachedCenter + (FlipGame.MouseScreen.ToVector2() - mouseCenter);
-                    }
-                }
-
-            }
-            mousePressedRight = Mouse.GetState().RightButton == ButtonState.Pressed;
-            mousePressedMiddle = Mouse.GetState().MiddleButton == ButtonState.Pressed;
-
-            CanPlace = true;
         }
+
         protected override void OnLoad()
         {
+            CurrentMode = PropMode.PropSelect;
+
             propPanel = new PropPreviewPanel[PropManager.PropTypes.Count];
+            propColPanel = new PropCollideablePreview(EditorModeGUI.ModePreview);
+
             if (propPanel.Length != 0)
             {
                 for (int i = 0; i < propPanel.Length; i++)
@@ -117,8 +105,6 @@ namespace FlipEngine
                 }
             }
         }
-
-        internal override void OnDrawToScreenDirect() { }
     }
 
     internal class PropPreviewPanel : PreviewElement
@@ -134,6 +120,7 @@ namespace FlipEngine
 
                 if (PropManager.PropTypes.Keys.ToArray()[Type] == PropScreen.CurrentProp)
                     Utils.DrawRectangle(RelativeDimensions, Color.Yellow * Time.SineTime(6));
+
                 spriteBatch.Draw(PropManager.PropTypes.Values.ToArray()[Type], RelativeDimensions, PropManager.PropTypes.Values.ToArray()[Type].Bounds, Color.White);
             }
         }
@@ -143,13 +130,114 @@ namespace FlipEngine
             PropScreen.CurrentProp = PropManager.PropTypes.Keys.ToArray()[Type];
         }
 
-        protected override void OnHover()
+        protected override void OnRightClick()
         {
-            PropScreen.CanPlace = false;
-        }
-        protected override void CustomUpdate()
-        {
+            PropScreen.CurrentProp = PropManager.PropTypes.Keys.ToArray()[Type];
+            PropCollideablePreview.AABBSets.Clear();
 
+            AABBCollisionSet buffer = new AABBCollisionSet();
+
+            string PropName = PropScreen.CurrentProp;
+            string Path = Utils.CollisionSetPath + PropName + ".abst";
+
+            if (File.Exists(Path))
+            {
+                Stream stream = File.OpenRead(Path);
+                AABBCollisionSet set = buffer.Deserialize(stream);
+
+                PropCollideablePreview.AABBSets = set.AABBs.ToList();
+            }
+
+            PropScreen.CurrentMode = PropMode.PropCollidable;
+        }
+    }
+
+    internal class PropCollideablePreview : PreviewElement
+    {
+        public PropCollideablePreview(ScrollPanel p) : base(p) { }
+        private readonly int GrideSize = 4;
+
+        public static List<RectangleF> AABBSets = new List<RectangleF>();
+        public Point Start;
+        public Point Size;
+
+        public void AddAABB(Rectangle r)
+        {
+            if (r.Width != 0 && r.Height != 0)
+            {
+                Rectangle rO = RelativeDimensions;
+                AABBSets.Add(new RectangleF(
+                    (r.X - rO.X) / (float)rO.Width,
+                    (r.Y - rO.Y) / (float)rO.Height,
+                    r.Width / (float)rO.Width,
+                    r.Height / (float)rO.Height));
+            }
+        }
+
+        public void SaveAABBSet()
+        {
+            AABBCollisionSet set = new AABBCollisionSet();
+            set.AABBs = AABBSets.ToHashSet();
+            string path = Utils.CollisionSetPath + PropScreen.CurrentProp + ".abst";
+            Stream stream = File.OpenWrite(path);
+
+            set.Serialize(stream);
+
+            Logger.NewText("Collision Set Saved at: " + path);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (PreviewPanel != null
+               && PropScreen.CurrentProp != null)
+            {
+                Point p = Mouse.GetState().Position.Sub(
+                    PreviewPanel.dimensions.Location).Add(
+                    new Point((int)PreviewPanel.ScrollValueX, (int)PreviewPanel.ScrollValueY));
+
+
+                if (GameInput.Instance.JustClickingLeft) Start = p;
+                if (GameInput.Instance.IsClicking) Size = p.Sub(Start);
+
+                Texture2D cPropTex = PropManager.PropTypes[PropScreen.CurrentProp];
+
+                Rectangle rO = RelativeDimensions;
+                RelativeDimensions = cPropTex.Bounds;
+
+                Rectangle r = new Rectangle(Start, Size).Snap(4);
+
+                spriteBatch.Draw(cPropTex, RelativeDimensions, cPropTex.Bounds, Color.White);
+
+                Utils.DrawRectangle(RelativeDimensions);
+
+                for (int i = RelativeDimensions.X; i < RelativeDimensions.Right; i += GrideSize)
+                {
+                    Utils.DrawLine(new Vector2(i, RelativeDimensions.Top), new Vector2(i, RelativeDimensions.Bottom), Color.FloralWhite * 0.2f, 1);
+                }
+
+                for (int i = RelativeDimensions.Y; i < RelativeDimensions.Bottom; i += GrideSize)
+                {
+                    Utils.DrawLine(new Vector2(RelativeDimensions.Left, i), new Vector2(RelativeDimensions.Right, i), Color.FloralWhite * 0.2f, 1);
+                }
+
+                if (GameInput.Instance.IsClicking) Utils.DrawRectangle(r, Color.Red, 2);
+
+                foreach (RectangleF rf in AABBSets)
+                {
+                    Utils.DrawRectangle(new RectangleF(
+                            rO.Location.Add(new Vector2(rf.x * rO.Width, rf.y * rO.Height)).ToVector2(),
+                            rO.Size.Dot(new Vector2(rf.width, rf.height)).ToVector2()), Color.Red, 2);
+                }
+
+                if (GameInput.Instance.JustReleasedLeft) AddAABB(r);
+                if (Flipsider.Utils.JustSaved) SaveAABBSet();
+
+            }
+        }
+
+        protected override void OnRightClick()
+        {
+            PropScreen.CurrentMode = PropMode.PropSelect;
         }
     }
 }

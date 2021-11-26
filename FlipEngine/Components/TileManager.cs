@@ -10,8 +10,8 @@ namespace FlipEngine
     public partial class TileManager : ISerializable<TileManager>
     {
         public const int tileRes = 32;
-        public List<Tile> tileTypes = new List<Tile>();
-        public Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
+        public static List<Tile> tileTypes = new List<Tile>();
+        public static Dictionary<int, Texture2D> tileDict = new Dictionary<int, Texture2D>();
         public Chunk[,] chunks;
         private Chunk voidChunk;
 
@@ -29,7 +29,7 @@ namespace FlipEngine
             //LoadTileTypes();
         }
 
-        public void AddTileType(int type, Texture2D atlas)
+        public static void AddTileType(int type, Texture2D atlas)
         {
             tileTypes.Add(new Tile(type, new Rectangle(0, 0, 32, 32)));
             tileDict.Add(type, atlas);
@@ -49,7 +49,8 @@ namespace FlipEngine
         }
         public Chunk GetChunk(Point pos)
         {
-            if (pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1))
+            if (pos.X < chunks.GetLength(0) && pos.Y < chunks.GetLength(1)
+                && pos.X >= 0 && pos.Y >= 0)
                 return chunks?[pos.X, pos.Y] ?? LoadChunk(pos);
 
             return LoadChunk(pos);
@@ -60,14 +61,14 @@ namespace FlipEngine
         }
         public Chunk GetChunkToWorldCoords(Vector2 pos)
         {
-            Point p = new Point((int)pos.X / 32, (int)pos.Y / 32);
+            Point p = new Point((int)pos.X / tileRes, (int)pos.Y / tileRes);
             return GetChunk(TileCoordsToChunkCoords(p)) ?? LoadChunk(TileCoordsToChunkCoords(p));
         }
-        public Point ToChunkCoords(Point pos)
+        public static Point ToChunkCoords(Point pos)
         {
-            return new Point(pos.X / (Chunk.width * 32), pos.Y / (Chunk.height * 32));
+            return new Point(pos.X / (Chunk.width * tileRes), pos.Y / (Chunk.height * tileRes));
         }
-        public Point TileCoordsToChunkCoords(Point pos)
+        public static Point TileCoordsToChunkCoords(Point pos)
         {
             return new Point(pos.X / Chunk.width, pos.Y / Chunk.height);
         }
@@ -75,6 +76,11 @@ namespace FlipEngine
         {
             var Chunk = GetChunk(TileCoordsToChunkCoords(pos));
             return Chunk.tiles[pos.X % Chunk.width, pos.Y % Chunk.height];
+        }
+        public Tile GetTileFromWorldCoords(Vector2 pos)
+        {
+            var Chunk = GetChunk(TileCoordsToChunkCoords((pos / tileRes).ToPoint()));
+            return Chunk.tiles[(int)pos.X / tileRes % Chunk.width, (int)pos.Y / tileRes % Chunk.height];
         }
         public Tile GetTile(int i, int j)
         {

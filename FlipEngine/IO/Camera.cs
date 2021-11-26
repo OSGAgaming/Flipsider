@@ -29,7 +29,7 @@ namespace FlipEngine
 
         public float LowerBound => Utils.BOTTOM - (TargetSize.Y / (float)(2 * Scale));
 
-        private const float Smoothing = 16;
+        protected const float Smoothing = 16;
 
         protected virtual void OnUpdateTransform() { }
 
@@ -57,7 +57,6 @@ namespace FlipEngine
 
             Scale += (targetScale - Scale) / Smoothing;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D)) Logger.NewText(Position);
             UpdateTransform();
         }
 

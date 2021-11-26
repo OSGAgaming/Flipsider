@@ -16,7 +16,6 @@ namespace FlipEngine
         public int MaxTilesY { get; private set; }
 
         public TileManager tileManager { get; set; }
-        public Manager<Water> WaterBodies { get; set; }
         public PropManager propManager { get; set; }
         public Skybox Skybox { get; set; }
 
@@ -33,11 +32,6 @@ namespace FlipEngine
                     for (int k = 0; k < tileManager.chunks[i, j].Entities.Count; k++)
                         tileManager.chunks[i, j].Entities[k].Dispose();
                 }
-            }
-            int propLength = propManager.props.Count;
-            for (int i = 0; i < propLength; i++)
-            {
-                propManager.props[i].Dispose();
             }
         }
         public bool IsTileActive(int i, int j)
@@ -72,9 +66,8 @@ namespace FlipEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            layerHandler.DrawLayers(spriteBatch);
             Skybox.Draw(spriteBatch);
-            FlipGame.Renderer.PrintRenderTarget(layerHandler.Target);
+            layerHandler.DrawLayers(spriteBatch);
 
             GlobalParticles.Draw(spriteBatch);
         }
@@ -85,7 +78,6 @@ namespace FlipEngine
             MaxTilesY = Height;
 
             tileManager = new TileManager(Width, Height);
-            WaterBodies = new Manager<Water>();
             propManager = new PropManager();
 
             Skybox = new Skybox();

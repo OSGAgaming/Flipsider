@@ -95,7 +95,6 @@ namespace FlipEngine
                 Add?.Draw(sb);
 
                 Utils.DrawBoxFill(new Rectangle(0, 0, FlipGame.Renderer.Destination.Width, 10), new Color(50, 50, 50), .1f);
-                Utils.DrawTextToLeft("Player Layer", Color.White, new Vector2(320, 7));
 
                 Utils.DrawTextToLeft("Plx", Color.White, new Vector2(77, 0), 0, 0.4f);
                 Utils.DrawTextToLeft("Sat", Color.White, new Vector2(190, 0), 0, 0.4f);
@@ -199,7 +198,7 @@ namespace FlipEngine
                 Utils.DrawTextToLeft(FlipGame.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40) * 0.2f, Mouse.GetState().Position.ToVector2());
                 if (PreviewPanel != null)
                 {
-                    Utils.DrawRectangle(new Rectangle(0, MouseLayer * 20 + 10 - (int)PreviewPanel.ScrollValue, 128, 20).AddPos(PreviewPanel.dimensions.Location), Color.Blue * Alpha);
+                    Utils.DrawRectangle(new Rectangle(0, MouseLayer * 20 + 10 - (int)PreviewPanel.ScrollValueY, 128, 20).AddPos(PreviewPanel.dimensions.Location), Color.Blue * Alpha);
                 }
             }
         }
@@ -228,7 +227,7 @@ namespace FlipEngine
 
             if (PreviewPanel != null)
             {
-                MouseLayer = ((state.Y - PreviewPanel.dimensions.Location.Y) - 10 + (int)PreviewPanel.ScrollValue) / 20;
+                MouseLayer = ((state.Y - PreviewPanel.dimensions.Location.Y) - 10 + (int)PreviewPanel.ScrollValueY) / 20;
 
                 if (state.LeftButton != ButtonState.Pressed && isBeingPicked)
                 {

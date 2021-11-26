@@ -46,42 +46,6 @@ namespace FlipEngine
                 onGround = true;
                 velocity.Y = 0;
             }
-        }
-        public override void OnUpdateInEditor()
-        {
-            if (isDraggable && Layer == LayerHandler.CurrentLayer)
-                CheckDrag();
-            else
-                isDragging = false;
-        }
-        public void CheckDrag()
-        {
-            if (mouseOverlap && !mousePressed && !isDragging)
-            {
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                {
-                    offsetFromMouseWhileDragging = FlipGame.MouseScreen.ToVector2() - Center;
-                    isDragging = true;
-                }
-            }
-            if (isDragging)
-            {
-                Center = FlipGame.MouseScreen.ToVector2() + offsetFromMouseWhileDragging;
-                velocity = Vector2.Zero;
-                if (Mouse.GetState().LeftButton != ButtonState.Pressed)
-                {
-                    isDragging = false;
-                }
-            }
-
-            mousePressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
-        }
-        public void DrawConstant(SpriteBatch spriteBatch) //for stuff that really shouldn't be overridden
-        {
-            if (isDraggable && mouseOverlap && !mousePressed && !isDragging)
-            {
-                Utils.DrawRectangle(CollisionFrame, Color.White, 3);
-            }
-        }
+        }  
     }
 }

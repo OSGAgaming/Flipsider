@@ -35,7 +35,7 @@ namespace FlipEngine
                     FlipGame.graphics?.GraphicsDevice.Clear(Color.Transparent);
 
                     sb.End();
-                    sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: FlipGame.Camera?.Transform, samplerState: SamplerState.PointClamp);
+                    sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: null, samplerState: SamplerState.PointClamp);
 
                     foreach (KeyValuePair<string, MapPass> Map in MapPasses)
                     {
@@ -49,12 +49,15 @@ namespace FlipEngine
 
                     if (FlipGame.graphics != null && FlipGame.Camera != null)
                     {
-                        Rectangle frame = new Rectangle(0, 0, 2560, 1440);
-                        sb.Draw(rT, FlipGame.Camera.TransformPosition, frame, Color.White, 0f, Vector2.Zero, new Vector2(1 / FlipGame.ScreenScale, 1 / FlipGame.ScreenScale), SpriteEffects.None, 0f);
+                        Rectangle frame = new Rectangle(0, 0, 
+                            (int)(FlipGame.Renderer.MaxResolution.X), 
+                            (int)(FlipGame.Renderer.MaxResolution.Y));
+
+                        sb.Draw(rT, Vector2.Zero, frame, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
                     }
 
                     sb.End();
-                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: FlipGame.Camera?.Transform, samplerState: SamplerState.PointClamp);
+                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: null, samplerState: SamplerState.PointClamp);
                 }
                 return Buffers[Buffers.Count - 1];
             }

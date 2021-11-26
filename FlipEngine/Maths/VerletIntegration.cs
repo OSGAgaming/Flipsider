@@ -5,23 +5,29 @@ using System.Collections.Generic;
 
 namespace FlipEngine
 {
-    public class Verlet : ILoadUpdate
+    public class Verlet : IUpdate
     {
+        public static Verlet Instance;
+
         public Verlet()
         {
+            FlipE.Updateables.Add(this);
         }
 
-        private readonly float _gravity = 0.5f;
-        private readonly float _bounce = 0.9f;
-        private readonly float _AR = 0.99f;
-        private readonly int _fluff = 1;
+        static Verlet()
+        {
+            Instance = new Verlet();
+        }
+
+        private float _gravity => 0.08f;
+        private float _AR => 0.85f;
         private readonly float bounce = 0.9f;
         public List<Stick> stickPoints = new List<Stick>();
         public List<Point> points = new List<Point>();
-        public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
+        public int CreateVerletPoint(Vector2 pos, bool isStatic = false, bool bindToLast = false)
         {
             points.Add(new Point(pos, pos - new Vector2(FlipE.rand.Next(-10, 10), FlipE.rand.Next(-10, 10)), isStatic));
-
+            if (bindToLast) BindPoints(points.Count - 1, points.Count - 2);
             return points.Count - 1;
         }
 
@@ -103,7 +109,7 @@ namespace FlipEngine
             for (int i = 0; i < 5; i++)
             {
                 UpdateSticks();
-                ConstrainPoints();
+                //ConstrainPoints();
             }
         }
 

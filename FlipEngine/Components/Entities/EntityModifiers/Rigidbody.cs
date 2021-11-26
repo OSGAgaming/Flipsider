@@ -36,6 +36,8 @@ namespace FlipEngine
                 }
            }
         }
+
+        public void Dispose() { }
         public int Layer { get; set; }
         public RigidBody(Entity entity, float mass)
         {
