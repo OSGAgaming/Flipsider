@@ -222,7 +222,6 @@ namespace Flipsider.Weapons
             framewidth = Width;
             Height = 20;
             Texture = TextureCache.magicPixel;
-            Collides = true;
             noGravity = true;
             noAirResistance = true;
             TileCollide = true;

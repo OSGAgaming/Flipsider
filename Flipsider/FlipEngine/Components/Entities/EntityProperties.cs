@@ -11,7 +11,7 @@ namespace FlipEngine
 {
     public abstract partial class Entity : IComponent, ILayeredComponentActive, ISerializable<Entity>
     {
-        public Rectangle CollisionFrame => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+        public RectangleF CollisionFrame => new RectangleF(Position, new Vector2(Width, Height));
         public Rectangle PreCollisionFrame => new Rectangle((int)OldPosition.X, (int)OldPosition.Y, Width, Height);
         public Point ChunkPosition => TileManager.ToChunkCoords(Position.ToPoint());
         public Point OldChunkPosition => TileManager.ToChunkCoords(OldPosition.ToPoint());

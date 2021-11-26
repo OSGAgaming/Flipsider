@@ -41,8 +41,8 @@ namespace FlipEngine
                     RectangleF processedRectangle = new RectangleF(
                         BindableEntity.Position.X + colFrame.Width * rF.x,
                         BindableEntity.Position.Y + colFrame.Height * rF.y,
-                        BindableEntity.Size.X * rF.w,
-                        BindableEntity.Size.Y * rF.h);
+                        BindableEntity.Size.X * rF.width,
+                        BindableEntity.Size.Y * rF.height);
                     col.Add(new Collideable(BindableEntity, isStatic, processedRectangle.ToPolygon()));
                 }
 

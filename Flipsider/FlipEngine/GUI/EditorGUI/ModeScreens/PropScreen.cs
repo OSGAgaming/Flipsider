@@ -226,7 +226,7 @@ namespace FlipEngine
                 {
                     Utils.DrawRectangle(new RectangleF(
                             rO.Location.Add(new Vector2(rf.x * rO.Width, rf.y * rO.Height)).ToVector2(),
-                            rO.Size.Dot(new Vector2(rf.w, rf.h)).ToVector2()), Color.Red, 2);
+                            rO.Size.Dot(new Vector2(rf.width, rf.height)).ToVector2()), Color.Red, 2);
                 }
 
                 if (GameInput.Instance.JustReleasedLeft) AddAABB(r);

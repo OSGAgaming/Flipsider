@@ -20,7 +20,6 @@ namespace Flipsider
             Position = Main.player.Position;
             Texture = TextureCache.GreenSlime;
             hostile = true;
-            Collides = true;
         }
         protected override void PreDraw(SpriteBatch spriteBatch)
         {

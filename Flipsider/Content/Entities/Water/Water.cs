@@ -88,7 +88,7 @@ namespace Flipsider
                         if (Entity is LivingEntity)
                         {
                             LivingEntity entity = (LivingEntity)Entity;
-                            float preContact = entity.CollisionFrame.Bottom - entity.velocity.Y * entity.velocity.Y;
+                            float preContact = entity.CollisionFrame.bottom - entity.velocity.Y * entity.velocity.Y;
                             if (preContact < frame.Y && entity.Wet && frame.Intersects(entity.CollisionFrame))
                                 SplashPerc((entity.Center.X - frame.X) / frame.Width, new Vector2(entity.velocity.X / 4, entity.velocity.Y * 2));
                             if (entity.Wet && frame.Intersects(entity.CollisionFrame))

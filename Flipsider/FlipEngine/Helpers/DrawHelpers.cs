@@ -133,8 +133,8 @@ namespace FlipEngine
             if (color == default) color = Color.White;
 
             Vector2 point = rectangle.TL;
-            float sizeX = rectangle.w;
-            float sizeY = rectangle.h;
+            float sizeX = rectangle.width;
+            float sizeY = rectangle.height;
             DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X, point.Y + sizeY), color, thickness);
             DrawLine(new Vector2(point.X + sizeX, point.Y + sizeY), new Vector2(point.X + sizeX, point.Y), color, thickness);
             DrawLine(point, new Vector2(point.X, point.Y + sizeY), color, thickness);

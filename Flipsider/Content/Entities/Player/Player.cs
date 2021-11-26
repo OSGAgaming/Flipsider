@@ -43,7 +43,6 @@ namespace Flipsider
             Height = 60;
             framewidth = 48;
             noGravity = false;
-            Collides = true;
             this.Active = Active;
         }
         public Player() : base()
@@ -56,7 +55,6 @@ namespace Flipsider
             Height = 60;
             framewidth = 48;
             noGravity = false;
-            Collides = true;
         }
         public override void Dispose()
         {

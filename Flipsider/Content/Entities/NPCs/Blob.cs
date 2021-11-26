@@ -17,7 +17,6 @@ namespace Flipsider
             Position = Main.player.Position;
             Texture = TextureCache.Blob;
             hostile = true;
-            Collides = true;
         }
 
         protected override void AI()

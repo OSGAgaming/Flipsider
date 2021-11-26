@@ -52,7 +52,7 @@ namespace FlipEngine
         }
         public Vector2 Center;
         public int numberOfPoints;
-        public static Polygon Null => new Polygon(new Vector2[] { },Vector2.Zero);
+        public static Polygon Null => new Polygon(new Vector2[] { }, Vector2.Zero);
         public Rectangle Rectangle
         {
             get
@@ -242,7 +242,7 @@ namespace FlipEngine
 
         public static Rectangle ToR(this RectangleF x)
         {
-            return new Rectangle((int)x.x, (int)x.y, (int)x.w, (int)x.h);
+            return new Rectangle((int)x.x, (int)x.y, (int)x.width, (int)x.height);
         }
 
         public static Polygon Add(this Polygon x, Vector2[] y)
@@ -255,6 +255,13 @@ namespace FlipEngine
             x.points = points;
             return x;
         }
+
+        public static bool Intersects(this RectangleF r1, RectangleF r2) => r1.x < r2.right && r1.right > r2.x && r1.y > r2.bottom && r1.bottom < r2.y;
+
+        public static bool Contains(this RectangleF r, Vector2 v) => v.X > r.x && v.Y > r.y && v.X < r.right && v.Y < r.bottom;
+
+        public static bool Contains(this RectangleF r, Point p) => p.X > r.x && p.Y > r.y && p.X < r.right && p.Y < r.bottom;
+
         public static Polygon ToPolygon(this Rectangle r)
         {
             Vector2[] points = {new Vector2(-r.Width / 2, -r.Height / 2),
@@ -265,10 +272,10 @@ namespace FlipEngine
         }
         public static Polygon ToPolygon(this RectangleF r)
         {
-            Vector2[] points = {new Vector2(-r.w / 2, -r.h / 2),
-              new Vector2(r.w / 2, -r.h / 2),
-              new Vector2(r.w / 2, r.h / 2),
-              new Vector2(-r.w / 2, r.h / 2)};
+            Vector2[] points = {new Vector2(-r.width / 2, -r.height / 2),
+              new Vector2(r.width / 2, -r.height / 2),
+              new Vector2(r.width / 2, r.height / 2),
+              new Vector2(-r.width / 2, r.height / 2)};
             return new Polygon(points, r.Center);
         }
 
@@ -298,8 +305,8 @@ namespace FlipEngine
                 }
             }
 
-            
-            return new CollisionInfo(v,b);
+
+            return new CollisionInfo(v, b);
         }
         public static CollisionInfo SAT(Polygon shape1, Polygon shape2)
         {
@@ -331,7 +338,7 @@ namespace FlipEngine
                     }
                     overlap = Math.Min(Math.Min(bMax, aMax) - Math.Max(bMin, aMin), overlap);
                     if (!(bMax >= aMin && aMax >= bMin))
-                        return new CollisionInfo(Vector2.Zero,Bound.None);
+                        return new CollisionInfo(Vector2.Zero, Bound.None);
                 }
             }
             Vector2 disp = shape2.Center - shape1.Center;
