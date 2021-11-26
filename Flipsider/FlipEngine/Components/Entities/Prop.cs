@@ -14,15 +14,40 @@ namespace FlipEngine
         public byte[] PropEncode;
         public PropEntity? PE;
 
+        Collideable? CollisionSet { get; set; }
+
         public override void Dispose()
         {
+            foreach(IEntityModifier iem in UpdateModules.Values)
+            {
+                iem.Dispose();
+            }
+
+            CollisionSet?.Dispose();
+
             FlipGame.World.layerHandler.Layers[Layer].Drawables.Remove(this);
             UpdateModules.Clear();
             Chunk.Entities.Remove(this);
             Active = false;
         }
 
-        protected override void PostConstructor() => PE?.PostLoad(this);
+        protected override void PostConstructor()
+        {
+            PE?.PostLoad(this);
+
+            AABBCollisionSet buffer = new AABBCollisionSet();
+
+            string PropName = Encoding.UTF8.GetString(PropEncode);
+            string Path = Utils.CollisionSetPath + PropName + ".abst";
+
+            if (File.Exists(Path))
+            {
+                Stream stream = File.OpenRead(Path);
+                Chunk chunk = FlipGame.tileManager.GetChunkToWorldCoords(Position);
+
+                CollisionSet = chunk.Colliedables.AddCustomHitBox(this, true, Polygon.Null, buffer.Deserialize(stream));
+            }
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -43,7 +68,9 @@ namespace FlipEngine
 
             Utils.DrawToMap("LightingOcclusionMap", (SpriteBatch sb) => sb.Draw(PropTypes[prop], Center, r, 
                 Color.White, 0f, r.Size.ToVector2() / 2, 1f, SpriteEffects.None, 0f));
+
             PE?.Update(this);
+            CollisionSet?.Update(this);
         }
 
 

@@ -28,17 +28,31 @@ namespace FlipEngine
         {
             get
             {
-                if (propPanel != null)
+                if (propPanel != null && propColPanel != null)
+                {
+                    if (CurrentMode == PropMode.PropCollidable) return propColPanel.RelativeDimensions.Height;
                     return (propPanel.Length / 3) * 70 + 70;
+                }
                 else return 0;
             }
         }
+
+        public override int PreviewWidth
+        {
+            get
+            {
+                if (propColPanel != null && CurrentMode == PropMode.PropCollidable)
+                    return (propColPanel.RelativeDimensions.Width);
+                else return 0;
+            }
+        }
+
         public override void CustomDrawToScreen()
         {
             int alteredRes = FlipGame.World.TileRes / 4;
             Vector2 tilePoint2 = FlipGame.MouseToDestination().ToVector2().Snap(alteredRes);
 
-            if (CurrentProp != null)
+            if (CurrentProp != null && CurrentMode != PropMode.PropCollidable)
             {
                 Rectangle altFrame = PropManager.PropTypes[CurrentProp].Bounds;
                 FlipGame.spriteBatch.Draw(PropManager.PropTypes[CurrentProp],
@@ -69,7 +83,7 @@ namespace FlipEngine
         {
             Vector2 mousePos = FlipGame.MouseToDestination().ToVector2().Snap(2);
 
-            if (GameInput.Instance.JustClickingLeft && Utils.MouseInBounds)
+            if (GameInput.Instance.JustClickingLeft && Utils.MouseInBounds && CurrentMode != PropMode.PropCollidable)
             {
                 FlipGame.World.propManager.AddProp(CurrentProp ?? "", mousePos);
             }
@@ -119,6 +133,21 @@ namespace FlipEngine
         protected override void OnRightClick()
         {
             PropScreen.CurrentProp = PropManager.PropTypes.Keys.ToArray()[Type];
+            PropCollideablePreview.AABBSets.Clear();
+
+            AABBCollisionSet buffer = new AABBCollisionSet();
+
+            string PropName = PropScreen.CurrentProp;
+            string Path = Utils.CollisionSetPath + PropName + ".abst";
+
+            if (File.Exists(Path))
+            {
+                Stream stream = File.OpenRead(Path);
+                AABBCollisionSet set = buffer.Deserialize(stream);
+
+                PropCollideablePreview.AABBSets = set.AABBs.ToList();
+            }
+
             PropScreen.CurrentMode = PropMode.PropCollidable;
         }
     }
@@ -128,7 +157,9 @@ namespace FlipEngine
         public PropCollideablePreview(ScrollPanel p) : base(p) { }
         private readonly int GrideSize = 4;
 
-        public List<RectangleF> AABBSets = new List<RectangleF>();
+        public static List<RectangleF> AABBSets = new List<RectangleF>();
+        public Point Start;
+        public Point Size;
 
         public void AddAABB(Rectangle r)
         {
@@ -136,9 +167,9 @@ namespace FlipEngine
             {
                 Rectangle rO = RelativeDimensions;
                 AABBSets.Add(new RectangleF(
-                    (r.X - rO.X) / (float)rO.Width, 
-                    (r.Y - rO.Y) / (float)rO.Height, 
-                    r.Width / (float)rO.Width, 
+                    (r.X - rO.X) / (float)rO.Width,
+                    (r.Y - rO.Y) / (float)rO.Height,
+                    r.Width / (float)rO.Width,
                     r.Height / (float)rO.Height));
             }
         }
@@ -160,26 +191,36 @@ namespace FlipEngine
             if (PreviewPanel != null
                && PropScreen.CurrentProp != null)
             {
+                Point p = Mouse.GetState().Position.Sub(
+                    PreviewPanel.dimensions.Location).Add(
+                    new Point((int)PreviewPanel.ScrollValueX, (int)PreviewPanel.ScrollValueY));
+
+
+                if (GameInput.Instance.JustClickingLeft) Start = p;
+                if (GameInput.Instance.IsClicking) Size = p.Sub(Start);
+
                 Texture2D cPropTex = PropManager.PropTypes[PropScreen.CurrentProp];
 
                 Rectangle rO = RelativeDimensions;
                 RelativeDimensions = cPropTex.Bounds;
 
-                Rectangle r = GameInput.Instance.ScreenDragArea.MinusPos(PreviewPanel.dimensions.Location).Snap(4);
+                Rectangle r = new Rectangle(Start, Size).Snap(4);
+
+                spriteBatch.Draw(cPropTex, RelativeDimensions, cPropTex.Bounds, Color.White);
 
                 Utils.DrawRectangle(RelativeDimensions);
 
                 for (int i = RelativeDimensions.X; i < RelativeDimensions.Right; i += GrideSize)
                 {
-                    Utils.DrawLine(new Vector2(i, RelativeDimensions.Top), new Vector2(i, RelativeDimensions.Bottom), Color.Yellow);
+                    Utils.DrawLine(new Vector2(i, RelativeDimensions.Top), new Vector2(i, RelativeDimensions.Bottom), Color.FloralWhite * 0.2f, 1);
                 }
 
                 for (int i = RelativeDimensions.Y; i < RelativeDimensions.Bottom; i += GrideSize)
                 {
-                    Utils.DrawLine(new Vector2(RelativeDimensions.Left, i), new Vector2(RelativeDimensions.Right, i), Color.Yellow);
+                    Utils.DrawLine(new Vector2(RelativeDimensions.Left, i), new Vector2(RelativeDimensions.Right, i), Color.FloralWhite * 0.2f, 1);
                 }
 
-                Utils.DrawRectangle(r, Color.Red, 2);
+                if (GameInput.Instance.IsClicking) Utils.DrawRectangle(r, Color.Red, 2);
 
                 foreach (RectangleF rf in AABBSets)
                 {
@@ -191,7 +232,6 @@ namespace FlipEngine
                 if (GameInput.Instance.JustReleasedLeft) AddAABB(r);
                 if (Flipsider.Utils.JustSaved) SaveAABBSet();
 
-                spriteBatch.Draw(cPropTex, RelativeDimensions, cPropTex.Bounds, Color.White);
             }
         }
 

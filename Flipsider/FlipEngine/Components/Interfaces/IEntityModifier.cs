@@ -2,7 +2,7 @@
 
 namespace FlipEngine
 {
-    public interface IEntityModifier
+    public interface IEntityModifier : IDisposable
     {
         public void Update(in Entity entity);
     }

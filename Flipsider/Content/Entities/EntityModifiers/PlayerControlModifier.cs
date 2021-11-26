@@ -155,6 +155,8 @@ namespace Flipsider.Engine.Maths
             player.velocity.Y = Math.Clamp(player.velocity.Y, -maxSpeedY, maxSpeedY);
         }
 
+        public void Dispose() { }
+
         public PlayerMovement(Player player)
         {
             this.player = player;

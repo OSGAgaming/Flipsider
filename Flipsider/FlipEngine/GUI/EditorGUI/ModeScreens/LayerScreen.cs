@@ -198,7 +198,7 @@ namespace FlipEngine
                 Utils.DrawTextToLeft(FlipGame.layerHandler.GetLayer(Layer).Name ?? " ", new Color(40, 40, 40) * 0.2f, Mouse.GetState().Position.ToVector2());
                 if (PreviewPanel != null)
                 {
-                    Utils.DrawRectangle(new Rectangle(0, MouseLayer * 20 + 10 - (int)PreviewPanel.ScrollValue, 128, 20).AddPos(PreviewPanel.dimensions.Location), Color.Blue * Alpha);
+                    Utils.DrawRectangle(new Rectangle(0, MouseLayer * 20 + 10 - (int)PreviewPanel.ScrollValueY, 128, 20).AddPos(PreviewPanel.dimensions.Location), Color.Blue * Alpha);
                 }
             }
         }
@@ -227,7 +227,7 @@ namespace FlipEngine
 
             if (PreviewPanel != null)
             {
-                MouseLayer = ((state.Y - PreviewPanel.dimensions.Location.Y) - 10 + (int)PreviewPanel.ScrollValue) / 20;
+                MouseLayer = ((state.Y - PreviewPanel.dimensions.Location.Y) - 10 + (int)PreviewPanel.ScrollValueY) / 20;
 
                 if (state.LeftButton != ButtonState.Pressed && isBeingPicked)
                 {

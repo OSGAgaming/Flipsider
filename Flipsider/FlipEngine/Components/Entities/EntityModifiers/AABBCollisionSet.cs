@@ -15,7 +15,9 @@ namespace FlipEngine
             BinaryReader binaryReader = new BinaryReader(stream);
             HashSet<RectangleF> temp = new HashSet<RectangleF>();
 
-            for (int i = 0; i < binaryReader.ReadInt32(); i++)
+            int count = binaryReader.ReadInt32();
+
+            for (int i = 0; i < count; i++)
             {
                 temp.Add(binaryReader.ReadRectF());
             }

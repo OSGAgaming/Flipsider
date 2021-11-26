@@ -295,5 +295,6 @@ namespace Flipsider
                 else RightArmPrims.Draw(sb);
             }
         }
+        public void Dispose() { }
     }
 }

@@ -195,7 +195,7 @@ namespace FlipEngine
             if (ScrollParent != null)
             {
                 Point p = ScrollParent.dimensions.Location;
-                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)ScrollParent.ScrollValue);
+                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)ScrollParent.ScrollValueY);
 
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);
             }
@@ -248,7 +248,7 @@ namespace FlipEngine
             if (Parent != null)
             {
                 Point p = Parent.dimensions.Location;
-                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)Parent.ScrollValue);
+                Point Position = new Point(p.X + RelativeDimensions.X - (int)Parent.ScrollValueX, p.Y + RelativeDimensions.Y - (int)Parent.ScrollValueY);
 
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);
             }
@@ -315,7 +315,7 @@ namespace FlipEngine
             if (ScrollParent != null)
             {
                 Point p = ScrollParent.dimensions.Location;
-                Point Position = new Point(p.X + RelativeDimensions.X, p.Y + RelativeDimensions.Y - (int)ScrollParent.ScrollValue);
+                Point Position = new Point(p.X + RelativeDimensions.X - (int)ScrollParent.ScrollValueX, p.Y + RelativeDimensions.Y - (int)ScrollParent.ScrollValueY);
 
                 dimensions = new Rectangle(Position, RelativeDimensions.Size);
             }

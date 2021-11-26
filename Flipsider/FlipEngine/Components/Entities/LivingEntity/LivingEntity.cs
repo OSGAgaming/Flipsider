@@ -59,7 +59,7 @@ namespace FlipEngine
         }
         protected override void PostConstructor()
         {
-            AddModule("Collision", new Collideable(this, false, CollisionFrame.ToPolygon()));
+            AddModule("Collision", new Collideable(this, false, new RectangleF(Position, new Vector2(Width, Height)).ToPolygon()));
             AddModule("RigidBody", new RigidBody(this, 1f));
             AddModule("Hitbox", new HitBox(this));
         }
@@ -94,13 +94,14 @@ namespace FlipEngine
 
                 UpdatePosition();
 
+                UpdateEntityModifier("Hitbox");
+
                 if (Collides && Active)
                     UpdateEntityModifier("Collision");
 
-                UpdateEntityModifier("Hitbox");
-
                 Constraints();
                 PostAI();
+
                 UpdateTrailCache();
             }
         }

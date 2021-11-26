@@ -24,11 +24,14 @@ namespace FlipEngine
 
                     collideable1.collisionInfo.AABB = CI.AABB;
                     collideable1.BindableEntity.Position += CI.d;
+
                     if (collideable1.BindableEntity is LivingEntity)
                     {
                         var LivingEntity = (LivingEntity)collideable1.BindableEntity;
                         if (CI.AABB != Bound.None)
                         {
+                            Logger.NewText("RVR");
+
                             switch (collideable1.collisionInfo.AABB)
                             {
                                 case (Bound.Top):
@@ -76,15 +79,17 @@ namespace FlipEngine
                             collideable2.Polygon, 100, collideable1.BindableEntity.Height / 2);
 
                         collideable1.collisionInfo.AABB = CI.AABB;
-
+                        
                         if (CI.AABB != Bound.None)
                         {
+                            Logger.NewText("RBP");
+
                             switch (collideable1.collisionInfo.AABB)
                             {
                                 case (Bound.Top):
                                     {
                                         LivingEntity.onGround = true;
-                                        //LivingEntity.onSlope = true;
+                                        LivingEntity.onSlope = true;
                                         LivingEntity.velocity.Y = 0;
                                         break;
                                     }

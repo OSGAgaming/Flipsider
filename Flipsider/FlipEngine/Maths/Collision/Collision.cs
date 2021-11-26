@@ -67,11 +67,27 @@ namespace FlipEngine
                 return Rectangle.Empty;
             }
         }
+
+        public bool IsRectangle
+        {
+            get
+            {
+                if (points.Length == 4)
+                {
+                    float dot1 = Vector2.Dot(varpoints[1] - varpoints[0], varpoints[1] - varpoints[2]);
+                    float dot2 = Vector2.Dot(varpoints[3] - varpoints[0], varpoints[3] - varpoints[2]);
+
+                    return dot1 == 0 && dot2 == 0;
+                }
+                return false;
+            }
+        }
+
         public void Draw(Color color = default)
         {
             for (int i = 0; i < points.Length; i++)
             {
-                Utils.DrawLine(varpoints[i], varpoints[(i + 1) % numberOfPoints],Color.Green,2);
+                Utils.DrawLine(varpoints[i], varpoints[(i + 1) % numberOfPoints], color, 2);
                 Utils.DrawLine(varpoints[i], Center, color, 2);
             }
         }

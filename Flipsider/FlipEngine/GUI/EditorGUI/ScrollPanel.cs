@@ -19,14 +19,23 @@ namespace FlipEngine
 
         RenderTarget2D PreviewTarget { get; set; }
 
-        public float ScrollValue;
-        public int ScrollRoom;
+        public float ScrollValueY;
+        public int ScrollRoomY;
+
+        public float ScrollValueX;
+        public int ScrollRoomX;
+
         public bool Active;
         private float BarAlpha;
 
         public float PreviewAlpha;
+
         public int PreviewHeight;
-        private float ScrollVelocity;
+        public int PreviewWidth;
+
+        private float ScrollVelocityY;
+
+        private float ScrollVelocityX;
 
         private float ScrollSpeed = 1;
         private int BarWidth = 20;
@@ -46,27 +55,41 @@ namespace FlipEngine
                 dimensions = new Rectangle(v, PreivewDimensions);
 
                 FlipGame.Renderer.AddTargetCall(PreviewTarget, CustomDrawDirect);
-                spriteBatch.Draw(PreviewTarget, new Rectangle(v, PreivewDimensions), new Rectangle(new Point(0, (int)ScrollValue), PreivewDimensions), Color.White * PreviewAlpha);
+                spriteBatch.Draw(PreviewTarget, new Rectangle(v, PreivewDimensions), new Rectangle(new Point((int)ScrollValueX, (int)ScrollValueY), PreivewDimensions), Color.White * PreviewAlpha);
 
                 PreviewAlpha = PreviewAlpha.ReciprocateTo(0);
 
                 if (Active)
                 {
                     int Height = PreviewHeight;
+                    int Width = PreviewWidth;
 
                     if (Height != 0)
-                        ScrollRoom = Math.Max(Height - PreivewDimensions.Y, 0);
-                    else ScrollRoom = 0;
+                        ScrollRoomY = Math.Max(Height - PreivewDimensions.Y, 0);
+                    else ScrollRoomY = 0;
 
-                    int Room = (int)(Math.Max(Height - PreivewDimensions.Y, 0) / (float)Height * PreivewDimensions.Y);
+                    if (Width != 0)
+                        ScrollRoomX = Math.Max(Width - PreivewDimensions.X, 0);
+                    else ScrollRoomX = 0;
+
+                    int RoomY = (int)(Math.Max(Height - PreivewDimensions.Y, 0) / (float)Height * PreivewDimensions.Y);
+
+                    int RoomX = (int)(Math.Max(Width - PreivewDimensions.X, 0) / (float)Width * PreivewDimensions.X);
 
                     Utils.DrawRectangle(dimensions, Color.White * Time.SineTime(4f) * PreviewAlpha);
 
                     Utils.DrawRectangle(new Rectangle(
                         dimensions.Right - BarWidth - Padding,
-                        dimensions.Y + Padding + (int)(ScrollValue * (PreivewDimensions.Y / (float)Height)),
+                        dimensions.Y + Padding + (int)(ScrollValueY * (PreivewDimensions.Y / (float)Height)),
                         BarWidth,
-                        dimensions.Height - Padding * 2 - Room),
+                        dimensions.Height - Padding * 2 - RoomY),
+                        Color.White * BarAlpha);
+
+                    Utils.DrawRectangle(new Rectangle(
+                        dimensions.X + Padding + (int)(ScrollValueX * (PreivewDimensions.X / (float)Width)),
+                        dimensions.Bottom - BarWidth - Padding,
+                        dimensions.Width - Padding * 2 - RoomX,
+                        BarWidth),
                         Color.White * BarAlpha);
                 }
             }
@@ -81,12 +104,20 @@ namespace FlipEngine
             {
                 BarAlpha += (1 - BarAlpha) / 16f;
 
-                ScrollVelocity -= GameInput.Instance.DeltaScroll * ScrollSpeed * 0.01f;
+                ScrollVelocityY -= GameInput.Instance.DeltaScroll * ScrollSpeed * 0.01f;
 
-                ScrollVelocity *= 0.8f;
-                ScrollValue += ScrollVelocity;
+                ScrollVelocityY *= 0.8f;
+                ScrollValueY += ScrollVelocityY;
 
-                ScrollValue = Math.Clamp(ScrollValue, 0, ScrollRoom);
+                ScrollValueY = Math.Clamp(ScrollValueY, 0, ScrollRoomY);
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Right)) ScrollVelocityX += ScrollSpeed;
+                if (Keyboard.GetState().IsKeyDown(Keys.Left)) ScrollVelocityX -= ScrollSpeed;
+
+                ScrollVelocityX *= 0.8f;
+                ScrollValueX += ScrollVelocityX;
+
+                ScrollValueX = Math.Clamp(ScrollValueX, 0, ScrollRoomX);
             }
 
             EditorModeGUI.CanZoom = false;

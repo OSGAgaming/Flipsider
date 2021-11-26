@@ -43,11 +43,6 @@ namespace Flipsider
 
             Active = true;
             Center = prop.Center;
-
-            chunk.Colliedables.AddCustomHitBox(this, true, new RectangleF(prop.Position - new Vector2(Girth), new Vector2(Size.X + Girth * 2, Girth)).ToPolygon());
-            chunk.Colliedables.AddCustomHitBox(this, true, new RectangleF(prop.Position - new Vector2(Girth), new Vector2(Girth, Size.Y + Girth * 2)).ToPolygon());
-            chunk.Colliedables.AddCustomHitBox(this, true, new RectangleF(prop.Position + new Vector2(0, Size.Y), new Vector2(Size.X + Girth, Girth)).ToPolygon());
-            chunk.Colliedables.AddCustomHitBox(this, true, new RectangleF(prop.Position + new Vector2(Size.X, 0), new Vector2(Girth, Size.Y + Girth)).ToPolygon());
         }
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {

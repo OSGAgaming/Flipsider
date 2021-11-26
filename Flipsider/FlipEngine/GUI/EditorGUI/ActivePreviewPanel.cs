@@ -36,6 +36,7 @@ namespace FlipEngine
                 if (Active)
                 {
                     PreviewHeight = EditorModeGUI.GetActiveScreen().PreviewHeight;
+                    PreviewWidth = EditorModeGUI.GetActiveScreen().PreviewWidth;
                 }
             }
             else
@@ -58,7 +59,10 @@ namespace FlipEngine
         protected override void CustomDrawDirect(SpriteBatch sb)
         {
             if (Screen != null)
+            {
                 PreviewHeight = Screen.PreviewHeight;
+                PreviewWidth = Screen.PreviewWidth;
+            }
 
             Screen?.DrawToBottomPanel(sb);
             if (EditorModeGUI.ModeScreens.ContainsKey(EditorModeGUI.mode)) EditorModeGUI.GetActiveScreen().DrawToBottomPanel(sb);

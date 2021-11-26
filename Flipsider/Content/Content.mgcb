@@ -2259,3 +2259,9 @@
 
 #begin CollisionSets/MediumTree_2.abst
 /copy:CollisionSets/MediumTree_2.abst
+
+#begin CollisionSets/Forest_ForestBigRockOne.abst
+/copy:CollisionSets/Forest_ForestBigRockOne.abst
+
+#begin CollisionSets/Room.abst
+/copy:CollisionSets/Room.abst

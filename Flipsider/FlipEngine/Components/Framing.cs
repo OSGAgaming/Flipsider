@@ -11,15 +11,18 @@ namespace FlipEngine
             Vector2 Left = GetSlantLeft(world, i, j);
             Vector2 Right = GetSlantRight(world, i, j);
 
+            Vector2 P1 = new Vector2(-16, -16) + Left;
+            Vector2 P2 = new Vector2(-16, -16) + Right;
+            Vector2 P3 = new Vector2(16, 16);
+            Vector2 P4 = new Vector2(-16, 16);
+
             return new Polygon(
                 new Vector2[] {
-                    new Vector2(-16, -16) + Left,
-                    new Vector2(-16, -16) + Right,
-                    new Vector2(16, 16),
-                    new Vector2(-16, 16) },
-                new Vector2(i * 32 + 16, j * 32 + 16));
-
-            return Polygon.Null;
+                    P1,
+                    P2,
+                    P3,
+                    P4 },
+                   new Vector2(i * 32 + 16, j * 32 + 16));
         }
         public static Vector2 GetSlantLeft(World world, int i, int j)
         {

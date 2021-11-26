@@ -31,7 +31,7 @@ namespace FlipEngine
                 if (!Surrounded && SurroundedBuffer)
                 {
                     Polygon CollisionPoly = Framing.GetPolygon(FlipGame.World, i, j);
-                    AddModule("Collision", new Collideable(this, true, CollisionPoly, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                    AddModule("Collision", new Collideable(this, true, CollisionPoly, CollisionPoly.IsRectangle ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
                 if (Surrounded && !SurroundedBuffer)
                 {
@@ -92,7 +92,8 @@ namespace FlipEngine
                 if (TileManager.CanPlace && FlipGame.tileManager.GetTile(i, j) != null)
                 {
                     Polygon CollisionPoly = Framing.GetPolygon(FlipGame.World, i, j);
-                    AddModule("Collision", new Collideable(this, true, CollisionPoly, CollisionPoly.Center == Vector2.Zero ? PolyType.Rectangle : PolyType.ConvexPoly));
+                    Logger.NewText(CollisionPoly.IsRectangle);
+                    AddModule("Collision", new Collideable(this, true, CollisionPoly, CollisionPoly.IsRectangle ? PolyType.Rectangle : PolyType.ConvexPoly));
                 }
             }
         }

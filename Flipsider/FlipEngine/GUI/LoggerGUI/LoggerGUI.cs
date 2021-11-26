@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -45,6 +46,8 @@ namespace FlipEngine
         protected override void OnUpdate()
         {
             Logger.TimeWithoutLog++;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) Logger.TimeWithoutLog = 0;
 
             if (Logger.TimeWithoutLog > 280) LogAlpha = LogAlpha.ReciprocateTo(0);
             else LogAlpha = LogAlpha.ReciprocateTo(1,3f);
