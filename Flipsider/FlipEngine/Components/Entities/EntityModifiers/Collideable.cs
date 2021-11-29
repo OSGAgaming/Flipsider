@@ -54,8 +54,6 @@ namespace FlipEngine
         {
             if (BindableEntity != null)
             {
-                if (!isStatic) Logger.NewText(Offset);
-
                 if (CollisionSet == null)
                 {
                     Polygon.Center = BindableEntity.Center + Offset;

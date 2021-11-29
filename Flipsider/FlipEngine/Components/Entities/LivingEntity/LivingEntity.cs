@@ -5,6 +5,8 @@ namespace FlipEngine
 {
     public abstract partial class LivingEntity : Entity
     {
+        //TODO: fix. this. class.
+
         public int frameY;
         public int framewidth;
         public int frameCounter;
@@ -76,8 +78,7 @@ namespace FlipEngine
             Chunk.Entities.Remove(this);
             OnKill();
         }
-        public bool isNPC;
-        public bool LoadFlag;
+
         protected override void OnUpdate()
         {
             oldVelocity = velocity;

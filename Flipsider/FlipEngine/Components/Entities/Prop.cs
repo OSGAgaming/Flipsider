@@ -87,6 +87,7 @@ namespace FlipEngine
         public override void Serialize(Stream stream)
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
+
             binaryWriter.Write(PropEncode.Length);
             binaryWriter.Write(PropEncode);
             binaryWriter.Write(Position);
@@ -103,8 +104,7 @@ namespace FlipEngine
             Width = PropTypes[prop].Width;
             Height = PropTypes[prop].Height;
 
-            if (PropEntity.keyValuePairs.ContainsKey(prop))
-                PE = PropEntity.keyValuePairs[prop];
+            if (PropEntity.PropEntities.ContainsKey(prop)) PE = PropEntity.PropEntities[prop];
         }
         public Prop(string prop) : base()
         {

@@ -17,6 +17,8 @@ namespace FlipEngine
 
         public TileManager(int width, int height)
         {
+            Debug.WriteLine("===================");
+
             chunks = new Chunk[width / Chunk.width, height / Chunk.height];
             voidChunk = new Chunk();
             for (int i = 0; i < chunks.GetLength(0); i++)
@@ -26,7 +28,8 @@ namespace FlipEngine
                     chunks[i, j] = LoadChunk(new Point(i, j));
                 }
             }
-            //LoadTileTypes();
+
+            Debug.WriteLine("===================");
         }
 
         public static void AddTileType(int type, Texture2D atlas)
@@ -39,11 +42,13 @@ namespace FlipEngine
         {
             try
             {
+                Debug.WriteLine("Loaded Chunks: " + pos);
                 chunks[pos.X, pos.Y] = new Chunk(pos);
                 return chunks[pos.X, pos.Y];
             }
             catch
             {
+                Debug.WriteLine("Loaded Chunks Failed");
                 return voidChunk;
             }
         }
@@ -192,6 +197,7 @@ namespace FlipEngine
             FlipGame.World.tileManager = tileManager;
 
             Chunk chunk = new Chunk();
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)

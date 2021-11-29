@@ -14,7 +14,7 @@ using Flipsider.Engine.Maths;
 
 namespace Flipsider
 {
-  public class EnergyRocc : PropEntity
+  public class EnergyRocc : PropEntity  
   {
       public override string Prop => "EnergyRocc";
 

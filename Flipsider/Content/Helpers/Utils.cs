@@ -16,17 +16,6 @@ namespace Flipsider
         public static readonly int PrefferedWidth = 1980;
         public static readonly int PrefferedHeight = 1080;
 
-        public static void SaveCurrentWorldAs(string Name)
-        {
-            //SAME NAME WORLDS WILL OVERRIDE
-            Stream stream = File.OpenWrite(WorldPath + Name + ".flip");
-            Main.World.levelInfo.Serialize(stream);
-        }
-        public static void SaveCurrentWorldAsWithExtension(string Name)
-        {
-          //  Main.serializers.Serialize(Main.CurrentWorld.levelInfo, Main.MainPath + Name);
-        }
-
         public static string WorldPath => Main.MainPath + $@"Content\Worlds\";
         public static string CutscenePath => Main.MainPath + $@"Cutscenes\";
 

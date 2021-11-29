@@ -22,9 +22,9 @@ namespace Flipsider
             AutoloadTextures.LoadTexturesToAssetCache(Content);
             Textures.LoadTextures();
 
-            World = new FlipsiderWorld(2000, 2000);
+            World = new FlipsiderWorld(Chunk.width * 10, Chunk.height * 3);
             World.SetSkybox(new CitySkybox());
-            FlipWorld.AppendPlayer(new Player(new Vector2(100, Utils.BOTTOM)));
+            FlipWorld.AppendPlayer(new Player(new Vector2(500, Utils.BOTTOM)));
             TextureCache.LoadTextures(Content);
             Renderer.MainCamera = new GameCamera();
             RegisterControls.Invoke();

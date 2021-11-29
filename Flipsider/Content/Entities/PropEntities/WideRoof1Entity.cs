@@ -16,7 +16,7 @@ namespace Flipsider
 {
     public class WideRoof1Entity : PropEntity
     {
-        public override string Prop => "WideRoof1";
+        public override string Prop => "City_WideRoof1";
         public override void PostLoad(FlipEngine.Prop prop)
         {
             Chunk chunk = Main.tileManager.GetChunkToWorldCoords(prop.Position);

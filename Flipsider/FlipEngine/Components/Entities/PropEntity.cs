@@ -15,7 +15,7 @@ namespace FlipEngine
 {
     public abstract class PropEntity : Entity
     {
-        public static Dictionary<string, PropEntity> keyValuePairs = new Dictionary<string, PropEntity>();
+        public static Dictionary<string, PropEntity> PropEntities = new Dictionary<string, PropEntity>();
         protected Texture2D Texture => PropTypes[Prop];
         public abstract string Prop { get; }
         public virtual bool Draw(SpriteBatch spriteBatch, Prop prop) { return true; }

@@ -32,7 +32,7 @@ namespace Flipsider
             for (int i = 0; i < PropEntityTypes.Length; i++)
             {
                 PropEntity PE = (PropEntity)Activator.CreateInstance(PropEntityTypes[i]);
-                PropEntity.keyValuePairs.Add(PE.Prop, PE);
+                PropEntity.PropEntities.Add(PE.Prop, PE);
             }
         }
         public static EditorMode Editor => EditorMode.Instance;

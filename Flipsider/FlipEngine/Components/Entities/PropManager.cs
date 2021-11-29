@@ -34,13 +34,5 @@ namespace FlipEngine
                 }
             }
         }
-
-        public static void AddPropInteraction(string Prop, PropEntity PE)
-        {
-            if (PropEntites.ContainsKey(Prop))
-            {
-                PropEntites[Prop].PE = PE;
-            }
-        }
     }
 }

@@ -24,6 +24,7 @@ namespace FlipEngine
 
         public override Mode Mode => Mode.Prop;
 
+        public static int Rows => 4;
         public override int PreviewHeight
         {
             get
@@ -31,7 +32,7 @@ namespace FlipEngine
                 if (propPanel != null && propColPanel != null)
                 {
                     if (CurrentMode == PropMode.PropCollidable) return propColPanel.RelativeDimensions.Height;
-                    return (propPanel.Length / 3) * 70 + 70;
+                    return (propPanel.Length / Rows) * 40 + 70;
                 }
                 else return 0;
             }
@@ -116,7 +117,7 @@ namespace FlipEngine
         {
             if (PreviewPanel != null)
             {
-                RelativeDimensions = new Rectangle(10 + (Type % 3) * 55, 20 + (Type / 3) * 70, 32, 32);
+                RelativeDimensions = new Rectangle(10 + (Type % PropScreen.Rows) * 35, 20 + (Type / PropScreen.Rows) * 35, 32, 32);
 
                 if (PropManager.PropTypes.Keys.ToArray()[Type] == PropScreen.CurrentProp)
                     Utils.DrawRectangle(RelativeDimensions, Color.Yellow * Time.SineTime(6));

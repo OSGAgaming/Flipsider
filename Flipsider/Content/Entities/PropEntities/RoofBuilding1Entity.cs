@@ -8,7 +8,8 @@ namespace Flipsider
 {
     public class RoofBuildingEntity : PropEntity
     {
-        public override string Prop => "RoofBuilding1";
+        public override string Prop => "City_RoofBuilding1";
+
         public override void PostLoad(Prop prop)
         {
             Chunk chunk = Main.tileManager.GetChunkToWorldCoords(prop.Position);

@@ -46,19 +46,26 @@ namespace FlipEngine
 
         public bool CheckActivity()
         {
-            Point PlayerChunkPos = TileManager.ToChunkCoords(FlipGame.Camera.Position.ToPoint());
-            return true;          
+            Point TL = TileManager.ToChunkCoords(FlipGame.Camera.Position.ToPoint());
+            Point BR = TileManager.ToChunkCoords((FlipGame.Camera.Position + FlipGame.ActualScreenSize / FlipGame.ScreenScale).ToPoint());
+
+            return pos.X >= 0 && pos.Y >= 0 &&
+                   pos.X < FlipGame.tileManager.chunks.GetLength(0) &&
+                   pos.Y < FlipGame.tileManager.chunks.GetLength(1);
         }
         public void Serialize(Stream stream)
         {
             BinaryWriter binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(pos);
             binaryWriter.Write(Entities.Count);
+
+            Debug.WriteLine(pos + " " + "[" + Entities.Count + "]");
+
             for (int i = 0; i < Entities.Count; i++)
             {
                 binaryWriter.Write(Entities[i].GetType());
-                if (Entities[i] != null)
-                    Entities[i].Serialize(stream);
+                Debug.WriteLine(Entities[i] == null);
+                if (Entities[i] != null) Entities[i].Serialize(stream);
             }
         }
         public Chunk Deserialize(Stream stream)
@@ -69,6 +76,9 @@ namespace FlipEngine
             int EntityLength = binaryReader.ReadInt32();
 
             Chunk chunk = new Chunk(pos);
+
+            Debug.Write(pos + " " + "[" + EntityLength + "]");
+
             for (int i = 0; i < EntityLength; i++)
             {
                 Type? type = binaryReader.ReadType();

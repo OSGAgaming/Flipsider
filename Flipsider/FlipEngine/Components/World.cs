@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace FlipEngine
@@ -53,6 +54,9 @@ namespace FlipEngine
             if (File.Exists(Utils.WorldPath + FileName))
             {
                 ClearWorld();
+
+                Debug.WriteLine(Utils.WorldPath + FileName);
+
                 Stream stream = File.OpenRead(Utils.WorldPath + FileName);
                 levelInfo.Deserialize(stream);
             }

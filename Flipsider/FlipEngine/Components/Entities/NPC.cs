@@ -113,7 +113,6 @@ namespace FlipEngine
             NPC.Layer = LayerHandler.CurrentLayer;
             NPC.Active = true;
             NPC.SetDefaults();
-            NPC.isNPC = true;
             NPC.Position = position;
             return NPC;
         }
@@ -141,7 +140,6 @@ namespace FlipEngine
             };                             
             FlipGame.AppendToLayer(NPC);
             NPC.SetDefaults();
-            NPC.isNPC = true;
             NPC.Position = position;
         }
 

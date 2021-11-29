@@ -16,7 +16,7 @@ namespace Flipsider
 {
     public class WaterFall : PropEntity
     {
-        public override string Prop => "Forest_Waterfall";
+        public override string Prop => "Waterfall";
 
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {

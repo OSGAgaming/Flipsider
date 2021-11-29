@@ -39,6 +39,7 @@ namespace FlipEngine
             }
         }
 
+
         public static void GetAllAssetPaths(string DirectoryPath)
         {
             AddAssetsFromDirectories(DirectoryPath);
@@ -52,6 +53,39 @@ namespace FlipEngine
                 Debug.Write("Loading Assetes From: [" + Path.GetFileName(DirectorySubPath) + "]\n");
                 GetAllAssetPaths(DirectorySubPath);
                 Debug.Write("\n\n");
+            }
+        }
+
+        public static void ExecuteFromDirectories(string DirectoryPath, Action<string> action)
+        {
+            string[] filePaths = Directory.GetFiles(DirectoryPath);
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                string filePath = filePaths[i];
+
+                if (!filePath.Contains(".xnb")) continue;
+
+                string charSeprator = @"Textures/";
+                int Index = filePath.IndexOf(charSeprator) + charSeprator.Length;
+                string AlteredPath = filePath.Substring(Index);
+
+                var AssetName = AlteredPath.Split(".xn")[0];
+
+                action.Invoke(AssetName);
+            }
+        }
+
+        public static void ExecuteWithAllPaths(string DirectoryPath, Action<string> action)
+        {
+            ExecuteFromDirectories(DirectoryPath, action);
+
+            string[] remainingDirecotries = Directory.GetDirectories(DirectoryPath);
+
+            for (int i = 0; i < remainingDirecotries.Length; i++)
+            {
+                var DirectorySubPath = remainingDirecotries[i];
+
+                ExecuteWithAllPaths(DirectorySubPath, action);
             }
         }
 

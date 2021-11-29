@@ -256,7 +256,9 @@ namespace FlipEngine
             return x;
         }
 
-        public static bool Intersects(this RectangleF r1, RectangleF r2) => r1.x < r2.right && r1.right > r2.x && r1.y > r2.bottom && r1.bottom < r2.y;
+        public static bool Intersects(this RectangleF r1, RectangleF r2) => 
+            ((r1.x > r2.x && r1.x < r2.right) || (r2.x > r1.x && r2.x < r1.right)) &&
+            ((r1.y > r2.y && r1.y < r2.bottom) || (r2.y > r1.y && r2.y < r1.bottom));
 
         public static bool Contains(this RectangleF r, Vector2 v) => v.X > r.x && v.Y > r.y && v.X < r.right && v.Y < r.bottom;
 
@@ -264,7 +266,7 @@ namespace FlipEngine
 
         public static Polygon ToPolygon(this Rectangle r)
         {
-            Vector2[] points = {new Vector2(-r.Width / 2, -r.Height / 2),
+            Vector2[] points = {new Vector2(-r.Width / 2, -r.Height / 2), 
               new Vector2(r.Width / 2, -r.Height / 2),
               new Vector2(r.Width / 2, r.Height / 2),
               new Vector2(-r.Width / 2, r.Height / 2)};
