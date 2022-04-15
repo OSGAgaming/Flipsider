@@ -14,7 +14,7 @@ namespace FlipEngine
 
         internal event MapRender? MapActions;
         protected abstract Effect? MapEffect { get; }
-        public abstract int Priority { get; }
+        public abstract float Priority { get; }
 
         internal virtual void OnApplyShader()
         {

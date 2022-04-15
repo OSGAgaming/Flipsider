@@ -10,12 +10,13 @@ using System.IO;
 namespace Flipsider
 {
     public enum AnimationCycle
-    { 
+    {
         Idle,
         Walking,
         Hoist
     }
-    public class CorePart : IDrawableEntityModifier, IPrimitiveLayeredComponent
+
+    public class CorePart : IDrawableEntityModifier, IPixelatedMeshComponent
     {
         public AnimationCycle Cycle = AnimationCycle.Walking;
         public Player CoreEntity { get; set; }
@@ -30,8 +31,9 @@ namespace Flipsider
 
         public int MainVerletPoint { get; private set; }
 
-        public int HairPoints => 8;
-        public int HairSeperation => 5;
+        public int HairPoints => 16;
+        public int HairSeperation => 4;
+        public int HairBunCount => 7;
 
         public float UpperBodyRotation;
         public int IdleTimer;
@@ -47,6 +49,14 @@ namespace Flipsider
             {
                 if (CoreEntity != null) return CoreEntity.Center;
                 else return Vector2.Zero;
+            }
+        }
+
+        public void DrawParts(SpriteBatch sb)
+        {
+            foreach (KeyValuePair<string, BodyPart> Parts in Parts)
+            {
+                Parts.Value.Draw(sb);
             }
         }
 
@@ -74,9 +84,10 @@ namespace Flipsider
             Main.AppendPrimitiveToLayer(this);
 
             MainVerletPoint = Verlet.Instance.CreateVerletPoint(Center, true);
+
             for (int i = 0; i < HairPoints; i++)
             {
-                Verlet.Instance.CreateVerletPoint(Center + new Vector2(-HairSeperation * (i + 1), 0), false, true);
+                Verlet.Instance.CreateVerletPoint(Center + new Vector2(-HairSeperation * (i + 1) - 2, -28), i < HairBunCount ? true : false, true);
             }
         }
 
@@ -101,7 +112,7 @@ namespace Flipsider
                 if (Parts.Value is T) return (T)Parts.Value;
             }
 
-            return (T)Parts[Part]; 
+            return (T)Parts[Part];
         }
 
         public void Update(in Entity entity)
@@ -122,7 +133,7 @@ namespace Flipsider
                 Layer = CoreEntity.Layer;
                 float avg = (Get<LeftLeg>().LegPosition.X + Get<RightLeg>().LegPosition.X) / 2f;
 
-                if (Math.Abs(CoreEntity.velocity.X) <= 0.3f)
+                if (Math.Abs(CoreEntity.velocity.X) <= 0.35f)
                 {
                     IdleTimer++;
                 }
@@ -131,10 +142,10 @@ namespace Flipsider
                     IdleTimer = 0;
                 }
 
-                if(Math.Abs(CoreEntity.velocity.X) >= 0.8f)
+                if (Math.Abs(CoreEntity.velocity.X) >= 1f)
                 {
                     int Disp = 3;
-                    float CorrectLerp = Math.Clamp(Get<RightArm>().Lerp * (1.8f + Math.Abs(CoreEntity.velocity.X * 0.25f)),0,1);
+                    float CorrectLerp = Math.Clamp(Get<RightArm>().Lerp * (1.8f + Math.Abs(CoreEntity.velocity.X * 0.25f)), 0, 1);
                     int ClampedVel = (int)Math.Clamp(Math.Abs(CoreEntity.velocity.X * 0.5f), 0, 1);
                     if (Get<RightArm>().Side == 1)
                     {
@@ -149,10 +160,9 @@ namespace Flipsider
 
                     CurrentFrame = Math.Clamp(CurrentFrame, 1 - ClampedVel, 3 + ClampedVel * 4);
                 }
-                if(IdleTimer > 3)
+                if (IdleTimer > 3)
                 {
                     Cycle = AnimationCycle.Idle;
-                    CurrentFrame = 1;
                 }
                 else
                 {
@@ -160,13 +170,18 @@ namespace Flipsider
 
                 }
 
-                if (Cycle == AnimationCycle.Idle)
+                if (Math.Abs(CoreEntity.velocity.X) <= 1f) CurrentFrame = 1;
+
+                if (!EditorModeGUI.Active)
                 {
-                    entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 20f);
-                }
-                else
-                {
-                    entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 15f);
+                    if (Cycle == AnimationCycle.Idle)
+                    {
+                        entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 60f);
+                    }
+                    else
+                    {
+                        entity.Center += ((new Vector2(avg, entity.Center.Y) - entity.Center) / 15f);
+                    }
                 }
             }
 
@@ -175,8 +190,17 @@ namespace Flipsider
                 Parts.Value.Update();
             }
             Leg rl = Get<RightLeg>();
-            if(CoreEntity != null) UpperBodyRotation = CoreEntity.velocity.X / 12f + rl.XAccelInterp;
-            Verlet.Instance.points[MainVerletPoint].point = Center - rl.LYOff * 0.2f - new Vector2(4 * rl.Sign, 27).RotatedBy(UpperBodyRotation);
+            if (CoreEntity != null) UpperBodyRotation = CoreEntity.velocity.X / 12f + rl.XAccelInterp;
+
+            Vector2 m = Center - rl.LYOff * 0.2f - new Vector2(4 * rl.Sign, 27).RotatedBy(UpperBodyRotation);
+
+            Verlet.Instance.points[MainVerletPoint].point = m;
+            for (int i = 1; i <= HairBunCount; i++)
+            {
+                Verlet.Instance.points[MainVerletPoint + i].point = m + new Vector2((-1 - i * 0.7f) * rl.Sign, -11 - (float)Math.Sin(i * (1.57f / HairBunCount)) * 1.5f);
+            }
+
+
 
             if (CoreEntity != null)
             {
@@ -213,7 +237,7 @@ namespace Flipsider
                 int RealFrames = NumberOfFrames;
                 int RealCurrentFrame = CurrentFrame;
                 Vector2 off = Vector2.Zero;
-                if (Math.Abs(CoreEntity.velocity.X) <= 0.8f)
+                if (Math.Abs(CoreEntity.velocity.X) <= 0.85f)
                 {
                     tex = Textures._BodyParts_bitch_body;
                     RealFrames = 1;
@@ -247,29 +271,47 @@ namespace Flipsider
 
                 Vector2 Up = new Vector2(0, -13).RotatedBy(UpperBodyRotation);
 
-               spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign, 7) + off, 
-                    new Rectangle(0, RealCurrentFrame * (tex.Height / RealFrames), tex.Width, tex.Height / RealFrames), 
-                   Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height / RealFrames), 2f,
-                    CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign, 7) + off,
+                     new Rectangle(0, RealCurrentFrame * (tex.Height / RealFrames), tex.Width, tex.Height / RealFrames),
+                    Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height / RealFrames), 2f,
+                     CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 
-                spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0), 
-                    new Rectangle(0, CurrentFrame * (head.Height / NumberOfFrames), head.Width, head.Height / NumberOfFrames), 
+                spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0),
+                    new Rectangle(0, CurrentFrame * (head.Height / NumberOfFrames), head.Width, head.Height / NumberOfFrames),
                     Color.White, CoreEntity.velocity.X / 12f, new Vector2(head.Width / 2f, head.Height / NumberOfFrames), 2f,
                     CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-              
+
+                Main.lighting.Maps.DrawToMap("PlayerMap", sb =>
+                {
+                    spriteBatch.Draw(tex, Center - rl.LYOff * 0.2f + new Vector2(-4 * rl.Sign, 7) + off,
+                     new Rectangle(0, RealCurrentFrame * (tex.Height / RealFrames), tex.Width, tex.Height / RealFrames),
+                    Color.White, UpperBodyRotation, new Vector2(tex.Width / 2f, tex.Height / RealFrames), 2f,
+                     CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+
+                    spriteBatch.Draw(head, Center - rl.LYOff * 0.2f + Up - new Vector2(-1 * rl.Sign, 0),
+                        new Rectangle(0, CurrentFrame * (head.Height / NumberOfFrames), head.Width, head.Height / NumberOfFrames),
+                        Color.White, CoreEntity.velocity.X / 12f, new Vector2(head.Width / 2f, head.Height / NumberOfFrames), 2f,
+                        CoreEntity.velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                });
+
                 for (int i = MainVerletPoint; i < MainVerletPoint + HairPoints; i++)
                 {
                     //Utils.DrawLine(Verlet.Instance.points[i].point, Verlet.Instance.points[i - 1].point, Color.Aqua, 2);
                     float abs = Math.Abs(CoreEntity.velocity.X);
                     Verlet.Instance.points[i].point += new Vector2(0, Time.SineTime(abs * 0.05f, i * 0.6f) * 0.03f * abs);
-                }               
+                }
+
+
             }
             else
             {
-                foreach (KeyValuePair<string, BodyPart> Parts in Parts)
+                DrawParts(spriteBatch);
+                //fuck you triv
+
+                Main.lighting.Maps.DrawToMap("PlayerMap", sb =>
                 {
-                    Parts.Value.Draw(spriteBatch);
-                }
+                    DrawParts(sb);
+                });
             }
         }
 
@@ -284,6 +326,17 @@ namespace Flipsider
 
                 LeftLegPrims.Draw(sb);
                 RightLegPrims.Draw(sb);
+
+                Main.lighting.Maps.DrawToMap("PlayerMap", sb =>
+                {
+                    if (CoreEntity.velocity.X < 0) LeftArmPrims.Draw(sb);
+                    else RightArmPrims.Draw(sb);
+
+                    HairPrimitives.Draw(sb);
+
+                    LeftLegPrims.Draw(sb);
+                    RightLegPrims.Draw(sb);
+                });
             }
         }
 
@@ -293,6 +346,12 @@ namespace Flipsider
             {
                 if (CoreEntity.velocity.X > 0) LeftArmPrims.Draw(sb);
                 else RightArmPrims.Draw(sb);
+
+                Main.lighting.Maps.DrawToMap("PlayerMap", sb =>
+                {
+                    if (CoreEntity.velocity.X > 0) LeftArmPrims.Draw(sb);
+                    else RightArmPrims.Draw(sb);
+                });
             }
         }
         public void Dispose() { }

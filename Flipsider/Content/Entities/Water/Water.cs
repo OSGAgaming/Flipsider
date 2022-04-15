@@ -7,7 +7,7 @@ using FlipEngine;
 // TODO fix this..
 namespace Flipsider
 {
-    public class Water : Entity, IPrimitiveLayeredComponent
+    public class Water : Entity, IMeshComponent
     {
         protected Primitive PrimitiveInstance;
         protected Primitive PrimitiveInstanceDamp;

@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class CutawayMap : MapPass
     {
-        public override int Priority => 8;
+        public override float Priority => 8;
         protected override Effect? MapEffect => EffectCache.CutawayEffect;
 
         public static bool Outdoors { get; set; } = true;
@@ -20,8 +20,8 @@ namespace Flipsider
 
         internal override void OnApplyShader()
         {
-            if (Outdoors) { CutawayProgression = CutawayProgression.ReciprocateTo(0, CutawayLatency); }
-            else { CutawayProgression = CutawayProgression.ReciprocateTo(1, CutawayLatency); }
+            if (Outdoors) { CutawayProgression = CutawayProgression.ReciprocateTo(0, CutawayLatency); FlipGame.Camera.targetScale = 1f; }
+            else { CutawayProgression = CutawayProgression.ReciprocateTo(1, CutawayLatency); FlipGame.Camera.targetScale = 1.2f; }
 
             Main.lighting.Maps.DrawToMap("CutawayMap", (SpriteBatch sb) =>
             {
@@ -32,10 +32,17 @@ namespace Flipsider
 
             Outdoors = true;
         }
+    }
 
-        public override void Load()
+    public class PlayerObscureMap : MapPass
+    {
+        public override float Priority => 8.1f;
+        protected override Effect? MapEffect => EffectCache.PlayerObscureEffect;
+
+        internal override void OnApplyShader()
         {
-            MapTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 2560, 1440);
+            MapEffect?.Parameters["PlayerMap"].SetValue(Main.lighting.Maps.Get("PlayerMap").MapTarget);
+            MapEffect?.CurrentTechnique.Passes[0].Apply();
         }
     }
 }

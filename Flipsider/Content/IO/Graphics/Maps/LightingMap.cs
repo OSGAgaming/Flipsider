@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class LightingMap : MapPass
     {
-        public override int Priority => 3;
+        public override float Priority => 3;
         protected override Effect? MapEffect => EffectCache.LightingMap;
 
         internal override void OnApplyShader()

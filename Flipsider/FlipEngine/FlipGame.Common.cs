@@ -34,7 +34,7 @@ namespace FlipEngine
         }
         public static void AppendToLayer(ILayeredComponent ilc) => World.layerHandler.AppendMethodToLayer(ilc);
         public static void AutoAppendToLayer(ILayeredComponent ilc) => World.layerHandler.AutoAppendMethodToLayer(ref ilc);
-        public static void AppendPrimitiveToLayer(IPrimitiveLayeredComponent ilc) => World.layerHandler.AppendPrimitiveToLayer(ilc);
+        public static void AppendPrimitiveToLayer(IMeshComponent ilc) => World.layerHandler.AppendPrimitiveToLayer(ilc);
         public static LayerHandler layerHandler => World.layerHandler;
         public static TileManager tileManager => World.tileManager;
         public static SpriteBatch spriteBatch => Renderer.SpriteBatch;
@@ -44,15 +44,15 @@ namespace FlipEngine
         public static Vector2 MouseTile => (MouseToDestination().ToVector2() / TileManager.tileRes).Snap(1);
         public static float ScreenScale => Renderer.MainCamera.Scale;
         public static Vector2 ScreenSize => graphics.GraphicsDevice == null ? Vector2.One : Renderer.PreferredSize;
-        public static Chunk[] GetActiveChunks()
+        public static Chunk[] GetActiveChunks(int fluff = 0)
         {
             Point TL = TileManager.ToChunkCoords(Camera.Position.ToPoint());
             Point BR = TileManager.ToChunkCoords((Camera.Position + ActualScreenSize / ScreenScale).ToPoint());
 
             List<Chunk> ChunkBuffer = new List<Chunk>();
-            for(int i = TL.X; i <= BR.X; i++)
+            for(int i = TL.X - fluff; i <= BR.X + fluff; i++)
             {
-                for (int j = TL.Y; j <= BR.Y; j++)
+                for (int j = TL.Y - fluff; j <= BR.Y + fluff; j++)
                 {
                     if(i >= 0 && j >= 0 && 
                        i < tileManager.chunks.GetLength(0) && 

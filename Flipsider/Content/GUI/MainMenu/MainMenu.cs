@@ -201,7 +201,7 @@ namespace Flipsider.GUI
         }
         protected override void OnLeftClick()
         {
-            SceneManager.Instance.SetNextScene(new ForestArea(), new WhiteFadeInFadeOut(), true);
+            SceneManager.Instance.SetNextScene(new CityArea(), new WhiteFadeInFadeOut(), true);
         }
     }
 }

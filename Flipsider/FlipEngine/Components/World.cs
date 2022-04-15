@@ -70,7 +70,6 @@ namespace FlipEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Skybox.Draw(spriteBatch);
             layerHandler.DrawLayers(spriteBatch);
 
             GlobalParticles.Draw(spriteBatch);

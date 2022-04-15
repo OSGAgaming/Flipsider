@@ -53,6 +53,7 @@ float2 Round(float2 coords, int accuracy)
 float4 PixelShaderLight(float2 coords: TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(s0, coords);
+    
 	float2 R = WorldCoords(coords);
 	float2 toWorld = Round(R,1);
 	float verticality = 30;

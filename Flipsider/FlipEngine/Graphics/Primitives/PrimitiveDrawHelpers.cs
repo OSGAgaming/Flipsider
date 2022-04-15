@@ -42,16 +42,17 @@ namespace FlipEngine
         {
             return new Vector2(-vector.Y, vector.X);
         }
-        public void PrepareShader(Effect effects, string PassName = "ThePass", float progress = 0)
+        public void PrepareShader(Effect effects, string PassName = "ThePass", float progress = 0, float scale = 1f)
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
-            Vector2 zoom = new Vector2(FlipGame.ScreenScale);
+
+            Vector2 zoom = new Vector2(FlipGame.ScreenScale) * scale;
 
             Matrix view =
                 Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) *
-                Matrix.CreateTranslation((width / (2 * FlipGame.ScreenScale) + FlipGame.Camera.TransformPosition.X),
-                height / -(2 * FlipGame.ScreenScale) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) *
+                Matrix.CreateTranslation((width / (2 * zoom.X) + FlipGame.Camera.TransformPosition.X),
+                height / -(2 * zoom.Y) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) *
                 Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
@@ -64,7 +65,10 @@ namespace FlipEngine
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
             Vector2 zoom = new Vector2(FlipGame.ScreenScale);
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / (2 * FlipGame.ScreenScale) + FlipGame.Camera.TransformPosition.X, height / -(2 * FlipGame.ScreenScale) - FlipGame.Camera.TransformPosition.Y, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Matrix view = 
+                Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * 
+                Matrix.CreateTranslation(width / (2 * zoom.X) + FlipGame.Camera.TransformPosition.X, height / -(2 * zoom.Y) - FlipGame.Camera.TransformPosition.Y, 0) * 
+                Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
             _basicEffect.View = view;

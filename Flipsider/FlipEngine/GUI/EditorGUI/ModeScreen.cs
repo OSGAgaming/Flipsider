@@ -9,7 +9,6 @@ using System.IO;
 
 namespace FlipEngine
 {
-    //Hello Im doing work. THis is work. I am working. This is a work thingie. Give me raise lmfao xd
     internal class ModeScreen : UIScreen
     {
         public virtual Mode Mode { get; }

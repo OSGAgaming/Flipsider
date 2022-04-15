@@ -74,7 +74,7 @@ namespace FlipEngine
                     LivingEntity.onGround = false;
                     LivingEntity.isColliding = false;
 
-                    foreach (Chunk chunk in FlipGame.GetActiveChunks())
+                    foreach (Chunk chunk in FlipGame.GetActiveChunks(1))
                     {
                         if (chunk.Active)
                         {
@@ -141,7 +141,7 @@ namespace FlipEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Polygon.Draw(PolyType == PolyType.Rectangle ? Color.Green : Color.Purple);
+            //Polygon.Draw(PolyType == PolyType.Rectangle ? Color.Green : Color.Purple);
         }
 
         public int Layer { get; set; }

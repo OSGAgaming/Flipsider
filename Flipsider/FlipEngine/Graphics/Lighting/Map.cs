@@ -3,24 +3,18 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 namespace FlipEngine
 {
     public class Map
     {
         internal Dictionary<string, MapPass> MapPasses = new Dictionary<string, MapPass>();
 
+        public void Sort() => MapPasses.OrderBy(key => key.Value.Priority);
+
         public void OrderedRenderPass(SpriteBatch sb, GraphicsDevice GD)
         {
-            for (int a = 0; a < MapPasses.Count; a++)
-            {
-                foreach (KeyValuePair<string, MapPass> Map in MapPasses)
-                {
-                    var Pass = Map.Value;
-
-                    if (Pass.Priority == a) Pass.Render(sb, GD);
-                }
-            }
+            foreach (KeyValuePair<string, MapPass> Map in MapPasses) Map.Value.Render(sb, GD);
         }
 
         public List<RenderTarget2D> Buffers = new List<RenderTarget2D>();
@@ -29,7 +23,8 @@ namespace FlipEngine
         {
             if (MapPasses.Count != 0)
             {
-                for (int a = 0; a < MapPasses.Count; a++)
+                int a = 0;
+                foreach (KeyValuePair<string, MapPass> Map in MapPasses)
                 {
                     FlipGame.graphics?.GraphicsDevice.SetRenderTarget(Buffers[a]);
                     FlipGame.graphics?.GraphicsDevice.Clear(Color.Transparent);
@@ -37,20 +32,15 @@ namespace FlipEngine
                     sb.End();
                     sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: null, samplerState: SamplerState.PointClamp);
 
-                    foreach (KeyValuePair<string, MapPass> Map in MapPasses)
-                    {
-                        var Pass = Map.Value;
-
-                        if (Pass.Priority == a) Pass.ApplyShader();
-                    }
+                    Map.Value.ApplyShader();                 
 
                     RenderTarget2D rT;
                     if (a < 1) rT = target; else rT = Buffers[a - 1];
 
                     if (FlipGame.graphics != null && FlipGame.Camera != null)
                     {
-                        Rectangle frame = new Rectangle(0, 0, 
-                            (int)(FlipGame.Renderer.MaxResolution.X), 
+                        Rectangle frame = new Rectangle(0, 0,
+                            (int)(FlipGame.Renderer.MaxResolution.X),
                             (int)(FlipGame.Renderer.MaxResolution.Y));
 
                         sb.Draw(rT, Vector2.Zero, frame, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
@@ -58,6 +48,8 @@ namespace FlipEngine
 
                     sb.End();
                     sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: null, samplerState: SamplerState.PointClamp);
+
+                    a++;
                 }
                 return Buffers[Buffers.Count - 1];
             }

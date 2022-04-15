@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class FGWaterMap : MapPass
     {
-        public override int Priority => 4;
+        public override float Priority => 4;
         protected override Effect? MapEffect => EffectCache.FGWaterMap;
 
         internal override void OnApplyShader() 

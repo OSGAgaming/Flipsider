@@ -16,6 +16,7 @@ namespace FlipEngine
         public static float TotalTimeSec => (float)FlipE.gameTime.TotalGameTime.TotalSeconds;
 
         public static float QuickDelta => (float)FlipE.gameTime.DeltaTime() * 60;
+
         public static int GameUpdateCount;
     }
 }

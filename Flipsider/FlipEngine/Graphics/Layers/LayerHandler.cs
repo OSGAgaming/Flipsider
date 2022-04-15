@@ -75,7 +75,15 @@ namespace FlipEngine
     }
     public class LayerHandler
     {
-        public LayerHandler() { AddLayer(); }
+        public LayerHandler()
+        {
+            AddLayer();
+            PixelationTarget = new RenderTarget2D(FlipGame.graphics.GraphicsDevice, FlipGame.Renderer.MaxResolution.X, FlipGame.Renderer.MaxResolution.Y);
+            LayerTarget = new RenderTarget2D(FlipGame.graphics.GraphicsDevice, FlipGame.Renderer.MaxResolution.X, FlipGame.Renderer.MaxResolution.Y);
+        }
+
+        public RenderTarget2D PixelationTarget { get; set; }
+        public RenderTarget2D LayerTarget { get; set; }
 
         public List<Layer> Layers = new List<Layer>();
         public static int CurrentLayer = 0;
@@ -106,11 +114,25 @@ namespace FlipEngine
 
             for (int i = 0; i < Layers.Count; i++)
             {
+                Layers[i].Draw(spriteBatch);
+            }
+
+            FlipGame.Renderer.Graphics?.GraphicsDevice.SetRenderTarget(FlipGame.Renderer.RenderTarget);
+            FlipGame.Renderer.Graphics?.GraphicsDevice.Clear(Color.Transparent);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, transformMatrix: FlipGame.Camera.Transform, samplerState: SamplerState.PointClamp);
+
+            FlipGame.World.Skybox.Draw(spriteBatch);
+
+            spriteBatch.End();
+
+            for (int i = 0; i < Layers.Count; i++)
+            {
                 for (int j = 0; j < Layers.Count; j++)
                 {
                     if (Layers[j].LayerDepth == i)
                     {
-                        Layers[j].Draw(spriteBatch);
+                        Layers[j].RenderTargets(spriteBatch);
                     }
                 }
             }
@@ -130,7 +152,7 @@ namespace FlipEngine
                 Layers[Method.Layer].Drawables.Add(Method);
             }
         }
-        public void AppendPrimitiveToLayer(IPrimitiveLayeredComponent Method)
+        public void AppendPrimitiveToLayer(IMeshComponent Method)
         =>
         Layers[Method.Layer].PrimitiveDrawables.Add(Method);
         public void AddLayer()

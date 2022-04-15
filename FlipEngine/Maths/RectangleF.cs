@@ -3,7 +3,6 @@ using System;
 
 namespace FlipEngine
 {
-    [Serializable]
     public struct RectangleF
     {
         public float x;

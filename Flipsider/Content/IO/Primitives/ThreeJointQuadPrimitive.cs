@@ -70,7 +70,7 @@ namespace Flipsider
         public override void SetShaders()
         {
             if(TextureMap != null) Effect.Parameters["textureMap"].SetValue(TextureMap);
-            PrepareShader(Effect);
+            PrepareShader(Effect, "ThePass", 0f, 0.5f);
         }
         public override void OnUpdate()
         {

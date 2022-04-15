@@ -8,10 +8,6 @@ namespace Flipsider.Scenes
 {
     public class MainMenu : Scene
     {
-        public MainMenu()
-        {
-
-        }
         public override string? Name => "Main Menu";
         public override void Update()
         {

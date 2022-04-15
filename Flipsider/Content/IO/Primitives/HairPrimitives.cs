@@ -18,7 +18,7 @@ namespace Flipsider
         protected override void AddPoints()
         {
             WidthFallOff = 1;
-            Width = 4;
+            Width = 6;
             for (int i = part.MainVerletPoint; i < part.MainVerletPoint + part.HairPoints; i++)
             {
                 _points.Add(Verlet.Instance.points[i].point);

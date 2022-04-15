@@ -2280,3 +2280,20 @@
 
 #begin CollisionSets/Room.abst
 /copy:CollisionSets/Room.abst
+
+#begin Effect/PlayerObscureEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effect/PlayerObscureEffect.fx
+
+#begin Textures/Props/City/Apartment/RoomFMap.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Props/City/Apartment/RoomFMap.png

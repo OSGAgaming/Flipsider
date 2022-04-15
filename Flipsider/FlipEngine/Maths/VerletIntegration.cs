@@ -20,7 +20,7 @@ namespace FlipEngine
         }
 
         private float _gravity => 0.08f;
-        private float _AR => 0.85f;
+        private float _AR => 0.81f;
         private readonly float bounce = 0.9f;
         public List<Stick> stickPoints = new List<Stick>();
         public List<Point> points = new List<Point>();

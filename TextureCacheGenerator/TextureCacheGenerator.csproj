@@ -11,4 +11,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Generator\Components\Methods\" />
+    <Folder Include="Generator\Components\Namespaces\" />
+    <Folder Include="Generator\Components\TypeHandling\" />
+  </ItemGroup>
+
 </Project>

@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class SunMap : MapPass
     {
-        public override int Priority => 7;
+        public override float Priority => 7;
         protected override Effect? MapEffect => EffectCache.SunMapEffect;
 
         internal override void OnApplyShader() 

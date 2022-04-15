@@ -21,6 +21,8 @@ namespace FlipEngine
 
                 if (state != null) Maps?.AddMap(t.Name, 0, state);
             }
+
+            Maps.Sort();
         }
     }
 }

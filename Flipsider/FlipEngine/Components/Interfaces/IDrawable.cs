@@ -6,4 +6,6 @@ namespace FlipEngine
     {
         public void Draw(SpriteBatch spriteBatch);
     }
+
+    public interface IPixelated : IDrawable { }
 }

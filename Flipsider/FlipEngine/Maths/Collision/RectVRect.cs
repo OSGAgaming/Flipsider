@@ -30,8 +30,6 @@ namespace FlipEngine
                         var LivingEntity = (LivingEntity)collideable1.BindableEntity;
                         if (CI.AABB != Bound.None)
                         {
-                            Logger.NewText("RVR");
-
                             switch (collideable1.collisionInfo.AABB)
                             {
                                 case (Bound.Top):
@@ -82,8 +80,6 @@ namespace FlipEngine
                         
                         if (CI.AABB != Bound.None)
                         {
-                            Logger.NewText("RBP");
-
                             switch (collideable1.collisionInfo.AABB)
                             {
                                 case (Bound.Top):

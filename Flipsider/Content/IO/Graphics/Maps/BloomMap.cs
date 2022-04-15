@@ -10,7 +10,7 @@ namespace Flipsider
 {
     public class BloomMap : MapPass
     {
-        public override int Priority => 0;
+        public override float Priority => 0;
         protected override Effect? MapEffect => EffectCache.BloomEffect;
 
         public RenderTarget2D HorizontalBuffer;
@@ -36,12 +36,12 @@ namespace Flipsider
             MapEffect?.Parameters["Dims"]?.SetValue(new Vector2(2560, 1440)/SCALING);
 
             MapEffect?.Parameters["Map"]?.SetValue(MapTarget);
-            RenderBuffer(0, HorizontalBuffer, Main.lighting.Maps.Buffers[Priority]);
+            RenderBuffer(0, HorizontalBuffer, Main.lighting.Maps.Buffers[(int)Priority]);
 
             MapEffect?.Parameters["Map"]?.SetValue(HorizontalBuffer);
             RenderBuffer(1, VerticalBuffer, HorizontalBuffer);
 
-            Main.graphics?.GraphicsDevice.SetRenderTarget(Main.lighting.Maps.Buffers[Priority]);
+            Main.graphics?.GraphicsDevice.SetRenderTarget(Main.lighting.Maps.Buffers[(int)Priority]);
             Main.graphics?.GraphicsDevice.Clear(Color.Transparent);
 
             MapEffect?.Parameters["Map"]?.SetValue(VerticalBuffer);

@@ -176,9 +176,10 @@ namespace Flipsider
 
                 XAccelInterp += ((XAccel * 3) - XAccelInterp) / 64f;
 
+                float VelXStep = VelXStepAdjustment;
                 for (float i = 0; i < 1; i += 0.1f)
                 {
-                    Vector2 line = Utils.TraverseBezier(LastLegTarget, Mid + new Vector2(0, -10 - AbsVel * VelocityKneeEffect), new Vector2(LegTarget.X + VelXStepAdjustment, LegTarget.Y), i);
+                    Vector2 line = Utils.TraverseBezier(LastLegTarget, Mid + new Vector2(0, -10 - AbsVel * VelocityKneeEffect), new Vector2(LegTarget.X + VelXStep, LegTarget.Y), i);
                     Utils.DrawBoxFill(line - new Vector2(0.5f), 1, 1, Color.Pink);
                 }
 
@@ -222,7 +223,7 @@ namespace Flipsider
                 }
 
                 Vector2 Mid = (LastLegTarget + LegTarget) / 2f;
-                VelXStepAdjustment += ((Vel - LastVelocity.X) * 35 - VelXStepAdjustment) / 6f;
+                VelXStepAdjustment += ((Vel - LastVelocity.X) * 40 - VelXStepAdjustment) / 6f;
 
                 if ((OtherPart.SteppingOnLedge && LedgeSupportListener) || SteppingOnLedge) VelXStepAdjustment = 0f;
 
@@ -266,7 +267,7 @@ namespace Flipsider
 
                 if (Parent.Cycle == AnimationCycle.Idle)
                 {
-                    LegDisplaced = Math.Abs(LegPosition.X - DetectedSurface.X) > XTolerance * 1.3f;
+                    LegDisplaced = Math.Abs(LegPosition.X - DetectedSurface.X) > XTolerance * 0.9f;
                     LegFarther = true;
                 }
 
@@ -425,12 +426,12 @@ namespace Flipsider
                 {
                     JustMovedLeg = true;
 
-                    if (ID == "R_Leg")
+                    if (ID == "L_Leg")
                     {
                         if (Sign == -1)
                         {
-                            StridePoint1 = new Vector2(Parent.Center.X + IdleStanceWidth * 1.8f, Parent.Center.Y - 30);
-                            StridePoint2 = new Vector2(Parent.Center.X + IdleStanceWidth * 1.8f, Parent.Center.Y + 30);
+                            StridePoint1 = new Vector2(Parent.Center.X, Parent.Center.Y - 30);
+                            StridePoint2 = new Vector2(Parent.Center.X, Parent.Center.Y + 30);
                         }
                         else
                         {
@@ -438,17 +439,17 @@ namespace Flipsider
                             StridePoint2 = new Vector2(Parent.Center.X, Parent.Center.Y + 30);
                         }
                     }
-                    else if (ID == "L_Leg")
+                    else if (ID == "R_Leg")
                     {
                         if (Sign == -1)
                         {
-                            StridePoint1 = new Vector2(Parent.Center.X, Parent.Center.Y - 30);
-                            StridePoint2 = new Vector2(Parent.Center.X, Parent.Center.Y + 30);
+                            StridePoint1 = new Vector2(Parent.Center.X + IdleStanceWidth * 2f, Parent.Center.Y - 30);
+                            StridePoint2 = new Vector2(Parent.Center.X + IdleStanceWidth * 2f, Parent.Center.Y + 30);
                         }
                         else
                         {
-                            StridePoint1 = new Vector2(Parent.Center.X - IdleStanceWidth * 1.8f, Parent.Center.Y - 30);
-                            StridePoint2 = new Vector2(Parent.Center.X - IdleStanceWidth * 1.8f, Parent.Center.Y + 30);
+                            StridePoint1 = new Vector2(Parent.Center.X - IdleStanceWidth * 2f, Parent.Center.Y - 30);
+                            StridePoint2 = new Vector2(Parent.Center.X - IdleStanceWidth * 2f, Parent.Center.Y + 30);
                         }
                     }
                 }

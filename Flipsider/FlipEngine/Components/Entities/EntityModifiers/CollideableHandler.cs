@@ -21,10 +21,5 @@ namespace FlipEngine
         {
             return new Collideable(entity, isStatic, poly, default, set);
         }
-        public void Update()
-        {
-
-
-        }
     }
 }

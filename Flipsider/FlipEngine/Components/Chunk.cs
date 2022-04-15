@@ -49,9 +49,8 @@ namespace FlipEngine
             Point TL = TileManager.ToChunkCoords(FlipGame.Camera.Position.ToPoint());
             Point BR = TileManager.ToChunkCoords((FlipGame.Camera.Position + FlipGame.ActualScreenSize / FlipGame.ScreenScale).ToPoint());
 
-            return pos.X >= 0 && pos.Y >= 0 &&
-                   pos.X < FlipGame.tileManager.chunks.GetLength(0) &&
-                   pos.Y < FlipGame.tileManager.chunks.GetLength(1);
+            return pos.X >= TL.X - 1 && pos.X <= BR.X + 1 &&
+                   pos.Y >= TL.Y - 1 && pos.Y <= BR.Y + 1;
         }
         public void Serialize(Stream stream)
         {
@@ -101,6 +100,7 @@ namespace FlipEngine
                 Active = false;
                 return;
             }
+
             if (!EditorModeGUI.Active)
             {
                 if (Active)

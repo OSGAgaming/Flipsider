@@ -15,11 +15,12 @@ namespace FlipEngine
         public DrawData drawData { get; set; }
     }
 
-    public interface IPrimitiveLayeredComponent
+    public interface IPixelatedMeshComponent : IMeshComponent { }
+
+    public interface IMeshComponent
     {
         public void DrawPrimtiivesBefore(SpriteBatch sb);
         public void DrawPrimtiivesAfter(SpriteBatch sb);
         public int Layer { get; set; }
-
     }
 }

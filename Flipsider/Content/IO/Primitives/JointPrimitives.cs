@@ -17,16 +17,16 @@ namespace Flipsider
 
         protected override void AddPoints()
         {
-            Width = 6;
-            SecondWidth = 7;
+            Width = 5;
+            SecondWidth = 6;
 
             JointUV = 0.55f;
             JointUVSpread = 0.15f;
 
             if (leg != null && leg.Parent != null)
             {
-                if(leg is RightLeg) _points.Add(leg.Parent.Center + new Vector2(2,0));
-                if(leg is LeftLeg) _points.Add(leg.Parent.Center + new Vector2(-2, 0));
+                if(leg is RightLeg) _points.Add(leg.Parent.Center + new Vector2(-2 * leg.Sign,-2));
+                if(leg is LeftLeg) _points.Add(leg.Parent.Center + new Vector2(2 * leg.Sign, -2));
 
                 _points.Add(leg.JointPosition);
                 _points.Add(leg.LegPosition);

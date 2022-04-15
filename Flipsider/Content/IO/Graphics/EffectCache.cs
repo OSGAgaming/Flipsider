@@ -21,6 +21,7 @@ namespace Flipsider
         public static Effect LayerColorModification;
         public static Effect PrimtiveTexture;
         public static Effect CutawayEffect;
+        public static Effect PlayerObscureEffect;
 
         public static void LoadEffects(ContentManager content)
         {
@@ -36,6 +37,7 @@ namespace Flipsider
             LayerColorModification = content.Load<Effect>(@"Effect/LayerColorModification");
             PrimtiveTexture = content.Load<Effect>(@"Effect/PrimitiveTextureMap");
             CutawayEffect = content.Load<Effect>(@"Effect/Cutaway");
+            PlayerObscureEffect = content.Load<Effect>(@"Effect/PlayerObscureEffect");
         }
     }
 }

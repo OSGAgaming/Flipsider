@@ -134,6 +134,8 @@ namespace FlipEngine
 
                 if (IsDraggingEntity)
                 {
+                    if (ChosenEntity is LivingEntity le) le.velocity = Vector2.Zero;
+
                     ChosenEntity.Position +=
                                 FlipGame.MouseToDestination().ToVector2() -
                                 FlipGame.PreviousMouseToDestination().ToVector2();
@@ -258,8 +260,8 @@ namespace FlipEngine
             EditorModeGUI.Active = !EditorModeGUI.Active;
             EditorModeGUI.mode = Mode.None;
 
-            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 2f;
-            else FlipGame.Camera.targetScale = 2f;
+            if (EditorModeGUI.Active) FlipGame.Camera.targetScale = 1f;
+            else FlipGame.Camera.targetScale = 1f;
         }
     }
 

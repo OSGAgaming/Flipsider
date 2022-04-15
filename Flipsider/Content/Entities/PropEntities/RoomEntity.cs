@@ -17,6 +17,15 @@ namespace Flipsider
     public class RoomEntity : PropEntity
     {
         public override string Prop => "City_Apartment_Room";
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Textures._Props_City_Apartment_RoomFMap, Position, Texture.Bounds, Color.White, 0f, Texture.TextureCenter(), 1f, SpriteEffects.None, 0f);
+
+            Main.lighting.Maps.DrawToMap("PlayerObscureMap", (SpriteBatch sb) =>
+            {
+                sb.Draw(Textures._Props_City_Apartment_RoomFMap, Position, Texture.Bounds, Color.White, 0f, Texture.TextureCenter(), 1f, SpriteEffects.None, 0f);
+            });
+        }
 
         public override void Update(Prop prop)
         {
@@ -29,18 +38,17 @@ namespace Flipsider
                 sb.Draw(Textures._GUI_MagicPixel, prop.Position, Texture.Bounds, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             });
 
-            prop.Width = (int)Size.X;
-            prop.Height = (int)Size.Y;
-
             Center = prop.Center;
         }
 
         public override void PostLoad(FlipEngine.Prop prop)
         {
-            Chunk chunk = Main.tileManager.GetChunkToWorldCoords(prop.Position);
+            Layer = Main.player.Layer + 1;
 
             Active = true;
             Center = prop.Center;
+
+            Main.AppendToLayer(this);
         }
         public override bool Draw(SpriteBatch spriteBatch, Prop prop)
         {

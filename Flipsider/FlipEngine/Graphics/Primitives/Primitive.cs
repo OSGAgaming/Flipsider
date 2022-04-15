@@ -47,8 +47,7 @@ namespace FlipEngine
             IndexPointer = 0;
             PrimStructure(spriteBatch);
             SetShaders();
-            if (VertexCount >= 1)
-                _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, VertexCount / 3);
+            if (VertexCount >= 1) _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, VertexCount / 3);
         }
         public virtual void PrimStructure(SpriteBatch spriteBatch) { }
         public virtual void SetShaders() { }
