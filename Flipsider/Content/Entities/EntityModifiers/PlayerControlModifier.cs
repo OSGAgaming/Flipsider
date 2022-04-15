@@ -50,7 +50,7 @@ namespace Flipsider.Engine.Maths
                 player.GetEntityModifier<CorePart>().Get<RightLeg>().JustMovedLeg ||
                 player.GetEntityModifier<CorePart>().Get<LeftLeg>().JustMovedLeg;
 
-            if(JustStepped && JumpBuffer)
+            if(JumpBuffer)
             {
                 JumpBuffer = false;
                 Jump();
