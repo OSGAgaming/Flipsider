@@ -469,8 +469,9 @@ namespace Flipsider
                 bool spaceFree = true;
                 if (tile != null)
                 {
-                    Polygon TopPoly = Main.World.tileManager.GetTileFromWorldCoords(StridePoint1).GetEntityModifier<Collideable>().Polygon;
-                    spaceFree = !TopPoly.Contains(StridePoint1);
+                    Polygon? TopPoly = Main.World.tileManager.GetTileFromWorldCoords(StridePoint1).GetEntityModifier<Collideable>()?.Polygon;
+                    if (TopPoly != null)
+                    spaceFree = !TopPoly.Value.Contains(StridePoint1);
                 }
                 Vector2 DSurfacePreQuery = Utils.ReturnIntersectionTile(Main.World, StridePoint1, StridePoint2);
                 Vector2 SampUp = new Vector2(0, Math.Min(DeltaY * 20, 0));
